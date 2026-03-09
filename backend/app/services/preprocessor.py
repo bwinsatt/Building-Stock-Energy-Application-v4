@@ -122,6 +122,15 @@ _COMSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "Triple, Low-E, Non-metal": "Triple - LowE - Clear - Thermally Broken Aluminum",
     },
     "hvac_system_type": {
+        # --- Category keys → default variant ---
+        "packaged_rooftop": "PSZ-AC with gas coil",
+        "packaged_heat_pump": "PSZ-HP",
+        "through_wall": "PTAC with gas coil",
+        "through_wall_heat_pump": "PTHP",
+        "central_chiller_boiler": "VAV chiller with gas boiler reheat",
+        "doas_fan_coil": "DOAS with fan coil chiller with boiler",
+        "residential_furnace": "Residential AC with residential forced air furnace",
+        # --- Old codes → specific variant (backward compat) ---
         "PSZ-AC": "PSZ-AC with gas coil",
         "PSZ-HP": "PSZ-HP",
         "PTAC": "PTAC with gas coil",
@@ -132,6 +141,214 @@ _COMSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "PVAV_gas_heat": "PVAV with gas heat with electric reheat",
         "Residential_AC_gas_furnace": "Residential AC with residential forced air furnace",
         "Residential_forced_air_furnace": "Residential AC with residential forced air furnace",
+        # --- All 29 ComStock variant strings → pass-through ---
+        "PSZ-AC with gas coil": "PSZ-AC with gas coil",
+        "PSZ-AC with gas boiler": "PSZ-AC with gas boiler",
+        "PSZ-AC with electric coil": "PSZ-AC with electric coil",
+        "PSZ-AC with district hot water": "PSZ-AC with district hot water",
+        "PSZ-HP": "PSZ-HP",
+        "PTAC with gas coil": "PTAC with gas coil",
+        "PTAC with gas boiler": "PTAC with gas boiler",
+        "PTAC with electric coil": "PTAC with electric coil",
+        "PTHP": "PTHP",
+        "VAV chiller with gas boiler reheat": "VAV chiller with gas boiler reheat",
+        "VAV chiller with PFP boxes": "VAV chiller with PFP boxes",
+        "VAV chiller with district hot water reheat": "VAV chiller with district hot water reheat",
+        "VAV air-cooled chiller with gas boiler reheat": "VAV air-cooled chiller with gas boiler reheat",
+        "VAV air-cooled chiller with PFP boxes": "VAV air-cooled chiller with PFP boxes",
+        "VAV air-cooled chiller with district hot water reheat": "VAV air-cooled chiller with district hot water reheat",
+        "VAV district chilled water with district hot water reheat": "VAV district chilled water with district hot water reheat",
+        "PVAV with gas boiler reheat": "PVAV with gas boiler reheat",
+        "PVAV with gas heat with electric reheat": "PVAV with gas heat with electric reheat",
+        "PVAV with PFP boxes": "PVAV with PFP boxes",
+        "PVAV with district hot water reheat": "PVAV with district hot water reheat",
+        "DOAS with fan coil chiller with boiler": "DOAS with fan coil chiller with boiler",
+        "DOAS with fan coil air-cooled chiller with boiler": "DOAS with fan coil air-cooled chiller with boiler",
+        "DOAS with fan coil chiller with baseboard electric": "DOAS with fan coil chiller with baseboard electric",
+        "DOAS with fan coil chiller with district hot water": "DOAS with fan coil chiller with district hot water",
+        "DOAS with fan coil district chilled water with baseboard electric": "DOAS with fan coil district chilled water with baseboard electric",
+        "DOAS with fan coil district chilled water with district hot water": "DOAS with fan coil district chilled water with district hot water",
+        "DOAS with water source heat pumps cooling tower with boiler": "DOAS with water source heat pumps cooling tower with boiler",
+        "DOAS with water source heat pumps with ground source heat pump": "DOAS with water source heat pumps with ground source heat pump",
+        "Residential AC with residential forced air furnace": "Residential AC with residential forced air furnace",
+    },
+}
+
+# Mapping from ComStock HVAC system type (training value) to sub-features
+_COMSTOCK_HVAC_SUBFEATURES: dict[str, dict[str, str]] = {
+    "PSZ-AC with gas coil": {
+        "in.hvac_category": "Small Packaged Unit",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Furnace",
+        "in.hvac_vent_type": "Central Single-zone RTU",
+    },
+    "PSZ-AC with gas boiler": {
+        "in.hvac_category": "Small Packaged Unit",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "Central Single-zone RTU",
+    },
+    "PSZ-AC with electric coil": {
+        "in.hvac_category": "Small Packaged Unit",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "Central Single-zone RTU",
+    },
+    "PSZ-AC with district hot water": {
+        "in.hvac_category": "Small Packaged Unit",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "Central Single-zone RTU",
+    },
+    "PSZ-HP": {
+        "in.hvac_category": "Small Packaged Unit",
+        "in.hvac_cool_type": "ASHP",
+        "in.hvac_heat_type": "ASHP",
+        "in.hvac_vent_type": "Central Single-zone RTU",
+    },
+    "PTAC with gas coil": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Furnace",
+        "in.hvac_vent_type": "Zone terminal equipment",
+    },
+    "PTAC with gas boiler": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "Zone terminal equipment",
+    },
+    "PTAC with electric coil": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "Zone terminal equipment",
+    },
+    "PTHP": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "Zone terminal equipment",
+    },
+    "VAV chiller with gas boiler reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "WCC",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "VAV chiller with PFP boxes": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "WCC",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "VAV chiller with district hot water reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "WCC",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "VAV air-cooled chiller with gas boiler reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "ACC",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "VAV air-cooled chiller with PFP boxes": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "ACC",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "VAV air-cooled chiller with district hot water reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "ACC",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "VAV district chilled water with district hot water reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "District",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "PVAV with gas boiler reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "PVAV with gas heat with electric reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Furnace",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "PVAV with PFP boxes": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "PVAV with district hot water reheat": {
+        "in.hvac_category": "Multizone CAV/VAV",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+    },
+    "DOAS with fan coil chiller with boiler": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "WCC",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with fan coil air-cooled chiller with boiler": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "ACC",
+        "in.hvac_heat_type": "Boiler ",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with fan coil chiller with baseboard electric": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "WCC",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with fan coil chiller with district hot water": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "WCC",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with fan coil district chilled water with baseboard electric": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "District",
+        "in.hvac_heat_type": "Electric Resistance",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with fan coil district chilled water with district hot water": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "District",
+        "in.hvac_heat_type": "District",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with water source heat pumps cooling tower with boiler": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "WSHP",
+        "in.hvac_heat_type": "WSHP",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "DOAS with water source heat pumps with ground source heat pump": {
+        "in.hvac_category": "Zone-by-Zone",
+        "in.hvac_cool_type": "GSHP",
+        "in.hvac_heat_type": "GSHP",
+        "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+    },
+    "Residential AC with residential forced air furnace": {
+        "in.hvac_category": "Residential Style Central Systems",
+        "in.hvac_cool_type": "DX",
+        "in.hvac_heat_type": "Furnace",
+        "in.hvac_vent_type": "Residential forced air",
     },
 }
 
@@ -166,6 +383,19 @@ _RESSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "DistrictHeating": "Other Fuel",
     },
     "hvac_system_type": {
+        # --- Category keys → ResStock values ---
+        "packaged_rooftop": "Ducted Heating",
+        "packaged_heat_pump": "Ducted Heat Pump",
+        "through_wall": "Non-Ducted Heating",
+        "through_wall_heat_pump": "Non-Ducted Heat Pump",
+        "central_chiller_boiler": "Ducted Heating",
+        "doas_fan_coil": "Ducted Heating",
+        "residential_furnace": "Ducted Heating",
+        "ducted_heating": "Ducted Heating",
+        "ducted_heat_pump": "Ducted Heat Pump",
+        "non_ducted_heating": "Non-Ducted Heating",
+        "non_ducted_heat_pump": "Non-Ducted Heat Pump",
+        # --- Old codes (backward compat) ---
         "Ducted Heating": "Ducted Heating",
         "PSZ-AC": "Ducted Heating",
         "PSZ-HP": "Ducted Heat Pump",
@@ -177,6 +407,40 @@ _RESSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "PVAV_gas_heat": "Ducted Heating",
         "Residential_AC_gas_furnace": "Ducted Heating",
         "Residential_forced_air_furnace": "Ducted Heating",
+        # --- ComStock variant strings → ResStock values ---
+        "PSZ-AC with gas coil": "Ducted Heating",
+        "PSZ-AC with gas boiler": "Ducted Heating",
+        "PSZ-AC with electric coil": "Ducted Heating",
+        "PSZ-AC with district hot water": "Ducted Heating",
+        "PSZ-HP": "Ducted Heat Pump",
+        "PTAC with gas coil": "Non-Ducted Heating",
+        "PTAC with gas boiler": "Non-Ducted Heating",
+        "PTAC with electric coil": "Non-Ducted Heating",
+        "PTHP": "Non-Ducted Heat Pump",
+        "VAV chiller with gas boiler reheat": "Ducted Heating",
+        "VAV chiller with PFP boxes": "Ducted Heating",
+        "VAV chiller with district hot water reheat": "Ducted Heating",
+        "VAV air-cooled chiller with gas boiler reheat": "Ducted Heating",
+        "VAV air-cooled chiller with PFP boxes": "Ducted Heating",
+        "VAV air-cooled chiller with district hot water reheat": "Ducted Heating",
+        "VAV district chilled water with district hot water reheat": "Ducted Heating",
+        "PVAV with gas boiler reheat": "Ducted Heating",
+        "PVAV with gas heat with electric reheat": "Ducted Heating",
+        "PVAV with PFP boxes": "Ducted Heating",
+        "PVAV with district hot water reheat": "Ducted Heating",
+        "DOAS with fan coil chiller with boiler": "Ducted Heating",
+        "DOAS with fan coil air-cooled chiller with boiler": "Ducted Heating",
+        "DOAS with fan coil chiller with baseboard electric": "Ducted Heating",
+        "DOAS with fan coil chiller with district hot water": "Ducted Heating",
+        "DOAS with fan coil district chilled water with baseboard electric": "Ducted Heating",
+        "DOAS with fan coil district chilled water with district hot water": "Ducted Heating",
+        "DOAS with water source heat pumps cooling tower with boiler": "Ducted Heating",
+        "DOAS with water source heat pumps with ground source heat pump": "Ducted Heating",
+        "Residential AC with residential forced air furnace": "Ducted Heating",
+        # --- ResStock pass-through ---
+        "Ducted Heat Pump": "Ducted Heat Pump",
+        "Non-Ducted Heating": "Non-Ducted Heating",
+        "Non-Ducted Heat Pump": "Non-Ducted Heat Pump",
     },
     "wall_construction": {
         "Mass": "Concrete",
@@ -224,9 +488,9 @@ def _resstock_context_impute(
     heating_fuel = resolved.get("heating_fuel", "NaturalGas")
     hvac_type = resolved.get("hvac_system_type", "Ducted Heating")
 
-    if hvac_type in ("PSZ-HP", "Ducted Heat Pump"):
+    if hvac_type in ("PSZ-HP", "Ducted Heat Pump", "packaged_heat_pump", "ducted_heat_pump"):
         auto_impute["in.hvac_heating_efficiency"] = "ASHP, SEER 13, 7.7 HSPF"
-    elif hvac_type in ("PTHP", "Non-Ducted Heat Pump"):
+    elif hvac_type in ("PTHP", "Non-Ducted Heat Pump", "through_wall_heat_pump", "non_ducted_heat_pump"):
         auto_impute["in.hvac_heating_efficiency"] = "MSHP, SEER 14.5, 8.2 HSPF"
     elif heating_fuel == "Electricity":
         auto_impute["in.hvac_heating_efficiency"] = "Electric Baseboard, 100% Efficiency"
@@ -235,10 +499,10 @@ def _resstock_context_impute(
         auto_impute["in.hvac_heating_efficiency"] = "Fuel Furnace, 80% AFUE"
 
     # --- Cooling efficiency based on HVAC type ---
-    if hvac_type in ("PSZ-HP", "Ducted Heat Pump"):
+    if hvac_type in ("PSZ-HP", "Ducted Heat Pump", "packaged_heat_pump", "ducted_heat_pump"):
         auto_impute["in.hvac_cooling_efficiency"] = "Ducted Heat Pump"
         auto_impute["in.hvac_cooling_type"] = "Ducted Heat Pump"
-    elif hvac_type in ("PTHP", "Non-Ducted Heat Pump"):
+    elif hvac_type in ("PTHP", "Non-Ducted Heat Pump", "through_wall_heat_pump", "non_ducted_heat_pump"):
         auto_impute["in.hvac_cooling_efficiency"] = "Non-Ducted Heat Pump"
         auto_impute["in.hvac_cooling_type"] = "Non-Ducted Heat Pump"
     else:
@@ -275,6 +539,18 @@ def _resstock_context_impute(
         str(wall_type), "Wood Stud, R-7"
     )
 
+    # --- User-provided overrides (from new advanced fields) ---
+    if resolved.get("hvac_heating_efficiency"):
+        auto_impute["in.hvac_heating_efficiency"] = resolved["hvac_heating_efficiency"]
+    if resolved.get("hvac_cooling_efficiency"):
+        auto_impute["in.hvac_cooling_efficiency"] = resolved["hvac_cooling_efficiency"]
+    if resolved.get("water_heater_efficiency"):
+        auto_impute["in.water_heater_efficiency"] = resolved["water_heater_efficiency"]
+    if resolved.get("insulation_wall"):
+        auto_impute["in.insulation_wall"] = resolved["insulation_wall"]
+    if resolved.get("infiltration"):
+        auto_impute["in.infiltration"] = resolved["infiltration"]
+
 
 def _resstock_building_type_height(num_stories: int) -> str:
     """Map number of stories to ResStock building_type_height category."""
@@ -307,7 +583,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Office": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "VAV_chiller_boiler",
+        "hvac_system_type": "central_chiller_boiler",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "20-30%",
@@ -318,7 +594,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Education": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -329,7 +605,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Food Sales": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "0-10%",
@@ -340,7 +616,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Food Service": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -351,7 +627,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Healthcare": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "VAV_chiller_boiler",
+        "hvac_system_type": "central_chiller_boiler",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -362,7 +638,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Lodging": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PTAC",
+        "hvac_system_type": "through_wall",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "20-30%",
@@ -373,7 +649,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Mercantile": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -384,7 +660,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Mixed Use": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "20-30%",
@@ -395,7 +671,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Public Assembly": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -406,7 +682,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Public Order and Safety": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -417,7 +693,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Religious Worship": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "10-20%",
@@ -428,7 +704,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Service": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "0-10%",
@@ -439,7 +715,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Warehouse and Storage": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "PSZ-AC",
+        "hvac_system_type": "packaged_rooftop",
         "wall_construction": "Mass",
         "window_type": "Double, Low-E, Non-metal",
         "window_to_wall_ratio": "0-10%",
@@ -450,7 +726,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Multi-Family": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "Ducted Heating",
+        "hvac_system_type": "ducted_heating",
         "wall_construction": "Wood Frame",
         "window_type": "Double, Low-E",
         "window_to_wall_ratio": "10-20%",
@@ -463,7 +739,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
 DEFAULT_FALLBACK: dict[str, object] = {
     "heating_fuel": "NaturalGas",
     "dhw_fuel": "NaturalGas",
-    "hvac_system_type": "PSZ-AC",
+    "hvac_system_type": "packaged_rooftop",
     "wall_construction": "Mass",
     "window_type": "Double, Low-E, Non-metal",
     "window_to_wall_ratio": "20-30%",
@@ -649,6 +925,15 @@ FIELD_LABELS = {
     "window_to_wall_ratio": "Window-to-Wall Ratio",
     "lighting_type": "Lighting Type",
     "operating_hours": "Operating Hours (hrs/week)",
+    "hvac_heating_efficiency": "Heating Efficiency",
+    "hvac_cooling_efficiency": "Cooling Efficiency",
+    "water_heater_efficiency": "Water Heater Efficiency",
+    "insulation_wall": "Wall Insulation",
+    "infiltration": "Air Tightness",
+    "hvac_category": "HVAC Category",
+    "hvac_cool_type": "HVAC Cooling Type",
+    "hvac_heat_type": "HVAC Heating Type",
+    "hvac_vent_type": "HVAC Ventilation Type",
 }
 
 # Reverse display maps: training-data values -> user-facing values
@@ -660,6 +945,37 @@ _COMSTOCK_DISPLAY_MAP: dict[str, dict[str, str]] = {
         "gen3_t5_cfl": "CFL",
         "gen4_led": "LED",
         "gen5_led": "LED",
+    },
+    "hvac_system_type": {
+        "PSZ-AC with gas coil": "packaged_rooftop",
+        "PSZ-AC with gas boiler": "packaged_rooftop",
+        "PSZ-AC with electric coil": "packaged_rooftop",
+        "PSZ-AC with district hot water": "packaged_rooftop",
+        "PSZ-HP": "packaged_heat_pump",
+        "PTAC with gas coil": "through_wall",
+        "PTAC with gas boiler": "through_wall",
+        "PTAC with electric coil": "through_wall",
+        "PTHP": "through_wall_heat_pump",
+        "VAV chiller with gas boiler reheat": "central_chiller_boiler",
+        "VAV chiller with PFP boxes": "central_chiller_boiler",
+        "VAV chiller with district hot water reheat": "central_chiller_boiler",
+        "VAV air-cooled chiller with gas boiler reheat": "central_chiller_boiler",
+        "VAV air-cooled chiller with PFP boxes": "central_chiller_boiler",
+        "VAV air-cooled chiller with district hot water reheat": "central_chiller_boiler",
+        "VAV district chilled water with district hot water reheat": "central_chiller_boiler",
+        "PVAV with gas boiler reheat": "central_chiller_boiler",
+        "PVAV with gas heat with electric reheat": "central_chiller_boiler",
+        "PVAV with PFP boxes": "central_chiller_boiler",
+        "PVAV with district hot water reheat": "central_chiller_boiler",
+        "DOAS with fan coil chiller with boiler": "doas_fan_coil",
+        "DOAS with fan coil air-cooled chiller with boiler": "doas_fan_coil",
+        "DOAS with fan coil chiller with baseboard electric": "doas_fan_coil",
+        "DOAS with fan coil chiller with district hot water": "doas_fan_coil",
+        "DOAS with fan coil district chilled water with baseboard electric": "doas_fan_coil",
+        "DOAS with fan coil district chilled water with district hot water": "doas_fan_coil",
+        "DOAS with water source heat pumps cooling tower with boiler": "doas_fan_coil",
+        "DOAS with water source heat pumps with ground source heat pump": "doas_fan_coil",
+        "Residential AC with residential forced air furnace": "residential_furnace",
     },
 }
 
@@ -794,6 +1110,19 @@ def preprocess(
             if field in field_map:
                 resolved[field] = value
 
+    # Pass-through efficiency/envelope overrides (no imputation, no mapping)
+    _PASSTHROUGH_FIELDS = [
+        "hvac_heating_efficiency",
+        "hvac_cooling_efficiency",
+        "water_heater_efficiency",
+        "insulation_wall",
+        "infiltration",
+    ]
+    for field in _PASSTHROUGH_FIELDS:
+        value = getattr(building_input, field, None)
+        if value is not None:
+            resolved[field] = value
+
     # --- 5. ResStock-specific adjustments ---
     if is_resstock:
         # Convert whole-building sqft to per-unit sqft
@@ -832,5 +1161,55 @@ def preprocess(
         auto_impute["in.building_subtype"] = building_input.building_type
 
     features.update(auto_impute)
+
+    # --- 8. ComStock: derive HVAC sub-features from system type ---
+    # Must run AFTER auto_impute so derived values override the defaults.
+    if not is_resstock:
+        hvac_system = features.get("in.hvac_system_type")
+        if hvac_system and hvac_system in _COMSTOCK_HVAC_SUBFEATURES:
+            sub = _COMSTOCK_HVAC_SUBFEATURES[hvac_system]
+            for col, val in sub.items():
+                features[col] = val
+
+    # --- 9. Expose resolved efficiency/envelope values in imputed_details ---
+    # For ResStock: show the actual heating/cooling/DHW efficiency, wall
+    # insulation, and infiltration values used (whether user-provided or
+    # auto-derived from context).
+    if is_resstock:
+        _RESSTOCK_DETAIL_FIELDS = {
+            "hvac_heating_efficiency": "in.hvac_heating_efficiency",
+            "hvac_cooling_efficiency": "in.hvac_cooling_efficiency",
+            "water_heater_efficiency": "in.water_heater_efficiency",
+            "insulation_wall": "in.insulation_wall",
+            "infiltration": "in.infiltration",
+        }
+        for field_key, model_col in _RESSTOCK_DETAIL_FIELDS.items():
+            val = features.get(model_col, auto_impute.get(model_col))
+            if val is not None:
+                user_provided = getattr(building_input, field_key, None) is not None
+                imputed_details[field_key] = {
+                    "value": str(val),
+                    "label": FIELD_LABELS.get(field_key, field_key),
+                    "source": "user" if user_provided else "default",
+                    "confidence": None,
+                }
+
+    # For ComStock: show the derived HVAC sub-features
+    if not is_resstock:
+        _COMSTOCK_SUBFEATURE_KEYS = {
+            "hvac_category": "in.hvac_category",
+            "hvac_cool_type": "in.hvac_cool_type",
+            "hvac_heat_type": "in.hvac_heat_type",
+            "hvac_vent_type": "in.hvac_vent_type",
+        }
+        for field_key, model_col in _COMSTOCK_SUBFEATURE_KEYS.items():
+            val = features.get(model_col)
+            if val is not None:
+                imputed_details[field_key] = {
+                    "value": str(val),
+                    "label": FIELD_LABELS.get(field_key, field_key),
+                    "source": "derived",
+                    "confidence": None,
+                }
 
     return features, imputed_details, dataset, climate_zone, state

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch, computed } from 'vue'
 import type { BuildingInput } from '../types/assessment'
 import type { FieldResult } from '../types/lookup'
 import {
   BUILDING_TYPES,
   HEATING_FUELS,
   DHW_FUELS,
-  HVAC_SYSTEM_TYPES,
+  getHvacCategoriesForDataset,
+  getHvacCategoryForValue,
 } from '../config/dropdowns'
 import { PTextInput, PNumericInput, PButton, PTypography } from '@partnerdevops/partner-components'
 import AdvancedDetails from './AdvancedDetails.vue'
@@ -31,6 +32,27 @@ const form = reactive<BuildingInput>({
 })
 
 const advancedFields = ref<Partial<BuildingInput>>({})
+const hvacCategory = ref('')
+
+const availableHvacCategories = computed(() => getHvacCategoriesForDataset(form.building_type))
+
+watch(hvacCategory, (newCat) => {
+  if (!newCat) {
+    form.hvac_system_type = undefined
+    return
+  }
+  const cat = availableHvacCategories.value.find(c => c.key === newCat)
+  if (cat) {
+    form.hvac_system_type = cat.defaultVariant
+  }
+})
+
+watch(() => form.building_type, () => {
+  const validKeys = availableHvacCategories.value.map(c => c.key)
+  if (hvacCategory.value && !validKeys.includes(hvacCategory.value)) {
+    hvacCategory.value = ''
+  }
+})
 
 const { loading: lookupLoading, error: lookupError, lookupResult, lookup } = useAddressLookup()
 
@@ -69,7 +91,16 @@ watch(lookupResult, (result) => {
   for (const [lookupKey, formKey] of Object.entries(fieldMap)) {
     const field = fields[lookupKey]
     if (field?.value != null) {
-      ;(form as any)[formKey] = field.value
+      if (lookupKey === 'hvac_system_type') {
+        // Reverse-map to category
+        const cat = getHvacCategoryForValue(String(field.value))
+        if (cat) {
+          hvacCategory.value = cat.key
+          // form.hvac_system_type will be set by the hvacCategory watcher
+        }
+      } else {
+        ;(form as any)[formKey] = field.value
+      }
       fieldSources.value[lookupKey] = field
     }
   }
@@ -104,7 +135,6 @@ const formFieldKeys: Record<string, string> = {
   year_built: 'year_built',
   heating_fuel: 'heating_fuel',
   dhw_fuel: 'dhw_fuel',
-  hvac_system_type: 'hvac_system_type',
 }
 
 for (const [lookupKey, formKey] of Object.entries(formFieldKeys)) {
@@ -115,8 +145,14 @@ for (const [lookupKey, formKey] of Object.entries(formFieldKeys)) {
   })
 }
 
+watch(hvacCategory, () => {
+  if (!populatingFromLookup.value) {
+    delete fieldSources.value['hvac_system_type']
+  }
+})
+
 // Also clear source badges when advanced fields change manually
-const advancedFieldKeys = ['wall_construction', 'window_type', 'window_to_wall_ratio', 'lighting_type', 'operating_hours']
+const advancedFieldKeys = ['wall_construction', 'window_type', 'window_to_wall_ratio', 'lighting_type', 'operating_hours', 'hvac_heating_efficiency', 'hvac_cooling_efficiency', 'water_heater_efficiency', 'insulation_wall', 'infiltration']
 watch(advancedFields, (newVal, oldVal) => {
   if (populatingFromLookup.value) return
   for (const key of advancedFieldKeys) {
@@ -329,27 +365,32 @@ function onSubmit() {
         </select>
       </div>
 
-      <!-- HVAC System Type -->
+      <!-- HVAC Type -->
       <div class="form-field">
         <label class="form-label" for="hvac-system">
-          HVAC System Type
+          HVAC Type
           <span v-if="fieldSources['hvac_system_type']" class="field-badge" :class="'field-badge--' + fieldSources['hvac_system_type'].source">
             {{ fieldSources['hvac_system_type'].source === 'osm' ? 'public records' : 'estimated' }}
           </span>
         </label>
         <select
           id="hvac-system"
-          v-model="form.hvac_system_type"
+          v-model="hvacCategory"
           class="form-select"
         >
           <option value="">-- Select --</option>
-          <option v-for="sys in HVAC_SYSTEM_TYPES" :key="sys" :value="sys">{{ sys }}</option>
+          <option v-for="cat in availableHvacCategories" :key="cat.key" :value="cat.key">{{ cat.label }}</option>
         </select>
       </div>
     </div>
 
     <!-- Advanced Details -->
-    <AdvancedDetails v-model="advancedFields" />
+    <AdvancedDetails
+      v-model="advancedFields"
+      :hvac-category="hvacCategory"
+      :building-type="form.building_type"
+      @update:hvac-variant="(v: string) => form.hvac_system_type = v"
+    />
 
     <!-- Submit -->
     <div class="form-actions">

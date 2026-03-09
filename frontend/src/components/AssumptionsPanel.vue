@@ -86,7 +86,13 @@ function confidencePercent(confidence: number | null): string {
           >
             <span class="assumptions-item__label">{{ field.label }}</span>
             <span class="assumptions-item__value">{{ field.value }}</span>
-            <PTooltip v-if="field.confidence != null" direction="top">
+            <PBadge v-if="field.source === 'user'" variant="primary" appearance="standard" size="small">
+              user
+            </PBadge>
+            <PBadge v-else-if="field.source === 'derived'" variant="primary" appearance="standard" size="small">
+              derived
+            </PBadge>
+            <PTooltip v-else-if="field.confidence != null" direction="top">
               <template #tooltip-trigger>
                 <PBadge
                   :variant="confidenceLabel(field.confidence) === 'high' ? 'success' : confidenceLabel(field.confidence) === 'medium' ? 'warning' : 'error'"

@@ -71,7 +71,12 @@ def test_no_imputation_when_all_provided():
         operating_hours=50.0,
     )
     features, imputed_details, dataset, climate_zone, state = preprocess(full_input)
-    assert imputed_details == {}
+    # No user-facing fields should be imputed, but derived HVAC sub-features
+    # are always included for ComStock
+    for key, detail in imputed_details.items():
+        assert detail["source"] == "derived", (
+            f"Field '{key}' should only be 'derived', got '{detail['source']}'"
+        )
 
 
 def test_preprocess_returns_imputed_details():

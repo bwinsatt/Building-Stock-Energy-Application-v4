@@ -12,6 +12,11 @@ export interface BuildingInput {
   window_to_wall_ratio?: string
   lighting_type?: string
   operating_hours?: number
+  hvac_heating_efficiency?: string
+  hvac_cooling_efficiency?: string
+  water_heater_efficiency?: string
+  insulation_wall?: string
+  infiltration?: string
 }
 
 export interface FuelBreakdown {
@@ -54,7 +59,7 @@ export interface MeasureResult {
 export interface ImputedField {
   value: string
   label: string
-  source: 'model' | 'default'
+  source: 'model' | 'default' | 'user' | 'derived'
   confidence: number | null
 }
 

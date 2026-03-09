@@ -16,6 +16,11 @@ class BuildingInput(BaseModel):
     window_to_wall_ratio: Optional[str] = None
     lighting_type: Optional[str] = None
     operating_hours: Optional[float] = None
+    hvac_heating_efficiency: Optional[str] = None
+    hvac_cooling_efficiency: Optional[str] = None
+    water_heater_efficiency: Optional[str] = None
+    insulation_wall: Optional[str] = None
+    infiltration: Optional[str] = None
 
 
 class AssessmentRequest(BaseModel):

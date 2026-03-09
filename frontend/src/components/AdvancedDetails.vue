@@ -1,23 +1,56 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { BuildingInput } from '../types/assessment'
 import {
   WALL_CONSTRUCTIONS,
   WINDOW_TYPES,
   WINDOW_TO_WALL_RATIOS,
   LIGHTING_TYPES,
+  HVAC_CATEGORIES,
+  HVAC_HEATING_EFFICIENCIES_RESSTOCK,
+  HVAC_COOLING_EFFICIENCIES_RESSTOCK,
+  WATER_HEATER_EFFICIENCIES_RESSTOCK,
+  WALL_INSULATIONS_RESSTOCK,
+  INFILTRATION_RATES_RESSTOCK,
 } from '../config/dropdowns'
+import type { HvacVariant } from '../config/dropdowns'
 import { PNumericInput, PButton, PTypography } from '@partnerdevops/partner-components'
 
 const props = defineProps<{
   modelValue: Partial<BuildingInput>
+  hvacCategory: string
+  buildingType: string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: Partial<BuildingInput>]
+  'update:hvacVariant': [value: string]
 }>()
 
 const expanded = ref(false)
+const selectedVariant = ref('')
+
+// Get the variants for the currently selected HVAC category
+const hvacVariants = computed<HvacVariant[]>(() => {
+  if (!props.hvacCategory) return []
+  const cat = HVAC_CATEGORIES.find(c => c.key === props.hvacCategory)
+  return cat?.variants ?? []
+})
+
+// Only show variant dropdown if the category has more than 1 variant
+const showVariantDropdown = computed(() => hvacVariants.value.length > 1)
+
+// When category changes, reset the selected variant
+watch(() => props.hvacCategory, () => {
+  selectedVariant.value = ''
+})
+
+// When variant changes, emit to parent
+watch(selectedVariant, (val) => {
+  if (val) {
+    emit('update:hvacVariant', val)
+  }
+})
 
 function update(field: keyof BuildingInput, value: string | number | undefined) {
   emit('update:modelValue', { ...props.modelValue, [field]: value })
@@ -50,6 +83,19 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
       </div>
 
       <div class="advanced-grid">
+        <!-- Specific HVAC Variant (only shown when category has multiple variants) -->
+        <div v-if="showVariantDropdown" class="form-field">
+          <label class="form-label" for="hvac-variant">Specific HVAC System</label>
+          <select
+            id="hvac-variant"
+            v-model="selectedVariant"
+            class="form-select"
+          >
+            <option value="">-- Use Default --</option>
+            <option v-for="v in hvacVariants" :key="v.value" :value="v.value">{{ v.label }}</option>
+          </select>
+        </div>
+
         <!-- Wall Construction -->
         <div class="form-field">
           <label class="form-label" for="wall-construction">Wall Construction</label>
@@ -116,6 +162,79 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
           size="medium"
           @update:model-value="update('operating_hours', $event || undefined)"
         />
+
+        <!-- ResStock Efficiency Fields (only for Multi-Family) -->
+        <template v-if="props.buildingType === 'Multi-Family'">
+          <!-- HVAC Heating Efficiency -->
+          <div class="form-field">
+            <label class="form-label" for="heating-efficiency">Heating Efficiency</label>
+            <select
+              id="heating-efficiency"
+              :value="modelValue.hvac_heating_efficiency ?? ''"
+              class="form-select"
+              @change="update('hvac_heating_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
+            >
+              <option value="">-- Auto --</option>
+              <option v-for="opt in HVAC_HEATING_EFFICIENCIES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <!-- HVAC Cooling Efficiency -->
+          <div class="form-field">
+            <label class="form-label" for="cooling-efficiency">Cooling Efficiency</label>
+            <select
+              id="cooling-efficiency"
+              :value="modelValue.hvac_cooling_efficiency ?? ''"
+              class="form-select"
+              @change="update('hvac_cooling_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
+            >
+              <option value="">-- Auto --</option>
+              <option v-for="opt in HVAC_COOLING_EFFICIENCIES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <!-- Water Heater Efficiency -->
+          <div class="form-field">
+            <label class="form-label" for="wh-efficiency">Water Heater Efficiency</label>
+            <select
+              id="wh-efficiency"
+              :value="modelValue.water_heater_efficiency ?? ''"
+              class="form-select"
+              @change="update('water_heater_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
+            >
+              <option value="">-- Auto --</option>
+              <option v-for="opt in WATER_HEATER_EFFICIENCIES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <!-- Wall Insulation -->
+          <div class="form-field">
+            <label class="form-label" for="wall-insulation">Wall Insulation</label>
+            <select
+              id="wall-insulation"
+              :value="modelValue.insulation_wall ?? ''"
+              class="form-select"
+              @change="update('insulation_wall', ($event.target as HTMLSelectElement).value || undefined)"
+            >
+              <option value="">-- Auto --</option>
+              <option v-for="opt in WALL_INSULATIONS_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <!-- Infiltration -->
+          <div class="form-field">
+            <label class="form-label" for="infiltration">Air Tightness</label>
+            <select
+              id="infiltration"
+              :value="modelValue.infiltration ?? ''"
+              class="form-select"
+              @change="update('infiltration', ($event.target as HTMLSelectElement).value || undefined)"
+            >
+              <option value="">-- Auto --</option>
+              <option v-for="opt in INFILTRATION_RATES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+        </template>
       </div>
     </div>
   </div>
