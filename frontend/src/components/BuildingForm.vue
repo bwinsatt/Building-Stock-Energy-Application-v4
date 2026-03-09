@@ -115,6 +115,18 @@ for (const [lookupKey, formKey] of Object.entries(formFieldKeys)) {
   })
 }
 
+// Also clear source badges when advanced fields change manually
+const advancedFieldKeys = ['wall_construction', 'window_type', 'window_to_wall_ratio', 'lighting_type', 'operating_hours']
+watch(advancedFields, (newVal, oldVal) => {
+  if (populatingFromLookup.value) return
+  for (const key of advancedFieldKeys) {
+    const k = key as keyof typeof newVal
+    if (newVal[k] !== oldVal?.[k]) {
+      delete fieldSources.value[key]
+    }
+  }
+}, { deep: true })
+
 const validationError = ref<string | null>(null)
 
 function onSubmit() {
@@ -140,9 +152,16 @@ function onSubmit() {
     ...form,
     ...advancedFields.value,
   }
-  // Strip empty strings and undefined so the backend sees null (triggers imputation)
+  // Strip empty strings, undefined, and fields that were auto-imputed by the
+  // address lookup so the backend re-imputes them and populates imputed_details
+  // for the Assumptions panel.
   const payload = Object.fromEntries(
-    Object.entries(merged).filter(([, v]) => v !== undefined && v !== ''),
+    Object.entries(merged).filter(([key, v]) => {
+      if (v === undefined || v === '') return false
+      const src = fieldSources.value[key]
+      if (src && src.source === 'imputed') return false
+      return true
+    }),
   ) as unknown as BuildingInput
   emit('submit', payload)
 }
