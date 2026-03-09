@@ -1,0 +1,1 @@
+export { default as PLabel, type PLabelProps } from './PLabel.vue'

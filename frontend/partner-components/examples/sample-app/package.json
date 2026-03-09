@@ -1,0 +1,26 @@
+{
+  "name": "partner-components-sample-app",
+  "version": "1.0.0",
+  "description": "Sample app to test Partner Components library",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "partner-components": "file:../.."
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "^5.0.0",
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.0.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "autoprefixer": "^10.4.20",
+    "tailwindcss": "^4.1.11"
+  }
+}

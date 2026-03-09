@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+/* Tailwind CSS overrides created by Shadcn-Vue initializer */
+@import './shadcn.css';

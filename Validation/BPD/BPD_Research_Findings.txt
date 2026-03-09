@@ -1,0 +1,151 @@
+==============================================================================
+DOE Building Performance Database (BPD) - Research Findings
+Date: 2026-03-07
+==============================================================================
+
+1. OVERVIEW
+-----------
+The Building Performance Database (BPD) is the largest publicly-available
+source of measured energy performance data for buildings in the United States.
+It is maintained by Lawrence Berkeley National Laboratory (LBNL) for DOE.
+
+- Website: https://bpd.lbl.gov/
+- API docs: https://bies.lbl.gov/cbs/bpd-api-documentation
+- OEDI page: https://data.openei.org/submissions/145
+- License: Creative Commons Attribution 4.0
+- Status: Active (last updated August 13, 2025)
+- API version: 2.5.0
+
+2. TOTAL RECORDS
+----------------
+- 1,115,196 total buildings
+- 1,559,940 building-year records
+- ~90% residential, ~10% commercial (as of 2014 paper)
+- Data from 25+ source datasets (EPA Portfolio Manager, CBECS, RECS,
+  state/local disclosure laws, utilities, etc.)
+
+3. AVAILABLE FIELDS
+-------------------
+CATEGORICAL FIELDS:
+  zip_code, city, state, climate, building_sector, building_category,
+  building_type, building_class, facility_type, lighting, air_flow_control,
+  heating, heating_fuel, cooling, wall_type, roof_ceiling,
+  window_glass_layers, window_glass_type, energy_star_label, leed_score,
+  data_source
+
+NUMERICAL FIELDS:
+  year, electric_eui, fuel_eui, site_eui, source_eui, floor_area,
+  year_built, number_of_people, occupant_density, operating_hours,
+  wall_insulation_r_value, energy_star_rating
+
+HVAC-SPECIFIC FIELDS:
+  - air_flow_control: Variable Volume, Constant Volume
+  - heating: Furnace, Boiler (Steam), Perimeter Baseboard, others
+  - heating_fuel: Natural Gas, District Steam, Electricity, others
+  - cooling: Split AC System, Evaporative Cooler, others
+
+4. CRITICAL FINDING: NO BULK DOWNLOAD AVAILABLE
+------------------------------------------------
+*** The BPD does NOT provide access to individual building records. ***
+*** There is NO bulk download of the raw dataset. ***
+
+Per the DOE FAQ: "The BPD does not provide access to raw data - it serves
+as an interface to analyze the dataset. Data can only be analyzed in
+aggregate through the BPD interface."
+
+The API and GUI return AGGREGATED/STATISTICAL results only:
+  - Histograms (distributions)
+  - Tables (summary statistics by group)
+  - Count (number of matching buildings)
+  - Compare (peer group comparisons)
+
+The ONE exception is the Scatterplot endpoint, which returns individual
+data points BUT is limited to:
+  - Maximum 1,000 buildings per request (random sample)
+  - Maximum 3 fields per request
+  - No pagination capability
+  - Requires API key (email bpd@lbl.gov to request)
+
+5. HVAC DATA COVERAGE - VERY LOW
+---------------------------------
+From the 2014 ACEEE paper by Brown et al. (LBNL):
+"EPA Portfolio Manager has achieved significant market penetration...
+These data constitute minimum requirements for inclusion in the BPD,
+and nearly 70% of database records include little more detail than the
+fields listed here [building age, size, location, use and energy
+consumption]."
+
+This means:
+  - ~70% of records have ONLY basic fields (no HVAC data)
+  - At most ~30% of records (~335,000) MIGHT have any HVAC data
+  - The actual number with HVAC data is likely much lower since HVAC
+    is just one of many optional "detail" fields
+  - The paper explicitly states: "most of these buildings do not report
+    asset data" when discussing HVAC-related analysis
+
+6. API ACCESS REQUIREMENTS
+--------------------------
+- Requires API key and username
+- Must email bpd@lbl.gov to request credentials
+- Free for use, including commercial use
+- Authorization header required:
+  {"Content-Type": "application/json",
+   "Authorization": "ApiKey USER_NAME:API_KEY"}
+- Base URL: https://bpd-api.lbl.gov (confirmed alive, v2.5.0)
+
+7. WHAT YOU COULD DO WITH THE API (THEORETICALLY)
+--------------------------------------------------
+Even with API access, extracting usable validation data is very limited:
+
+Option A: Use Count endpoint to determine how many buildings have HVAC
+  data populated (filter for heating != null). This gives counts only.
+
+Option B: Use Scatterplot endpoint to get 1,000 random building samples
+  with up to 3 fields each. You could make multiple requests with
+  different field combinations, but:
+  - Each request returns a DIFFERENT random sample of 1,000
+  - You cannot join records across requests (no building ID)
+  - Maximum 3 fields per request is very limiting
+  - No way to get a complete dataset
+
+Option C: Use Histogram/Table endpoints to get aggregate statistics
+  (median EUI by building type, climate zone, heating type, etc.)
+  This is the most viable option for validation purposes.
+
+8. ASSESSMENT: USABILITY AS VALIDATION DATASET
+-----------------------------------------------
+VERDICT: NOT USABLE as a building-level validation dataset.
+
+REASONS:
+  1. No bulk download of individual records
+  2. Scatterplot API limited to 1,000 records with 3 fields (no joins)
+  3. ~70% of records lack HVAC data entirely
+  4. Cannot get building-level records with all needed fields together
+  5. Anonymization prevents linking records across API calls
+
+HOWEVER, it COULD be useful for:
+  - Aggregate validation: Compare your model's predicted median EUI
+    distributions against BPD aggregate statistics by building type,
+    climate zone, and HVAC type
+  - Using the Table/Histogram API endpoints to get median EUI,
+    quartiles, and counts grouped by building type + heating type +
+    climate zone
+  - Sanity-checking model predictions against BPD peer group statistics
+
+RECOMMENDED ALTERNATIVE APPROACH:
+  If you want to use BPD for validation, request an API key and use
+  the Table endpoint to extract aggregate statistics (median EUI by
+  building_type x heating x climate_zone). Compare your model's
+  aggregate predictions against these BPD aggregates rather than
+  doing building-level validation.
+
+9. BETTER ALTERNATIVES FOR HVAC-AWARE VALIDATION
+-------------------------------------------------
+  - CBECS (already in your workflow via ComStock) - has HVAC data for
+    ~6,700 commercial buildings with survey weights
+  - RECS - has HVAC data for ~18,500 residential buildings
+  - ComStock/ResStock (already using) - synthetic but has full HVAC data
+  - Energy Star Portfolio Manager benchmarking data (city disclosure
+    datasets from NYC, SF, Seattle, etc.) - some have HVAC fields
+
+==============================================================================

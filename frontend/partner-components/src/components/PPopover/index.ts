@@ -1,0 +1,1 @@
+export { default as PPopover, type PPopoverProps, type PPopoverEmits } from './PPopover.vue'

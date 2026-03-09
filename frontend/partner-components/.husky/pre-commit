@@ -1,0 +1,27 @@
+#!/bin/sh
+# .husky/pre-commit
+
+set +e # Don't exit on error ( prevent early exit if any command fails )
+
+# Get staged files (only .ts, .tsx, .vue, .js, .jsx, etc.)
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(vue|ts|tsx|js|jsx|cjs|mjs|cts|mts)$' || true)
+
+if [ -n "$staged_files" ]; then
+  lint_output=$(npx eslint $staged_files --fix --ignore-pattern 'node_modules' --ignore-pattern 'dist' 2>&1)
+  if [ $? -ne 0 ]; then
+    echo "❌ ESLint found issues that couldn't be fixed automatically. Please fix them before committing."
+    echo "$lint_output"
+    exit 1
+  fi
+  # Re-add fixed files
+  git add $staged_files
+fi
+
+type_check_output=$(npm run type-check 2>&1)
+if [ $? -ne 0 ]; then
+  echo "❌ Type checker found issues. Please fix them before committing."
+  echo "$type_check_output"
+  exit 1
+fi
+
+exit 0

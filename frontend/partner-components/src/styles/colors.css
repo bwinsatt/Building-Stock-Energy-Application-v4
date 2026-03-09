@@ -1,0 +1,265 @@
+@import './partner-colors.css';
+
+/* ============================================
+  Transcribes Partner Colors into Tailwind/Shadcn custom properties
+  ============================================ */
+
+@theme inline {
+  /* Primary color scale - References Partner Blue from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-primary-50: var(--partner-blue-1);
+  --color-primary-100: var(--partner-blue-2);
+  --color-primary-200: var(--partner-blue-3);
+  --color-primary-300: var(--partner-blue-4);
+  --color-primary-400: var(--partner-blue-5);
+  --color-primary-500: var(--partner-blue-6);
+  --color-primary-600: var(--partner-blue-7);
+  --color-primary-700: var(--partner-blue-8);
+  --color-primary-800: var(--partner-blue-9);
+  --color-primary-900: var(--partner-blue-10);
+
+  /* Secondary color scale - References Partner Orange from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-secondary-50: var(--partner-orange-1);
+  --color-secondary-100: var(--partner-orange-2);
+  --color-secondary-200: var(--partner-orange-3);
+  --color-secondary-300: var(--partner-orange-4);
+  --color-secondary-400: var(--partner-orange-5);
+  --color-secondary-500: var(--partner-orange-6);
+  --color-secondary-600: var(--partner-orange-7);
+  --color-secondary-700: var(--partner-orange-8);
+  --color-secondary-800: var(--partner-orange-9);
+  --color-secondary-900: var(--partner-orange-10);
+
+  /* Gray scale - References Charcoal Gray from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-gray-50: var(--partner-gray-1);
+  --color-gray-100: var(--partner-gray-2);
+  --color-gray-200: var(--partner-gray-3);
+  --color-gray-300: var(--partner-gray-4);
+  --color-gray-400: var(--partner-gray-5);
+  --color-gray-500: var(--partner-gray-6);
+  --color-gray-600: var(--partner-gray-7);
+  --color-gray-700: var(--partner-gray-8);
+  --color-gray-800: var(--partner-gray-9);
+  --color-gray-900: var(--partner-gray-10);
+
+  /* Orange - References Partner Orange from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-orange-50: var(--partner-orange-1);
+  --color-orange-100: var(--partner-orange-2);
+  --color-orange-200: var(--partner-orange-3);
+  --color-orange-300: var(--partner-orange-4);
+  --color-orange-400: var(--partner-orange-5);
+  --color-orange-500: var(--partner-orange-6);
+  --color-orange-600: var(--partner-orange-7);
+  --color-orange-700: var(--partner-orange-8);
+  --color-orange-800: var(--partner-orange-9);
+  --color-orange-900: var(--partner-orange-10);
+
+  /* Success color scale (Green) - References Green from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-success-50: var(--partner-green-1);
+  --color-success-100: var(--partner-green-2);
+  --color-success-200: var(--partner-green-3);
+  --color-success-300: var(--partner-green-4);
+  --color-success-400: var(--partner-green-5);
+  --color-success-500: var(--partner-green-6);
+  --color-success-600: var(--partner-green-7);
+  --color-success-700: var(--partner-green-8);
+  --color-success-800: var(--partner-green-9);
+  --color-success-900: var(--partner-green-10);
+
+  /* Red/Danger/Destructive color scale - References Red from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-red-50: var(--partner-red-1);
+  --color-red-100: var(--partner-red-2);
+  --color-red-200: var(--partner-red-3);
+  --color-red-300: var(--partner-red-4);
+  --color-red-400: var(--partner-red-5);
+  --color-red-500: var(--partner-red-6);
+  --color-red-600: var(--partner-red-7);
+  --color-red-700: var(--partner-red-8);
+  --color-red-800: var(--partner-red-9);
+  --color-red-900: var(--partner-red-10);
+
+  /* Green color scale - References Green from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-green-50: var(--partner-green-1);
+  --color-green-100: var(--partner-green-2);
+  --color-green-200: var(--partner-green-3);
+  --color-green-300: var(--partner-green-4);
+  --color-green-400: var(--partner-green-5);
+  --color-green-500: var(--partner-green-6);
+  --color-green-600: var(--partner-green-7);
+  --color-green-700: var(--partner-green-8);
+  --color-green-800: var(--partner-green-9);
+  --color-green-900: var(--partner-green-10);
+
+  /* Blue color scale - References Partner Blue from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-blue-50: var(--partner-blue-1);
+  --color-blue-100: var(--partner-blue-2);
+  --color-blue-200: var(--partner-blue-3);
+  --color-blue-300: var(--partner-blue-4);
+  --color-blue-400: var(--partner-blue-5);
+  --color-blue-500: var(--partner-blue-6);
+  --color-blue-600: var(--partner-blue-7);
+  --color-blue-700: var(--partner-blue-8);
+  --color-blue-800: var(--partner-blue-9);
+  --color-blue-900: var(--partner-blue-10);
+
+  /* Yellow color scale - References Yellow from partner-colors.css */
+  /* Mapping: 50->1, 100->2, 200->3, 300->4, 400->5, 500->6, 600->7, 700->8, 800->9, 900->10 */
+  --color-yellow-50: var(--partner-yellow-1);
+  --color-yellow-100: var(--partner-yellow-2);
+  --color-yellow-200: var(--partner-yellow-3);
+  --color-yellow-300: var(--partner-yellow-4);
+  --color-yellow-400: var(--partner-yellow-5);
+  --color-yellow-500: var(--partner-yellow-6);
+  --color-yellow-600: var(--partner-yellow-7);
+  --color-yellow-700: var(--partner-yellow-8);
+  --color-yellow-800: var(--partner-yellow-9);
+  --color-yellow-900: var(--partner-yellow-10);
+
+  /* Utility colors - References from partner-colors.css */
+  --color-white: var(--partner-white);
+  --color-black: var(--partner-black);
+  --color-bright-purple: var(--partner-purple);
+
+  /* Default semantic colors for components */
+  --color-default: var(--color-gray-200);
+  --color-elevated: var(--color-white);
+  --color-inverted: var(--color-gray-900);
+}
+
+/* ============================================
+   Tailwind Theme Colors - Overridden by shadcn/ui
+   Light mode defaults in :root, dark mode with [data-mode="dark"]
+   ============================================ */
+:root {
+  /* Background colors */
+  --color-background: var(--partner-background-white);
+  --color-foreground: var(--partner-text-primary);
+  
+  /* Card colors */
+  --color-card: var(--partner-background-white);
+  --color-card-foreground: var(--partner-text-primary);
+  
+  /* Popover colors */
+  --color-popover: var(--partner-background-white);
+  --color-popover-foreground: var(--partner-text-primary);
+  
+  /* Muted colors (for subtle backgrounds) */
+  --color-muted: var(--partner-background-gray);
+  --color-muted-foreground: var(--partner-text-secondary);
+  
+  /* Accent colors (for hover states) */
+  --color-accent: var(--partner-background-gray);
+  --color-accent-foreground: var(--partner-text-primary);
+  
+  /* Destructive colors (for errors/delete actions) */
+  --color-destructive: var(--partner-error-main);
+  --color-destructive-foreground: var(--partner-error-contrast);
+  
+  /* Border and input colors */
+  --color-border: var(--partner-border-default);
+  --color-input: var(--partner-border-default);
+  --color-ring: var(--partner-primary-main);
+}
+
+/* Dark Mode Theme Overrides */
+.dark, [data-mode="dark"] {
+  --color-background: var(--partner-gray-10);
+  --color-foreground: var(--partner-gray-1);
+  
+  --color-card: var(--partner-gray-9);
+  --color-card-foreground: var(--partner-gray-1);
+  
+  --color-popover: var(--partner-gray-9);
+  --color-popover-foreground: var(--partner-gray-1);
+  
+  --color-muted: var(--partner-gray-8);
+  --color-muted-foreground: var(--partner-gray-4);
+  
+  --color-accent: var(--partner-gray-8);
+  --color-accent-foreground: var(--partner-gray-1);
+  
+  --color-border: var(--partner-gray-7);
+  --color-input: var(--partner-gray-7);
+}
+
+/*  ============================================
+    Shadcn/UI Semantic Colors
+    Actual stripped-down names overridden by shadcn/ui
+    ============================================ */
+:root {
+  --radius: 0.625rem;
+  --background: var(--partner-background-white);
+  --foreground: var(--partner-text-primary);
+  --card: var(--partner-background-white);
+  --card-foreground: var(--partner-text-primary);
+  --popover: var(--partner-background-white);
+  --popover-foreground: var(--partner-text-primary);
+  --primary: var(--partner-primary-main);
+  --partner-primary-foreground: var(--partner-primary-contrast);
+  --secondary: var(--partner-gray-2);
+  --partner-secondary-foreground: var(--partner-text-primary);
+  --muted: var(--partner-gray-1);
+  --muted-foreground: var(--partner-text-secondary);
+  --accent: var(--partner-gray-2);
+  --accent-foreground: var(--partner-text-primary);
+  --destructive: var(--partner-error-main);
+  --destructive-foreground: var(--partner-error-contrast);
+  --border: var(--partner-border-light);
+  --input: var(--partner-border-default);
+  --ring: var(--partner-blue-6);
+  --chart-1: var(--partner-blue-7);
+  --chart-2: var(--partner-orange-7);
+  --chart-3: var(--partner-green-7);
+  --chart-4: var(--partner-yellow-7);
+  --chart-5: var(--partner-red-7);
+  --sidebar: var(--partner-background-white);
+  --sidebar-foreground: var(--partner-text-primary);
+  --sidebar-primary: var(--partner-primary-main);
+  --sidebar-primary-foreground: var(--partner-text-white);
+  --sidebar-accent: var(--partner-gray-2);
+  --sidebar-accent-foreground: var(--partner-text-primary);
+  --sidebar-border: var(--partner-border-light);
+  --sidebar-ring: var(--partner-blue-6);
+}
+
+.dark, [data-mode="dark"] {
+  --background: var(--partner-gray-10);
+  --foreground: var(--partner-text-white);
+  --card: var(--partner-gray-9);
+  --card-foreground: var(--partner-text-white);
+  --popover: var(--partner-gray-9);
+  --popover-foreground: var(--partner-text-white);
+  --primary: var(--partner-primary-main);
+  --partner-primary-foreground: var(--partner-text-white);
+  --secondary: var(--partner-gray-8);
+  --partner-secondary-foreground: var(--partner-text-white);
+  --muted: var(--partner-gray-9);
+  --muted-foreground: var(--partner-text-secondary);
+  --accent: var(--partner-gray-8);
+  --accent-foreground: var(--partner-text-white);
+  --destructive: var(--partner-red-6);
+  --border: rgba(255, 255, 255, 0.10);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: var(--partner-blue-4);
+  --chart-1: var(--partner-blue-5);
+  --chart-2: var(--partner-orange-5);
+  --chart-3: var(--partner-green-5);
+  --chart-4: var(--partner-yellow-5);
+  --chart-5: var(--partner-red-5);
+  --sidebar: var(--partner-gray-9);
+  --sidebar-foreground: var(--partner-text-white);
+  --sidebar-primary: var(--partner-blue-6);
+  --sidebar-primary-foreground: var(--partner-text-white);
+  --sidebar-accent: var(--partner-gray-8);
+  --sidebar-accent-foreground: var(--partner-text-white);
+  --sidebar-border: rgba(255, 255, 255, 0.10);
+  --sidebar-ring: var(--partner-blue-4);
+}
+  

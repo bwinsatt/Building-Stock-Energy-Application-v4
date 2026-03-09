@@ -1,0 +1,24 @@
+/**
+ * Partner Design System - Shadow Tokens
+ * 
+ * Defines the shadow scale for consistent elevation and depth
+ * throughout the Partner design system.
+ */
+
+:root {
+  /* Shadow values */
+  --partner-shadow-none: none;
+  --partner-shadow-sm: 0px 1px 4px rgba(0, 0, 0, 0.16);
+  --partner-shadow-md: 0px 2px 8px rgba(0, 0, 0, 0.20);
+  --partner-shadow-lg: 0px 4px 12px rgba(0, 0, 0, 0.24);
+}
+
+/* Dark mode shadow values are the same as light mode */
+
+/* Tailwind theme integration */
+@theme {
+  --shadow-none: var(--partner-shadow-none);
+  --shadow-sm: var(--partner-shadow-sm);
+  --shadow-md: var(--partner-shadow-md);
+  --shadow-lg: var(--partner-shadow-lg);
+}

@@ -1,0 +1,16 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["src/**/*", "tests/**/*", "src/**/*.vue", "src/**/*.d.ts", "src/**/*.json", "auto-imports.d.ts", "components.d.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "types": ["vue", "vite/client"],
+    "resolveJsonModule": true
+  }
+}

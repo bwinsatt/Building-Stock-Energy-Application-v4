@@ -1,0 +1,93 @@
+@theme {
+  /* Standard Tailwind breakpoint variables - these generate responsive utilities (sm:, md:, lg:, xl:) */
+  /* Note: Tailwind v4 requires literal values for breakpoints to generate media queries at build time */
+  --breakpoint-sm: 0px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+  --breakpoint-xl: 1920px;
+}
+
+:root {
+  /* Reference the breakpoint values defined in @theme for use in CSS */
+  /* This allows us to use --partner-breakpoint-* variables elsewhere while keeping single source of truth */
+  --partner-breakpoint-sm: var(--breakpoint-sm);
+  --partner-breakpoint-md: var(--breakpoint-md);
+  --partner-breakpoint-lg: var(--breakpoint-lg);
+  --partner-breakpoint-xl: var(--breakpoint-xl);
+
+  /* SM Breakpoint Layout Properties */
+  --partner-breakpoint-sm-columns: 8;
+  --partner-breakpoint-sm-gutters: 24px;
+  --partner-breakpoint-sm-margin-lr: 24px;
+  --partner-breakpoint-sm-padding-tb: 32px;
+  --partner-breakpoint-sm-column-width: auto;
+  --partner-breakpoint-sm-alignment: top left;
+
+  /* MD Breakpoint Layout Properties */
+  --partner-breakpoint-md-columns: 12;
+  --partner-breakpoint-md-gutters: 24px;
+  --partner-breakpoint-md-margin-lr: 32px;
+  --partner-breakpoint-md-padding-tb: 32px;
+  --partner-breakpoint-md-column-width: auto;
+  --partner-breakpoint-md-alignment: top left;
+
+  /* LG Breakpoint Layout Properties */
+  --partner-breakpoint-lg-columns: 12;
+  --partner-breakpoint-lg-gutters: 32px;
+  --partner-breakpoint-lg-margin-lr: 32px;
+  --partner-breakpoint-lg-padding-tb: 32px;
+  --partner-breakpoint-lg-column-width: auto;
+  --partner-breakpoint-lg-alignment: top left;
+
+  /* XL Breakpoint Layout Properties */
+  --partner-breakpoint-xl-columns: 12;
+  --partner-breakpoint-xl-gutters: 32px;
+  --partner-breakpoint-xl-margin-lr: 64px;
+  --partner-breakpoint-xl-padding-tb: 32px;
+  --partner-breakpoint-xl-column-width: auto;
+  --partner-breakpoint-xl-alignment: top left;
+
+  /* Custom layout properties - these are NOT standard Tailwind variables and won't generate utility classes */
+  /* Use them manually via arbitrary values: gap-[var(--breakpoint-sm-gutters)] or in custom CSS */
+  
+  /* SM Breakpoint Layout Properties */
+  --breakpoint-sm-columns: var(--partner-breakpoint-sm-columns);
+  --breakpoint-sm-gutters: var(--partner-breakpoint-sm-gutters);
+  --breakpoint-sm-margin-lr: var(--partner-breakpoint-sm-margin-lr);
+  --breakpoint-sm-padding-tb: var(--partner-breakpoint-sm-padding-tb);
+  --breakpoint-sm-column-width: var(--partner-breakpoint-sm-column-width);
+  --breakpoint-sm-alignment: var(--partner-breakpoint-sm-alignment);
+
+  /* MD Breakpoint Layout Properties */
+  --breakpoint-md-columns: var(--partner-breakpoint-md-columns);
+  --breakpoint-md-gutters: var(--partner-breakpoint-md-gutters);
+  --breakpoint-md-margin-lr: var(--partner-breakpoint-md-margin-lr);
+  --breakpoint-md-padding-tb: var(--partner-breakpoint-md-padding-tb);
+  --breakpoint-md-column-width: var(--partner-breakpoint-md-column-width);
+  --breakpoint-md-alignment: var(--partner-breakpoint-md-alignment);
+
+  /* LG Breakpoint Layout Properties */
+  --breakpoint-lg-columns: var(--partner-breakpoint-lg-columns);
+  --breakpoint-lg-gutters: var(--partner-breakpoint-lg-gutters);
+  --breakpoint-lg-margin-lr: var(--partner-breakpoint-lg-margin-lr);
+  --breakpoint-lg-padding-tb: var(--partner-breakpoint-lg-padding-tb);
+  --breakpoint-lg-column-width: var(--partner-breakpoint-lg-column-width);
+  --breakpoint-lg-alignment: var(--partner-breakpoint-lg-alignment);
+
+  /* XL Breakpoint Layout Properties */
+  --breakpoint-xl-columns: var(--partner-breakpoint-xl-columns);
+  --breakpoint-xl-gutters: var(--partner-breakpoint-xl-gutters);
+  --breakpoint-xl-margin-lr: var(--partner-breakpoint-xl-margin-lr);
+  --breakpoint-xl-padding-tb: var(--partner-breakpoint-xl-padding-tb);
+  --breakpoint-xl-column-width: var(--partner-breakpoint-xl-column-width);
+  --breakpoint-xl-alignment: var(--partner-breakpoint-xl-alignment);
+}
+
+@theme {
+  /* Grid template columns for layout system */
+  /* These define the number of columns available at each breakpoint */
+  --grid-cols-sm: repeat(var(--breakpoint-sm-columns), minmax(0, 1fr));
+  --grid-cols-md: repeat(var(--breakpoint-md-columns), minmax(0, 1fr));
+  --grid-cols-lg: repeat(var(--breakpoint-lg-columns), minmax(0, 1fr));
+  --grid-cols-xl: repeat(var(--breakpoint-xl-columns), minmax(0, 1fr));
+}

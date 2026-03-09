@@ -1,0 +1,20 @@
+/**
+ * Partner Design System - Spacing Tokens
+ * 
+ * Defines the spacing scale for consistent spacing values
+ * throughout the Partner design system.
+ * 
+ * Note:
+ * - Use rem over px for spacing values used in Tailwind classes. EX: p-[0.125rem] instead of p-[2px] for half spacing.
+ * - For p-<number>, etc. we could use p-(<custom-property>) instead. EX: p-(--spacing-half) instead of p-[0.125rem]
+ * - Tailwind scales linearly. EX: --spacing is defined as 0.25rem, so p-6 is 1.5rem. (6 * 0.25rem = 1.5rem)
+ * - See https://tailwindcss.com/docs/padding for more information on how --spacing works with padding utilities.
+ */
+:root {
+  --partner-spacing-half: calc(var(--spacing, 0.25rem) / 2); /* 2px, Use: p-(--spacing-half) or p-[0.125rem] */
+}
+
+/* Tailwind theme integration */
+@theme {
+  --spacing-half: var(--partner-spacing-half);
+}

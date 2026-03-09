@@ -1,0 +1,83 @@
+name: Push Main
+
+concurrency:
+  group: push-main
+  cancel-in-progress: false
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-storybook:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::206600846883:role/GitHubActions
+          aws-region: us-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        working-directory: infrastructure/storybook
+        run: terraform init
+
+      - name: Terraform Apply
+        id: terraform
+        working-directory: infrastructure/storybook
+        run: |
+          terraform apply -auto-approve \
+            -var="basic_auth_username=${{ secrets.STORYBOOK_BASIC_AUTH_USERNAME }}" \
+            -var="basic_auth_password=${{ secrets.STORYBOOK_BASIC_AUTH_PASSWORD }}"
+
+          echo "distribution_id=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_OUTPUT
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Storybook
+        run: npm run storybook:build
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync storybook-static/ s3://partner-storybook-206600846883 \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "index.html" \
+            --exclude "iframe.html"
+
+          aws s3 cp storybook-static/index.html s3://partner-storybook-206600846883/index.html \
+            --cache-control "public, max-age=0, must-revalidate"
+
+          if [ -f storybook-static/iframe.html ]; then
+            aws s3 cp storybook-static/iframe.html s3://partner-storybook-206600846883/iframe.html \
+              --cache-control "public, max-age=0, must-revalidate"
+          fi
+
+      - name: Invalidate CloudFront cache
+        env:
+          DISTRIBUTION_ID: ${{ steps.terraform.outputs.distribution_id }}
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" \
+            --paths "/*"

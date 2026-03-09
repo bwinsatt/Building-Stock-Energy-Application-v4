@@ -1,0 +1,33 @@
+/**
+ * Partner Design System - Border Radius Tokens
+ * 
+ * Defines the border radius scale for consistent rounded corners
+ * throughout the Partner design system.
+ */
+
+:root {
+  /* Base radius values */
+  --partner-radius-none: 0rem;     /* 0px - Tables, grids, bare inputs */
+  --partner-radius-xs: 0.0625rem;  /* 1px - Not specified in design system */
+  --partner-radius-sm: 0.125rem;   /* 2px - Buttons, inputs, tooltips etc */
+  --partner-radius-md: 0.25rem;   /* 4px - Cards, small pop ups, modals */
+  --partner-radius-lg: 0.5rem;    /* 8px - Larger modals, containers */
+  --partner-radius-xl: 0.75rem;   /* 12px - Not specified in design system */
+  --partner-radius-2xl: 1rem;     /* 16px - Not specified in design system */
+  --partner-radius-3xl: 1.5rem;   /* 24px - Not specified in design system */
+  --partner-radius-full: 9999px;   /* Fully rounded - Chips, avatars */
+}
+
+/* Tailwind theme integration */
+@theme {
+  --radius-none: var(--partner-radius-none);
+  --radius-xs: var(--partner-radius-xs);
+  --radius-sm: var(--partner-radius-sm);
+  --radius-md: var(--partner-radius-md);
+  --radius-lg: var(--partner-radius-lg);
+  --radius-xl: var(--partner-radius-xl);
+  --radius-2xl: var(--partner-radius-2xl);
+  --radius-3xl: var(--partner-radius-3xl);
+  --radius-full: var(--partner-radius-full);
+}
+

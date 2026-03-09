@@ -1,0 +1,7 @@
+export { default as PPagination, type PPaginationProps, type PPaginationEmits } from './PPagination.vue'
+export { default as PPaginationRoot } from './PPaginationRoot.vue'
+export { default as PPaginationContent } from './PPaginationContent.vue'
+export { default as PPaginationEllipsis } from './PPaginationEllipsis.vue'
+export { default as PPaginationItem } from './PPaginationItem.vue'
+export { default as PPaginationNext } from './PPaginationNext.vue'
+export { default as PPaginationPrevious } from './PPaginationPrevious.vue'

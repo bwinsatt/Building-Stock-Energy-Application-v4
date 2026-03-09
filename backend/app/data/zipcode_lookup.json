@@ -1,0 +1,4660 @@
+{
+  "prefixes": {
+    "005": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "010": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "011": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "012": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "013": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "014": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "015": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "016": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "017": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "018": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "019": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "020": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "021": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "022": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "023": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "024": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "025": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "026": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "027": {
+      "state": "MA",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "028": {
+      "state": "RI",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "029": {
+      "state": "RI",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "030": {
+      "state": "NH",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "031": {
+      "state": "NH",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "032": {
+      "state": "NH",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "033": {
+      "state": "NH",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "034": {
+      "state": "NH",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "035": {
+      "state": "NH",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "036": {
+      "state": "NH",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "037": {
+      "state": "NH",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "038": {
+      "state": "NH",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "039": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Southern New England"
+    },
+    "040": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Southern New England"
+    },
+    "041": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Southern New England"
+    },
+    "042": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Southern New England"
+    },
+    "043": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "044": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "045": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "046": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "047": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "048": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "049": {
+      "state": "ME",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "050": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "051": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "052": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "053": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "054": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "056": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "057": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "058": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "059": {
+      "state": "VT",
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "060": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "061": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "062": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "063": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "064": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "065": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "066": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "067": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "068": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "069": {
+      "state": "CT",
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "070": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "071": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "072": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "073": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "074": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "075": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "076": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "077": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "078": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "079": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "080": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "081": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "082": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "083": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "084": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "085": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "086": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "087": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "088": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "089": {
+      "state": "NJ",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "100": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "101": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "102": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "103": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "104": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "105": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "106": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "107": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "108": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "109": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "110": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "111": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "112": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "113": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "114": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "115": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "116": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "117": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "118": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "119": {
+      "state": "NY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "120": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "121": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "122": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "123": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "124": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "125": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "126": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "127": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "128": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "129": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "130": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "131": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "132": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "133": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "134": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "135": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "136": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "137": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "138": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "139": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "Small Urban Northern New York Areas"
+    },
+    "140": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "141": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "142": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "143": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "144": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "145": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "146": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "147": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "148": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "149": {
+      "state": "NY",
+      "climate_zone": "5A",
+      "cluster_name": "the Rochester-Buffalo and Erie, PA Area"
+    },
+    "150": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "151": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "152": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "153": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "154": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "155": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "156": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "157": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "158": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "159": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "160": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "161": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "162": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "163": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "164": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "165": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "166": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "167": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "168": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "169": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "170": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "171": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "172": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "173": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "174": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "175": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "176": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "177": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "178": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "179": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "180": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "181": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "182": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "183": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "184": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "185": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "186": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "187": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "188": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "189": {
+      "state": "PA",
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "190": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "191": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "192": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "193": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "194": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "195": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "196": {
+      "state": "PA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "197": {
+      "state": "DE",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "198": {
+      "state": "DE",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "199": {
+      "state": "DE",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "200": {
+      "state": "DC",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "201": {
+      "state": "DC",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "202": {
+      "state": "DC",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "203": {
+      "state": "DC",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "204": {
+      "state": "DC",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "205": {
+      "state": "DC",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "206": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "207": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "208": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "209": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "210": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "211": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "212": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "214": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "215": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "216": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "217": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "218": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "219": {
+      "state": "MD",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "220": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "221": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "222": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "223": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "224": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "225": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "226": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "227": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "228": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "229": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "230": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "231": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "232": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "233": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "234": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "235": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "236": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "237": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "238": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "239": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "240": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "241": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "242": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "243": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "244": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "245": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "246": {
+      "state": "VA",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "247": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "248": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "249": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "250": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "251": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "252": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "253": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "254": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "255": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "256": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "257": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "258": {
+      "state": "WV",
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "259": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "260": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "261": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "262": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "263": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "264": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "265": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "266": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "267": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "268": {
+      "state": "WV",
+      "climate_zone": "5A",
+      "cluster_name": "the Rural Eastern Climate Zone 5A Area"
+    },
+    "270": {
+      "state": "NC",
+      "climate_zone": "4A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "271": {
+      "state": "NC",
+      "climate_zone": "4A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "272": {
+      "state": "NC",
+      "climate_zone": "4A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "273": {
+      "state": "NC",
+      "climate_zone": "4A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "274": {
+      "state": "NC",
+      "climate_zone": "4A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "275": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "276": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "277": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "278": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "279": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "280": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "281": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "282": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "283": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "284": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "285": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "286": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "287": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "288": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "289": {
+      "state": "NC",
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "290": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "291": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "292": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "293": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "294": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "295": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "296": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "297": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "298": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "299": {
+      "state": "SC",
+      "climate_zone": "3A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "300": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "301": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "302": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "303": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "304": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "305": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "306": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "307": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "308": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "309": {
+      "state": "GA",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "310": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "311": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "312": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "313": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "314": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "315": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "316": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "317": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "318": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "319": {
+      "state": "GA",
+      "climate_zone": "2A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "320": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "321": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "322": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "323": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "324": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "325": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "326": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "327": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "328": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "329": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "330": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "331": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "332": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "333": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "334": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "335": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "336": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "337": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "338": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "339": {
+      "state": "FL",
+      "climate_zone": "1A",
+      "cluster_name": "Florida"
+    },
+    "340": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "341": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "342": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "344": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "346": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "347": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "349": {
+      "state": "FL",
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "350": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "351": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "352": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "354": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "355": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "356": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "357": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "358": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "359": {
+      "state": "AL",
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "360": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "361": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "362": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "363": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "364": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "365": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "366": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "367": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "368": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "369": {
+      "state": "AL",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "370": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "371": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "372": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "373": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "374": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "375": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Nashville and Hopkinsville-Bowling Green Area"
+    },
+    "376": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Nashville and Hopkinsville-Bowling Green Area"
+    },
+    "377": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Nashville and Hopkinsville-Bowling Green Area"
+    },
+    "378": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Nashville and Hopkinsville-Bowling Green Area"
+    },
+    "379": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Nashville and Hopkinsville-Bowling Green Area"
+    },
+    "380": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "381": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "382": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "383": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "384": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "385": {
+      "state": "TN",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "386": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "the Jackson-Hattiesburg Area"
+    },
+    "387": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "the Jackson-Hattiesburg Area"
+    },
+    "388": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "the Jackson-Hattiesburg Area"
+    },
+    "389": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "the Jackson-Hattiesburg Area"
+    },
+    "390": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "the Jackson-Hattiesburg Area"
+    },
+    "391": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "392": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "393": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "394": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "395": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "396": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "397": {
+      "state": "MS",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "400": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "401": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "402": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "403": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "404": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "405": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "406": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "407": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "408": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "409": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Louisville Area"
+    },
+    "410": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "411": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "412": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "413": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "414": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "415": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "416": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "417": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "418": {
+      "state": "KY",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "430": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "431": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "432": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "433": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "434": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "435": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "436": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "437": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "438": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "439": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "440": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "441": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "442": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "443": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "444": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "445": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "446": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "447": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "448": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "449": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Cleveland to Pittsburgh Greater Area"
+    },
+    "450": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "451": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "452": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "453": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "454": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "455": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "456": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "457": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "458": {
+      "state": "OH",
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "460": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "461": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "462": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "463": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "464": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "465": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "466": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "467": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "468": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "469": {
+      "state": "IN",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "470": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "471": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "472": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "473": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "474": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "475": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "476": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "477": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "478": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "479": {
+      "state": "IN",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "480": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "481": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "482": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "483": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "484": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "485": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "486": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "487": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "488": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "489": {
+      "state": "MI",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "490": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "491": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "492": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "493": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "494": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "495": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "496": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "497": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "498": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "499": {
+      "state": "MI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Upper Michigan, Door and Marinette Counties"
+    },
+    "500": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "501": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "502": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "503": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "504": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "505": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "506": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "507": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "508": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "509": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "510": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "511": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "512": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "513": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "514": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "515": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "516": {
+      "state": "IA",
+      "climate_zone": "5A",
+      "cluster_name": "Rural Lower Midwest and High Plains"
+    },
+    "530": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "531": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "532": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "534": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "535": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "537": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "538": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "539": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "540": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "541": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "542": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "543": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "544": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "545": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "546": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "547": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "548": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "549": {
+      "state": "WI",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "550": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Greater Minneapolis-St Paul"
+    },
+    "551": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Greater Minneapolis-St Paul"
+    },
+    "553": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Greater Minneapolis-St Paul"
+    },
+    "554": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Greater Minneapolis-St Paul"
+    },
+    "555": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "556": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "557": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "558": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "559": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "560": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "561": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "562": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "563": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "564": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "565": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "566": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "567": {
+      "state": "MN",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "570": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "571": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "572": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "573": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "574": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "575": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "576": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "577": {
+      "state": "SD",
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "580": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "581": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "582": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "583": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "584": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "585": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "586": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "587": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "588": {
+      "state": "ND",
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "590": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "591": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "592": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "593": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "594": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "595": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "596": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "597": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "598": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "599": {
+      "state": "MT",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "600": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "601": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "602": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "603": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "604": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "605": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "606": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "607": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "608": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "609": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "610": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "611": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "612": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "613": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "614": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "615": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "616": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "617": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "618": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "619": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "620": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "622": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "623": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "624": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "625": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "626": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "627": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "628": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "629": {
+      "state": "IL",
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "630": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "631": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "633": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "634": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "635": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "636": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "637": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "638": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "639": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "640": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "641": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "644": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "645": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "646": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "647": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "648": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "649": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "650": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "651": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "652": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "653": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "654": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "655": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "656": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "657": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "658": {
+      "state": "MO",
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "660": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "661": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "662": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "664": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "665": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "666": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "667": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "668": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "669": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "670": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "671": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "672": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "673": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "674": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "675": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "676": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "677": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "678": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "679": {
+      "state": "KS",
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "680": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "681": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "683": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "684": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "685": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "686": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "687": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "688": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "689": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "690": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "691": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "692": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "693": {
+      "state": "NE",
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "700": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "701": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "703": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "704": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "705": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "706": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "707": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "708": {
+      "state": "LA",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "710": {
+      "state": "LA",
+      "climate_zone": "3A",
+      "cluster_name": "the Shreveport-Texarkana and Alexandria Area"
+    },
+    "711": {
+      "state": "LA",
+      "climate_zone": "3A",
+      "cluster_name": "the Shreveport-Texarkana and Alexandria Area"
+    },
+    "712": {
+      "state": "LA",
+      "climate_zone": "3A",
+      "cluster_name": "the Shreveport-Texarkana and Alexandria Area"
+    },
+    "713": {
+      "state": "LA",
+      "climate_zone": "3A",
+      "cluster_name": "the Shreveport-Texarkana and Alexandria Area"
+    },
+    "714": {
+      "state": "LA",
+      "climate_zone": "3A",
+      "cluster_name": "the Shreveport-Texarkana and Alexandria Area"
+    },
+    "716": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "717": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "718": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "719": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "720": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "721": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "722": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "723": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "724": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "725": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "726": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "727": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "728": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "729": {
+      "state": "AR",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "730": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "731": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "733": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "734": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "735": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "736": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "737": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "738": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "739": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "740": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "741": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "743": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "744": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "745": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "746": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "747": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "748": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "749": {
+      "state": "OK",
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "750": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "751": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "752": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "753": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "754": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "755": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "756": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "757": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "758": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "759": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "760": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "761": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "762": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "763": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "764": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "765": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "766": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "767": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "768": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "769": {
+      "state": "TX",
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Dallas-Fort Worth Area"
+    },
+    "770": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "771": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "772": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "773": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "774": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "775": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "776": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "777": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "778": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "779": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "780": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "781": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "782": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "783": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "784": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "785": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "786": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "787": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "788": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "789": {
+      "state": "TX",
+      "climate_zone": "2A",
+      "cluster_name": "San Antonio to Waco"
+    },
+    "790": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "791": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "792": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "793": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "794": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "795": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "796": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "797": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "798": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "799": {
+      "state": "TX",
+      "climate_zone": "3B",
+      "cluster_name": "Rural Counties in the Southwest"
+    },
+    "800": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "801": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "802": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "803": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "804": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "805": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "806": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "807": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "808": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "809": {
+      "state": "CO",
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "810": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "811": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "812": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "813": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "814": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "815": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "816": {
+      "state": "CO",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "820": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "821": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "822": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "823": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "824": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "825": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "826": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "827": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "828": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "829": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "830": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "831": {
+      "state": "WY",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "832": {
+      "state": "ID",
+      "climate_zone": "5B",
+      "cluster_name": "Boise-Twin Falls"
+    },
+    "833": {
+      "state": "ID",
+      "climate_zone": "5B",
+      "cluster_name": "Boise-Twin Falls"
+    },
+    "834": {
+      "state": "ID",
+      "climate_zone": "5B",
+      "cluster_name": "Boise-Twin Falls"
+    },
+    "835": {
+      "state": "ID",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "836": {
+      "state": "ID",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "837": {
+      "state": "ID",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "838": {
+      "state": "ID",
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "840": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "841": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "842": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "843": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "844": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "845": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "846": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "847": {
+      "state": "UT",
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "850": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Phoenix Area"
+    },
+    "851": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Phoenix Area"
+    },
+    "852": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Phoenix Area"
+    },
+    "853": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Phoenix Area"
+    },
+    "855": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Rural Southern Arizona"
+    },
+    "856": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Rural Southern Arizona"
+    },
+    "857": {
+      "state": "AZ",
+      "climate_zone": "2B",
+      "cluster_name": "Rural Southern Arizona"
+    },
+    "859": {
+      "state": "AZ",
+      "climate_zone": "4B",
+      "cluster_name": "Northern Arizona and Washington County Utah"
+    },
+    "860": {
+      "state": "AZ",
+      "climate_zone": "4B",
+      "cluster_name": "Northern Arizona and Washington County Utah"
+    },
+    "863": {
+      "state": "AZ",
+      "climate_zone": "4B",
+      "cluster_name": "Northern Arizona and Washington County Utah"
+    },
+    "864": {
+      "state": "AZ",
+      "climate_zone": "4B",
+      "cluster_name": "Northern Arizona and Washington County Utah"
+    },
+    "865": {
+      "state": "AZ",
+      "climate_zone": "4B",
+      "cluster_name": "Northern Arizona and Washington County Utah"
+    },
+    "870": {
+      "state": "NM",
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "871": {
+      "state": "NM",
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "872": {
+      "state": "NM",
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "873": {
+      "state": "NM",
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "874": {
+      "state": "NM",
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "875": {
+      "state": "NM",
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "877": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "878": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "879": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "880": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "881": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "882": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "883": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "884": {
+      "state": "NM",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "889": {
+      "state": "NV",
+      "climate_zone": "3B",
+      "cluster_name": "Las Vegas"
+    },
+    "890": {
+      "state": "NV",
+      "climate_zone": "3B",
+      "cluster_name": "Las Vegas"
+    },
+    "891": {
+      "state": "NV",
+      "climate_zone": "3B",
+      "cluster_name": "Las Vegas"
+    },
+    "893": {
+      "state": "NV",
+      "climate_zone": "5B",
+      "cluster_name": "Carson City, Storey and Washoe County"
+    },
+    "894": {
+      "state": "NV",
+      "climate_zone": "5B",
+      "cluster_name": "Carson City, Storey and Washoe County"
+    },
+    "895": {
+      "state": "NV",
+      "climate_zone": "5B",
+      "cluster_name": "Carson City, Storey and Washoe County"
+    },
+    "897": {
+      "state": "NV",
+      "climate_zone": "5B",
+      "cluster_name": "Carson City, Storey and Washoe County"
+    },
+    "898": {
+      "state": "NV",
+      "climate_zone": "5B",
+      "cluster_name": "Carson City, Storey and Washoe County"
+    },
+    "900": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "901": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "902": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "903": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "904": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "905": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "906": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "907": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "908": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "910": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "911": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "912": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "913": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "914": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "915": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "916": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "917": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "918": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "919": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "920": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "921": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "922": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "923": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "924": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "925": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "926": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "927": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "928": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "930": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "931": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "932": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "933": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "934": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "935": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "936": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "937": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "938": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "939": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "940": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "941": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "942": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "943": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "944": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "945": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "946": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "947": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "948": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "949": {
+      "state": "CA",
+      "climate_zone": "3C",
+      "cluster_name": "California Climate Zone 3"
+    },
+    "950": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "951": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "952": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "953": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "954": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "955": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "956": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "957": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "958": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "959": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "960": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "961": {
+      "state": "CA",
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 12"
+    },
+    "967": {
+      "state": "HI",
+      "climate_zone": "1A",
+      "cluster_name": "Hawaii"
+    },
+    "968": {
+      "state": "HI",
+      "climate_zone": "1A",
+      "cluster_name": "Hawaii"
+    },
+    "970": {
+      "state": "OR",
+      "climate_zone": "4C",
+      "cluster_name": "the Portland-Salem-Medford Area"
+    },
+    "971": {
+      "state": "OR",
+      "climate_zone": "4C",
+      "cluster_name": "the Portland-Salem-Medford Area"
+    },
+    "972": {
+      "state": "OR",
+      "climate_zone": "4C",
+      "cluster_name": "the Portland-Salem-Medford Area"
+    },
+    "973": {
+      "state": "OR",
+      "climate_zone": "4C",
+      "cluster_name": "the Portland-Salem-Medford Area"
+    },
+    "974": {
+      "state": "OR",
+      "climate_zone": "4C",
+      "cluster_name": "the Portland-Salem-Medford Area"
+    },
+    "975": {
+      "state": "OR",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "976": {
+      "state": "OR",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "977": {
+      "state": "OR",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "978": {
+      "state": "OR",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "979": {
+      "state": "OR",
+      "climate_zone": "5B",
+      "cluster_name": "Rural Mountain West"
+    },
+    "980": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "981": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "982": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "983": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "984": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "985": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "986": {
+      "state": "WA",
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "988": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "989": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "990": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "991": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "992": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "993": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "994": {
+      "state": "WA",
+      "climate_zone": "5B",
+      "cluster_name": "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area"
+    },
+    "995": {
+      "state": "AK",
+      "climate_zone": "7",
+      "cluster_name": "Alaska"
+    },
+    "996": {
+      "state": "AK",
+      "climate_zone": "7",
+      "cluster_name": "Alaska"
+    },
+    "997": {
+      "state": "AK",
+      "climate_zone": "8",
+      "cluster_name": "Alaska"
+    },
+    "998": {
+      "state": "AK",
+      "climate_zone": "8",
+      "cluster_name": "Alaska"
+    },
+    "999": {
+      "state": "AK",
+      "climate_zone": "8",
+      "cluster_name": "Alaska"
+    }
+  },
+  "state_defaults": {
+    "AK": {
+      "climate_zone": "7",
+      "cluster_name": "Alaska"
+    },
+    "AL": {
+      "climate_zone": "3A",
+      "cluster_name": "Central Alabama"
+    },
+    "AR": {
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "AZ": {
+      "climate_zone": "2B",
+      "cluster_name": "Phoenix Area"
+    },
+    "CA": {
+      "climate_zone": "3B",
+      "cluster_name": "California Climate Zone 9"
+    },
+    "CO": {
+      "climate_zone": "5B",
+      "cluster_name": "the Cheyenne-Denver-Colorado Springs Area"
+    },
+    "CT": {
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "DC": {
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "DE": {
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "FL": {
+      "climate_zone": "2A",
+      "cluster_name": "Florida"
+    },
+    "GA": {
+      "climate_zone": "3A",
+      "cluster_name": "the Greater Atlanta and Macon Area"
+    },
+    "HI": {
+      "climate_zone": "1A",
+      "cluster_name": "Hawaii"
+    },
+    "IA": {
+      "climate_zone": "5A",
+      "cluster_name": "Des Moines, Cedar Rapids, Sioux Falls"
+    },
+    "ID": {
+      "climate_zone": "5B",
+      "cluster_name": "Boise-Twin Falls"
+    },
+    "IL": {
+      "climate_zone": "5A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "IN": {
+      "climate_zone": "5A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "KS": {
+      "climate_zone": "4A",
+      "cluster_name": "Greater Kansas City"
+    },
+    "KY": {
+      "climate_zone": "4A",
+      "cluster_name": "Rural Lower Plains-Upper South Appalachia"
+    },
+    "LA": {
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "MA": {
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "MD": {
+      "climate_zone": "4A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "ME": {
+      "climate_zone": "6A",
+      "cluster_name": "Southern New England"
+    },
+    "MI": {
+      "climate_zone": "5A",
+      "cluster_name": "Rural Southern Michigan and the Toledo Area"
+    },
+    "MN": {
+      "climate_zone": "6A",
+      "cluster_name": "Greater Minneapolis-St Paul"
+    },
+    "MO": {
+      "climate_zone": "4A",
+      "cluster_name": "Indianapolis-St. Louis-Springfield-Peoria"
+    },
+    "MS": {
+      "climate_zone": "3A",
+      "cluster_name": "Rural Climate Zone 3A"
+    },
+    "MT": {
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    },
+    "NC": {
+      "climate_zone": "3A",
+      "cluster_name": "Counties in North Carolina and South Carolina"
+    },
+    "ND": {
+      "climate_zone": "7A",
+      "cluster_name": "Rural Midwest North"
+    },
+    "NE": {
+      "climate_zone": "5A",
+      "cluster_name": "the Omaha-Lincoln Area"
+    },
+    "NH": {
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "NJ": {
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "NM": {
+      "climate_zone": "4B",
+      "cluster_name": "the Albuquerque-Santa Fe Area"
+    },
+    "NV": {
+      "climate_zone": "3B",
+      "cluster_name": "Las Vegas"
+    },
+    "NY": {
+      "climate_zone": "4A",
+      "cluster_name": "the Greater New York City Area"
+    },
+    "OH": {
+      "climate_zone": "5A",
+      "cluster_name": "the Columbus-Dayton-Cincinnati-Lexington Area"
+    },
+    "OK": {
+      "climate_zone": "3A",
+      "cluster_name": "the Tulsa to Wichita Falls I-44 Corridor"
+    },
+    "OR": {
+      "climate_zone": "4C",
+      "cluster_name": "the Portland-Salem-Medford Area"
+    },
+    "PA": {
+      "climate_zone": "5A",
+      "cluster_name": "the Washington DC to Philadelphia Area"
+    },
+    "RI": {
+      "climate_zone": "5A",
+      "cluster_name": "Southern New England"
+    },
+    "SC": {
+      "climate_zone": "3A",
+      "cluster_name": "Eastern Counties in South Carolina and Georgia"
+    },
+    "SD": {
+      "climate_zone": "6A",
+      "cluster_name": "Rural Midwest Climate Zone 6A"
+    },
+    "TN": {
+      "climate_zone": "4A",
+      "cluster_name": "the Knoxville-Chattanooga-Asheville and Greenville, SC Area"
+    },
+    "TX": {
+      "climate_zone": "2A",
+      "cluster_name": "the Central Gulf Coast Area"
+    },
+    "UT": {
+      "climate_zone": "5B",
+      "cluster_name": "the Northwestern Utah and Pocatello Area"
+    },
+    "VA": {
+      "climate_zone": "4A",
+      "cluster_name": "the Greater Central Virginia and Eastern Shore Area"
+    },
+    "VT": {
+      "climate_zone": "6A",
+      "cluster_name": "Northern New England"
+    },
+    "WA": {
+      "climate_zone": "4C",
+      "cluster_name": "the Greater Seattle Area"
+    },
+    "WI": {
+      "climate_zone": "6A",
+      "cluster_name": "the Chicago to Green Bay and Madison Area"
+    },
+    "WV": {
+      "climate_zone": "4A",
+      "cluster_name": "the Charleston-Huntington-Beckley Area"
+    },
+    "WY": {
+      "climate_zone": "6B",
+      "cluster_name": "Rural Rocky Mountains North"
+    }
+  }
+}

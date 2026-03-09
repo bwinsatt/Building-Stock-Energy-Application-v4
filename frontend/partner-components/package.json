@@ -1,0 +1,89 @@
+{
+  "name": "@partnerdevops/partner-components",
+  "version": "0.0.15",
+  "description": "Vue component library for Partner applications",
+  "type": "module",
+  "main": "./dist/p-components.umd.js",
+  "module": "./dist/p-components.es.js",
+  "types": "./dist/src/index.d.ts",
+  "engines": {
+    "node": "^24 || ^22 || ^20"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/p-components.es.js",
+      "require": "./dist/p-components.umd.js"
+    },
+    "./dist/style.css": "./dist/partner-components.css",
+    "./dist/partner-components.css": "./dist/partner-components.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PartnerDevOps/partner-components.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "vite build",
+    "type-check": "vue-tsc --noEmit",
+    "add-component": "npx shadcn-vue@latest add",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-pattern 'node_modules' --ignore-pattern 'dist'",
+    "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-pattern 'node_modules' --ignore-pattern 'dist'",
+    "test": "vitest",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "storybook:build": "storybook build",
+    "icons:update": "node scripts/update-carbon-icons.cjs",
+    "icons:clean": "node scripts/clean-svg-colors.cjs",
+    "icons:clean-outline": "node scripts/clean-svg-colors.cjs src/assets/icons/outline",
+    "icons:clean-solid": "node scripts/clean-svg-colors.cjs src/assets/icons/solid",
+    "publish": "npm publish",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@iconify/vue": "^5.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vueuse/core": "^14.2.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "husky": "^9.1.7",
+    "reka-ui": "^2.8.2",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "author": "Partner Engineering & Science, Inc",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@storybook/addon-docs": "^10.1.8",
+    "@storybook/addon-links": "^10.1.8",
+    "@storybook/addon-themes": "^10.1.8",
+    "@storybook/vue3-vite": "^10.1.8",
+    "@tailwindcss/vite": "^4.1.11",
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "@vitest/browser-playwright": "^4.0.17",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "^9.32.0",
+    "eslint-plugin-storybook": "10.1.8",
+    "eslint-plugin-vue": "^10.3.0",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "playwright": "^1.57.0",
+    "storybook": "^10.1.8",
+    "tailwindcss": "^4.1.11",
+    "tsx": "^4.20.3",
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.17",
+    "vitest-browser-vue": "^2.0.1",
+    "vue-router": "^4.5.1",
+    "vue-tsc": "^3.2.1"
+  }
+}

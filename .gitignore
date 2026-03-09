@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large data files (transfer via Google Drive)
+ComStock/
+ResStock/
+Resources/
+XGB_Models/
+archive/
+*.parquet
+*.pkl
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/partner-components/node_modules/
+
+# Worktrees
+.worktrees/
+
+# Generated artifacts (regenerable from scripts)
+scripts/validation_results/
+XGB_Models/ResStock_Upgrades_2025_R1/training_results_delta.xlsx
+Validation/CBECS/cbecs_validation_results.xlsx
+
+# Environment
+.env
+.env.local
+
+# Old git data
+.git-old/

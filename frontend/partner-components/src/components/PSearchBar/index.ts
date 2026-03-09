@@ -1,0 +1,1 @@
+export { default as PSearchBar, type PSearchBarProps, type PSearchBarEmits } from './PSearchBar.vue'
