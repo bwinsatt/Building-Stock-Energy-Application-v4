@@ -115,7 +115,27 @@ for (const [lookupKey, formKey] of Object.entries(formFieldKeys)) {
   })
 }
 
+const validationError = ref<string | null>(null)
+
 function onSubmit() {
+  validationError.value = null
+
+  const requiredChecks: { field: string; label: string; value: unknown }[] = [
+    { field: 'building_type', label: 'Building Type', value: form.building_type },
+    { field: 'sqft', label: 'Square Footage', value: form.sqft },
+    { field: 'num_stories', label: 'Number of Stories', value: form.num_stories },
+    { field: 'zipcode', label: 'Zip Code', value: form.zipcode },
+    { field: 'year_built', label: 'Year Built', value: form.year_built },
+  ]
+
+  const missing = requiredChecks.filter(
+    (c) => c.value === undefined || c.value === null || c.value === '' || c.value === 0,
+  )
+  if (missing.length > 0) {
+    validationError.value = `Please fill out: ${missing.map((m) => m.label).join(', ')}`
+    return
+  }
+
   const merged = {
     ...form,
     ...advancedFields.value,
@@ -314,6 +334,7 @@ function onSubmit() {
 
     <!-- Submit -->
     <div class="form-actions">
+      <p v-if="validationError" class="form-validation-error">{{ validationError }}</p>
       <PButton
         type="submit"
         variant="primary"
@@ -465,6 +486,18 @@ function onSubmit() {
 .field-badge--imputed {
   background-color: #fef3c7;
   color: #92400e;
+}
+
+/* Validation error */
+.form-validation-error {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  color: var(--partner-error-main, #dc2626);
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  padding: 0.625rem 0.875rem;
+  margin: 0 0 1rem;
 }
 
 /* Actions */

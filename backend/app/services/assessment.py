@@ -6,6 +6,7 @@ calculation, and response formatting into a single assessment pipeline.
 from __future__ import annotations
 
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 from app.schemas.request import BuildingInput
@@ -104,11 +105,14 @@ def _assess_single(
         building, imputation_service=imputation_service
     )
 
+    # Shared encoding cache — avoids re-encoding the same features across models
+    enc_cache: dict = {}
+
     # 2. Predict baseline EUI (kWh/ft2 per fuel)
-    baseline_eui = model_manager.predict_baseline(features, dataset)
+    baseline_eui = model_manager.predict_baseline(features, dataset, enc_cache)
 
     # 3. Predict sizing (capacity/area for cost calculation)
-    sizing = model_manager.predict_sizing(features, dataset)
+    sizing = model_manager.predict_sizing(features, dataset, enc_cache)
 
     # ResStock sizing predictions are per-unit; keep them per-unit and let the
     # cost calculator produce per-unit costs, then convert to $/sf below.
@@ -117,7 +121,7 @@ def _assess_single(
         resstock_per_unit_sqft = features.get("in.sqft..ft2", 900.0)
 
     # 4. Predict utility rates ($/kWh per fuel)
-    rates = model_manager.predict_rates(features, dataset)
+    rates = model_manager.predict_rates(features, dataset, enc_cache)
 
     # 5. Convert baseline to kBtu/sf (clamp negatives to zero)
     baseline_kbtu = {fuel: max(0.0, eui * KWH_TO_KBTU) for fuel, eui in baseline_eui.items()}
@@ -125,13 +129,29 @@ def _assess_single(
 
     # 6. Check applicability and predict upgrades
     upgrade_ids = model_manager.get_available_upgrades(dataset)
+
+    # Pre-warm: load all upgrade models from disk in parallel (I/O-bound)
+    applicable_ids = [
+        uid for uid in upgrade_ids
+        if _check_applicability(uid, dataset, features)
+    ]
+    model_manager.warm_upgrades(dataset, applicable_ids)
+
+    # Pre-compute all deltas in parallel (XGBoost releases the GIL)
+    delta_results: dict[int, dict] = {}
+
+    def _predict_upgrade(uid: int) -> tuple[int, dict]:
+        return uid, model_manager.predict_delta(features, uid, dataset)
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        for uid, delta in pool.map(_predict_upgrade, applicable_ids):
+            delta_results[uid] = delta
+
     measures: list[MeasureResult] = []
 
     for uid in upgrade_ids:
         # Check applicability
-        applicable = _check_applicability(uid, dataset, features)
-
-        if not applicable:
+        if uid not in delta_results:
             measures.append(
                 MeasureResult(
                     upgrade_id=uid,
@@ -142,8 +162,7 @@ def _assess_single(
             )
             continue
 
-        # Predict per-fuel savings (delta models return savings directly)
-        delta = model_manager.predict_delta(features, uid, dataset)
+        delta = delta_results[uid]
         savings_kwh = {fuel: max(0.0, d) for fuel, d in delta.items()}
 
         # Derive post-upgrade EUI from baseline - savings

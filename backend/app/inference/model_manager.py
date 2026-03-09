@@ -49,7 +49,7 @@ _RE_SIZING  = re.compile(r"^XGB_(.+)\.pkl$")
 _RE_RATE    = re.compile(r"^XGB_rate_(.+)\.pkl$")
 
 # Default max upgrade bundles kept in memory per dataset
-_DEFAULT_LRU_CAP = 80
+_DEFAULT_LRU_CAP = 400
 
 
 # ---------------------------------------------------------------------------
@@ -308,18 +308,40 @@ class ModelManager:
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _predict_single(bundle: dict, features_dict: dict) -> float:
-        """Run a single model on *features_dict* and return a scalar."""
+    def _predict_single(bundle: dict, features_dict: dict, _enc_cache: dict | None = None) -> float:
+        """Run a single model on *features_dict* and return a scalar.
+
+        If *_enc_cache* is provided, it's used to cache encoded DataFrames
+        keyed by the tuple of feature columns — avoids re-encoding the same
+        features hundreds of times across models that share feature sets.
+        """
         meta = bundle["meta"]
         feature_cols = meta["feature_columns"]
         log_target = meta.get("log_target", False)
+        encoders = bundle["encoders"]
+
+        cache_key = None
+        if _enc_cache is not None:
+            # Key by (feature columns, encoder id) — encoders differ across
+            # model categories (baseline vs sizing vs rates vs upgrades) but
+            # are shared within a category.
+            cache_key = (tuple(feature_cols), id(encoders))
+            cached = _enc_cache.get(cache_key)
+            if cached is not None:
+                pred = bundle["model"].predict(cached)[0]
+                if log_target:
+                    pred = float(np.expm1(pred))
+                return float(pred)
 
         # Build single-row DataFrame
         row = {col: features_dict.get(col, np.nan) for col in feature_cols}
         df = pd.DataFrame([row])
 
         # Encode
-        df_enc, _ = encode_features(df, feature_cols, encoders=bundle["encoders"])
+        df_enc, _ = encode_features(df, feature_cols, encoders=encoders)
+
+        if _enc_cache is not None and cache_key is not None:
+            _enc_cache[cache_key] = df_enc
 
         # Predict
         pred = bundle["model"].predict(df_enc)[0]
@@ -334,7 +356,7 @@ class ModelManager:
     # Public prediction methods
     # ------------------------------------------------------------------
 
-    def predict_baseline(self, features_dict: dict, dataset: str) -> dict:
+    def predict_baseline(self, features_dict: dict, dataset: str, _enc_cache: dict | None = None) -> dict:
         """Run baseline (upgrade 0) EUI models.
 
         Returns dict of fuel -> predicted EUI (kWh/ft2).
@@ -347,11 +369,11 @@ class ModelManager:
                 f"No baseline models loaded for dataset '{dataset}'"
             )
         return {
-            fuel: self._predict_single(bundle, features_dict)
+            fuel: self._predict_single(bundle, features_dict, _enc_cache)
             for fuel, bundle in bundles.items()
         }
 
-    def predict_sizing(self, features_dict: dict, dataset: str) -> dict:
+    def predict_sizing(self, features_dict: dict, dataset: str, _enc_cache: dict | None = None) -> dict:
         """Run sizing models.
 
         Returns dict of target_name -> predicted value.
@@ -364,11 +386,11 @@ class ModelManager:
                 f"No sizing models loaded for dataset '{dataset}'"
             )
         return {
-            target: self._predict_single(bundle, features_dict)
+            target: self._predict_single(bundle, features_dict, _enc_cache)
             for target, bundle in bundles.items()
         }
 
-    def predict_rates(self, features_dict: dict, dataset: str) -> dict:
+    def predict_rates(self, features_dict: dict, dataset: str, _enc_cache: dict | None = None) -> dict:
         """Run rate models.
 
         Returns dict of fuel -> predicted rate ($/kWh).
@@ -381,7 +403,7 @@ class ModelManager:
                 f"No rate models loaded for dataset '{dataset}'"
             )
         return {
-            fuel: self._predict_single(bundle, features_dict)
+            fuel: self._predict_single(bundle, features_dict, _enc_cache)
             for fuel, bundle in bundles.items()
         }
 
@@ -392,8 +414,43 @@ class ModelManager:
         upgrade_ids = {uid for uid, _fuel in self._index[dataset]["upgrades"]}
         return sorted(upgrade_ids)
 
+    def offload_upgrades(self) -> int:
+        """Clear all cached upgrade models to free memory.
+
+        Returns the number of bundles evicted.
+        """
+        total = 0
+        with self._lock:
+            for ds in ("comstock", "resstock"):
+                total += len(self._upgrade_cache[ds])
+                self._upgrade_cache[ds].clear()
+        logger.info("Offloaded %d upgrade bundles from memory", total)
+        return total
+
+    def warm_upgrades(self, dataset: str, upgrade_ids: list[int]) -> None:
+        """Pre-load upgrade model bundles in parallel threads (I/O-bound)."""
+        from concurrent.futures import ThreadPoolExecutor
+
+        dataset = dataset.lower()
+        keys_to_load = []
+        for uid in upgrade_ids:
+            for (u, fuel) in self._index[dataset]["upgrades"]:
+                if u == uid and (uid, fuel) not in self._upgrade_cache[dataset]:
+                    keys_to_load.append((uid, fuel))
+
+        if not keys_to_load:
+            return
+
+        def _load(key):
+            self._get_upgrade_bundle(dataset, key[0], key[1])
+
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            list(pool.map(_load, keys_to_load))
+
+        logger.info("Pre-warmed %d upgrade bundles for %s", len(keys_to_load), dataset)
+
     def predict_delta(
-        self, features_dict: dict, upgrade_id: int, dataset: str
+        self, features_dict: dict, upgrade_id: int, dataset: str, _enc_cache: dict | None = None
     ) -> dict:
         """Run per-fuel delta/savings models for one upgrade.
 
@@ -420,6 +477,6 @@ class ModelManager:
                     "Failed to load upgrade %d/%s for %s", upgrade_id, fuel, dataset
                 )
                 continue
-            results[fuel] = self._predict_single(bundle, features_dict)
+            results[fuel] = self._predict_single(bundle, features_dict, _enc_cache)
 
         return results

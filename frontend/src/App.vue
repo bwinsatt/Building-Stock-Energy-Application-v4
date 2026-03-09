@@ -16,6 +16,9 @@
         <a class="p-header-nav-link active">Energy Audit Lite</a>
       </div>
       <div class="p-header-right">
+        <button class="p-offload-btn" title="Free model memory" @click="offloadModels" :disabled="offloading">
+          {{ offloading ? 'Freeing...' : 'Free Memory' }}
+        </button>
         <span class="p-header-role">DB Admin</span>
         <div class="p-avatar">BW</div>
       </div>
@@ -29,7 +32,20 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import AssessmentView from './views/AssessmentView.vue'
+
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
+const offloading = ref(false)
+
+async function offloadModels() {
+  offloading.value = true
+  try {
+    await fetch(`${API_BASE}/offload`, { method: 'POST' })
+  } finally {
+    offloading.value = false
+  }
+}
 </script>
 
 <style scoped>
@@ -101,6 +117,28 @@ import AssessmentView from './views/AssessmentView.vue'
   font-weight: 400;
   font-size: 0.75rem;
   color: var(--partner-gray-6, #6f7881);
+}
+
+.p-offload-btn {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  color: #6f7881;
+  background: transparent;
+  border: 1px solid #c4cdd5;
+  border-radius: 3px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.p-offload-btn:hover:not(:disabled) {
+  color: #005199;
+  border-color: #005199;
+}
+
+.p-offload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .p-avatar {

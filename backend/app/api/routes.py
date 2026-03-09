@@ -1,3 +1,6 @@
+import asyncio
+import logging
+
 from fastapi import APIRouter, Request, HTTPException
 
 from app.schemas.request import AssessmentRequest
@@ -7,7 +10,30 @@ from app.services.assessment import assess_buildings
 from app.services.address_lookup import lookup_address
 from app.services.autocomplete import PhotonProvider
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
+
+# Auto-offload: clear upgrade cache after 20 minutes of inactivity
+_OFFLOAD_DELAY_SECONDS = 20 * 60
+_offload_task: asyncio.Task | None = None
+
+
+async def _schedule_offload(app):
+    """Wait then offload upgrade models if no new assessment arrives."""
+    try:
+        await asyncio.sleep(_OFFLOAD_DELAY_SECONDS)
+        evicted = app.state.model_manager.offload_upgrades()
+        logger.info("Auto-offloaded %d upgrade bundles after inactivity", evicted)
+    except asyncio.CancelledError:
+        pass
+
+
+def _reset_offload_timer(app):
+    """Cancel any pending offload and start a new timer."""
+    global _offload_task
+    if _offload_task and not _offload_task.done():
+        _offload_task.cancel()
+    _offload_task = asyncio.create_task(_schedule_offload(app))
 
 # Module-level provider instance — swap this to change providers
 autocomplete_provider = PhotonProvider()
@@ -16,6 +42,7 @@ autocomplete_provider = PhotonProvider()
 @router.post("/assess", response_model=AssessmentResponse)
 async def assess(request: AssessmentRequest, req: Request):
     try:
+        _reset_offload_timer(req.app)
         model_manager = req.app.state.model_manager
         cost_calculator = req.app.state.cost_calculator
         imputation_service = getattr(req.app.state, "imputation_service", None)
@@ -25,6 +52,13 @@ async def assess(request: AssessmentRequest, req: Request):
         return AssessmentResponse(results=results)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
+
+
+@router.post("/offload")
+async def offload(req: Request):
+    """Manually free cached upgrade models from memory."""
+    evicted = req.app.state.model_manager.offload_upgrades()
+    return {"status": "ok", "evicted": evicted}
 
 
 @router.get("/metadata")
