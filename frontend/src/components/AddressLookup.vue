@@ -140,11 +140,10 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 .address-lookup__desc {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
   color: #6b7a8a;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
   margin: 0.25rem 0 0;
 }
 
