@@ -11,6 +11,7 @@ from app.services.preprocessor import (
     COMSTOCK_AUTO_IMPUTE,
     RESSTOCK_FIELD_MAP,
     RESSTOCK_AUTO_IMPUTE,
+    _ENERGY_CODE_FIELDS,
 )
 
 
@@ -24,8 +25,8 @@ def test_valid_office_input(office_input):
     features, imputed_details, dataset, climate_zone, state = preprocess(office_input)
 
     assert dataset == "comstock"
-    # Should have all ComStock field-map columns + auto-imputed columns
-    expected_cols = set(COMSTOCK_FIELD_MAP.values()) | set(COMSTOCK_AUTO_IMPUTE.keys())
+    # Should have all ComStock field-map columns + auto-imputed columns + energy codes
+    expected_cols = set(COMSTOCK_FIELD_MAP.values()) | set(COMSTOCK_AUTO_IMPUTE.keys()) | set(_ENERGY_CODE_FIELDS)
     assert set(features.keys()) == expected_cols
     assert climate_zone  # non-empty
     assert state  # non-empty

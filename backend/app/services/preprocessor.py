@@ -82,10 +82,8 @@ COMSTOCK_AUTO_IMPUTE: dict[str, object] = {
     "in.airtightness..m3_per_m2_h": 0.5,
     "in.building_subtype": "NA",  # overridden per building_type below
     "in.aspect_ratio": "2",
-    "in.energy_code_followed_during_last_hvac_replacement": "ComStock DEER 1985",
-    "in.energy_code_followed_during_last_roof_replacement": "ComStock DEER 1985",
-    "in.energy_code_followed_during_last_walls_replacement": "ComStock DEER 1985",
-    "in.energy_code_followed_during_last_svc_water_htg_replacement": "ComStock DEER 1985",
+    # Energy code fields are resolved dynamically from state + year_built
+    # via _resolve_energy_codes() — no longer hardcoded here.
 }
 
 # Maps user-facing values to training-data values for ComStock
@@ -879,6 +877,75 @@ class _ZipcodeLookup:
 _zip_lookup = _ZipcodeLookup()
 
 
+# ---------------------------------------------------------------------------
+# Energy code lookup  (state + year_built → ComStock energy code string)
+# ---------------------------------------------------------------------------
+
+_ENERGY_CODE_FIELDS = [
+    "in.energy_code_followed_during_last_hvac_replacement",
+    "in.energy_code_followed_during_last_roof_replacement",
+    "in.energy_code_followed_during_last_walls_replacement",
+    "in.energy_code_followed_during_last_svc_water_htg_replacement",
+]
+
+# Water heater encoder lacks "DOE Ref Pre-1980" and "DEER Pre-1975"
+_WATER_HEATER_FALLBACKS = {
+    "DOE Ref Pre-1980": "DOE Ref 1980-2004",
+    "DEER Pre-1975": "DEER 1985",
+}
+
+
+def _load_energy_code_lookup() -> dict[str, list[list]]:
+    data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
+    path = os.path.join(data_dir, "energy_code_lookup.json")
+    with open(path) as fh:
+        data = json.load(fh)
+    # Strip metadata keys
+    return {k: v for k, v in data.items() if not k.startswith("_")}
+
+
+_energy_code_lookup: dict[str, list[list]] | None = None
+
+
+def _resolve_energy_code(state: str, year_built: int) -> str:
+    """Return the energy code string (without 'ComStock ' prefix) for a
+    given state and construction year."""
+    global _energy_code_lookup
+    if _energy_code_lookup is None:
+        _energy_code_lookup = _load_energy_code_lookup()
+
+    rules = _energy_code_lookup.get(state)
+    if rules is None:
+        # Fallback for unknown states
+        return "DOE Ref 1980-2004"
+
+    code = rules[0][1]
+    for threshold, c in rules:
+        if year_built >= threshold:
+            code = c
+    return code
+
+
+def _resolve_energy_codes(
+    features: dict[str, object], state: str, year_built: int
+) -> str:
+    """Set all 4 energy code feature columns on *features* based on state and
+    year_built.  Returns the resolved code string (for display)."""
+    code = _resolve_energy_code(state, year_built)
+    full_code = f"ComStock {code}"
+
+    for col in _ENERGY_CODE_FIELDS:
+        value = full_code
+        # Water heater field doesn't support certain codes
+        if col == "in.energy_code_followed_during_last_svc_water_htg_replacement":
+            fallback = _WATER_HEATER_FALLBACKS.get(code)
+            if fallback:
+                value = f"ComStock {fallback}"
+        features[col] = value
+
+    return full_code
+
+
 def _get_location_from_zipcode(zipcode: str) -> tuple[str, str, str]:
     """
     Derive (state, climate_zone, cluster_name) from a 5-digit US zipcode.
@@ -950,6 +1017,7 @@ FIELD_LABELS = {
     "hvac_cool_type": "HVAC Cooling Type",
     "hvac_heat_type": "HVAC Heating Type",
     "hvac_vent_type": "HVAC Ventilation Type",
+    "energy_code": "Energy Code",
 }
 
 # Reverse display maps: training-data values -> user-facing values
@@ -1189,6 +1257,18 @@ def preprocess(
             sub = _COMSTOCK_HVAC_SUBFEATURES[hvac_system]
             for col, val in sub.items():
                 features[col] = val
+
+    # --- 8b. ComStock: resolve energy codes from state + year_built ---
+    if not is_resstock and building_input.year_built is not None:
+        energy_code_display = _resolve_energy_codes(
+            features, state, building_input.year_built
+        )
+        imputed_details["energy_code"] = {
+            "value": energy_code_display,
+            "label": FIELD_LABELS.get("energy_code", "Energy Code"),
+            "source": "derived",
+            "confidence": None,
+        }
 
     # --- 9. Expose resolved efficiency/envelope values in imputed_details ---
     # For ResStock: show the actual heating/cooling/DHW efficiency, wall
