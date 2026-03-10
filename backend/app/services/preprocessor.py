@@ -554,6 +554,20 @@ def _resstock_context_impute(
         auto_impute["in.infiltration"] = resolved["infiltration"]
 
 
+def _comstock_number_stories(num_stories: int) -> str:
+    """Map integer story count to ComStock categorical bin.
+
+    ComStock training data uses string categories:
+    '1' through '14', '15_25', and 'over_25'.
+    """
+    if num_stories <= 14:
+        return str(num_stories)
+    elif num_stories <= 25:
+        return "15_25"
+    else:
+        return "over_25"
+
+
 def _resstock_building_type_height(num_stories: int) -> str:
     """Map number of stories to ResStock building_type_height category."""
     if num_stories <= 3:
@@ -1152,6 +1166,9 @@ def preprocess(
         # Convert year_built to vintage bucket
         if user_field == "year_built" and isinstance(value, (int, float)):
             value = year_to_vintage(int(value), dataset)
+        # Convert num_stories to categorical bin (ComStock only)
+        elif user_field == "num_stories" and not is_resstock and isinstance(value, (int, float)):
+            value = _comstock_number_stories(int(value))
         # Map user-facing values to training-data values
         elif user_field in value_map and isinstance(value, str):
             value = value_map[user_field].get(value, value)

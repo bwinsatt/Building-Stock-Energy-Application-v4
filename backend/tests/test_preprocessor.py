@@ -297,6 +297,50 @@ def test_invalid_zipcode_letters():
         preprocess(inp)
 
 
+@pytest.mark.parametrize("stories,expected", [
+    (1, "1"),
+    (3, "3"),
+    (14, "14"),
+    (15, "15_25"),
+    (20, "15_25"),
+    (25, "15_25"),
+    (26, "over_25"),
+    (40, "over_25"),
+    (100, "over_25"),
+])
+def test_comstock_number_stories_encoding(stories, expected):
+    """Integer num_stories should map to ComStock categorical bins."""
+    from app.services.preprocessor import _comstock_number_stories
+    assert _comstock_number_stories(stories) == expected
+
+
+def test_preprocess_40_story_office_encodes_stories():
+    """A 40-story office should encode in.number_stories as 'over_25'."""
+    from app.schemas.request import BuildingInput
+    from app.services.preprocessor import preprocess
+
+    building = BuildingInput(
+        building_type="Office", sqft=350000, num_stories=40,
+        zipcode="10019", year_built=1982, heating_fuel="NaturalGas",
+    )
+    features, _, dataset, _, _ = preprocess(building)
+    assert dataset == "comstock"
+    assert features["in.number_stories"] == "over_25"
+
+
+def test_preprocess_3_story_office_encodes_stories():
+    """A 3-story office should encode in.number_stories as '3'."""
+    from app.schemas.request import BuildingInput
+    from app.services.preprocessor import preprocess
+
+    building = BuildingInput(
+        building_type="Office", sqft=50000, num_stories=3,
+        zipcode="20001", year_built=1985,
+    )
+    features, _, dataset, _, _ = preprocess(building)
+    assert features["in.number_stories"] == "3"
+
+
 def test_year_built_required():
     """year_built is now required; omitting it should fail Pydantic validation."""
     with pytest.raises(Exception):
