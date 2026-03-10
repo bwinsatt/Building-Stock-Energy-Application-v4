@@ -41,6 +41,11 @@ function getSortDirection(col: SortColumn): 'asc' | 'desc' | undefined {
   return sortColumn.value === col ? sortDirection.value : undefined
 }
 
+function clampedPayback(val?: number): number | undefined {
+  if (val == null) return undefined
+  return Math.max(0, val)
+}
+
 function getSortValue(m: MeasureResult, col: SortColumn): number | null {
   switch (col) {
     case 'savings_pct':
@@ -52,7 +57,7 @@ function getSortValue(m: MeasureResult, col: SortColumn): number | null {
     case 'installed_cost':
       return m.cost?.installed_cost_total ?? null
     case 'payback':
-      return m.simple_payback_years ?? null
+      return clampedPayback(m.simple_payback_years) ?? null
   }
 }
 
@@ -94,7 +99,7 @@ const summaryStats = computed(() => {
   const count = applicable.length
 
   const paybacks = applicable
-    .map((m) => m.simple_payback_years)
+    .map((m) => clampedPayback(m.simple_payback_years))
     .filter((v): v is number => v != null)
   const bestPayback = paybacks.length > 0 ? Math.min(...paybacks) : null
 
@@ -264,8 +269,8 @@ function paybackColor(val?: number): string {
               </PTypography>
             </PTableCell>
             <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-              <PTypography variant="body2" component="span" :style="{ color: paybackColor(m.simple_payback_years), fontWeight: 600 }">
-                {{ formatNumber(m.simple_payback_years) }}
+              <PTypography variant="body2" component="span" :style="{ color: paybackColor(clampedPayback(m.simple_payback_years)), fontWeight: 600 }">
+                {{ formatNumber(clampedPayback(m.simple_payback_years)) }}
               </PTypography>
             </PTableCell>
           </PTableRow>
