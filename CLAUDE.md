@@ -83,6 +83,7 @@ BuildingInput → Preprocessor (validate, impute, map features, determine datase
 
 ### Data & Models
 - **`XGB_Models/`** — ~462 trained XGBoost `.pkl` files organized as `{Dataset}_{Category}/XGB_{target}.pkl`. Upgrade models predict per-fuel savings (delta); baseline models predict absolute EUI.
+- **Training scripts**: `scripts/train_comstock_deltas.py` and `scripts/train_resstock_deltas.py` train upgrade models on delta targets (baseline - upgrade EUI). Baseline models (upgrade 0) predict absolute EUI.
 - **`backend/app/data/zipcode_lookup.json`** — Zipcode → climate zone, cluster, state
 - **`backend/app/data/upgrade_cost_lookup.json`** — Pre-built cost data with confidence levels
 
