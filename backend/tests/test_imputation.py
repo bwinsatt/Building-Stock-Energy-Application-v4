@@ -27,7 +27,7 @@ def synthetic_comstock_data(tmp_path):
         ),
         "in.sqft..ft2": rng.uniform(5000, 100000, n),
         "in.number_stories": rng.choice([1, 2, 3, 5], n),
-        "in.state_abbreviation": rng.choice(["NY", "CA", "TX"], n),
+        "in.state": rng.choice(["NY", "CA", "TX"], n),
         "in.heating_fuel": rng.choice(["NaturalGas", "Electricity"], n),
         "in.service_water_heating_fuel": rng.choice(["NaturalGas", "Electricity"], n),
         "in.hvac_system_type": rng.choice(["PSZ-AC", "VAV_chiller_boiler"], n),

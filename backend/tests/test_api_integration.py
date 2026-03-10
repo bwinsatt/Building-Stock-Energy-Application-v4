@@ -26,7 +26,7 @@ class MockModelManager:
     def load_all(self):
         return 10
 
-    def predict_baseline(self, features_dict, dataset):
+    def predict_baseline(self, features_dict, dataset, _enc_cache=None):
         if dataset == "comstock":
             return {
                 "electricity": 12.5,
@@ -43,7 +43,7 @@ class MockModelManager:
                 "propane": 0.0,
             }
 
-    def predict_sizing(self, features_dict, dataset):
+    def predict_sizing(self, features_dict, dataset, _enc_cache=None):
         return {
             "heating_capacity": 500.0,
             "cooling_capacity": 100.0,
@@ -52,7 +52,7 @@ class MockModelManager:
             "window_area": 200.0,
         }
 
-    def predict_rates(self, features_dict, dataset):
+    def predict_rates(self, features_dict, dataset, _enc_cache=None):
         return {
             "electricity": 0.12,
             "natural_gas": 0.04,
@@ -63,7 +63,10 @@ class MockModelManager:
     def get_available_upgrades(self, dataset):
         return [1, 2, 43]
 
-    def predict_delta(self, features_dict, upgrade_id, dataset):
+    def warm_upgrades(self, dataset, upgrade_ids):
+        pass
+
+    def predict_delta(self, features_dict, upgrade_id, dataset, _enc_cache=None):
         baseline = self.predict_baseline(features_dict, dataset)
         return {fuel: eui * 0.1 for fuel, eui in baseline.items()}
 
@@ -107,6 +110,7 @@ def _office_payload(**overrides):
         "zipcode": "20001",
         "year_built": 1985,
         "heating_fuel": "NaturalGas",
+        "lighting_type": "T8",
     }
     building.update(overrides)
     return {"buildings": [building]}
