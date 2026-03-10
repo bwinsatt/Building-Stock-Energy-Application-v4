@@ -18,9 +18,6 @@ logger = logging.getLogger(__name__)
 _DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 _DEFAULT_LOOKUP_PATH = _DATA_DIR / "upgrade_cost_lookup.json"
 
-# Conversion factor: square metres to square feet
-M2_TO_FT2 = 10.764
-
 
 def _get_sizing(sizing: dict, key: str) -> float:
     """Look up a sizing value, trying both bare and 'sizing_' prefixed keys."""
@@ -195,20 +192,14 @@ class CostCalculatorService:
 
         if basis in ("$/ft^2 wall", "$/ft² wall"):
             wall_area = _get_sizing(sizing, "wall_area")
-            if dataset == "comstock":
-                wall_area = wall_area * M2_TO_FT2
             return unit_cost * wall_area
 
         if basis in ("$/ft^2 roof", "$/ft² roof"):
             roof_area = _get_sizing(sizing, "roof_area")
-            if dataset == "comstock":
-                roof_area = roof_area * M2_TO_FT2
             return unit_cost * roof_area
 
         if basis in ("$/ft^2 glazing", "$/ft² glazing"):
             window_area = _get_sizing(sizing, "window_area")
-            if dataset == "comstock":
-                window_area = window_area * M2_TO_FT2
             return unit_cost * window_area
 
         if basis == "$/unit":
@@ -216,8 +207,6 @@ class CostCalculatorService:
 
         if basis == "$/watt_dc":
             roof_area = _get_sizing(sizing, "roof_area")
-            if dataset == "comstock":
-                roof_area = roof_area * M2_TO_FT2
             # ~10 W/ft² panel density
             return unit_cost * roof_area * 10
 

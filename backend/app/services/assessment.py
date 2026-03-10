@@ -6,6 +6,8 @@ calculation, and response formatting into a single assessment pipeline.
 from __future__ import annotations
 
 import logging
+import math
+import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
@@ -88,6 +90,68 @@ def _get_upgrade_category(
 
 
 # ---------------------------------------------------------------------------
+# Geometric sizing (wall / roof / window area)
+# ---------------------------------------------------------------------------
+
+# Typical floor-to-floor heights (ft)
+_STORY_HEIGHT_COMMERCIAL = 12
+_STORY_HEIGHT_RESIDENTIAL = 10
+
+# Default aspect ratio for commercial buildings
+_ASPECT_RATIO = 1.8
+
+# Regex to parse "10-20%" style WWR strings
+_RE_WWR = re.compile(r"(\d+)-(\d+)%")
+
+# Default WWR when not available
+_DEFAULT_WWR = 0.15
+
+
+def _parse_wwr(features: dict, dataset: str) -> float:
+    """Extract window-to-wall ratio from features as a decimal (0-1)."""
+    if dataset == "comstock":
+        wwr_str = features.get("in.window_to_wall_ratio_category", "")
+        m = _RE_WWR.search(str(wwr_str))
+        if m:
+            return (int(m.group(1)) + int(m.group(2))) / 200.0
+    elif dataset == "resstock":
+        # in.window_areas is like "F15 B15 L15 R15" — avg of face percentages
+        wa = features.get("in.window_areas", "")
+        nums = re.findall(r"(\d+)", str(wa))
+        if nums:
+            return sum(int(n) for n in nums) / len(nums) / 100.0
+    return _DEFAULT_WWR
+
+
+def _geometric_sizing(
+    sqft: float, num_stories: int, features: dict, dataset: str,
+) -> dict:
+    """Compute wall, roof, and window area from building geometry.
+
+    Returns areas in ft².
+    """
+    story_height = (
+        _STORY_HEIGHT_RESIDENTIAL if dataset == "resstock"
+        else _STORY_HEIGHT_COMMERCIAL
+    )
+    floor_area = sqft / max(num_stories, 1)
+    width = math.sqrt(floor_area / _ASPECT_RATIO)
+    length = width * _ASPECT_RATIO
+    perimeter = 2 * (length + width)
+
+    wall_area = perimeter * story_height * num_stories
+    roof_area = floor_area
+    wwr = _parse_wwr(features, dataset)
+    window_area = wall_area * wwr
+
+    return {
+        "wall_area": wall_area,
+        "roof_area": roof_area,
+        "window_area": window_area,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Single-building assessment
 # ---------------------------------------------------------------------------
 
@@ -111,8 +175,11 @@ def _assess_single(
     # 2. Predict baseline EUI (kWh/ft2 per fuel)
     baseline_eui = model_manager.predict_baseline(features, dataset, enc_cache)
 
-    # 3. Predict sizing (capacity/area for cost calculation)
+    # 3. Predict sizing (capacity for cost calculation) + geometric areas
     sizing = model_manager.predict_sizing(features, dataset, enc_cache)
+    # Override ML-predicted areas with geometric calculation (more accurate)
+    geo = _geometric_sizing(building.sqft, building.num_stories or 1, features, dataset)
+    sizing.update(geo)
 
     # ResStock sizing predictions are per-unit; keep them per-unit and let the
     # cost calculator produce per-unit costs, then convert to $/sf below.

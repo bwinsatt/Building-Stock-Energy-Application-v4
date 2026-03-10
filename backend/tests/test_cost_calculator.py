@@ -4,7 +4,7 @@ import json
 import pytest
 from pathlib import Path
 
-from app.services.cost_calculator import CostCalculatorService, M2_TO_FT2
+from app.services.cost_calculator import CostCalculatorService
 
 
 @pytest.fixture
@@ -125,17 +125,17 @@ def test_cooling_capacity_comstock(tiny_svc):
 
 
 # ---------------------------------------------------------------------------
-# Wall area (ComStock m² → ft²)
+# Wall area (sizing now provides ft² directly via geometric calculation)
 # ---------------------------------------------------------------------------
 
 
 def test_wall_area_comstock(tiny_svc):
-    """ComStock wall area in m² is converted to ft² (* M2_TO_FT2)."""
+    """Wall area sizing values are in ft² (no m² conversion needed)."""
     result = tiny_svc.calculate_cost(
         upgrade_id=103, dataset="comstock", sqft=10000,
         sizing=BASIC_SIZING, state="XX",
     )
-    expected = 12.0 * (200 * M2_TO_FT2)
+    expected = 12.0 * 200  # $/ft² wall * wall_area in ft²
     assert result.installed_cost_total == pytest.approx(expected, rel=1e-2)
 
 
