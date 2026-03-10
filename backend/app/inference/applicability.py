@@ -134,6 +134,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
     window = _get(features, "in.window_type")
     has_boiler = "Boiler" in hvac_heat
     is_doas = hvac_vent == "DOAS+Zone terminal equipment"
+    is_district = hvac_heat == "District" or hvac_cool == "District"
 
     # ── HP-RTU (1-10) ──
     if upgrade_id in _CS_HP_RTU:
@@ -203,6 +204,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Hydronic GHP (28) ──
     if upgrade_id == 28:
+        if is_district:
+            return False
         if not has_boiler:
             return False
         if hvac_cool in _CS_GHP_NOT_ALREADY:
@@ -211,6 +214,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Packaged GHP (29) ──
     if upgrade_id == 29:
+        if is_district:
+            return False
         if hvac_cool in _CS_GHP_NOT_ALREADY:
             return False
         if hvac_category not in _CS_PACKAGED_CATEGORIES:
@@ -219,6 +224,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Console GHP (30) ──
     if upgrade_id == 30:
+        if is_district:
+            return False
         if hvac_cool in _CS_GHP_NOT_ALREADY:
             return False
         if hvac_category != "Zone-by-Zone":
@@ -280,8 +287,15 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
         return True
 
     # ── Package 6 (59): GHP variants ──
+    # Applicable only if at least one component GHP upgrade applies
     if upgrade_id == 59:
-        return hvac_cool not in _CS_GHP_NOT_ALREADY
+        if hvac_cool in _CS_GHP_NOT_ALREADY:
+            return False
+        return (
+            _check_comstock_rules(28, features)
+            or _check_comstock_rules(29, features)
+            or _check_comstock_rules(30, features)
+        )
 
     # ── Packages 7-9, 12 (60-62, 65): DF/PV combos, no rules ──
     if upgrade_id in {60, 61, 62}:
@@ -291,7 +305,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
     if upgrade_id == 63:
         if wall == "Metal Building":
             return False
-        if hvac_cool in _CS_GHP_NOT_ALREADY:
+        # Package 6 must be applicable
+        if not _check_comstock_rules(59, features):
             return False
         return True
 
@@ -299,7 +314,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
     if upgrade_id == 64:
         if wall == "Metal Building":
             return False
-        if hvac_cool in _CS_GHP_NOT_ALREADY:
+        if not _check_comstock_rules(59, features):
             return False
         if lighting in {"gen4_led", "gen5_led"}:
             return False

@@ -708,7 +708,7 @@
       "cost_mid": 88.23,
       "cost_low": 53.36,
       "cost_high": 139.0,
-      "cost_basis": "$/kBtu/h heating",
+      "cost_basis": "$/kBtu/h cooling",
       "cost_year_dollars": 2023,
       "useful_life_years": 25.0,
       "cost_type": "full_replacement",

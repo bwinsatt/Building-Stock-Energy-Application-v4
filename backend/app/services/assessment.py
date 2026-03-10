@@ -177,6 +177,8 @@ def _assess_single(
 
     # 3. Predict sizing (capacity for cost calculation) + geometric areas
     sizing = model_manager.predict_sizing(features, dataset, enc_cache)
+    # Clamp sizing predictions to zero — negative capacity is physically impossible
+    sizing = {k: max(0.0, v) for k, v in sizing.items()}
     # Override ML-predicted areas with geometric calculation (more accurate)
     geo = _geometric_sizing(building.sqft, building.num_stories or 1, features, dataset)
     sizing.update(geo)
