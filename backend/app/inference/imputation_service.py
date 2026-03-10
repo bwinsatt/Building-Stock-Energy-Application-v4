@@ -102,7 +102,7 @@ class ImputationService:
             "year_built": "in.vintage",
             "sqft": "in.sqft..ft2",
             "num_stories": "in.number_stories",
-            "state": "in.state_abbreviation",
+            "state": "in.state",
         }
         col_to_key = {v: k for k, v in key_to_col.items()}
 

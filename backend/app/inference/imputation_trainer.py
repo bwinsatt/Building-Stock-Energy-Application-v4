@@ -20,6 +20,7 @@ import logging
 import joblib
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 
@@ -117,6 +118,22 @@ def train_imputation_models(
         target_encoder = LabelEncoder()
         y_encoded = target_encoder.fit_transform(y.astype(str))
 
+        # --- Cross-validation for accuracy metrics ---
+        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        cv_preds = cross_val_predict(
+            XGBClassifier(
+                n_estimators=100,
+                max_depth=6,
+                learning_rate=0.1,
+                random_state=42,
+                use_label_encoder=False,
+                eval_metric="mlogloss",
+            ),
+            X, y_encoded, cv=cv, method="predict",
+        )
+        cv_accuracy = float(np.mean(cv_preds == y_encoded))
+        logger.info("  CV accuracy for %s: %.3f", field_name, cv_accuracy)
+
         # Train XGBoost
         model = XGBClassifier(
             n_estimators=100,
@@ -136,6 +153,7 @@ def train_imputation_models(
             "target_encoder": target_encoder,
             "input_columns": available_inputs,
             "feature_names": FEATURE_NAMES[:len(available_inputs)],
+            "cv_accuracy": cv_accuracy,
         }, model_path)
 
         trained[field_name] = model_path
@@ -143,6 +161,7 @@ def train_imputation_models(
             "n_samples": len(subset),
             "n_classes": len(target_encoder.classes_),
             "classes": target_encoder.classes_.tolist(),
+            "cv_accuracy": cv_accuracy,
         }
         logger.info("  Saved %s (%d samples, %d classes)",
                      model_path, len(subset), len(target_encoder.classes_))

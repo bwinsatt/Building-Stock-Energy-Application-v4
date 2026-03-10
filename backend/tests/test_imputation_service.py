@@ -28,7 +28,7 @@ def mock_imputation_models(tmp_path):
         "in.vintage",
         "in.sqft..ft2",
         "in.number_stories",
-        "in.state_abbreviation",
+        "in.state",
     ]
 
     target_enc = LabelEncoder()
@@ -91,3 +91,15 @@ class TestImputationService:
         results = svc.predict(known_fields, fields_to_predict=["wall_construction"])
         # No model for wall_construction in our mock, should not error
         assert "wall_construction" not in results or results["wall_construction"]["value"] is None
+
+
+def test_map_known_to_input_state_column():
+    """State should map to 'in.state', not 'in.state_abbreviation'."""
+    service = ImputationService.__new__(ImputationService)
+    input_columns = [
+        "in.comstock_building_type_group",
+        "in.state",
+    ]
+    known = {"building_type": "Office", "state": "CA"}
+    result = service._map_known_to_input(known, input_columns)
+    assert result[1] == "CA", f"Expected 'CA', got {result[1]}"
