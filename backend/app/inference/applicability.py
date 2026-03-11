@@ -159,6 +159,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
             return False
         if is_doas:
             return False
+        if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
+            return False
         return True
 
     # ── VRF (12-13) ──
@@ -279,7 +281,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Window Film (51) ──
     if upgrade_id == 51:
-        return "Triple" not in window
+        return True
 
     # ── Package 1 (54): Wall + Roof + Windows ──
     if upgrade_id == 54:

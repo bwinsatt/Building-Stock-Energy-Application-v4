@@ -100,6 +100,10 @@ class TestComstockAdvancedRtu:
         })
         assert check_applicability(11, "comstock", features, ALL_COMSTOCK) is False
 
+    def test_advanced_rtu_skip_when_already_hp(self):
+        features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
+        assert check_applicability(11, "comstock", features, ALL_COMSTOCK) is False
+
 
 # ── ComStock VRF/Minisplit (12-14) ──────────────────────────────────────────
 
@@ -427,11 +431,12 @@ class TestComstockEnvelope:
         })
         assert check_applicability(50, "comstock", features, ALL_COMSTOCK) is False
 
-    def test_window_film_skip_triple(self):
+    def test_window_film_applicable_for_triple_pane(self):
+        """ComStock does NOT exclude triple-pane from window film."""
         features = _comstock_features(**{
             "in.window_type": "Triple - LowE - Clear - Thermally Broken Aluminum",
         })
-        assert check_applicability(51, "comstock", features, ALL_COMSTOCK) is False
+        assert check_applicability(51, "comstock", features, ALL_COMSTOCK) is True
 
 
 # ── ComStock Packages ──────────────────────────────────────────────────────
