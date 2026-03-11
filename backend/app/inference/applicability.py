@@ -112,6 +112,7 @@ _CS_GHP_NOT_ALREADY: Set[str] = {"GSHP", "WSHP"}
 _CS_HP_NOT_ALREADY: Set[str] = {"ASHP", "GSHP", "WSHP"}
 _CS_NO_AHU_VENT: Set[str] = {"DOAS+Zone terminal equipment", "Zone terminal equipment"}
 _CS_FOOD_BUILDINGS: Set[str] = {"Food Sales", "Food Service"}
+_CS_VRF_EXCLUDED_BLDG: Set[str] = {"Food Service", "Healthcare"}
 _CS_DCV_EXCLUDED_BLDG: Set[str] = {"Lodging", "Food Service"}
 _CS_CHILLER_COOL: Set[str] = {"WCC", "ACC"}
 _CS_HYDRONIC_COOL: Set[str] = {"WCC", "District"}
@@ -165,6 +166,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
         if is_doas:
             return False
         if hvac_cool == "District":
+            return False
+        if building_type in _CS_VRF_EXCLUDED_BLDG:
             return False
         if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
             return False

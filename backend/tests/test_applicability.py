@@ -142,6 +142,20 @@ class TestComstockVrfMinisplit:
         })
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
 
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_food_service(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Food Service",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_healthcare(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Healthcare",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
 
 # ── ComStock DOAS HP Minisplits (14) ──────────────────────────────────────
 
