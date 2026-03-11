@@ -100,26 +100,91 @@ class TestComstockAdvancedRtu:
         })
         assert check_applicability(11, "comstock", features, ALL_COMSTOCK) is False
 
+    def test_advanced_rtu_skip_when_already_hp(self):
+        features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
+        assert check_applicability(11, "comstock", features, ALL_COMSTOCK) is False
+
 
 # ── ComStock VRF/Minisplit (12-14) ──────────────────────────────────────────
 
 class TestComstockVrfMinisplit:
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_applicable_for_standard_system(self, uid):
         features = _comstock_features()
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
 
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_skip_when_already_doas(self, uid):
         features = _comstock_features(**{
             "in.hvac_vent_type": "DOAS+Zone terminal equipment",
         })
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
 
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_skip_when_already_gshp(self, uid):
         features = _comstock_features(**{"in.hvac_cool_type": "GSHP"})
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_when_already_ashp(self, uid):
+        """VRF excludes buildings already with ASHP."""
+        features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_when_district_cooling(self, uid):
+        """VRF excludes buildings with district cooling."""
+        features = _comstock_features(**{"in.hvac_cool_type": "District"})
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_applicable_when_district_heat_but_dx_cool(self, uid):
+        """VRF allows district-heat buildings if cooling is conventional."""
+        features = _comstock_features(**{
+            "in.hvac_heat_type": "District",
+            "in.hvac_cool_type": "DX",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_food_service(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Food Service",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_healthcare(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Healthcare",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+
+# ── ComStock DOAS HP Minisplits (14) ──────────────────────────────────────
+
+class TestComstockDoasMinisplit:
+    """DOAS HP Minisplits (14) require single-zone packaged, not already HP."""
+
+    def test_applicable_for_packaged_system(self):
+        features = _comstock_features()  # Small Packaged Unit
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is True
+
+    def test_skip_when_multizone_vav(self):
+        features = _comstock_features(**{"in.hvac_category": "Multizone CAV/VAV"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_when_zone_by_zone(self):
+        features = _comstock_features(**{"in.hvac_category": "Zone-by-Zone"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_when_already_gshp(self):
+        features = _comstock_features(**{"in.hvac_cool_type": "GSHP"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_when_already_ashp(self):
+        features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
 
 
 # ── ComStock Boiler Upgrades (15-18) ────────────────────────────────────────
@@ -195,9 +260,37 @@ class TestComstockControls:
         features = _comstock_features(**{"in.hvac_category": "Multizone CAV/VAV"})
         assert check_applicability(24, "comstock", features, ALL_COMSTOCK) is True
 
+    def test_unoccupied_ahu_skip_doas(self):
+        features = _comstock_features(**{
+            "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+        })
+        assert check_applicability(23, "comstock", features, ALL_COMSTOCK) is False
+
     def test_fan_static_pressure_reset_skip_packaged(self):
         features = _comstock_features()  # Small Packaged Unit
         assert check_applicability(24, "comstock", features, ALL_COMSTOCK) is False
+
+
+# ── ComStock Energy Recovery (21) ──────────────────────────────────────────
+
+class TestComstockEnergyRecovery:
+    def test_applicable_for_office(self):
+        features = _comstock_features(**{
+            "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+        })
+        assert check_applicability(21, "comstock", features, ALL_COMSTOCK) is True
+
+    def test_skip_zone_terminal(self):
+        features = _comstock_features(**{
+            "in.hvac_vent_type": "Zone terminal equipment",
+        })
+        assert check_applicability(21, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_food_service(self):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Food Service",
+        })
+        assert check_applicability(21, "comstock", features, ALL_COMSTOCK) is False
 
 
 # ── ComStock VFD Pumps (26) ─────────────────────────────────────────────────
@@ -225,6 +318,14 @@ class TestComstockGhp:
             "in.hvac_cool_type": "WCC",
         })
         assert check_applicability(28, "comstock", features, ALL_COMSTOCK) is True
+
+    def test_hydronic_ghp_skip_when_boiler_but_no_chiller(self):
+        """Hydronic GHP requires both boiler AND chiller."""
+        features = _comstock_features(**{
+            "in.hvac_heat_type": "Boiler ",
+            "in.hvac_cool_type": "DX",
+        })
+        assert check_applicability(28, "comstock", features, ALL_COMSTOCK) is False
 
     def test_hydronic_ghp_skip_when_no_boiler(self):
         features = _comstock_features()
@@ -330,11 +431,12 @@ class TestComstockEnvelope:
         })
         assert check_applicability(50, "comstock", features, ALL_COMSTOCK) is False
 
-    def test_window_film_skip_triple(self):
+    def test_window_film_applicable_for_triple_pane(self):
+        """ComStock does NOT exclude triple-pane from window film."""
         features = _comstock_features(**{
             "in.window_type": "Triple - LowE - Clear - Thermally Broken Aluminum",
         })
-        assert check_applicability(51, "comstock", features, ALL_COMSTOCK) is False
+        assert check_applicability(51, "comstock", features, ALL_COMSTOCK) is True
 
 
 # ── ComStock Packages ──────────────────────────────────────────────────────
@@ -377,6 +479,52 @@ class TestComstockPackages:
             "in.interior_lighting_generation": "gen4_led",
         })
         assert check_applicability(64, "comstock", features, ALL_COMSTOCK) is False
+
+
+# ── ComStock Demand Flex (32-42) ──────────────────────────────────────────
+
+class TestComstockDemandFlex:
+    """Demand flex 32-37 restricted to Office/Education/Warehouse; 38-42 broadly applicable."""
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_applicable_for_office(self, uid):
+        features = _comstock_features()  # Office
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_applicable_for_education(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Education",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_applicable_for_warehouse(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Warehouse and Storage",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_skip_food_service(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Food Service",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_skip_healthcare(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Healthcare",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", range(38, 43))
+    def test_geb_gem_applicable_for_any_building(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Healthcare",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
 
 
 # ── ResStock HVAC ──────────────────────────────────────────────────────────
@@ -423,6 +571,24 @@ class TestResstockHvac:
             "in.hvac_heating_type": "Ducted Heat Pump",
         })
         assert check_applicability(5, "resstock", features, ALL_RESSTOCK) is False
+
+
+# ── ResStock HPWH (9) ─────────────────────────────────────────────────────
+
+class TestResstockHpwh:
+    """ResStock HPWH (9) excludes Other Fuel water heater fuel."""
+
+    def test_applicable_when_gas_wh(self):
+        features = _resstock_features()  # Natural Gas WH
+        assert check_applicability(9, "resstock", features, ALL_RESSTOCK) is True
+
+    def test_applicable_when_electric_wh(self):
+        features = _resstock_features(**{"in.water_heater_fuel": "Electricity"})
+        assert check_applicability(9, "resstock", features, ALL_RESSTOCK) is True
+
+    def test_skip_when_other_fuel_wh(self):
+        features = _resstock_features(**{"in.water_heater_fuel": "Other Fuel"})
+        assert check_applicability(9, "resstock", features, ALL_RESSTOCK) is False
 
 
 # ── ResStock Water Heater ──────────────────────────────────────────────────
@@ -498,6 +664,31 @@ class TestResstockPackages:
         """Upgrade 16 applies when ducted + wood frame."""
         features = _resstock_features()  # Ducted Heating + Wood Frame
         assert check_applicability(16, "resstock", features, ALL_RESSTOCK) is True
+
+
+# ── ResStock GHP (6-8) ────────────────────────────────────────────────────
+
+class TestResstockGhp:
+    """ResStock GHP (6-8) requires ducted systems."""
+
+    @pytest.mark.parametrize("uid", [6, 7, 8])
+    def test_applicable_when_ducted(self, uid):
+        features = _resstock_features()  # Ducted Heating
+        assert check_applicability(uid, "resstock", features, ALL_RESSTOCK) is True
+
+    @pytest.mark.parametrize("uid", [6, 7, 8])
+    def test_skip_when_non_ducted(self, uid):
+        features = _resstock_features(**{
+            "in.hvac_heating_type": "Non-Ducted Heating",
+        })
+        assert check_applicability(uid, "resstock", features, ALL_RESSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [6, 7, 8])
+    def test_skip_when_already_hp(self, uid):
+        features = _resstock_features(**{
+            "in.hvac_heating_type": "Ducted Heat Pump",
+        })
+        assert check_applicability(uid, "resstock", features, ALL_RESSTOCK) is False
 
 
 # ── get_applicable_upgrades ───────────────────────────────────────────────

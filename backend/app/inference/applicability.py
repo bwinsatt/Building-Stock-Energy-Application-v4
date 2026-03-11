@@ -97,19 +97,22 @@ def _get(features: dict, key: str, default: str = "") -> str:
 # ── Upgrade-ID groups ────────────────────────────────────────────────────────
 
 _CS_HP_RTU: Set[int] = set(range(1, 11))          # 1-10: HP-RTU variants
-_CS_VRF_MINISPLIT: Set[int] = {12, 13, 14}        # VRF/DOAS minisplit
+_CS_VRF: Set[int] = {12, 13}                       # VRF/DOAS
 _CS_BOILER_ALL: Set[int] = {15, 16, 17, 18}       # All boiler upgrades
 _CS_BOILER_GAS: Set[int] = {16, 17}               # Need gas fuel
-_CS_DEMAND_FLEX: Set[int] = set(range(32, 43))    # 32-42: Demand flexibility
+_CS_DEMAND_FLEX_RESTRICTED: Set[int] = set(range(32, 38))  # 32-37: DF with building type filter
+_CS_DEMAND_FLEX_BROAD: Set[int] = set(range(38, 43))       # 38-42: GEB Gem, broadly applicable
+_CS_DF_BUILDING_TYPES: Set[str] = {"Office", "Warehouse and Storage", "Education"}
 _CS_NO_RULES: Set[int] = (
     {0, 25, 27, 44, 46, 47, 49, 52, 53, 65}       # Broadly applicable
-    | _CS_DEMAND_FLEX
+    | _CS_DEMAND_FLEX_BROAD
 )
 
 _CS_GHP_NOT_ALREADY: Set[str] = {"GSHP", "WSHP"}
 _CS_HP_NOT_ALREADY: Set[str] = {"ASHP", "GSHP", "WSHP"}
 _CS_NO_AHU_VENT: Set[str] = {"DOAS+Zone terminal equipment", "Zone terminal equipment"}
 _CS_FOOD_BUILDINGS: Set[str] = {"Food Sales", "Food Service"}
+_CS_VRF_EXCLUDED_BLDG: Set[str] = {"Food Service", "Healthcare"}
 _CS_DCV_EXCLUDED_BLDG: Set[str] = {"Lodging", "Food Service"}
 _CS_CHILLER_COOL: Set[str] = {"WCC", "ACC"}
 _CS_HYDRONIC_COOL: Set[str] = {"WCC", "District"}
@@ -136,6 +139,10 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
     is_doas = hvac_vent == "DOAS+Zone terminal equipment"
     is_district = hvac_heat == "District" or hvac_cool == "District"
 
+    # ── Demand Flexibility restricted (32-37) ──
+    if upgrade_id in _CS_DEMAND_FLEX_RESTRICTED:
+        return building_type in _CS_DF_BUILDING_TYPES
+
     # ── HP-RTU (1-10) ──
     if upgrade_id in _CS_HP_RTU:
         if hvac_category not in _CS_PACKAGED_CATEGORIES:
@@ -152,13 +159,27 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
             return False
         if is_doas:
             return False
+        if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
+            return False
         return True
 
-    # ── VRF / Minisplit (12-14) ──
-    if upgrade_id in _CS_VRF_MINISPLIT:
+    # ── VRF (12-13) ──
+    if upgrade_id in _CS_VRF:
         if is_doas:
             return False
-        if hvac_cool in _CS_GHP_NOT_ALREADY:
+        if hvac_cool == "District":
+            return False
+        if building_type in _CS_VRF_EXCLUDED_BLDG:
+            return False
+        if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
+            return False
+        return True
+
+    # ── DOAS HP Minisplits (14) ──
+    if upgrade_id == 14:
+        if hvac_category not in _CS_PACKAGED_CATEGORIES:
+            return False
+        if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
             return False
         return True
 
@@ -184,7 +205,11 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Energy Recovery (21) ──
     if upgrade_id == 21:
-        return hvac_vent != "Zone terminal equipment"
+        if hvac_vent == "Zone terminal equipment":
+            return False
+        if building_type == "Food Service":
+            return False
+        return True
 
     # ── Advanced RTU Controls (22) ──
     if upgrade_id == 22:
@@ -192,7 +217,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Unoccupied AHU Control (23) ──
     if upgrade_id == 23:
-        return hvac_vent != "Zone terminal equipment"
+        return hvac_vent not in _CS_NO_AHU_VENT
 
     # ── Fan Static Pressure Reset (24) ──
     if upgrade_id == 24:
@@ -207,6 +232,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
         if is_district:
             return False
         if not has_boiler:
+            return False
+        if hvac_cool not in _CS_CHILLER_COOL:
             return False
         if hvac_cool in _CS_GHP_NOT_ALREADY:
             return False
@@ -254,7 +281,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Window Film (51) ──
     if upgrade_id == 51:
-        return "Triple" not in window
+        return True
 
     # ── Package 1 (54): Wall + Roof + Windows ──
     if upgrade_id == 54:
@@ -332,7 +359,7 @@ _RS_DUCTED: Set[str] = {"Ducted Heating", "Ducted Heat Pump"}
 _RS_HP_TYPES: Set[str] = {"Ducted Heat Pump", "Non-Ducted Heat Pump"}
 _RS_PROPANE_OIL: Set[str] = {"Fuel Oil", "Propane"}
 _RS_DUCT_UPGRADES: Set[int] = {13, 15, 18, 30, 31, 32}
-_RS_NO_RULES: Set[int] = {0, 3, 6, 7, 8, 9, 11, 12, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29}
+_RS_NO_RULES: Set[int] = {0, 3, 11, 12, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29}
 
 
 def _check_resstock_rules(upgrade_id: int, features: dict) -> bool:
@@ -368,6 +395,18 @@ def _check_resstock_rules(upgrade_id: int, features: dict) -> bool:
         if heating_fuel == "Electricity":
             return False
         return True
+
+    # ── GHP variants (6-8) ──
+    if upgrade_id in {6, 7, 8}:
+        if not is_ducted:
+            return False
+        if is_hp:
+            return False
+        return True
+
+    # ── HP Water Heater (9) ──
+    if upgrade_id == 9:
+        return wh_fuel not in {"Other Fuel"}
 
     # ── Gas Tankless Water Heater (10) ──
     if upgrade_id == 10:
