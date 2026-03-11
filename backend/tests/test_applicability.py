@@ -121,6 +121,12 @@ class TestComstockVrfMinisplit:
         features = _comstock_features(**{"in.hvac_cool_type": "GSHP"})
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
 
+    @pytest.mark.parametrize("uid", [12, 13])
+    def test_skip_when_already_ashp(self, uid):
+        """VRF excludes buildings already with ASHP."""
+        features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
     @pytest.mark.parametrize("uid", [12, 13, 14])
     def test_skip_when_district_cooling(self, uid):
         """VRF excludes buildings with district cooling."""

@@ -160,7 +160,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
             return False
         if hvac_cool == "District":
             return False
-        if hvac_cool in _CS_GHP_NOT_ALREADY:
+        if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
             return False
         return True
 
