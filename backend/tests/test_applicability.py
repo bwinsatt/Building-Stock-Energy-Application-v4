@@ -121,6 +121,21 @@ class TestComstockVrfMinisplit:
         features = _comstock_features(**{"in.hvac_cool_type": "GSHP"})
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
 
+    @pytest.mark.parametrize("uid", [12, 13, 14])
+    def test_skip_when_district_cooling(self, uid):
+        """VRF excludes buildings with district cooling."""
+        features = _comstock_features(**{"in.hvac_cool_type": "District"})
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [12, 13, 14])
+    def test_applicable_when_district_heat_but_dx_cool(self, uid):
+        """VRF allows district-heat buildings if cooling is conventional."""
+        features = _comstock_features(**{
+            "in.hvac_heat_type": "District",
+            "in.hvac_cool_type": "DX",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
 
 # ── ComStock Boiler Upgrades (15-18) ────────────────────────────────────────
 

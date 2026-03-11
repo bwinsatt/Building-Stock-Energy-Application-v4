@@ -158,6 +158,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
     if upgrade_id in _CS_VRF_MINISPLIT:
         if is_doas:
             return False
+        if hvac_cool == "District":
+            return False
         if hvac_cool in _CS_GHP_NOT_ALREADY:
             return False
         return True
