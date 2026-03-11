@@ -104,19 +104,19 @@ class TestComstockAdvancedRtu:
 # ── ComStock VRF/Minisplit (12-14) ──────────────────────────────────────────
 
 class TestComstockVrfMinisplit:
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_applicable_for_standard_system(self, uid):
         features = _comstock_features()
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
 
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_skip_when_already_doas(self, uid):
         features = _comstock_features(**{
             "in.hvac_vent_type": "DOAS+Zone terminal equipment",
         })
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
 
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_skip_when_already_gshp(self, uid):
         features = _comstock_features(**{"in.hvac_cool_type": "GSHP"})
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
@@ -127,13 +127,13 @@ class TestComstockVrfMinisplit:
         features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
 
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_skip_when_district_cooling(self, uid):
         """VRF excludes buildings with district cooling."""
         features = _comstock_features(**{"in.hvac_cool_type": "District"})
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
 
-    @pytest.mark.parametrize("uid", [12, 13, 14])
+    @pytest.mark.parametrize("uid", [12, 13])
     def test_applicable_when_district_heat_but_dx_cool(self, uid):
         """VRF allows district-heat buildings if cooling is conventional."""
         features = _comstock_features(**{
@@ -141,6 +141,32 @@ class TestComstockVrfMinisplit:
             "in.hvac_cool_type": "DX",
         })
         assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+
+# ── ComStock DOAS HP Minisplits (14) ──────────────────────────────────────
+
+class TestComstockDoasMinisplit:
+    """DOAS HP Minisplits (14) require single-zone packaged, not already HP."""
+
+    def test_applicable_for_packaged_system(self):
+        features = _comstock_features()  # Small Packaged Unit
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is True
+
+    def test_skip_when_multizone_vav(self):
+        features = _comstock_features(**{"in.hvac_category": "Multizone CAV/VAV"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_when_zone_by_zone(self):
+        features = _comstock_features(**{"in.hvac_category": "Zone-by-Zone"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_when_already_gshp(self):
+        features = _comstock_features(**{"in.hvac_cool_type": "GSHP"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_when_already_ashp(self):
+        features = _comstock_features(**{"in.hvac_cool_type": "ASHP"})
+        assert check_applicability(14, "comstock", features, ALL_COMSTOCK) is False
 
 
 # ── ComStock Boiler Upgrades (15-18) ────────────────────────────────────────

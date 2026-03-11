@@ -97,7 +97,7 @@ def _get(features: dict, key: str, default: str = "") -> str:
 # ── Upgrade-ID groups ────────────────────────────────────────────────────────
 
 _CS_HP_RTU: Set[int] = set(range(1, 11))          # 1-10: HP-RTU variants
-_CS_VRF_MINISPLIT: Set[int] = {12, 13, 14}        # VRF/DOAS minisplit
+_CS_VRF: Set[int] = {12, 13}                       # VRF/DOAS
 _CS_BOILER_ALL: Set[int] = {15, 16, 17, 18}       # All boiler upgrades
 _CS_BOILER_GAS: Set[int] = {16, 17}               # Need gas fuel
 _CS_DEMAND_FLEX: Set[int] = set(range(32, 43))    # 32-42: Demand flexibility
@@ -154,11 +154,19 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
             return False
         return True
 
-    # ── VRF / Minisplit (12-14) ──
-    if upgrade_id in _CS_VRF_MINISPLIT:
+    # ── VRF (12-13) ──
+    if upgrade_id in _CS_VRF:
         if is_doas:
             return False
         if hvac_cool == "District":
+            return False
+        if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
+            return False
+        return True
+
+    # ── DOAS HP Minisplits (14) ──
+    if upgrade_id == 14:
+        if hvac_category not in _CS_PACKAGED_CATEGORIES:
             return False
         if hvac_cool in _CS_HP_NOT_ALREADY or hvac_heat in _CS_HP_NOT_ALREADY:
             return False
