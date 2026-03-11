@@ -194,7 +194,11 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Energy Recovery (21) ──
     if upgrade_id == 21:
-        return hvac_vent != "Zone terminal equipment"
+        if hvac_vent == "Zone terminal equipment":
+            return False
+        if building_type == "Food Service":
+            return False
+        return True
 
     # ── Advanced RTU Controls (22) ──
     if upgrade_id == 22:

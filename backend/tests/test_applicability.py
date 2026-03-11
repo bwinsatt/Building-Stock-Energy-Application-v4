@@ -247,6 +247,28 @@ class TestComstockControls:
         assert check_applicability(24, "comstock", features, ALL_COMSTOCK) is False
 
 
+# ── ComStock Energy Recovery (21) ──────────────────────────────────────────
+
+class TestComstockEnergyRecovery:
+    def test_applicable_for_office(self):
+        features = _comstock_features(**{
+            "in.hvac_vent_type": "Central Multi-zone VAV RTU",
+        })
+        assert check_applicability(21, "comstock", features, ALL_COMSTOCK) is True
+
+    def test_skip_zone_terminal(self):
+        features = _comstock_features(**{
+            "in.hvac_vent_type": "Zone terminal equipment",
+        })
+        assert check_applicability(21, "comstock", features, ALL_COMSTOCK) is False
+
+    def test_skip_food_service(self):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Food Service",
+        })
+        assert check_applicability(21, "comstock", features, ALL_COMSTOCK) is False
+
+
 # ── ComStock VFD Pumps (26) ─────────────────────────────────────────────────
 
 class TestComstockVfdPumps:
