@@ -59,6 +59,11 @@ const { loading: lookupLoading, error: lookupError, lookupResult, lookup } = use
 // Track which fields were auto-filled and their source
 const fieldSources = ref<Record<string, FieldResult>>({})
 
+const PUBLIC_RECORD_SOURCES = new Set(['osm', 'nyc_opendata', 'chicago_opendata'])
+function sourceLabel(source: string | null): string {
+  return source && PUBLIC_RECORD_SOURCES.has(source) ? 'public records' : 'estimated'
+}
+
 function onAddressLookup(address: string) {
   lookup(address)
 }
@@ -239,7 +244,7 @@ function onSubmit() {
         <label class="form-label" for="building-type">
           Building Type <span class="form-label__required">*</span>
           <span v-if="fieldSources['building_type']" class="field-badge" :class="'field-badge--' + fieldSources['building_type'].source">
-            {{ fieldSources['building_type'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['building_type'].source) }}
           </span>
         </label>
         <select
@@ -258,7 +263,7 @@ function onSubmit() {
         <label class="form-label" for="sqft">
           Square Footage <span class="form-label__required">*</span>
           <span v-if="fieldSources['sqft']" class="field-badge" :class="'field-badge--' + fieldSources['sqft'].source">
-            {{ fieldSources['sqft'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['sqft'].source) }}
           </span>
         </label>
         <PNumericInput
@@ -276,7 +281,7 @@ function onSubmit() {
         <label class="form-label" for="num-stories">
           Number of Stories <span class="form-label__required">*</span>
           <span v-if="fieldSources['num_stories']" class="field-badge" :class="'field-badge--' + fieldSources['num_stories'].source">
-            {{ fieldSources['num_stories'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['num_stories'].source) }}
           </span>
         </label>
         <PNumericInput
@@ -305,7 +310,7 @@ function onSubmit() {
         <label class="form-label" for="year-built">
           Year Built <span class="form-label__required">*</span>
           <span v-if="fieldSources['year_built']" class="field-badge" :class="'field-badge--' + fieldSources['year_built'].source">
-            {{ fieldSources['year_built'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['year_built'].source) }}
           </span>
         </label>
         <PNumericInput
@@ -334,7 +339,7 @@ function onSubmit() {
         <label class="form-label" for="heating-fuel">
           Heating Fuel
           <span v-if="fieldSources['heating_fuel']" class="field-badge" :class="'field-badge--' + fieldSources['heating_fuel'].source">
-            {{ fieldSources['heating_fuel'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['heating_fuel'].source) }}
           </span>
         </label>
         <select
@@ -352,7 +357,7 @@ function onSubmit() {
         <label class="form-label" for="dhw-fuel">
           DHW Fuel
           <span v-if="fieldSources['dhw_fuel']" class="field-badge" :class="'field-badge--' + fieldSources['dhw_fuel'].source">
-            {{ fieldSources['dhw_fuel'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['dhw_fuel'].source) }}
           </span>
         </label>
         <select
@@ -370,7 +375,7 @@ function onSubmit() {
         <label class="form-label" for="hvac-system">
           HVAC Type
           <span v-if="fieldSources['hvac_system_type']" class="field-badge" :class="'field-badge--' + fieldSources['hvac_system_type'].source">
-            {{ fieldSources['hvac_system_type'].source === 'osm' ? 'public records' : 'estimated' }}
+            {{ sourceLabel(fieldSources['hvac_system_type'].source) }}
           </span>
         </label>
         <select
@@ -533,7 +538,9 @@ function onSubmit() {
   vertical-align: middle;
 }
 
-.field-badge--osm {
+.field-badge--osm,
+.field-badge--nyc_opendata,
+.field-badge--chicago_opendata {
   background-color: #dbeafe;
   color: #1e40af;
 }
