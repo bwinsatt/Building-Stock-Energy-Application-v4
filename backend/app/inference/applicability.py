@@ -100,10 +100,12 @@ _CS_HP_RTU: Set[int] = set(range(1, 11))          # 1-10: HP-RTU variants
 _CS_VRF: Set[int] = {12, 13}                       # VRF/DOAS
 _CS_BOILER_ALL: Set[int] = {15, 16, 17, 18}       # All boiler upgrades
 _CS_BOILER_GAS: Set[int] = {16, 17}               # Need gas fuel
-_CS_DEMAND_FLEX: Set[int] = set(range(32, 43))    # 32-42: Demand flexibility
+_CS_DEMAND_FLEX_RESTRICTED: Set[int] = set(range(32, 38))  # 32-37: DF with building type filter
+_CS_DEMAND_FLEX_BROAD: Set[int] = set(range(38, 43))       # 38-42: GEB Gem, broadly applicable
+_CS_DF_BUILDING_TYPES: Set[str] = {"Office", "Warehouse and Storage", "Education"}
 _CS_NO_RULES: Set[int] = (
     {0, 25, 27, 44, 46, 47, 49, 52, 53, 65}       # Broadly applicable
-    | _CS_DEMAND_FLEX
+    | _CS_DEMAND_FLEX_BROAD
 )
 
 _CS_GHP_NOT_ALREADY: Set[str] = {"GSHP", "WSHP"}
@@ -135,6 +137,10 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
     has_boiler = "Boiler" in hvac_heat
     is_doas = hvac_vent == "DOAS+Zone terminal equipment"
     is_district = hvac_heat == "District" or hvac_cool == "District"
+
+    # ── Demand Flexibility restricted (32-37) ──
+    if upgrade_id in _CS_DEMAND_FLEX_RESTRICTED:
+        return building_type in _CS_DF_BUILDING_TYPES
 
     # ── HP-RTU (1-10) ──
     if upgrade_id in _CS_HP_RTU:

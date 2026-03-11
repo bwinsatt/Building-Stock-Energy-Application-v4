@@ -456,6 +456,52 @@ class TestComstockPackages:
         assert check_applicability(64, "comstock", features, ALL_COMSTOCK) is False
 
 
+# ── ComStock Demand Flex (32-42) ──────────────────────────────────────────
+
+class TestComstockDemandFlex:
+    """Demand flex 32-37 restricted to Office/Education/Warehouse; 38-42 broadly applicable."""
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_applicable_for_office(self, uid):
+        features = _comstock_features()  # Office
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_applicable_for_education(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Education",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_applicable_for_warehouse(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Warehouse and Storage",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_skip_food_service(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Food Service",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", range(32, 38))
+    def test_skip_healthcare(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Healthcare",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is False
+
+    @pytest.mark.parametrize("uid", range(38, 43))
+    def test_geb_gem_applicable_for_any_building(self, uid):
+        features = _comstock_features(**{
+            "in.comstock_building_type_group": "Healthcare",
+        })
+        assert check_applicability(uid, "comstock", features, ALL_COMSTOCK) is True
+
+
 # ── ResStock HVAC ──────────────────────────────────────────────────────────
 
 class TestResstockHvac:
