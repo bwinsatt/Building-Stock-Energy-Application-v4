@@ -21,12 +21,13 @@ from app.inference.imputation_service import ImputationService
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# NYC Open Data API endpoints (free, no auth required)
+# Municipal Open Data API endpoints (free, no auth required)
 # ---------------------------------------------------------------------------
+
+MUNICIPAL_API_TIMEOUT = 5  # seconds per request
 
 NYC_FOOTPRINTS_URL = "https://data.cityofnewyork.us/resource/5zhs-2jue.json"
 NYC_PLUTO_URL = "https://data.cityofnewyork.us/resource/64uk-42ks.json"
-NYC_API_TIMEOUT = 5  # seconds per request
 
 
 def _fetch_nyc_building_data(bin_id: str) -> dict | None:
@@ -43,7 +44,7 @@ def _fetch_nyc_building_data(bin_id: str) -> dict | None:
         resp = requests.get(
             NYC_FOOTPRINTS_URL,
             params={"bin": bin_id},
-            timeout=NYC_API_TIMEOUT,
+            timeout=MUNICIPAL_API_TIMEOUT,
         )
         if resp.status_code != 200 or not resp.json():
             return None
@@ -62,7 +63,7 @@ def _fetch_nyc_building_data(bin_id: str) -> dict | None:
         resp2 = requests.get(
             NYC_PLUTO_URL,
             params={"bbl": bbl},
-            timeout=NYC_API_TIMEOUT,
+            timeout=MUNICIPAL_API_TIMEOUT,
         )
         if resp2.status_code == 200 and resp2.json():
             pluto = resp2.json()[0]
@@ -75,6 +76,37 @@ def _fetch_nyc_building_data(bin_id: str) -> dict | None:
 
     except (requests.RequestException, ValueError, KeyError, IndexError):
         logger.debug("NYC Open Data lookup failed for BIN %s", bin_id, exc_info=True)
+        return None
+
+
+CHICAGO_BUILDINGS_URL = "https://data.cityofchicago.org/resource/syp8-uezg.json"
+
+
+def _fetch_chicago_building_data(building_id: str) -> dict | None:
+    """Fetch building data from Chicago Open Data using a building ID.
+
+    Single-step lookup via Chicago's building violations/permits dataset.
+    Returns dict with keys: stories, year_built, or None on failure.
+    """
+    try:
+        resp = requests.get(
+            CHICAGO_BUILDINGS_URL,
+            params={"$where": f"bldg_id='{building_id}'"},
+            timeout=MUNICIPAL_API_TIMEOUT,
+        )
+        if resp.status_code != 200 or not resp.json():
+            return None
+
+        record = resp.json()[0]
+        result = {
+            "stories": record.get("stories"),
+            "year_built": record.get("year_built"),
+        }
+
+        return result if any(result.values()) else None
+
+    except (requests.RequestException, ValueError, KeyError, IndexError):
+        logger.debug("Chicago Open Data lookup failed for building_id %s", building_id, exc_info=True)
         return None
 
 
@@ -360,19 +392,30 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         tags = matched["tags"]
         target_polygon = polygon_to_coords(matched["polygon"])
 
-        # NYC Open Data lookup: preferred source when BIN is available
+        # Municipal Open Data lookups: preferred source when tags are available
         nyc_data = None
         bin_id = tags.get("nycdoitt:bin")
         if bin_id:
             nyc_data = _fetch_nyc_building_data(bin_id)
 
-        # Stories — NYC data preferred over OSM
+        chicago_data = None
+        chicago_building_id = tags.get("chicago:building_id")
+        if chicago_building_id:
+            chicago_data = _fetch_chicago_building_data(chicago_building_id)
+
+        # Stories — municipal data preferred over OSM
         stories_val = None
         stories_src = None
         if nyc_data and nyc_data.get("numfloors"):
             try:
                 stories_val = int(float(nyc_data["numfloors"]))
                 stories_src = "nyc_opendata"
+            except (ValueError, TypeError):
+                pass
+        if stories_val is None and chicago_data and chicago_data.get("stories"):
+            try:
+                stories_val = int(float(chicago_data["stories"]))
+                stories_src = "chicago_opendata"
             except (ValueError, TypeError):
                 pass
         if stories_val is None:
@@ -382,7 +425,7 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
             "value": stories_val,
             "source": stories_src,
             "confidence": (
-                0.95 if stories_src == "nyc_opendata"
+                0.95 if stories_src in ("nyc_opendata", "chicago_opendata")
                 else 1.0 if stories_src == "osm"
                 else 0.7 if stories_src
                 else None
@@ -437,7 +480,7 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         building_fields["building_type"] = {"value": None, "source": None, "confidence": None}
         building_fields["sqft"] = {"value": None, "source": None, "confidence": None}
 
-    # Year built from NYC data if not already populated
+    # Year built from municipal data if not already populated
     if matched and nyc_data and nyc_data.get("yearbuilt"):
         try:
             yb = int(float(nyc_data["yearbuilt"]))
@@ -445,6 +488,17 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
                 building_fields["year_built"] = {
                     "value": yb,
                     "source": "nyc_opendata",
+                    "confidence": 0.95,
+                }
+        except (ValueError, TypeError):
+            pass
+    if matched and "year_built" not in building_fields and chicago_data and chicago_data.get("year_built"):
+        try:
+            yb = int(float(chicago_data["year_built"]))
+            if yb > 1800:
+                building_fields["year_built"] = {
+                    "value": yb,
+                    "source": "chicago_opendata",
                     "confidence": 0.95,
                 }
         except (ValueError, TypeError):

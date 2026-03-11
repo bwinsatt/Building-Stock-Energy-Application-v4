@@ -4,7 +4,7 @@ from typing import Optional
 
 class FieldResult(BaseModel):
     value: Optional[object] = None
-    source: Optional[str] = None  # "osm", "computed", "imputed", "nyc_opendata", None
+    source: Optional[str] = None  # "osm", "computed", "imputed", "nyc_opendata", "chicago_opendata", None
     confidence: Optional[float] = None
 
 

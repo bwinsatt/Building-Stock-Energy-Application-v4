@@ -13,6 +13,7 @@ from app.services.address_lookup import (
     match_building,
     compute_sqft_from_polygon,
     _fetch_nyc_building_data,
+    _fetch_chicago_building_data,
     OSM_BUILDING_TYPE_MAP,
     lookup_address,
 )
@@ -451,3 +452,244 @@ class TestNycOpenDataFallback:
         assert bf["sqft"]["source"] == "nyc_opendata"
         assert bf["year_built"]["value"] == 1970
         assert bf["year_built"]["source"] == "nyc_opendata"
+
+
+# --- Chicago Open Data fallback tests ---
+
+class TestChicagoOpenDataFallback:
+    """Tests for the Chicago Open Data building_id lookup."""
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_successful_lookup(self, mock_get):
+        """building_id query returns stories and year_built."""
+        mock_get.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "bldg_id": "357849",
+                "bldg_name1": "MID CONTINENTAL PLAZA",
+                "stories": "50",
+                "year_built": "1972",
+                "bldg_sq_fo": "0.0",
+            }]),
+        )
+
+        result = _fetch_chicago_building_data("357849")
+        assert result is not None
+        assert result["stories"] == "50"
+        assert result["year_built"] == "1972"
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_returns_none_when_api_unavailable(self, mock_get):
+        """Gracefully returns None when Chicago API fails."""
+        import requests as req
+        mock_get.side_effect = req.ConnectionError("Connection refused")
+        result = _fetch_chicago_building_data("357849")
+        assert result is None
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_returns_none_for_empty_response(self, mock_get):
+        """Returns None when building_id not found."""
+        mock_get.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[]),
+        )
+        result = _fetch_chicago_building_data("0000000")
+        assert result is None
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_chicago_data_preferred_over_osm_levels(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """Chicago data is used even when building:levels exists in OSM."""
+        mock_location = MagicMock()
+        mock_location.latitude = 41.886
+        mock_location.longitude = -87.634
+        mock_location.address = "55 E Monroe St, Chicago, IL 60603, USA"
+        mock_location.raw = {"address": {"postcode": "60603"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -87.635, "lat": 41.885},
+                    {"type": "node", "id": 2, "lon": -87.633, "lat": 41.885},
+                    {"type": "node", "id": 3, "lon": -87.633, "lat": 41.887},
+                    {"type": "node", "id": 4, "lon": -87.635, "lat": 41.887},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "building:levels": "48",
+                            "chicago:building_id": "357849",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        mock_get.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "bldg_id": "357849",
+                "stories": "50",
+                "year_built": "1972",
+                "bldg_sq_fo": "0.0",
+            }]),
+        )
+
+        result = lookup_address("55 E Monroe St, Chicago, IL 60603")
+        # Chicago data (50 stories) should win over OSM levels (48)
+        assert result["building_fields"]["num_stories"]["value"] == 50
+        assert result["building_fields"]["num_stories"]["source"] == "chicago_opendata"
+        assert result["building_fields"]["num_stories"]["confidence"] == 0.95
+        mock_get.assert_called()
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_falls_back_to_osm_when_chicago_api_fails(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """Falls back to OSM building:levels when Chicago API is unavailable."""
+        mock_location = MagicMock()
+        mock_location.latitude = 41.886
+        mock_location.longitude = -87.634
+        mock_location.address = "55 E Monroe St, Chicago, IL 60603, USA"
+        mock_location.raw = {"address": {"postcode": "60603"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -87.635, "lat": 41.885},
+                    {"type": "node", "id": 2, "lon": -87.633, "lat": 41.885},
+                    {"type": "node", "id": 3, "lon": -87.633, "lat": 41.887},
+                    {"type": "node", "id": 4, "lon": -87.635, "lat": 41.887},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "building:levels": "48",
+                            "chicago:building_id": "357849",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        import requests as req
+        mock_get.side_effect = req.ConnectionError("Connection refused")
+
+        result = lookup_address("55 E Monroe St, Chicago, IL 60603")
+        # Should fall back to OSM levels
+        assert result["building_fields"]["num_stories"]["value"] == 48
+        assert result["building_fields"]["num_stories"]["source"] == "osm"
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_chicago_populates_stories_and_year_built(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """Chicago data fills in stories and year_built when OSM lacks levels."""
+        mock_location = MagicMock()
+        mock_location.latitude = 41.886
+        mock_location.longitude = -87.634
+        mock_location.address = "55 E Monroe St, Chicago, IL 60603, USA"
+        mock_location.raw = {"address": {"postcode": "60603"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        # OSM building has chicago:building_id but no levels or height
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -87.635, "lat": 41.885},
+                    {"type": "node", "id": 2, "lon": -87.633, "lat": 41.885},
+                    {"type": "node", "id": 3, "lon": -87.633, "lat": 41.887},
+                    {"type": "node", "id": 4, "lon": -87.635, "lat": 41.887},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "chicago:building_id": "357849",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        mock_get.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "bldg_id": "357849",
+                "stories": "50",
+                "year_built": "1972",
+                "bldg_sq_fo": "0.0",
+            }]),
+        )
+
+        result = lookup_address("55 E Monroe St, Chicago, IL 60603")
+        bf = result["building_fields"]
+        assert bf["num_stories"]["value"] == 50
+        assert bf["num_stories"]["source"] == "chicago_opendata"
+        assert bf["num_stories"]["confidence"] == 0.95
+        assert bf["year_built"]["value"] == 1972
+        assert bf["year_built"]["source"] == "chicago_opendata"
+        # sqft should be computed from polygon (Chicago bldg_sq_fo is unreliable)
+        assert bf["sqft"]["source"] == "computed"
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_no_lookup_when_no_chicago_tag(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """Chicago lookup is skipped when no chicago:building_id tag exists."""
+        mock_location = MagicMock()
+        mock_location.latitude = 41.886
+        mock_location.longitude = -87.634
+        mock_location.address = "210 N Wells St, Chicago, IL 60606, USA"
+        mock_location.raw = {"address": {"postcode": "60606"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -87.635, "lat": 41.885},
+                    {"type": "node", "id": 2, "lon": -87.633, "lat": 41.885},
+                    {"type": "node", "id": 3, "lon": -87.633, "lat": 41.887},
+                    {"type": "node", "id": 4, "lon": -87.635, "lat": 41.887},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "building:levels": "5",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        result = lookup_address("210 N Wells St, Chicago, IL 60606")
+        assert result["building_fields"]["num_stories"]["value"] == 5
+        assert result["building_fields"]["num_stories"]["source"] == "osm"
+        # requests.get should NOT have been called (no municipal tags)
+        mock_get.assert_not_called()
