@@ -643,6 +643,31 @@ class TestResstockPackages:
         assert check_applicability(16, "resstock", features, ALL_RESSTOCK) is True
 
 
+# ── ResStock GHP (6-8) ────────────────────────────────────────────────────
+
+class TestResstockGhp:
+    """ResStock GHP (6-8) requires ducted systems."""
+
+    @pytest.mark.parametrize("uid", [6, 7, 8])
+    def test_applicable_when_ducted(self, uid):
+        features = _resstock_features()  # Ducted Heating
+        assert check_applicability(uid, "resstock", features, ALL_RESSTOCK) is True
+
+    @pytest.mark.parametrize("uid", [6, 7, 8])
+    def test_skip_when_non_ducted(self, uid):
+        features = _resstock_features(**{
+            "in.hvac_heating_type": "Non-Ducted Heating",
+        })
+        assert check_applicability(uid, "resstock", features, ALL_RESSTOCK) is False
+
+    @pytest.mark.parametrize("uid", [6, 7, 8])
+    def test_skip_when_already_hp(self, uid):
+        features = _resstock_features(**{
+            "in.hvac_heating_type": "Ducted Heat Pump",
+        })
+        assert check_applicability(uid, "resstock", features, ALL_RESSTOCK) is False
+
+
 # ── get_applicable_upgrades ───────────────────────────────────────────────
 
 class TestGetApplicableUpgrades:
