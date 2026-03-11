@@ -1,6 +1,6 @@
 export interface FieldResult {
   value: string | number | null
-  source: 'osm' | 'computed' | 'imputed' | null
+  source: 'osm' | 'computed' | 'imputed' | 'nyc_opendata' | null
   confidence: number | null
 }
 

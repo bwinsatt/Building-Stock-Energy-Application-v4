@@ -12,6 +12,7 @@ from app.services.address_lookup import (
     parse_osm_footprints,
     match_building,
     compute_sqft_from_polygon,
+    _fetch_nyc_building_data,
     OSM_BUILDING_TYPE_MAP,
     lookup_address,
 )
@@ -207,3 +208,246 @@ class TestLookupAddress:
         assert result["building_fields"]["building_type"]["value"] == "Office"
         assert "target_building_polygon" in result
         assert "nearby_buildings" in result
+
+
+# --- NYC Open Data fallback tests ---
+
+class TestNycOpenDataFallback:
+    """Tests for the NYC Open Data BIN→BBL→PLUTO fallback lookup."""
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_successful_two_step_lookup(self, mock_get):
+        """BIN → Footprints API → PLUTO API returns combined data."""
+        footprint_resp = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "base_bbl": "1012345678",
+                "heightroof": "500",
+                "cnstrct_yr": "1970",
+            }]),
+        )
+        pluto_resp = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "numfloors": "40",
+                "yearbuilt": "1970",
+                "bldgarea": "800000",
+                "bldgclass": "O4",
+            }]),
+        )
+        mock_get.side_effect = [footprint_resp, pluto_resp]
+
+        result = _fetch_nyc_building_data("1234567")
+        assert result is not None
+        assert result["numfloors"] == "40"
+        assert result["yearbuilt"] == "1970"
+        assert result["bldgarea"] == "800000"
+        assert result["height_roof"] == "500"
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_returns_none_when_api_unavailable(self, mock_get):
+        """Gracefully returns None when NYC API fails."""
+        import requests as req
+        mock_get.side_effect = req.ConnectionError("Connection refused")
+        result = _fetch_nyc_building_data("1234567")
+        assert result is None
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_returns_none_for_empty_response(self, mock_get):
+        """Returns None when BIN not found in footprints API."""
+        mock_get.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[]),
+        )
+        result = _fetch_nyc_building_data("0000000")
+        assert result is None
+
+    @patch("app.services.address_lookup.requests.get")
+    def test_returns_partial_data_without_bbl(self, mock_get):
+        """Returns footprint data even when BBL is missing (no PLUTO call)."""
+        mock_get.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "heightroof": "500",
+                "cnstrct_yr": "1970",
+            }]),
+        )
+        result = _fetch_nyc_building_data("1234567")
+        assert result is not None
+        assert result["height_roof"] == "500"
+        assert "numfloors" not in result
+        mock_get.assert_called_once()  # Only one call — no PLUTO lookup
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_nyc_data_preferred_over_osm_levels(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """NYC data is used even when building:levels exists in OSM."""
+        mock_location = MagicMock()
+        mock_location.latitude = 40.762
+        mock_location.longitude = -73.979
+        mock_location.address = "1155 6th Ave, New York, NY 10036, USA"
+        mock_location.raw = {"address": {"postcode": "10036"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -73.980, "lat": 40.761},
+                    {"type": "node", "id": 2, "lon": -73.978, "lat": 40.761},
+                    {"type": "node", "id": 3, "lon": -73.978, "lat": 40.763},
+                    {"type": "node", "id": 4, "lon": -73.980, "lat": 40.763},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "building:levels": "38",
+                            "nycdoitt:bin": "1234567",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        footprint_resp = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "base_bbl": "1012345678",
+                "heightroof": "500",
+                "cnstrct_yr": "1970",
+            }]),
+        )
+        pluto_resp = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "numfloors": "40",
+                "yearbuilt": "1970",
+                "bldgarea": "800000",
+                "bldgclass": "O4",
+            }]),
+        )
+        mock_get.side_effect = [footprint_resp, pluto_resp]
+
+        result = lookup_address("1155 6th Ave, New York, NY 10036")
+        # NYC data (40 floors) should win over OSM levels (38)
+        assert result["building_fields"]["num_stories"]["value"] == 40
+        assert result["building_fields"]["num_stories"]["source"] == "nyc_opendata"
+        mock_get.assert_called()  # NYC API was called despite OSM levels existing
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_falls_back_to_osm_when_nyc_api_fails(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """Falls back to OSM building:levels when NYC API is unavailable."""
+        mock_location = MagicMock()
+        mock_location.latitude = 40.762
+        mock_location.longitude = -73.979
+        mock_location.address = "1155 6th Ave, New York, NY 10036, USA"
+        mock_location.raw = {"address": {"postcode": "10036"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -73.980, "lat": 40.761},
+                    {"type": "node", "id": 2, "lon": -73.978, "lat": 40.761},
+                    {"type": "node", "id": 3, "lon": -73.978, "lat": 40.763},
+                    {"type": "node", "id": 4, "lon": -73.980, "lat": 40.763},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "building:levels": "38",
+                            "nycdoitt:bin": "1234567",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        import requests as req
+        mock_get.side_effect = req.ConnectionError("Connection refused")
+
+        result = lookup_address("1155 6th Ave, New York, NY 10036")
+        # Should fall back to OSM levels
+        assert result["building_fields"]["num_stories"]["value"] == 38
+        assert result["building_fields"]["num_stories"]["source"] == "osm"
+
+    @patch("app.services.address_lookup.requests.post")
+    @patch("app.services.address_lookup.requests.get")
+    @patch("app.services.address_lookup.Nominatim")
+    def test_nyc_fallback_populates_stories_and_sqft(
+        self, mock_nominatim_cls, mock_get, mock_post
+    ):
+        """NYC fallback fills in stories, sqft, and year_built when OSM lacks levels."""
+        mock_location = MagicMock()
+        mock_location.latitude = 40.762
+        mock_location.longitude = -73.979
+        mock_location.address = "1155 6th Ave, New York, NY 10036, USA"
+        mock_location.raw = {"address": {"postcode": "10036"}}
+        mock_geocoder = MagicMock()
+        mock_geocoder.geocode.return_value = mock_location
+        mock_nominatim_cls.return_value = mock_geocoder
+
+        # OSM building has BIN but no levels or height
+        mock_post.return_value = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value={
+                "elements": [
+                    {"type": "node", "id": 1, "lon": -73.980, "lat": 40.761},
+                    {"type": "node", "id": 2, "lon": -73.978, "lat": 40.761},
+                    {"type": "node", "id": 3, "lon": -73.978, "lat": 40.763},
+                    {"type": "node", "id": 4, "lon": -73.980, "lat": 40.763},
+                    {
+                        "type": "way", "id": 100,
+                        "nodes": [1, 2, 3, 4, 1],
+                        "tags": {
+                            "building": "office",
+                            "nycdoitt:bin": "1086382",
+                        },
+                    },
+                ]
+            }),
+        )
+
+        # NYC API responses
+        footprint_resp = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "base_bbl": "1012345678",
+                "heightroof": "500",
+                "cnstrct_yr": "1970",
+            }]),
+        )
+        pluto_resp = MagicMock(
+            status_code=200,
+            json=MagicMock(return_value=[{
+                "numfloors": "40",
+                "yearbuilt": "1970",
+                "bldgarea": "800000",
+                "bldgclass": "O4",
+            }]),
+        )
+        mock_get.side_effect = [footprint_resp, pluto_resp]
+
+        result = lookup_address("1155 6th Ave, New York, NY 10036")
+        bf = result["building_fields"]
+        assert bf["num_stories"]["value"] == 40
+        assert bf["num_stories"]["source"] == "nyc_opendata"
+        assert bf["num_stories"]["confidence"] == 0.95
+        assert bf["sqft"]["value"] == 800000
+        assert bf["sqft"]["source"] == "nyc_opendata"
+        assert bf["year_built"]["value"] == 1970
+        assert bf["year_built"]["source"] == "nyc_opendata"

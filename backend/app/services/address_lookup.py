@@ -21,6 +21,64 @@ from app.inference.imputation_service import ImputationService
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
+# NYC Open Data API endpoints (free, no auth required)
+# ---------------------------------------------------------------------------
+
+NYC_FOOTPRINTS_URL = "https://data.cityofnewyork.us/resource/5zhs-2jue.json"
+NYC_PLUTO_URL = "https://data.cityofnewyork.us/resource/64uk-42ks.json"
+NYC_API_TIMEOUT = 5  # seconds per request
+
+
+def _fetch_nyc_building_data(bin_id: str) -> dict | None:
+    """Fetch building data from NYC Open Data using a BIN (Building ID Number).
+
+    Two-step lookup:
+    1. Building Footprints API (BIN → BBL, roof height, construction year)
+    2. PLUTO API (BBL → num floors, year built, building area, building class)
+
+    Returns combined dict or None on failure. Non-critical fallback — no retries.
+    """
+    try:
+        # Step 1: Building Footprints → get BBL and basic info
+        resp = requests.get(
+            NYC_FOOTPRINTS_URL,
+            params={"bin": bin_id},
+            timeout=NYC_API_TIMEOUT,
+        )
+        if resp.status_code != 200 or not resp.json():
+            return None
+
+        footprint = resp.json()[0]
+        bbl = footprint.get("base_bbl") or footprint.get("mpluto_bbl")
+        result = {
+            "height_roof": footprint.get("heightroof") or footprint.get("height_roof"),
+            "construction_year": footprint.get("cnstrct_yr") or footprint.get("construction_year"),
+        }
+
+        if not bbl:
+            return result if any(result.values()) else None
+
+        # Step 2: PLUTO → get detailed building info
+        resp2 = requests.get(
+            NYC_PLUTO_URL,
+            params={"bbl": bbl},
+            timeout=NYC_API_TIMEOUT,
+        )
+        if resp2.status_code == 200 and resp2.json():
+            pluto = resp2.json()[0]
+            result["numfloors"] = pluto.get("numfloors")
+            result["yearbuilt"] = pluto.get("yearbuilt")
+            result["bldgarea"] = pluto.get("bldgarea")
+            result["bldgclass"] = pluto.get("bldgclass")
+
+        return result if any(result.values()) else None
+
+    except (requests.RequestException, ValueError, KeyError, IndexError):
+        logger.debug("NYC Open Data lookup failed for BIN %s", bin_id, exc_info=True)
+        return None
+
+
+# ---------------------------------------------------------------------------
 # OSM building tag -> our building_type mapping
 # ---------------------------------------------------------------------------
 
@@ -302,12 +360,33 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         tags = matched["tags"]
         target_polygon = polygon_to_coords(matched["polygon"])
 
-        # Stories
-        stories_val, stories_src = _extract_stories(tags)
+        # NYC Open Data lookup: preferred source when BIN is available
+        nyc_data = None
+        bin_id = tags.get("nycdoitt:bin")
+        if bin_id:
+            nyc_data = _fetch_nyc_building_data(bin_id)
+
+        # Stories — NYC data preferred over OSM
+        stories_val = None
+        stories_src = None
+        if nyc_data and nyc_data.get("numfloors"):
+            try:
+                stories_val = int(float(nyc_data["numfloors"]))
+                stories_src = "nyc_opendata"
+            except (ValueError, TypeError):
+                pass
+        if stories_val is None:
+            stories_val, stories_src = _extract_stories(tags)
+
         building_fields["num_stories"] = {
             "value": stories_val,
             "source": stories_src,
-            "confidence": 1.0 if stories_src == "osm" else 0.7 if stories_src else None,
+            "confidence": (
+                0.95 if stories_src == "nyc_opendata"
+                else 1.0 if stories_src == "osm"
+                else 0.7 if stories_src
+                else None
+            ),
         }
 
         # Building type
@@ -318,16 +397,26 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
             "confidence": 1.0 if bt_src else None,
         }
 
-        # Sqft (computed from polygon if we have stories)
-        if stories_val:
-            sqft = compute_sqft_from_polygon(matched["polygon"], stories_val)
-            building_fields["sqft"] = {
-                "value": round(sqft),
-                "source": "computed",
-                "confidence": 0.8,
-            }
-        else:
-            building_fields["sqft"] = {"value": None, "source": None, "confidence": None}
+        # Sqft — prefer NYC bldgarea if available, else compute from polygon
+        sqft_val = None
+        sqft_src = None
+        sqft_conf = None
+        if nyc_data and nyc_data.get("bldgarea"):
+            try:
+                sqft_val = int(float(nyc_data["bldgarea"]))
+                sqft_src = "nyc_opendata"
+                sqft_conf = 0.95
+            except (ValueError, TypeError):
+                pass
+        if sqft_val is None and stories_val:
+            sqft_val = round(compute_sqft_from_polygon(matched["polygon"], stories_val))
+            sqft_src = "computed"
+            sqft_conf = 0.8
+        building_fields["sqft"] = {
+            "value": sqft_val,
+            "source": sqft_src,
+            "confidence": sqft_conf,
+        }
 
         # Nearby buildings for map (exclude the matched one)
         for b in buildings:
@@ -347,6 +436,19 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         building_fields["num_stories"] = {"value": None, "source": None, "confidence": None}
         building_fields["building_type"] = {"value": None, "source": None, "confidence": None}
         building_fields["sqft"] = {"value": None, "source": None, "confidence": None}
+
+    # Year built from NYC data if not already populated
+    if matched and nyc_data and nyc_data.get("yearbuilt"):
+        try:
+            yb = int(float(nyc_data["yearbuilt"]))
+            if yb > 1800:
+                building_fields["year_built"] = {
+                    "value": yb,
+                    "source": "nyc_opendata",
+                    "confidence": 0.95,
+                }
+        except (ValueError, TypeError):
+            pass
 
     # Fields we can't get from OSM — placeholders for imputation model later
     for field in ["year_built", "heating_fuel", "dhw_fuel", "hvac_system_type",
