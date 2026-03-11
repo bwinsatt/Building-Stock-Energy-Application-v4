@@ -1,0 +1,209 @@
+============================================================
+SECTION 1: ENVIRONMENT
+============================================================
+Python:       3.13.7 (v3.13.7:bcee1c32211, Aug 14 2025, 19:10:51) [Clang 16.0.0 (clang-1600.0.26.6)]
+Platform:     macOS-15.7.3-arm64-arm-64bit-Mach-O
+Machine:      arm64
+XGBoost:      3.2.0
+NumPy:        2.3.2
+Pandas:       2.2.3
+Scikit-learn: 1.7.1
+Joblib:       1.5.2
+
+============================================================
+SECTION 2: MODEL FILE CHECKSUMS
+============================================================
+Model dir: /Users/brandonwinsatt/Documents/BuildingStock Energy Estimation/XGB_Models
+Exists: True
+  ComStock_Rates/: 14 files, combined_md5=29f8f21c057f41996549201f760b96f2
+  ComStock_Sizing/: 17 files, combined_md5=974e9c79a37ff2c3dc817de470145489
+  ComStock_Upgrades_2025_R3/: 1191 files, combined_md5=635847be9af0bfe0d9e955b197bc86b9
+  Imputation/: 8 files, combined_md5=8d797279fbf4b49a8ed594c8fb1447c2
+  ResStock_Rates/: 14 files, combined_md5=eb8fb638a3b05a4d0a8409237537d798
+  ResStock_Sizing/: 17 files, combined_md5=a12c0ea2624352b3297ec5cd499bbf34
+  ResStock_Upgrades_2025_R1/: 483 files, combined_md5=736a32baa947780d3182bead922b95a1
+
+Key individual model checksums:
+  XGB_upgrade0_electricity.pkl: 782b194ba123b5eae22f161033d1c5be
+  XGB_upgrade0_natural_gas.pkl: 0200b93bccb0ce20b32b600ba569c90a
+  XGB_upgrade0_electricity_encoders.pkl: 22e9978bfe7de3373554ddcc17b0f057
+  XGB_upgrade0_natural_gas_encoders.pkl: 22e9978bfe7de3373554ddcc17b0f057
+  XGB_upgrade0_electricity_meta.json: 40fddecf13da7fa537085b8aa533ee4c
+  XGB_upgrade0_natural_gas_meta.json: 8c23357c4808bf54e84efcd2cf847f9d
+  XGB_upgrade1_electricity.pkl: e34e9b4437ac6a3d4f8cfae65c52c656
+  XGB_upgrade1_natural_gas.pkl: 2b73213b03e7ecdf90f0ed3320c057ab
+  XGB_upgrade1_electricity_encoders.pkl: cc66987f33d3222259fa52ba3c58db5c
+  XGB_upgrade1_natural_gas_encoders.pkl: cc66987f33d3222259fa52ba3c58db5c
+  XGB_upgrade1_electricity_meta.json: a97e612398020e8c5922049a07523107
+  XGB_upgrade1_natural_gas_meta.json: 978976b908f50e001b445ea9a2e818f6
+  XGB_upgrade18_electricity.pkl: d22a499632ae58a747a38068097e5e1c
+  XGB_upgrade18_natural_gas.pkl: d820be66bdd7901d9d01cb4e3b3e795b
+  XGB_upgrade18_electricity_encoders.pkl: 29680891073e2d4bdf5eb815dcd55618
+  XGB_upgrade18_natural_gas_encoders.pkl: 29680891073e2d4bdf5eb815dcd55618
+  XGB_upgrade18_electricity_meta.json: a67da1474b192d48c3c312eaf8335ddc
+  XGB_upgrade18_natural_gas_meta.json: b3cd16b25c9789611ffae5bf494ca076
+  XGB_upgrade41_electricity.pkl: 9a9f4d65f3eb4088e7f3a599ebb9cd6a
+  XGB_upgrade41_natural_gas.pkl: 409cc6ffe7ec7c0488d104c1480c1a7a
+  XGB_upgrade41_electricity_encoders.pkl: c2397f2388effb1a28d8217228c632b4
+  XGB_upgrade41_natural_gas_encoders.pkl: c2397f2388effb1a28d8217228c632b4
+  XGB_upgrade41_electricity_meta.json: e40b30dd412ed1980898c917776f7fd7
+  XGB_upgrade41_natural_gas_meta.json: 3bcdf5a167ec5fa61fb87d1aeabca841
+  XGB_upgrade47_electricity.pkl: 912e862facc897751a43d4a16aed1ed1
+  XGB_upgrade47_natural_gas.pkl: 2e571dfcedaae29374327c90e103a0eb
+  XGB_upgrade47_electricity_encoders.pkl: 22e9978bfe7de3373554ddcc17b0f057
+  XGB_upgrade47_natural_gas_encoders.pkl: 22e9978bfe7de3373554ddcc17b0f057
+  XGB_upgrade47_electricity_meta.json: 4484811e772a05aae7b0261d3bc638a7
+  XGB_upgrade47_natural_gas_meta.json: 7a6fbef7e51ccb2348320531fa2f4da9
+
+============================================================
+SECTION 3: DATA FILE CHECKSUMS
+============================================================
+  .gitkeep: d41d8cd98f00b204e9800998ecf8427e
+  energy_code_lookup.json: 553814bc1ea31d965769cd9212611336
+  upgrade_cost_lookup.json: dae881c387bc31e0b56485d091b051e2
+  zipcode_lookup.json: 614278d04d873d0fd08058a4a50e9af2
+
+============================================================
+SECTION 4: PREPROCESSING OUTPUT
+============================================================
+Dataset: comstock, Climate: 4A, State: NY
+Features (25 keys):
+  cluster_name: 'the Greater New York City Area'
+  in.airtightness..m3_per_m2_h: 0.5
+  in.as_simulated_ashrae_iecc_climate_zone_2006: '4A'
+  in.aspect_ratio: '2'
+  in.building_subtype: 'Office'
+  in.comstock_building_type_group: 'Office'
+  in.energy_code_followed_during_last_hvac_replacement: 'ComStock DOE Ref 1980-2004'
+  in.energy_code_followed_during_last_roof_replacement: 'ComStock DOE Ref 1980-2004'
+  in.energy_code_followed_during_last_svc_water_htg_replacement: 'ComStock DOE Ref 1980-2004'
+  in.energy_code_followed_during_last_walls_replacement: 'ComStock DOE Ref 1980-2004'
+  in.heating_fuel: 'NaturalGas'
+  in.hvac_category: 'Multizone CAV/VAV'
+  in.hvac_cool_type: 'WCC'
+  in.hvac_heat_type: 'Boiler '
+  in.hvac_system_type: 'VAV chiller with gas boiler reheat'
+  in.hvac_vent_type: 'Central Multi-zone VAV RTU'
+  in.interior_lighting_generation: 'gen4_led'
+  in.number_stories: 'over_25'
+  in.service_water_heating_fuel: 'NaturalGas'
+  in.sqft..ft2: 500000.0
+  in.vintage: '1980 to 1989'
+  in.wall_construction_type: 'Mass'
+  in.weekday_operating_hours..hr: 50.0
+  in.window_to_wall_ratio_category: '26_50pct'
+  in.window_type: 'Double - LowE - Clear - Thermally Broken Aluminum'
+Imputed fields:
+  dhw_fuel: 'NaturalGas' (source=default)
+  energy_code: 'ComStock DOE Ref 1980-2004' (source=derived)
+  heating_fuel: 'NaturalGas' (source=default)
+  hvac_category: 'Multizone CAV/VAV' (source=derived)
+  hvac_cool_type: 'WCC' (source=derived)
+  hvac_heat_type: 'Boiler ' (source=derived)
+  hvac_system_type: 'central_chiller_boiler' (source=default)
+  hvac_vent_type: 'Central Multi-zone VAV RTU' (source=derived)
+  lighting_type: 'LED' (source=default)
+  operating_hours: '50.0' (source=default)
+  wall_construction: 'Mass' (source=default)
+  window_to_wall_ratio: '20-30%' (source=default)
+  window_type: 'Double, Low-E, Non-metal' (source=default)
+
+============================================================
+SECTION 5: ENCODED FEATURES (upgrade 41 electricity)
+============================================================
+  in.comstock_building_type_group: raw='Office' -> val=Office code=6 dtype=category n_cats=8
+  in.sqft..ft2: raw=500000.0 -> val=500000.0 dtype=float64
+  in.number_stories: raw='over_25' -> val=over_25 code=15 dtype=category n_cats=16
+  in.as_simulated_ashrae_iecc_climate_zone_2006: raw='4A' -> val=4A code=6 dtype=category n_cats=15
+  cluster_name: raw='the Greater New York City Area' -> val=the Greater New York City Area code=78 dtype=category n_cats=95
+  in.vintage: raw='1980 to 1989' -> val=1980 to 1989 code=3 dtype=category n_cats=8
+  in.heating_fuel: raw='NaturalGas' -> val=NaturalGas code=3 dtype=category n_cats=5
+  in.service_water_heating_fuel: raw='NaturalGas' -> val=NaturalGas code=3 dtype=category n_cats=5
+  in.hvac_category: raw='Multizone CAV/VAV' -> val=Multizone CAV/VAV code=0 dtype=category n_cats=4
+  in.hvac_cool_type: raw='WCC' -> val=WCC code=5 dtype=category n_cats=7
+  in.hvac_heat_type: raw='Boiler ' -> val=Boiler  code=1 dtype=category n_cats=7
+  in.hvac_system_type: raw='VAV chiller with gas boiler reheat' -> val=VAV chiller with gas boiler reheat code=27 dtype=category n_cats=29
+  in.hvac_vent_type: raw='Central Multi-zone VAV RTU' -> val=Central Multi-zone VAV RTU code=0 dtype=category n_cats=5
+  in.wall_construction_type: raw='Mass' -> val=Mass code=0 dtype=category n_cats=4
+  in.window_type: raw='Double - LowE - Clear - Thermally Broken Aluminum' -> val=Double - LowE - Clear - Thermally Broken Aluminum code=1 dtype=category n_cats=12
+  in.window_to_wall_ratio_category: raw='26_50pct' -> val=26_50pct code=1 dtype=category n_cats=6
+  in.airtightness..m3_per_m2_h: raw=0.5 -> val=0.5 dtype=float64
+  in.interior_lighting_generation: raw='gen4_led' -> val=gen4_led code=3 dtype=category n_cats=5
+  in.weekday_operating_hours..hr: raw=50.0 -> val=10 code=0 dtype=category n_cats=53
+  in.building_subtype: raw='Office' -> val=NA code=0 dtype=category n_cats=10
+  in.aspect_ratio: raw='2' -> val=2 code=1 dtype=category n_cats=6
+  in.energy_code_followed_during_last_hvac_replacement: raw='ComStock DOE Ref 1980-2004' -> val=ComStock DOE Ref 1980-2004 code=13 dtype=category n_cats=15
+  in.energy_code_followed_during_last_roof_replacement: raw='ComStock DOE Ref 1980-2004' -> val=ComStock DOE Ref 1980-2004 code=13 dtype=category n_cats=15
+  in.energy_code_followed_during_last_walls_replacement: raw='ComStock DOE Ref 1980-2004' -> val=ComStock DOE Ref 1980-2004 code=13 dtype=category n_cats=15
+  in.energy_code_followed_during_last_svc_water_htg_replacement: raw='ComStock DOE Ref 1980-2004' -> val=ComStock DOE Ref 1980-2004 code=12 dtype=category n_cats=13
+
+============================================================
+SECTION 6: RAW PREDICTIONS (per-fuel)
+============================================================
+Baseline EUI (kWh/sf):
+  district_heating: 0.0007406335
+  electricity: 12.8157911301
+  fuel_oil: 0.0097842496
+  natural_gas: 6.7303752899
+  propane: -0.0010878732
+  TOTAL (kBtu/sf): 66.7237189024
+
+Upgrade 41 delta (kWh/sf):
+  district_heating: 0.0014480123
+  electricity: -0.0246860981
+  fuel_oil: -0.0077722119
+  natural_gas: -0.6917278171
+  propane: 0.0004800264
+  savings_pct: 0.0098592648
+
+Upgrade 18 delta (kWh/sf):
+  district_heating: 0.0000000302
+  electricity: -4.1933231354
+  fuel_oil: 0.0349499062
+  natural_gas: 5.0536589622
+  propane: -0.0579669736
+  savings_pct: 26.0212318013
+
+Upgrade 47 delta (kWh/sf):
+  district_heating: 0.0000310156
+  electricity: 0.0000870411
+  fuel_oil: -0.0000005047
+  natural_gas: -0.0000628585
+  propane: 0.0000002685
+  savings_pct: 0.0006050704
+
+Upgrade 11 delta (kWh/sf):
+  district_heating: -0.0024620018
+  electricity: 2.0900394917
+  fuel_oil: -0.0416119620
+  natural_gas: 0.1411102414
+  propane: 0.0075861155
+  savings_pct: 11.4480530177
+
+Upgrade 1 delta (kWh/sf):
+  district_heating: 0.0000000000
+  electricity: 1.7902002335
+  fuel_oil: 0.0687370673
+  natural_gas: 0.3410027921
+  propane: -0.3196995258
+  savings_pct: 11.2496661162
+
+============================================================
+SECTION 7: XGBOOST INTERNAL MODEL CHECK
+============================================================
+XGB version in model: [3, 2, 0]
+Num trees: 300
+base_score: [-1.4492984E-1]
+num_feature: 25
+num_trees: 300
+
+First tree structure (depth<=2):
+  split: in.hvac_system_type < [1, 4, 9, 17, 20]
+    split: in.hvac_heat_type < [0, 3, 5, 6]
+      split: in.comstock_building_type_group < [0, 1, 2]
+      split: in.as_simulated_ashrae_iecc_climate_zone_2006 < [6, 8, 9, 11, 12, 13, 14]
+    split: in.comstock_building_type_group < [0, 1, 2, 5]
+      split: in.as_simulated_ashrae_iecc_climate_zone_2006 < [6, 8, 9, 10, 11, 12, 13, 14]
+      split: in.as_simulated_ashrae_iecc_climate_zone_2006 < [3, 6, 8, 9, 10, 11, 12, 13, 14]
+
+DONE
