@@ -247,6 +247,14 @@ class TestComstockGhp:
         })
         assert check_applicability(28, "comstock", features, ALL_COMSTOCK) is True
 
+    def test_hydronic_ghp_skip_when_boiler_but_no_chiller(self):
+        """Hydronic GHP requires both boiler AND chiller."""
+        features = _comstock_features(**{
+            "in.hvac_heat_type": "Boiler ",
+            "in.hvac_cool_type": "DX",
+        })
+        assert check_applicability(28, "comstock", features, ALL_COMSTOCK) is False
+
     def test_hydronic_ghp_skip_when_no_boiler(self):
         features = _comstock_features()
         assert check_applicability(28, "comstock", features, ALL_COMSTOCK) is False

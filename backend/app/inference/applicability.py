@@ -210,6 +210,8 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
             return False
         if not has_boiler:
             return False
+        if hvac_cool not in _CS_CHILLER_COOL:
+            return False
         if hvac_cool in _CS_GHP_NOT_ALREADY:
             return False
         return True
