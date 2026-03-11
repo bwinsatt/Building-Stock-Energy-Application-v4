@@ -242,6 +242,12 @@ class TestComstockControls:
         features = _comstock_features(**{"in.hvac_category": "Multizone CAV/VAV"})
         assert check_applicability(24, "comstock", features, ALL_COMSTOCK) is True
 
+    def test_unoccupied_ahu_skip_doas(self):
+        features = _comstock_features(**{
+            "in.hvac_vent_type": "DOAS+Zone terminal equipment",
+        })
+        assert check_applicability(23, "comstock", features, ALL_COMSTOCK) is False
+
     def test_fan_static_pressure_reset_skip_packaged(self):
         features = _comstock_features()  # Small Packaged Unit
         assert check_applicability(24, "comstock", features, ALL_COMSTOCK) is False

@@ -212,7 +212,7 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Unoccupied AHU Control (23) ──
     if upgrade_id == 23:
-        return hvac_vent != "Zone terminal equipment"
+        return hvac_vent not in _CS_NO_AHU_VENT
 
     # ── Fan Static Pressure Reset (24) ──
     if upgrade_id == 24:
