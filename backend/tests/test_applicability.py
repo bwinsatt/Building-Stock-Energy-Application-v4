@@ -568,6 +568,24 @@ class TestResstockHvac:
         assert check_applicability(5, "resstock", features, ALL_RESSTOCK) is False
 
 
+# ── ResStock HPWH (9) ─────────────────────────────────────────────────────
+
+class TestResstockHpwh:
+    """ResStock HPWH (9) excludes Other Fuel water heater fuel."""
+
+    def test_applicable_when_gas_wh(self):
+        features = _resstock_features()  # Natural Gas WH
+        assert check_applicability(9, "resstock", features, ALL_RESSTOCK) is True
+
+    def test_applicable_when_electric_wh(self):
+        features = _resstock_features(**{"in.water_heater_fuel": "Electricity"})
+        assert check_applicability(9, "resstock", features, ALL_RESSTOCK) is True
+
+    def test_skip_when_other_fuel_wh(self):
+        features = _resstock_features(**{"in.water_heater_fuel": "Other Fuel"})
+        assert check_applicability(9, "resstock", features, ALL_RESSTOCK) is False
+
+
 # ── ResStock Water Heater ──────────────────────────────────────────────────
 
 class TestResstockWaterHeater:

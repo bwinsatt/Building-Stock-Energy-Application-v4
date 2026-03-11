@@ -357,7 +357,7 @@ _RS_DUCTED: Set[str] = {"Ducted Heating", "Ducted Heat Pump"}
 _RS_HP_TYPES: Set[str] = {"Ducted Heat Pump", "Non-Ducted Heat Pump"}
 _RS_PROPANE_OIL: Set[str] = {"Fuel Oil", "Propane"}
 _RS_DUCT_UPGRADES: Set[int] = {13, 15, 18, 30, 31, 32}
-_RS_NO_RULES: Set[int] = {0, 3, 9, 11, 12, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29}
+_RS_NO_RULES: Set[int] = {0, 3, 11, 12, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29}
 
 
 def _check_resstock_rules(upgrade_id: int, features: dict) -> bool:
@@ -401,6 +401,10 @@ def _check_resstock_rules(upgrade_id: int, features: dict) -> bool:
         if is_hp:
             return False
         return True
+
+    # ── HP Water Heater (9) ──
+    if upgrade_id == 9:
+        return wh_fuel not in {"Other Fuel"}
 
     # ── Gas Tankless Water Heater (10) ──
     if upgrade_id == 10:
