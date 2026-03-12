@@ -22,7 +22,13 @@ from app.schemas.response import (
     InputSummary,
     MeasureResult,
 )
-from app.constants import KWH_TO_KBTU, KWH_TO_THERMS
+from app.constants import (
+    KWH_TO_KBTU,
+    KWH_TO_THERMS,
+    STORY_HEIGHT_COMMERCIAL,
+    STORY_HEIGHT_RESIDENTIAL,
+    ASPECT_RATIO,
+)
 from app.services.emissions import calculate_emissions_reduction_pct
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
@@ -107,13 +113,6 @@ def _get_upgrade_description(
 # Geometric sizing (wall / roof / window area)
 # ---------------------------------------------------------------------------
 
-# Typical floor-to-floor heights (ft)
-_STORY_HEIGHT_COMMERCIAL = 12
-_STORY_HEIGHT_RESIDENTIAL = 10
-
-# Default aspect ratio for commercial buildings
-_ASPECT_RATIO = 1.8
-
 # Regex to parse "10-20%" style WWR strings
 _RE_WWR = re.compile(r"(\d+)-(\d+)%")
 
@@ -145,12 +144,12 @@ def _geometric_sizing(
     Returns areas in ft².
     """
     story_height = (
-        _STORY_HEIGHT_RESIDENTIAL if dataset == "resstock"
-        else _STORY_HEIGHT_COMMERCIAL
+        STORY_HEIGHT_RESIDENTIAL if dataset == "resstock"
+        else STORY_HEIGHT_COMMERCIAL
     )
     floor_area = sqft / max(num_stories, 1)
-    width = math.sqrt(floor_area / _ASPECT_RATIO)
-    length = width * _ASPECT_RATIO
+    width = math.sqrt(floor_area / ASPECT_RATIO)
+    length = width * ASPECT_RATIO
     perimeter = 2 * (length + width)
 
     wall_area = perimeter * story_height * num_stories

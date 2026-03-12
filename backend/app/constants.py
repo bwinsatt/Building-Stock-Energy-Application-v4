@@ -16,6 +16,12 @@ M2_PER_SQFT = 1 / SQFT_PER_M2  # ~0.0929
 
 # Fossil fuel emission factors (kg CO2e per kBtu)
 # Source: NREL archive calculations, standard EPA factors
+# Geometric defaults for building sizing
+STORY_HEIGHT_COMMERCIAL = 12  # feet
+STORY_HEIGHT_RESIDENTIAL = 10  # feet
+ASPECT_RATIO = 1.8  # length / width
+
+# Fossil fuel emission factors (kg CO2e per kBtu)
 FOSSIL_FUEL_EMISSION_FACTORS = {
     "natural_gas": 0.05311,
     "propane": 0.06195,
