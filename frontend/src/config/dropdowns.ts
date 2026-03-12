@@ -20,6 +20,7 @@ export const DHW_FUELS = [
 export interface HvacVariant {
   value: string
   label: string
+  dataset?: 'comstock' | 'resstock'
 }
 
 export interface HvacCategory {
@@ -74,17 +75,19 @@ export const HVAC_CATEGORIES: HvacCategory[] = [
   },
   {
     key: 'central_chiller_boiler',
-    label: 'Central Chiller + Boiler',
+    label: 'Central Boiler + Chiller',
     defaultVariant: 'VAV chiller with gas boiler reheat',
-    datasets: ['comstock'],
+    datasets: ['comstock', 'resstock'],
     variants: [
-      { value: 'VAV chiller with gas boiler reheat', label: 'VAV - Water-Cooled Chiller, Gas Boiler' },
-      { value: 'VAV chiller with PFP boxes', label: 'VAV - Water-Cooled Chiller, Electric Reheat' },
-      { value: 'VAV chiller with district hot water reheat', label: 'VAV - Water-Cooled Chiller, District Hot Water' },
-      { value: 'VAV air-cooled chiller with gas boiler reheat', label: 'VAV - Air-Cooled Chiller, Gas Boiler' },
-      { value: 'VAV air-cooled chiller with PFP boxes', label: 'VAV - Air-Cooled Chiller, Electric Reheat' },
-      { value: 'VAV air-cooled chiller with district hot water reheat', label: 'VAV - Air-Cooled Chiller, District Hot Water' },
-      { value: 'VAV district chilled water with district hot water reheat', label: 'VAV - District Chilled Water' },
+      { value: 'VAV chiller with gas boiler reheat', label: 'VAV - Water-Cooled Chiller, Gas Boiler', dataset: 'comstock' },
+      { value: 'VAV chiller with PFP boxes', label: 'VAV - Water-Cooled Chiller, Electric Reheat', dataset: 'comstock' },
+      { value: 'VAV chiller with district hot water reheat', label: 'VAV - Water-Cooled Chiller, District Hot Water', dataset: 'comstock' },
+      { value: 'VAV air-cooled chiller with gas boiler reheat', label: 'VAV - Air-Cooled Chiller, Gas Boiler', dataset: 'comstock' },
+      { value: 'VAV air-cooled chiller with PFP boxes', label: 'VAV - Air-Cooled Chiller, Electric Reheat', dataset: 'comstock' },
+      { value: 'VAV air-cooled chiller with district hot water reheat', label: 'VAV - Air-Cooled Chiller, District Hot Water', dataset: 'comstock' },
+      { value: 'VAV district chilled water with district hot water reheat', label: 'VAV - District Chilled Water', dataset: 'comstock' },
+      { value: 'Fan Coil Units', label: 'Fan Coil Units', dataset: 'resstock' },
+      { value: 'Baseboards / Radiators', label: 'Baseboards / Radiators', dataset: 'resstock' },
     ],
   },
   {
@@ -116,21 +119,13 @@ export const HVAC_CATEGORIES: HvacCategory[] = [
     ],
   },
   {
-    key: 'residential_furnace',
-    label: 'Residential Furnace + AC',
+    key: 'forced_air_furnace',
+    label: 'Forced Air Furnace + AC',
     defaultVariant: 'Residential AC with residential forced air furnace',
-    datasets: ['comstock'],
+    datasets: ['comstock', 'resstock'],
     variants: [
-      { value: 'Residential AC with residential forced air furnace', label: 'Forced Air Furnace + AC' },
-    ],
-  },
-  {
-    key: 'ducted_heating',
-    label: 'Ducted Heating',
-    defaultVariant: 'Ducted Heating',
-    datasets: ['resstock'],
-    variants: [
-      { value: 'Ducted Heating', label: 'Ducted Heating' },
+      { value: 'Residential AC with residential forced air furnace', label: 'Forced Air Furnace + AC', dataset: 'comstock' },
+      { value: 'Ducted Heating', label: 'Forced Air Furnace + AC', dataset: 'resstock' },
     ],
   },
   {
@@ -143,29 +138,35 @@ export const HVAC_CATEGORIES: HvacCategory[] = [
     ],
   },
   {
-    key: 'non_ducted_heating',
-    label: 'Non-Ducted Heating',
+    key: 'baseboard_wall_unit',
+    label: 'Baseboard / Wall Unit',
     defaultVariant: 'Non-Ducted Heating',
     datasets: ['resstock'],
     variants: [
-      { value: 'Non-Ducted Heating', label: 'Non-Ducted Heating' },
+      { value: 'Non-Ducted Heating', label: 'Baseboard / Wall Unit' },
     ],
   },
   {
-    key: 'non_ducted_heat_pump',
-    label: 'Non-Ducted Heat Pump',
+    key: 'mini_split_heat_pump',
+    label: 'Mini-Split Heat Pump',
     defaultVariant: 'Non-Ducted Heat Pump',
     datasets: ['resstock'],
     variants: [
-      { value: 'Non-Ducted Heat Pump', label: 'Non-Ducted Heat Pump' },
+      { value: 'Non-Ducted Heat Pump', label: 'Mini-Split Heat Pump' },
     ],
   },
 ]
 
-/** Get categories filtered by dataset */
+/** Get categories filtered by dataset, with variants filtered too */
 export function getHvacCategoriesForDataset(buildingType: string): HvacCategory[] {
   const dataset = buildingType === 'Multi-Family' ? 'resstock' : 'comstock'
-  return HVAC_CATEGORIES.filter(c => c.datasets.includes(dataset))
+  return HVAC_CATEGORIES
+    .filter(c => c.datasets.includes(dataset))
+    .map(c => ({
+      ...c,
+      variants: c.variants.filter(v => !v.dataset || v.dataset === dataset),
+      defaultVariant: c.variants.find(v => !v.dataset || v.dataset === dataset)?.value ?? c.defaultVariant,
+    }))
 }
 
 /** Reverse-lookup: given any HVAC value (old code, variant string, or category key), return the category */
@@ -190,9 +191,14 @@ export function getHvacCategoryForValue(value: string): HvacCategory | undefined
     'VAV_air_cooled_chiller_boiler': 'central_chiller_boiler',
     'PVAV_gas_boiler': 'packaged_vav',
     'PVAV_gas_heat': 'packaged_vav',
-    'Residential_AC_gas_furnace': 'residential_furnace',
-    'Residential_forced_air_furnace': 'residential_furnace',
-    'Residential_AC_electric_baseboard': 'residential_furnace',
+    'Residential_AC_gas_furnace': 'forced_air_furnace',
+    'Residential_forced_air_furnace': 'forced_air_furnace',
+    'Residential_AC_electric_baseboard': 'forced_air_furnace',
+    // Old ResStock category keys
+    'ducted_heating': 'forced_air_furnace',
+    'non_ducted_heating': 'baseboard_wall_unit',
+    'non_ducted_heat_pump': 'mini_split_heat_pump',
+    'residential_furnace': 'forced_air_furnace',
   }
   const catKey = legacyMap[value]
   if (catKey) return HVAC_CATEGORIES.find(c => c.key === catKey)
