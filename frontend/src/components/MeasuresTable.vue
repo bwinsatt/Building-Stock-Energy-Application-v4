@@ -527,14 +527,10 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   width: 100%;
 }
 
-/* ---- Sticky header ---- */
-.measures-table :deep(thead) {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: var(--partner-background-gray);
-}
-
+/* ---- Sticky header ----
+ * position:sticky on <thead> is unreliable across browsers; sticky must be on
+ * the individual <th> elements (matches SL Heaven EWEM pattern: th { position:sticky; top:0 })
+ */
 .measures-table :deep(tbody tr) {
   background-color: var(--app-surface-raised, white);
   border-bottom: 1px solid var(--partner-border-divider, #e2e8f0);
@@ -547,22 +543,22 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 /* ---- Header cells ---- */
 .measures-th {
   white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: var(--partner-background-gray);
 }
 
 .measures-th--name {
   min-width: 220px;
-  position: sticky;
   left: 0;
   z-index: 11;
-  background-color: var(--partner-background-gray);
 }
 
 .measures-th--category {
   min-width: 120px;
-  position: sticky;
   left: 220px;
   z-index: 11;
-  background-color: var(--partner-background-gray);
 }
 
 .measures-th--numeric {
