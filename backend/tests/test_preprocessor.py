@@ -351,3 +351,63 @@ def test_year_built_required():
             num_stories=2,
             zipcode="90210",
         )
+
+
+# ---------------------------------------------------------------------------
+# Central system variant mapping
+# ---------------------------------------------------------------------------
+
+
+def test_fan_coil_units_sets_shared_system_heating_and_cooling():
+    """Fan Coil Units variant should set shared system to Heating and Cooling."""
+    inp = BuildingInput(
+        building_type="Multi-Family",
+        sqft=25000,
+        num_stories=10,
+        zipcode="10001",
+        year_built=1985,
+        hvac_system_type="Fan Coil Units",
+    )
+    features, imputed_details, dataset, climate_zone, state = preprocess(inp)
+    assert dataset == "resstock"
+    assert features["in.hvac_has_shared_system"] == "Heating and Cooling"
+    assert features["in.hvac_heating_type"] == "Ducted Heating"
+    assert features["in.hvac_heating_efficiency"] == "Shared Heating"
+    assert features["in.hvac_cooling_efficiency"] == "Shared Cooling"
+
+
+def test_baseboards_radiators_sets_shared_system_heating_only():
+    """Baseboards / Radiators variant should set shared system to Heating Only."""
+    inp = BuildingInput(
+        building_type="Multi-Family",
+        sqft=25000,
+        num_stories=10,
+        zipcode="10001",
+        year_built=1985,
+        hvac_system_type="Baseboards / Radiators",
+    )
+    features, imputed_details, dataset, climate_zone, state = preprocess(inp)
+    assert dataset == "resstock"
+    assert features["in.hvac_has_shared_system"] == "Heating Only"
+    assert features["in.hvac_heating_type"] == "Non-Ducted Heating"
+    assert features["in.hvac_heating_efficiency"] == "Shared Heating"
+    # Cooling efficiency should NOT be "Shared Cooling" for heating-only
+    assert features["in.hvac_cooling_efficiency"] != "Shared Cooling"
+
+
+def test_central_system_overrides_user_efficiency_selections():
+    """When a central system variant is selected, user efficiency overrides are ignored."""
+    inp = BuildingInput(
+        building_type="Multi-Family",
+        sqft=25000,
+        num_stories=10,
+        zipcode="10001",
+        year_built=1985,
+        hvac_system_type="Fan Coil Units",
+        hvac_heating_efficiency="Fuel Furnace, 80% AFUE",
+        hvac_cooling_efficiency="AC, SEER 13",
+    )
+    features, _, _, _, _ = preprocess(inp)
+    # Central system should override user selections
+    assert features["in.hvac_heating_efficiency"] == "Shared Heating"
+    assert features["in.hvac_cooling_efficiency"] == "Shared Cooling"

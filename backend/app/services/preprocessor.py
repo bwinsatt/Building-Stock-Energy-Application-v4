@@ -390,6 +390,7 @@ _RESSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "central_chiller_boiler": "Ducted Heating",
         "doas_fan_coil": "Ducted Heating",
         "residential_furnace": "Ducted Heating",
+        "forced_air_furnace": "Ducted Heating",
         "packaged_vav": "Ducted Heating",
         "ducted_heating": "Ducted Heating",
         "ducted_heat_pump": "Ducted Heat Pump",
@@ -437,6 +438,9 @@ _RESSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "DOAS with water source heat pumps cooling tower with boiler": "Ducted Heating",
         "DOAS with water source heat pumps with ground source heat pump": "Ducted Heating",
         "Residential AC with residential forced air furnace": "Ducted Heating",
+        # --- Central system variants ---
+        "Fan Coil Units": "Ducted Heating",
+        "Baseboards / Radiators": "Non-Ducted Heating",
         # --- ResStock pass-through ---
         "Ducted Heat Pump": "Ducted Heat Pump",
         "Non-Ducted Heating": "Non-Ducted Heating",
@@ -470,6 +474,21 @@ _RESSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "T8": "100% CFL",
         "T5": "100% CFL",
         "100% Incandescent": "100% Incandescent",
+    },
+}
+
+
+# Central system variants that set in.hvac_has_shared_system
+_RESSTOCK_CENTRAL_SYSTEM_MAP: dict[str, dict[str, str]] = {
+    "Fan Coil Units": {
+        "in.hvac_has_shared_system": "Heating and Cooling",
+        "in.hvac_heating_efficiency": "Shared Heating",
+        "in.hvac_cooling_efficiency": "Shared Cooling",
+        "in.hvac_cooling_type": "Shared Cooling",
+    },
+    "Baseboards / Radiators": {
+        "in.hvac_has_shared_system": "Heating Only",
+        "in.hvac_heating_efficiency": "Shared Heating",
     },
 }
 
@@ -538,6 +557,13 @@ def _resstock_context_impute(
     auto_impute["in.insulation_wall"] = _WALL_INS_MAP.get(
         str(wall_type), "Wood Stud, R-7"
     )
+
+    # --- Central system overrides (takes precedence over all above) ---
+    raw_hvac = resolved.get("hvac_system_type", "")
+    central_overrides = _RESSTOCK_CENTRAL_SYSTEM_MAP.get(str(raw_hvac))
+    if central_overrides:
+        auto_impute.update(central_overrides)
+        return  # Skip user-provided efficiency overrides for central systems
 
     # --- User-provided overrides (from new advanced fields) ---
     if resolved.get("hvac_heating_efficiency"):
@@ -740,7 +766,7 @@ DEFAULTS: dict[str, dict[str, object]] = {
     "Multi-Family": {
         "heating_fuel": "NaturalGas",
         "dhw_fuel": "NaturalGas",
-        "hvac_system_type": "ducted_heating",
+        "hvac_system_type": "forced_air_furnace",
         "wall_construction": "Wood Frame",
         "window_type": "Double, Low-E",
         "window_to_wall_ratio": "10-20%",
