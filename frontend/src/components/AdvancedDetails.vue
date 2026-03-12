@@ -43,6 +43,22 @@ const hvacVariants = computed<HvacVariant[]>(() => {
 
 const isCentralSystem = computed(() => CENTRAL_SYSTEM_VARIANTS.includes(selectedVariant.value))
 
+// Filter water heater efficiencies by selected DHW fuel (show all if none selected)
+const DHW_FUEL_PREFIX: Record<string, string> = {
+  NaturalGas: 'Natural Gas',
+  Electricity: 'Electric',
+  FuelOil: 'Fuel Oil',
+  Propane: 'Propane',
+  DistrictHeating: 'Other Fuel',
+}
+const filteredWaterHeaterEfficiencies = computed(() => {
+  const fuel = props.modelValue.dhw_fuel
+  if (!fuel) return WATER_HEATER_EFFICIENCIES_RESSTOCK
+  const prefix = DHW_FUEL_PREFIX[fuel]
+  if (!prefix) return WATER_HEATER_EFFICIENCIES_RESSTOCK
+  return WATER_HEATER_EFFICIENCIES_RESSTOCK.filter(opt => opt.value.startsWith(prefix))
+})
+
 // Only show variant dropdown if the category has more than 1 variant
 const showVariantDropdown = computed(() => hvacVariants.value.length > 1)
 
@@ -211,7 +227,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
               @change="update('water_heater_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
             >
               <option value="">-- Auto --</option>
-              <option v-for="opt in WATER_HEATER_EFFICIENCIES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+              <option v-for="opt in filteredWaterHeaterEfficiencies" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
             </select>
           </div>
 

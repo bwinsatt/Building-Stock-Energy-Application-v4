@@ -6,11 +6,18 @@ export const BUILDING_TYPES = [
 ]
 
 export const HEATING_FUELS = [
-  'NaturalGas', 'Electricity', 'FuelOil', 'Propane', 'DistrictHeating',
+  { value: 'NaturalGas', label: 'Natural Gas' },
+  { value: 'Electricity', label: 'Electricity' },
+  { value: 'FuelOil', label: 'Fuel Oil' },
+  { value: 'Propane', label: 'Propane' },
+  { value: 'DistrictHeating', label: 'District Heating' },
 ]
 
 export const DHW_FUELS = [
-  'NaturalGas', 'Electricity', 'FuelOil', 'Propane',
+  { value: 'NaturalGas', label: 'Natural Gas' },
+  { value: 'Electricity', label: 'Electricity' },
+  { value: 'FuelOil', label: 'Fuel Oil' },
+  { value: 'Propane', label: 'Propane' },
 ]
 
 // ---------------------------------------------------------------------------

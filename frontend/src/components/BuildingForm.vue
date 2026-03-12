@@ -348,7 +348,7 @@ function onSubmit() {
           class="form-select"
         >
           <option value="">-- Select --</option>
-          <option v-for="fuel in HEATING_FUELS" :key="fuel" :value="fuel">{{ fuel }}</option>
+          <option v-for="fuel in HEATING_FUELS" :key="fuel.value" :value="fuel.value">{{ fuel.label }}</option>
         </select>
       </div>
 
@@ -366,7 +366,7 @@ function onSubmit() {
           class="form-select"
         >
           <option value="">-- Select --</option>
-          <option v-for="fuel in DHW_FUELS" :key="fuel" :value="fuel">{{ fuel }}</option>
+          <option v-for="fuel in DHW_FUELS" :key="fuel.value" :value="fuel.value">{{ fuel.label }}</option>
         </select>
       </div>
 
