@@ -538,17 +538,30 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   overflow: visible;
 }
 
-/* ---- Sticky header ----
- * position:sticky on individual <th> elements (SL Heaven EWEM pattern).
- * Works because the scroll container is now .measures-table-wrapper.
+/*
+ * Switch to border-collapse: separate so that border-bottom on sticky <th>
+ * cells renders correctly. With collapse, sticky cell borders are swallowed
+ * when the cell overlaps other content. border-spacing: 0 keeps cells flush.
+ * Row separators must move to <td> since <tr> borders don't render in
+ * separate mode.
  */
-.measures-table :deep(tbody tr) {
-  background-color: var(--app-surface-raised, white);
-  border-bottom: 1px solid var(--partner-border-divider, #e2e8f0);
+.measures-table-wrapper :deep(table) {
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.measures-table :deep(tbody tr:hover) {
+/* ---- Sticky header ---- */
+.measures-table-wrapper :deep(tbody tr) {
+  background-color: var(--app-surface-raised, white);
+}
+
+.measures-table-wrapper :deep(tbody tr:hover) {
   background-color: var(--partner-fill-hover);
+}
+
+/* Row separators on <td> (tr borders don't render with border-collapse: separate) */
+.measures-table-wrapper :deep(tbody td) {
+  border-bottom: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
 /* ---- Header cells ---- */
@@ -558,10 +571,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   top: 0;
   z-index: 2;
   background-color: var(--partner-background-gray);
-  /* box-shadow replaces border-bottom: PTableHeader's border-b lives on <thead>
-   * which scrolls away; box-shadow moves with the sticky <th> cells and is
-   * unaffected by border-collapse. */
-  box-shadow: 0 1px 0 var(--partner-border-disabled, #e2e8f0);
+  border-bottom: 1px solid var(--partner-border-disabled, #e2e8f0);
 }
 
 .measures-th--name {
