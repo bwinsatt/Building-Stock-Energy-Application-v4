@@ -563,7 +563,6 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   left: 220px;
   z-index: 11;
   background-color: var(--partner-background-gray);
-  border-right: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
 .measures-th--numeric {
@@ -583,7 +582,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   left: 0;
   z-index: 3;
-  background-color: var(--app-surface-raised, white);
+  background-color: inherit;
 }
 
 .measures-cell--category {
@@ -591,8 +590,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   left: 220px;
   z-index: 3;
-  background-color: var(--app-surface-raised, white);
-  border-right: 1px solid var(--partner-border-divider, #e2e8f0);
+  background-color: inherit;
 }
 
 .measures-cell--mono {
@@ -612,6 +610,26 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   max-width: 400px;
   white-space: normal;
   line-height: 1.4;
+}
+
+/* ---- Sticky column dividing line ----
+ * Uses ::after instead of border-right because border-collapse swallows cell
+ * borders on sticky elements when they overlap scrolled content. The ::after is
+ * positioned relative to the sticky cell's own stacking context so it always
+ * stays visible. On the header cell we override PTableHead's partner-th-divider
+ * ::after (height: 50%, centered) with our full-height version.
+ */
+.measures-th--category::after,
+.measures-cell--category::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  width: 1px !important;
+  background-color: var(--partner-border-divider, #e2e8f0) !important;
+  transform: none !important;
+  pointer-events: none;
 }
 
 /* ---- Description expand toggle ---- */
