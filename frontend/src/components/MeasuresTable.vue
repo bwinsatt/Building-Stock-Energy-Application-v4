@@ -231,6 +231,24 @@ function paybackColor(val?: number): string {
             >
               Payback (yrs)
             </PTableHead>
+            <PTableHead class="measures-th measures-th--numeric">
+              Electricity Savings (kWh)
+            </PTableHead>
+            <PTableHead class="measures-th measures-th--numeric">
+              Gas Savings (therms)
+            </PTableHead>
+            <PTableHead class="measures-th measures-th--numeric">
+              Other Fuel Savings (kBtu)
+            </PTableHead>
+            <PTableHead class="measures-th measures-th--numeric">
+              Emissions Reduction (%)
+            </PTableHead>
+            <PTableHead class="measures-th measures-th--numeric">
+              Useful Life (yrs)
+            </PTableHead>
+            <PTableHead class="measures-th measures-th--desc">
+              Description
+            </PTableHead>
           </PTableRow>
         </PTableHeader>
 
@@ -280,6 +298,42 @@ function paybackColor(val?: number): string {
                 {{ formatNumber(clampedPayback(m.simple_payback_years)) }}
               </PTypography>
             </PTableCell>
+            <!-- Electricity Savings -->
+            <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+              <PTypography variant="body2" component="span">
+                {{ m.electricity_savings_kwh != null ? formatNumber(m.electricity_savings_kwh) : '\u2014' }}
+              </PTypography>
+            </PTableCell>
+            <!-- Gas Savings -->
+            <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+              <PTypography variant="body2" component="span">
+                {{ m.gas_savings_therms != null ? formatNumber(m.gas_savings_therms, 2) : '\u2014' }}
+              </PTypography>
+            </PTableCell>
+            <!-- Other Fuel Savings -->
+            <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+              <PTypography variant="body2" component="span">
+                {{ m.other_fuel_savings_kbtu != null ? formatNumber(m.other_fuel_savings_kbtu) : '\u2014' }}
+              </PTypography>
+            </PTableCell>
+            <!-- Emissions Reduction -->
+            <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+              <PTypography variant="body2" component="span">
+                {{ m.emissions_reduction_pct != null ? formatNumber(m.emissions_reduction_pct) + '%' : '\u2014' }}
+              </PTypography>
+            </PTableCell>
+            <!-- Useful Life -->
+            <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+              <PTypography variant="body2" component="span">
+                {{ m.cost?.useful_life_years != null ? m.cost.useful_life_years : '\u2014' }}
+              </PTypography>
+            </PTableCell>
+            <!-- Description -->
+            <PTableCell class="measures-cell measures-cell--desc">
+              <PTypography variant="body2" component="span">
+                {{ m.description ?? '\u2014' }}
+              </PTypography>
+            </PTableCell>
           </PTableRow>
         </PTableBody>
       </PTable>
@@ -327,6 +381,26 @@ function paybackColor(val?: number): string {
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
                 <PTypography variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+                <PTypography variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+                <PTypography variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+                <PTypography variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+                <PTypography variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
+                <PTypography variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--desc">
+                <PTypography variant="body2" component="span">
+                  {{ m.description ?? '\u2014' }}
+                </PTypography>
               </PTableCell>
             </PTableRow>
           </PTableBody>
@@ -420,6 +494,16 @@ function paybackColor(val?: number): string {
 
 .measures-cell--right {
   text-align: right;
+}
+
+.measures-th--desc {
+  min-width: 250px;
+}
+
+.measures-cell--desc {
+  max-width: 350px;
+  white-space: normal;
+  line-height: 1.4;
 }
 
 /* ---- Cost tooltip trigger ---- */
