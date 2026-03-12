@@ -37,6 +37,10 @@ class MeasureResult(BaseModel):
     utility_bill_savings_per_sf: Optional[float] = None
     simple_payback_years: Optional[float] = None
     emissions_reduction_pct: Optional[float] = None
+    electricity_savings_kwh: Optional[float] = None
+    gas_savings_therms: Optional[float] = None
+    other_fuel_savings_kbtu: Optional[float] = None
+    description: Optional[str] = None
 
 
 class ImputedField(BaseModel):

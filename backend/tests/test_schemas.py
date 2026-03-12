@@ -90,6 +90,11 @@ def test_assessment_response_roundtrip():
                         "post_upgrade_eui_kbtu_sf": 70.0,
                         "savings_kbtu_sf": 15.0,
                         "savings_pct": 0.176,
+                        "electricity_savings_kwh": 3.5,
+                        "gas_savings_therms": 1.2,
+                        "other_fuel_savings_kbtu": 0.0,
+                        "emissions_reduction_pct": 18.5,
+                        "description": "Variable speed HP RTU with electric backup.",
                     }
                 ],
                 "input_summary": {
@@ -119,3 +124,25 @@ def test_assessment_response_roundtrip():
     dumped = response.model_dump()
     restored = AssessmentResponse(**dumped)
     assert restored.results[0].input_summary.state == "DC"
+
+
+def test_measure_result_new_fields():
+    """New per-fuel savings and description fields should be optional."""
+    # Minimal — no new fields
+    m1 = MeasureResult(upgrade_id=1, name="Test", category="hvac", applicable=True)
+    assert m1.electricity_savings_kwh is None
+    assert m1.gas_savings_therms is None
+    assert m1.other_fuel_savings_kbtu is None
+    assert m1.description is None
+
+    # With new fields
+    m2 = MeasureResult(
+        upgrade_id=2, name="Test2", category="envelope", applicable=True,
+        electricity_savings_kwh=5.0,
+        gas_savings_therms=1.2,
+        other_fuel_savings_kbtu=0.8,
+        emissions_reduction_pct=15.0,
+        description="LED lighting retrofit.",
+    )
+    assert m2.electricity_savings_kwh == 5.0
+    assert m2.description == "LED lighting retrofit."
