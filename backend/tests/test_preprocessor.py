@@ -411,3 +411,39 @@ def test_central_system_overrides_user_efficiency_selections():
     # Central system should override user selections
     assert features["in.hvac_heating_efficiency"] == "Shared Heating"
     assert features["in.hvac_cooling_efficiency"] == "Shared Cooling"
+
+
+# ---------------------------------------------------------------------------
+# Renamed category key mapping
+# ---------------------------------------------------------------------------
+
+
+def test_forced_air_furnace_key_maps_correctly_for_resstock():
+    """The new 'forced_air_furnace' key should map to Ducted Heating for ResStock."""
+    inp = BuildingInput(
+        building_type="Multi-Family",
+        sqft=25000,
+        num_stories=5,
+        zipcode="10001",
+        year_built=1985,
+        hvac_system_type="forced_air_furnace",
+    )
+    features, _, dataset, _, _ = preprocess(inp)
+    assert dataset == "resstock"
+    assert features["in.hvac_heating_type"] == "Ducted Heating"
+
+
+def test_forced_air_furnace_key_maps_correctly_for_comstock():
+    """The new 'forced_air_furnace' key should work for ComStock too."""
+    inp = BuildingInput(
+        building_type="Office",
+        sqft=50000,
+        num_stories=3,
+        zipcode="20001",
+        year_built=1985,
+        hvac_system_type="forced_air_furnace",
+    )
+    features, _, dataset, _, _ = preprocess(inp)
+    assert dataset == "comstock"
+    # Should resolve to the Residential style HVAC
+    assert features["in.hvac_system_type"] == "Residential AC with residential forced air furnace"

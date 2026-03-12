@@ -129,6 +129,7 @@ _COMSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "packaged_vav": "PVAV with gas heat with electric reheat",
         "doas_fan_coil": "DOAS with fan coil chiller with boiler",
         "residential_furnace": "Residential AC with residential forced air furnace",
+        "forced_air_furnace": "Residential AC with residential forced air furnace",
         # --- Old codes → specific variant (backward compat) ---
         "PSZ-AC": "PSZ-AC with gas coil",
         "PSZ-HP": "PSZ-HP",
@@ -391,6 +392,8 @@ _RESSTOCK_VALUE_MAP: dict[str, dict[str, str]] = {
         "doas_fan_coil": "Ducted Heating",
         "residential_furnace": "Ducted Heating",
         "forced_air_furnace": "Ducted Heating",
+        "baseboard_wall_unit": "Non-Ducted Heating",
+        "mini_split_heat_pump": "Non-Ducted Heat Pump",
         "packaged_vav": "Ducted Heating",
         "ducted_heating": "Ducted Heating",
         "ducted_heat_pump": "Ducted Heat Pump",
