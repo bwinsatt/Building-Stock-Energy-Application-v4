@@ -10,6 +10,7 @@ from __future__ import annotations
 import logging
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 from geopy.geocoders import Nominatim
@@ -79,7 +80,101 @@ def _fetch_nyc_building_data(bin_id: str) -> dict | None:
         return None
 
 
+def _fetch_nyc_stories_batch(bin_ids: list[str]) -> dict[str, int]:
+    """Fetch floor counts for multiple NYC BINs via PLUTO in one request.
+
+    Returns a dict mapping BIN → floor count.
+    """
+    if not bin_ids:
+        return {}
+    result: dict[str, int] = {}
+    try:
+        # Building Footprints API: get BIN → BBL mapping in batch
+        where_clause = " OR ".join(f"bin='{bid}'" for bid in bin_ids[:50])
+        resp = requests.get(
+            NYC_FOOTPRINTS_URL,
+            params={"$where": where_clause, "$limit": "50"},
+            timeout=MUNICIPAL_API_TIMEOUT,
+        )
+        if resp.status_code != 200:
+            return {}
+
+        bin_to_bbl: dict[str, str] = {}
+        for row in resp.json():
+            bid = row.get("bin")
+            bbl = row.get("base_bbl") or row.get("mpluto_bbl")
+            if bid and bbl:
+                bin_to_bbl[str(bid)] = str(bbl)
+
+        if not bin_to_bbl:
+            return {}
+
+        # PLUTO API: get BBL → numfloors in batch
+        bbls = list(set(bin_to_bbl.values()))
+        where_clause = " OR ".join(f"bbl='{b}'" for b in bbls[:50])
+        resp2 = requests.get(
+            NYC_PLUTO_URL,
+            params={"$where": where_clause, "$limit": "50"},
+            timeout=MUNICIPAL_API_TIMEOUT,
+        )
+        if resp2.status_code != 200:
+            return {}
+
+        bbl_to_floors: dict[str, int] = {}
+        for row in resp2.json():
+            bbl = row.get("bbl")
+            nf = row.get("numfloors")
+            if bbl and nf:
+                try:
+                    bbl_to_floors[str(bbl)] = int(float(nf))
+                except (ValueError, TypeError):
+                    pass
+
+        # Map back: BIN → floors
+        for bid, bbl in bin_to_bbl.items():
+            if bbl in bbl_to_floors:
+                result[bid] = bbl_to_floors[bbl]
+
+    except (requests.RequestException, ValueError, KeyError):
+        logger.debug("NYC batch stories lookup failed", exc_info=True)
+
+    return result
+
+
 CHICAGO_BUILDINGS_URL = "https://data.cityofchicago.org/resource/syp8-uezg.json"
+
+
+def _fetch_chicago_stories_batch(building_ids: list[str]) -> dict[str, int]:
+    """Fetch story counts for multiple Chicago building IDs in one request.
+
+    Returns a dict mapping building_id → story count.
+    """
+    if not building_ids:
+        return {}
+    result: dict[str, int] = {}
+    try:
+        where_clause = " OR ".join(f"bldg_id='{bid}'" for bid in building_ids[:50])
+        resp = requests.get(
+            CHICAGO_BUILDINGS_URL,
+            params={"$where": where_clause, "$limit": "50"},
+            timeout=MUNICIPAL_API_TIMEOUT,
+        )
+        if resp.status_code != 200:
+            return {}
+
+        for row in resp.json():
+            bid = row.get("bldg_id")
+            stories = row.get("stories")
+            if bid and stories:
+                try:
+                    result[str(bid)] = int(float(stories))
+                except (ValueError, TypeError):
+                    pass
+
+    except (requests.RequestException, ValueError, KeyError):
+        logger.debug("Chicago batch stories lookup failed", exc_info=True)
+
+    return result
 
 
 def _fetch_chicago_building_data(building_id: str) -> dict | None:
@@ -462,14 +557,50 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         }
 
         # Nearby buildings for map (exclude the matched one)
-        for b in buildings:
-            if b is matched:
-                continue
+        # Collect municipal IDs from nearby buildings for batch lookup
+        nearby_list = [b for b in buildings if b is not matched]
+        nyc_bins = {
+            b["tags"]["nycdoitt:bin"]: i
+            for i, b in enumerate(nearby_list)
+            if b["tags"].get("nycdoitt:bin")
+        }
+        chi_ids = {
+            b["tags"]["chicago:building_id"]: i
+            for i, b in enumerate(nearby_list)
+            if b["tags"].get("chicago:building_id")
+        }
+
+        # Batch fetch municipal story data in parallel
+        nyc_stories: dict[str, int] = {}
+        chi_stories: dict[str, int] = {}
+        if nyc_bins or chi_ids:
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                futures = {}
+                if nyc_bins:
+                    futures[executor.submit(
+                        _fetch_nyc_stories_batch, list(nyc_bins.keys())
+                    )] = "nyc"
+                if chi_ids:
+                    futures[executor.submit(
+                        _fetch_chicago_stories_batch, list(chi_ids.keys())
+                    )] = "chi"
+                for future in as_completed(futures):
+                    if futures[future] == "nyc":
+                        nyc_stories = future.result()
+                    else:
+                        chi_stories = future.result()
+
+        for i, b in enumerate(nearby_list):
+            # Priority: municipal data → OSM tags (building:levels, height)
             levels = None
-            try:
-                levels = int(b["tags"].get("building:levels", 0)) or None
-            except (ValueError, TypeError):
-                pass
+            bin_id = b["tags"].get("nycdoitt:bin")
+            chi_id = b["tags"].get("chicago:building_id")
+            if bin_id and bin_id in nyc_stories:
+                levels = nyc_stories[bin_id]
+            elif chi_id and chi_id in chi_stories:
+                levels = chi_stories[chi_id]
+            else:
+                levels, _ = _extract_stories(b["tags"])
             nearby_buildings.append({
                 "polygon": polygon_to_coords(b["polygon"]),
                 "levels": levels,
