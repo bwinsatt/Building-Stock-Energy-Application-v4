@@ -558,6 +558,10 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   top: 0;
   z-index: 2;
   background-color: var(--partner-background-gray);
+  /* box-shadow replaces border-bottom: PTableHeader's border-b lives on <thead>
+   * which scrolls away; box-shadow moves with the sticky <th> cells and is
+   * unaffected by border-collapse. */
+  box-shadow: 0 1px 0 var(--partner-border-disabled, #e2e8f0);
 }
 
 .measures-th--name {
