@@ -28,8 +28,7 @@ from app.services.cost_calculator import CostCalculatorService
 
 logger = logging.getLogger(__name__)
 
-# kWh -> kBtu conversion factor
-KWH_TO_KBTU = 3.412
+from app.constants import KWH_TO_KBTU
 
 
 

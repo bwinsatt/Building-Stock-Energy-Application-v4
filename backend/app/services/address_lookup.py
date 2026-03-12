@@ -143,7 +143,7 @@ OSM_BUILDING_TYPE_MAP: dict[str, str] = {
     "community_centre": "Public Assembly",
 }
 
-SQFT_PER_M2 = 10.7639
+from app.constants import SQFT_PER_M2
 TYPICAL_FLOOR_HEIGHT_M = 3.4
 
 
