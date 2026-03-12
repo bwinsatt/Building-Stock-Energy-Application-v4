@@ -16,6 +16,8 @@ import {
 import type { HvacVariant } from '../config/dropdowns'
 import { PNumericInput, PButton, PTypography } from '@partnerdevops/partner-components'
 
+const CENTRAL_SYSTEM_VARIANTS = ['Fan Coil Units', 'Baseboards / Radiators']
+
 const props = defineProps<{
   modelValue: Partial<BuildingInput>
   hvacCategory: string
@@ -30,12 +32,16 @@ const emit = defineEmits<{
 const expanded = ref(false)
 const selectedVariant = ref('')
 
-// Get the variants for the currently selected HVAC category
+const currentDataset = computed(() => props.buildingType === 'Multi-Family' ? 'resstock' : 'comstock')
+
 const hvacVariants = computed<HvacVariant[]>(() => {
   if (!props.hvacCategory) return []
   const cat = HVAC_CATEGORIES.find(c => c.key === props.hvacCategory)
-  return cat?.variants ?? []
+  if (!cat) return []
+  return cat.variants.filter(v => !v.dataset || v.dataset === currentDataset.value)
 })
+
+const isCentralSystem = computed(() => CENTRAL_SYSTEM_VARIANTS.includes(selectedVariant.value))
 
 // Only show variant dropdown if the category has more than 1 variant
 const showVariantDropdown = computed(() => hvacVariants.value.length > 1)
@@ -170,8 +176,9 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
             <label class="form-label" for="heating-efficiency">Heating Efficiency</label>
             <select
               id="heating-efficiency"
-              :value="modelValue.hvac_heating_efficiency ?? ''"
+              :value="isCentralSystem ? 'Shared Heating' : (modelValue.hvac_heating_efficiency ?? '')"
               class="form-select"
+              :disabled="isCentralSystem"
               @change="update('hvac_heating_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
             >
               <option value="">-- Auto --</option>
@@ -184,8 +191,9 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
             <label class="form-label" for="cooling-efficiency">Cooling Efficiency</label>
             <select
               id="cooling-efficiency"
-              :value="modelValue.hvac_cooling_efficiency ?? ''"
+              :value="isCentralSystem ? 'Shared Cooling' : (modelValue.hvac_cooling_efficiency ?? '')"
               class="form-select"
+              :disabled="isCentralSystem"
               @change="update('hvac_cooling_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
             >
               <option value="">-- Auto --</option>
