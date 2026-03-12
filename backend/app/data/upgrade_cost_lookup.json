@@ -40,7 +40,8 @@
           "url": ""
         }
       ],
-      "notes": "Variable speed HP RTU, electric backup"
+      "notes": "Variable speed HP RTU, electric backup",
+      "description": "Replaces existing packaged rooftop units with variable-speed heat pump RTUs with electric resistance backup heating. Provides efficient heating and cooling with variable airflow for improved part-load performance."
     },
     "2": {
       "upgrade_id": 2,
@@ -64,7 +65,8 @@
           "url": ""
         }
       ],
-      "notes": "Variable speed HP RTU, original fuel backup"
+      "notes": "Variable speed HP RTU, original fuel backup",
+      "description": "Replaces existing packaged rooftop units with variable-speed heat pump RTUs that retain the original heating fuel as backup. The heat pump serves as the primary heating source with fossil fuel backup for extreme cold conditions."
     },
     "3": {
       "upgrade_id": 3,
@@ -88,7 +90,8 @@
           "url": ""
         }
       ],
-      "notes": "Variable speed HP RTU + energy recovery; cost does not include ERV adder"
+      "notes": "Variable speed HP RTU + energy recovery; cost does not include ERV adder",
+      "description": "Replaces existing packaged rooftop units with variable-speed heat pump RTUs with electric backup and adds energy recovery ventilators (ERVs) to precondition outdoor air using exhaust air energy."
     },
     "4": {
       "upgrade_id": 4,
@@ -112,7 +115,8 @@
           "url": ""
         }
       ],
-      "notes": "Standard performance HP RTU"
+      "notes": "Standard performance HP RTU",
+      "description": "Replaces existing packaged rooftop units with standard-performance heat pump RTUs (lower efficiency than variable-speed) with electric resistance backup heating."
     },
     "5": {
       "upgrade_id": 5,
@@ -136,7 +140,8 @@
           "url": ""
         }
       ],
-      "notes": "Standard performance HP RTU using lab data"
+      "notes": "Standard performance HP RTU using lab data",
+      "description": "Replaces existing packaged rooftop units with standard-performance heat pump RTUs sized using laboratory test data, with electric resistance backup heating. Performance curves derived from controlled lab measurements."
     },
     "6": {
       "upgrade_id": 6,
@@ -160,7 +165,8 @@
           "url": ""
         }
       ],
-      "notes": "HP RTU + roof insulation; cost is HP RTU portion only, add roof insulation cost (upgrade 49)"
+      "notes": "HP RTU + roof insulation; cost is HP RTU portion only, add roof insulation cost (upgrade 49)",
+      "description": "Combines a standard-performance heat pump RTU replacement with electric backup and addition of roof insulation to meet current code requirements. Reduces both HVAC and envelope losses."
     },
     "7": {
       "upgrade_id": 7,
@@ -184,7 +190,8 @@
           "url": ""
         }
       ],
-      "notes": "HP RTU + new windows; cost is HP RTU portion only, add window cost (upgrade 52)"
+      "notes": "HP RTU + new windows; cost is HP RTU portion only, add window cost (upgrade 52)",
+      "description": "Combines a standard-performance heat pump RTU replacement with electric backup and installation of new high-performance windows. Addresses both HVAC efficiency and solar/thermal gains through glazing."
     },
     "8": {
       "upgrade_id": 8,
@@ -208,7 +215,8 @@
           "url": ""
         }
       ],
-      "notes": "Standard HP RTU with 32F compressor lockout"
+      "notes": "Standard HP RTU with 32F compressor lockout",
+      "description": "Replaces existing rooftop units with standard-performance heat pump RTUs with electric backup, configured with a 32\u00b0F minimum compressor lockout temperature to limit heat pump operation in very cold conditions."
     },
     "9": {
       "upgrade_id": 9,
@@ -232,7 +240,8 @@
           "url": ""
         }
       ],
-      "notes": "Standard HP RTU with 2F unoccupied setback"
+      "notes": "Standard HP RTU with 2F unoccupied setback",
+      "description": "Replaces existing rooftop units with standard-performance heat pump RTUs with electric backup, adding a 2\u00b0F thermostat setback during unoccupied heating periods to reduce energy use."
     },
     "10": {
       "upgrade_id": 10,
@@ -256,7 +265,8 @@
           "url": ""
         }
       ],
-      "notes": "Commercial HVAC Challenge HP RTU, high performance"
+      "notes": "Commercial HVAC Challenge HP RTU, high performance",
+      "description": "Replaces existing rooftop units with high-performance heat pump RTUs meeting the DOE Commercial HVAC Challenge specifications, with electric resistance backup heating. Targets best-in-class efficiency levels."
     },
     "11": {
       "upgrade_id": 11,
@@ -280,7 +290,8 @@
           "url": ""
         }
       ],
-      "notes": "Advanced RTU controls; cost is baseline RTU (controls upgrade is incremental)"
+      "notes": "Advanced RTU controls; cost is baseline RTU (controls upgrade is incremental)",
+      "description": "Upgrades existing rooftop units with advanced features including variable-speed fans, improved economizer controls, and optimized staging to improve part-load efficiency without full equipment replacement."
     },
     "12": {
       "upgrade_id": 12,
@@ -302,7 +313,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "VRF with DOAS. EIA commercial HVAC tables, VRF heat recovery systems."
+      "notes": "VRF with DOAS. EIA commercial HVAC tables, VRF heat recovery systems.",
+      "description": "Replaces existing HVAC systems with variable refrigerant flow (VRF) systems paired with a dedicated outdoor air system (DOAS) for ventilation. VRF provides zonal heating and cooling with heat recovery capability."
     },
     "13": {
       "upgrade_id": 13,
@@ -324,7 +336,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "VRF with 25% upsizing allowance, higher cost for oversized equipment."
+      "notes": "VRF with 25% upsizing allowance, higher cost for oversized equipment.",
+      "description": "Replaces existing HVAC systems with variable refrigerant flow (VRF) systems sized with a 25% upsizing allowance to ensure adequate capacity in extreme conditions and account for sizing uncertainty."
     },
     "14": {
       "upgrade_id": 14,
@@ -346,7 +359,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "DOAS with HP minisplits. EIA ductless/mini-split HP tables."
+      "notes": "DOAS with HP minisplits. EIA ductless/mini-split HP tables.",
+      "description": "Replaces existing HVAC systems with ductless heat pump mini-splits served by a dedicated outdoor air system (DOAS) for ventilation. Provides high-efficiency zonal heating and cooling without ductwork losses."
     },
     "15": {
       "upgrade_id": 15,
@@ -370,7 +384,8 @@
           "url": ""
         }
       ],
-      "notes": "HP boiler, electric backup"
+      "notes": "HP boiler, electric backup",
+      "description": "Replaces existing hot water boilers with air-to-water heat pump boilers with electric resistance backup. Serves hydronic heating systems with significantly improved efficiency over fossil fuel boilers."
     },
     "16": {
       "upgrade_id": 16,
@@ -394,7 +409,8 @@
           "url": ""
         }
       ],
-      "notes": "HP boiler, gas backup"
+      "notes": "HP boiler, gas backup",
+      "description": "Replaces existing hot water boilers with air-to-water heat pump boilers that retain natural gas backup for peak heating loads. The heat pump operates as the primary heating source."
     },
     "17": {
       "upgrade_id": 17,
@@ -418,7 +434,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "Condensing gas boiler; using gas_boiler component cost"
+      "notes": "Condensing gas boiler; using gas_boiler component cost",
+      "description": "Replaces existing gas-fired boilers with condensing natural gas boilers achieving 95%+ thermal efficiency by recovering latent heat from flue gases."
     },
     "18": {
       "upgrade_id": 18,
@@ -442,7 +459,8 @@
           "url": ""
         }
       ],
-      "notes": "Electric resistance boiler"
+      "notes": "Electric resistance boiler",
+      "description": "Replaces existing boilers with electric resistance boilers for buildings transitioning to all-electric heating. Provides 100% conversion efficiency but higher operating costs than heat pump alternatives."
     },
     "19": {
       "upgrade_id": 19,
@@ -464,7 +482,8 @@
           "url": ""
         }
       ],
-      "notes": "Air side economizers for AHUs. PNNL commercial HVAC controls cost per sqft."
+      "notes": "Air side economizers for AHUs. PNNL commercial HVAC controls cost per sqft.",
+      "description": "Adds air-side economizers to existing air handling units to provide free cooling using outdoor air when ambient conditions are favorable, reducing mechanical cooling energy."
     },
     "20": {
       "upgrade_id": 20,
@@ -486,7 +505,8 @@
           "url": ""
         }
       ],
-      "notes": "Demand control ventilation. CO2 sensors + controls."
+      "notes": "Demand control ventilation. CO2 sensors + controls.",
+      "description": "Installs CO2-based demand control ventilation (DCV) sensors and controls on air handling units to modulate outdoor air intake based on actual occupancy, reducing ventilation energy during partial occupancy."
     },
     "21": {
       "upgrade_id": 21,
@@ -508,7 +528,8 @@
           "url": ""
         }
       ],
-      "notes": "Energy recovery ventilator for AHUs. Includes enthalpy wheel or plate HX."
+      "notes": "Energy recovery ventilator for AHUs. Includes enthalpy wheel or plate HX.",
+      "description": "Adds energy recovery ventilators (ERVs) to existing air handling units to transfer heat and moisture between exhaust and incoming outdoor air streams, reducing heating and cooling loads from ventilation."
     },
     "22": {
       "upgrade_id": 22,
@@ -530,7 +551,8 @@
           "url": ""
         }
       ],
-      "notes": "Advanced RTU controls. Retrofit controller add-on."
+      "notes": "Advanced RTU controls. Retrofit controller add-on.",
+      "description": "Upgrades existing rooftop unit controls with advanced strategies including integrated economizer operation, demand-based ventilation, optimal start/stop, and supply air temperature reset."
     },
     "23": {
       "upgrade_id": 23,
@@ -552,7 +574,8 @@
           "url": ""
         }
       ],
-      "notes": "Unoccupied AHU control. Schedule programming + occupancy sensors."
+      "notes": "Unoccupied AHU control. Schedule programming + occupancy sensors.",
+      "description": "Implements automated shutdown of air handling units during unoccupied periods with optimized morning warm-up/cool-down sequences, reducing fan energy and conditioning loads outside operating hours."
     },
     "24": {
       "upgrade_id": 24,
@@ -574,7 +597,8 @@
           "url": ""
         }
       ],
-      "notes": "Fan static pressure reset for multizone VAV. Controls upgrade."
+      "notes": "Fan static pressure reset for multizone VAV. Controls upgrade.",
+      "description": "Adds static pressure reset controls to multizone variable air volume (VAV) systems, allowing supply fan speed to modulate based on zone demand rather than maintaining constant duct pressure."
     },
     "25": {
       "upgrade_id": 25,
@@ -596,7 +620,8 @@
           "url": ""
         }
       ],
-      "notes": "Thermostat setbacks. Programmable thermostat or BMS schedule change."
+      "notes": "Thermostat setbacks. Programmable thermostat or BMS schedule change.",
+      "description": "Implements nighttime and weekend thermostat setbacks to reduce heating and cooling energy during unoccupied hours. Heating setpoints are lowered and cooling setpoints raised during setback periods."
     },
     "26": {
       "upgrade_id": 26,
@@ -618,7 +643,8 @@
           "url": ""
         }
       ],
-      "notes": "VFD pumps. Variable frequency drive retrofit on hydronic pumps."
+      "notes": "VFD pumps. Variable frequency drive retrofit on hydronic pumps.",
+      "description": "Replaces constant-speed hydronic pumps with variable frequency drive (VFD) equipped pumps that modulate flow based on system demand, significantly reducing pumping energy at part-load conditions."
     },
     "27": {
       "upgrade_id": 27,
@@ -626,7 +652,8 @@
       "upgrade_name": "Ideal Thermal Air Loads",
       "measure_category": "theoretical_benchmark",
       "excluded": true,
-      "notes": "Ideal thermal air loads \u2014 theoretical max savings, not a real measure."
+      "notes": "Ideal thermal air loads \u2014 theoretical max savings, not a real measure.",
+      "description": "Theoretical measure representing ideal HVAC performance with zero distribution losses, used as a benchmarking reference for maximum achievable HVAC efficiency."
     },
     "28": {
       "upgrade_id": 28,
@@ -650,7 +677,8 @@
           "url": ""
         }
       ],
-      "notes": "Hydronic water-to-water GHP. Includes bore field costs."
+      "notes": "Hydronic water-to-water GHP. Includes bore field costs.",
+      "description": "Replaces existing hydronic heating and cooling systems with water-to-water geothermal heat pumps using vertical closed-loop ground heat exchangers. Serves existing hydronic distribution piping."
     },
     "29": {
       "upgrade_id": 29,
@@ -674,7 +702,8 @@
           "url": ""
         }
       ],
-      "notes": "Packaged water-to-air GHP."
+      "notes": "Packaged water-to-air GHP.",
+      "description": "Replaces existing HVAC systems with packaged water-to-air geothermal heat pump units connected to vertical closed-loop ground heat exchangers. Each unit provides direct air heating and cooling."
     },
     "30": {
       "upgrade_id": 30,
@@ -698,7 +727,8 @@
           "url": ""
         }
       ],
-      "notes": "Console water-to-air GHP."
+      "notes": "Console water-to-air GHP.",
+      "description": "Replaces existing HVAC systems with console-style water-to-air geothermal heat pump units connected to vertical closed-loop ground heat exchangers. Console units are wall-mounted for perimeter zone conditioning."
     },
     "31": {
       "upgrade_id": 31,
@@ -722,7 +752,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "Chiller replacement; using chiller component costs from Scout ECM."
+      "notes": "Chiller replacement; using chiller component costs from Scout ECM.",
+      "description": "Replaces existing chillers with high-efficiency chillers meeting current ASHRAE 90.1 minimum efficiency requirements, improving cooling plant performance."
     },
     "32": {
       "upgrade_id": 32,
@@ -744,7 +775,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements thermostat-based demand flexibility to shed HVAC load during daily building peak periods by adjusting temperature setpoints, reducing the building's peak demand."
     },
     "33": {
       "upgrade_id": 33,
@@ -766,7 +798,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements thermostat-based demand flexibility to shift HVAC load away from daily building peak periods through pre-conditioning (pre-cooling or pre-heating) before peak hours."
     },
     "34": {
       "upgrade_id": 34,
@@ -788,7 +821,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements lighting-based demand flexibility by shedding (dimming or switching off) non-essential lighting during daily building peak demand periods."
     },
     "35": {
       "upgrade_id": 35,
@@ -810,7 +844,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements lighting-based demand flexibility by shedding non-essential lighting during periods of high grid greenhouse gas emissions to reduce the building's carbon impact."
     },
     "36": {
       "upgrade_id": 36,
@@ -832,7 +867,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements thermostat-based demand flexibility to shed HVAC load during grid-level peak demand periods by adjusting temperature setpoints to reduce strain on the electric grid."
     },
     "37": {
       "upgrade_id": 37,
@@ -854,7 +890,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements lighting-based demand flexibility by shedding non-essential lighting during grid-level peak demand periods to reduce strain on the electric grid."
     },
     "38": {
       "upgrade_id": 38,
@@ -876,7 +913,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements plug load demand flexibility using GEB Gem controls to shed non-essential plug loads during grid-level peak demand periods."
     },
     "39": {
       "upgrade_id": 39,
@@ -898,7 +936,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements lighting demand flexibility using GEB Gem controls to shed non-essential lighting during grid-level peak demand periods with optimized dimming strategies."
     },
     "40": {
       "upgrade_id": 40,
@@ -920,7 +959,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements thermostat demand flexibility using GEB Gem controls to shed HVAC load during grid-level peak demand periods with optimized setpoint adjustment strategies."
     },
     "41": {
       "upgrade_id": 41,
@@ -942,7 +982,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements GEB Gem-controlled pre-heating load shifting to move heating energy consumption ahead of grid peak periods, reducing demand during peak hours."
     },
     "42": {
       "upgrade_id": 42,
@@ -964,7 +1005,8 @@
           "url": ""
         }
       ],
-      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls."
+      "notes": "Controls-only measure. Cost = BMS programming + smart thermostat/lighting controls.",
+      "description": "Implements GEB Gem-controlled pre-cooling load shifting to move cooling energy consumption ahead of grid peak periods, reducing demand during peak hours."
     },
     "43": {
       "upgrade_id": 43,
@@ -988,7 +1030,8 @@
           "url": "https://www.pnnl.gov/main/publications/external/technical_reports/PNNL:29940.pdf"
         }
       ],
-      "notes": "LED lighting retrofit"
+      "notes": "LED lighting retrofit",
+      "description": "Retrofits all applicable interior and exterior lighting fixtures to LED technology, reducing lighting energy consumption by 30-60% compared to fluorescent and HID fixtures."
     },
     "44": {
       "upgrade_id": 44,
@@ -1012,7 +1055,8 @@
           "url": "https://www.pnnl.gov/main/publications/external/technical_reports/PNNL:29940.pdf"
         }
       ],
-      "notes": "Lighting controls; using lighting ECM as proxy (controls are a fraction of full retrofit cost)"
+      "notes": "Lighting controls; using lighting ECM as proxy (controls are a fraction of full retrofit cost)",
+      "description": "Adds advanced lighting controls including occupancy sensors, daylight harvesting, and scheduling to reduce lighting energy in spaces that are unoccupied or have sufficient natural light."
     },
     "45": {
       "upgrade_id": 45,
@@ -1036,7 +1080,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "Electric/induction kitchen equipment replacing gas"
+      "notes": "Electric/induction kitchen equipment replacing gas",
+      "description": "Replaces gas-fired commercial kitchen equipment (ovens, ranges, fryers, griddles) with high-efficiency electric equivalents including induction cooktops and electric convection ovens."
     },
     "46": {
       "upgrade_id": 46,
@@ -1058,7 +1103,8 @@
           "url": "https://atb.nrel.gov/"
         }
       ],
-      "notes": "PV with 40% roof coverage. Cost is $/Wdc installed."
+      "notes": "PV with 40% roof coverage. Cost is $/Wdc installed.",
+      "description": "Installs rooftop photovoltaic solar panels covering 40% of available roof area to generate on-site renewable electricity, offsetting grid electricity consumption."
     },
     "47": {
       "upgrade_id": 47,
@@ -1080,7 +1126,8 @@
           "url": "https://atb.nrel.gov/"
         }
       ],
-      "notes": "PV + battery storage. Blended $/Wdc including battery."
+      "notes": "PV + battery storage. Blended $/Wdc including battery.",
+      "description": "Installs rooftop photovoltaic solar panels covering 40% of available roof area paired with on-site battery storage to generate and store renewable electricity for peak demand reduction."
     },
     "48": {
       "upgrade_id": 48,
@@ -1104,7 +1151,8 @@
           "url": "https://www1.eere.energy.gov/buildings/pdfs/80170.pdf"
         }
       ],
-      "notes": "Wall insulation retrofit"
+      "notes": "Wall insulation retrofit",
+      "description": "Adds continuous exterior wall insulation to meet current energy code requirements, reducing thermal bridging and conductive heat transfer through the building envelope."
     },
     "49": {
       "upgrade_id": 49,
@@ -1128,7 +1176,8 @@
           "url": "https://www1.eere.energy.gov/buildings/pdfs/80170.pdf"
         }
       ],
-      "notes": "Roof insulation retrofit"
+      "notes": "Roof insulation retrofit",
+      "description": "Adds or upgrades roof insulation to meet current energy code requirements, reducing heat gain in summer and heat loss in winter through the roof assembly."
     },
     "50": {
       "upgrade_id": 50,
@@ -1152,7 +1201,8 @@
           "url": "https://github.com/trynthink/scout/blob/master/scout/supporting_data/convert_data/cpl_envelope_mels.json"
         }
       ],
-      "notes": "Secondary windows (interior storm); using window ECM as upper bound proxy"
+      "notes": "Secondary windows (interior storm); using window ECM as upper bound proxy",
+      "description": "Installs secondary window panels (interior storm windows) over existing windows to reduce air leakage and improve thermal resistance without full window replacement."
     },
     "51": {
       "upgrade_id": 51,
@@ -1174,7 +1224,8 @@
           "url": ""
         }
       ],
-      "notes": "Window film applied to interior glazing surface."
+      "notes": "Window film applied to interior glazing surface.",
+      "description": "Applies low-emissivity window film to existing glazing to reduce solar heat gain while maintaining visible light transmission, lowering cooling loads."
     },
     "52": {
       "upgrade_id": 52,
@@ -1198,7 +1249,8 @@
           "url": "https://github.com/trynthink/scout/blob/master/scout/supporting_data/convert_data/cpl_envelope_mels.json"
         }
       ],
-      "notes": "New window replacement"
+      "notes": "New window replacement",
+      "description": "Replaces existing windows with new high-performance windows featuring low-E coatings, argon fill, and improved frames to reduce both conductive losses and solar heat gain."
     },
     "53": {
       "upgrade_id": 53,
@@ -1222,7 +1274,8 @@
           "url": "https://github.com/trynthink/scout/blob/master/scout/supporting_data/convert_data/cpl_envelope_mels.json"
         }
       ],
-      "notes": "Code-level envelope upgrade (walls + air sealing)"
+      "notes": "Code-level envelope upgrade (walls + air sealing)",
+      "description": "Upgrades the complete building envelope (walls, roof, windows, and air sealing) to meet current energy code minimum requirements."
     },
     "54": {
       "upgrade_id": 54,
@@ -1253,7 +1306,8 @@
         "[48] Wall Insulation",
         "[49] Roof Insulation",
         "[52] New Windows"
-      ]
+      ],
+      "description": "Package combining wall insulation, roof insulation, and new window replacements to comprehensively upgrade the building envelope thermal performance."
     },
     "55": {
       "upgrade_id": 55,
@@ -1284,7 +1338,8 @@
         "[43] LED Lighting",
         "[1] Variable Speed HP RTU, Electric Backup",
         "[15] HP Boiler, Electric Backup"
-      ]
+      ],
+      "description": "Package combining LED lighting retrofit with variable-speed heat pump RTU replacement (or heat pump boilers for hydronic systems) for integrated HVAC and lighting efficiency improvements."
     },
     "56": {
       "upgrade_id": 56,
@@ -1313,7 +1368,8 @@
       "component_details": [
         "[43] LED Lighting",
         "[4] Standard Performance HP RTU, Electric Backup"
-      ]
+      ],
+      "description": "Package combining LED lighting retrofit with standard-performance heat pump RTU replacement for integrated HVAC and lighting efficiency improvements at moderate cost."
     },
     "57": {
       "upgrade_id": 57,
@@ -1350,7 +1406,8 @@
         "[43] LED Lighting",
         "[1] Variable Speed HP RTU, Electric Backup",
         "[15] HP Boiler, Electric Backup"
-      ]
+      ],
+      "description": "Comprehensive package combining full envelope upgrades (wall insulation, roof insulation, new windows) with LED lighting and variable-speed heat pump RTU or heat pump boiler replacement."
     },
     "58": {
       "upgrade_id": 58,
@@ -1385,7 +1442,8 @@
         "[19] Air Side Economizers for AHUs",
         "[20] Demand Control Ventilation",
         "[21] Energy Recovery for AHUs"
-      ]
+      ],
+      "description": "Package combining variable-speed heat pump RTU or heat pump boiler replacement with air-side economizers, demand control ventilation, and energy recovery for comprehensive HVAC system optimization."
     },
     "59": {
       "upgrade_id": 59,
@@ -1416,7 +1474,8 @@
         "[28] Hydronic Water-to-Water Geothermal Heat Pump",
         "[29] Packaged Water-to-Air Geothermal Heat Pump",
         "[30] Console Water-to-Air Geothermal Heat Pump"
-      ]
+      ],
+      "description": "Package installing geothermal heat pumps (hydronic, packaged, or console type as appropriate) to replace existing HVAC systems with ground-source heating and cooling."
     },
     "60": {
       "upgrade_id": 60,
@@ -1445,7 +1504,8 @@
       "component_details": [
         "[37] Demand Flexibility, Lighting Control, Load Shed for Grid Peak Reduction",
         "[36] Demand Flexibility, Thermostat Control, Load Shed for Grid Peak Reduction"
-      ]
+      ],
+      "description": "Demand flexibility package combining lighting and thermostat control strategies to shed load during grid-level peak demand periods."
     },
     "61": {
       "upgrade_id": 61,
@@ -1476,7 +1536,8 @@
         "[34] Demand Flexibility, Lighting Control, Load Shed for Daily Bldg Peak Reduction",
         "[32] Demand Flexibility, Thermostat Control, Load Shed for Daily Bldg Peak Reduction",
         "[46] Photovoltaics with 40pct Roof Coverage"
-      ]
+      ],
+      "description": "Demand flexibility package combining lighting and thermostat load shedding for daily building peak reduction with rooftop photovoltaic solar panel installation."
     },
     "62": {
       "upgrade_id": 62,
@@ -1505,7 +1566,8 @@
       "component_details": [
         "[34] Demand Flexibility, Lighting Control, Load Shed for Daily Bldg Peak Reduction",
         "[32] Demand Flexibility, Thermostat Control, Load Shed for Daily Bldg Peak Reduction"
-      ]
+      ],
+      "description": "Demand flexibility package combining lighting and thermostat control strategies to shed load during daily building peak demand periods."
     },
     "63": {
       "upgrade_id": 63,
@@ -1538,7 +1600,8 @@
         "[49] Roof Insulation",
         "[52] New Windows",
         "[28] Hydronic Water-to-Water Geothermal Heat Pump"
-      ]
+      ],
+      "description": "Comprehensive package combining full envelope upgrades (wall insulation, roof insulation, new windows) with geothermal heat pump system replacement."
     },
     "64": {
       "upgrade_id": 64,
@@ -1573,7 +1636,8 @@
         "[52] New Windows",
         "[28] Hydronic Water-to-Water Geothermal Heat Pump",
         "[43] LED Lighting"
-      ]
+      ],
+      "description": "Comprehensive package combining full envelope upgrades, geothermal heat pump system replacement, and LED lighting retrofit for deep energy savings."
     },
     "65": {
       "upgrade_id": 65,
@@ -1602,7 +1666,8 @@
       "component_details": [
         "[46] Photovoltaics with 40pct Roof Coverage",
         "[49] Roof Insulation"
-      ]
+      ],
+      "description": "Package combining rooftop photovoltaic solar panels at 40% roof coverage with roof insulation upgrades for combined on-site generation and envelope improvement."
     }
   },
   "resstock": {
@@ -1628,7 +1693,8 @@
           "url": ""
         }
       ],
-      "notes": "NG furnace 95% AFUE. Scout 'Best' tier cost."
+      "notes": "NG furnace 95% AFUE. Scout 'Best' tier cost.",
+      "description": "Replaces existing furnace with a high-efficiency 95% AFUE natural gas furnace for all dwelling units served by ducted forced-air distribution systems."
     },
     "2": {
       "upgrade_id": 2,
@@ -1652,7 +1718,8 @@
           "url": ""
         }
       ],
-      "notes": "Propane/fuel oil furnace 95% AFUE. Same cost basis as NG furnace."
+      "notes": "Propane/fuel oil furnace 95% AFUE. Same cost basis as NG furnace.",
+      "description": "Replaces existing furnace with a high-efficiency 95% AFUE furnace for homes using propane or fuel oil, applicable to ducted forced-air systems."
     },
     "3": {
       "upgrade_id": 3,
@@ -1676,7 +1743,8 @@
           "url": ""
         }
       ],
-      "notes": "Minimum efficiency boilers, furnaces, and ACs circa 2025."
+      "notes": "Minimum efficiency boilers, furnaces, and ACs circa 2025.",
+      "description": "Upgrades boilers, furnaces, and air conditioners to minimum federal efficiency standards effective circa 2025, representing code-minimum baseline equipment replacement."
     },
     "4": {
       "upgrade_id": 4,
@@ -1700,7 +1768,8 @@
           "url": ""
         }
       ],
-      "notes": "Cold climate ducted ASHP. ENERGY STAR tier."
+      "notes": "Cold climate ducted ASHP. ENERGY STAR tier.",
+      "description": "Installs a cold climate ducted air source heat pump (ccASHP) meeting NEEP Cold Climate specification with detailed lab-measured performance data, providing efficient heating down to low ambient temperatures with electric backup."
     },
     "5": {
       "upgrade_id": 5,
@@ -1724,7 +1793,8 @@
           "url": ""
         }
       ],
-      "notes": "Dual fuel heating system. ASHP + gas furnace backup."
+      "notes": "Dual fuel heating system. ASHP + gas furnace backup.",
+      "description": "Installs a dual-fuel heating system combining an air source heat pump for primary heating with an existing gas furnace as backup for extreme cold conditions, optimizing efficiency across all outdoor temperatures."
     },
     "6": {
       "upgrade_id": 6,
@@ -1748,7 +1818,8 @@
           "url": ""
         }
       ],
-      "notes": "Single-speed GSHP with thermally enhanced grout and pipes."
+      "notes": "Single-speed GSHP with thermally enhanced grout and pipes.",
+      "description": "Installs a single-speed geothermal (ground source) heat pump with thermally enhanced grout and high-conductivity ground loop piping for efficient heating and cooling using stable ground temperatures."
     },
     "7": {
       "upgrade_id": 7,
@@ -1772,7 +1843,8 @@
           "url": ""
         }
       ],
-      "notes": "Dual-speed GSHP. Same installed cost as single-speed."
+      "notes": "Dual-speed GSHP. Same installed cost as single-speed.",
+      "description": "Installs a dual-speed geothermal (ground source) heat pump with thermally enhanced grout and high-conductivity ground loop piping, offering improved part-load efficiency over single-speed models."
     },
     "8": {
       "upgrade_id": 8,
@@ -1796,7 +1868,8 @@
           "url": ""
         }
       ],
-      "notes": "Variable-speed GSHP. Premium unit, same installed cost basis."
+      "notes": "Variable-speed GSHP. Premium unit, same installed cost basis.",
+      "description": "Installs a variable-speed geothermal (ground source) heat pump with thermally enhanced grout and high-conductivity ground loop piping, providing the highest part-load efficiency and precise comfort control."
     },
     "9": {
       "upgrade_id": 9,
@@ -1820,7 +1893,8 @@
           "url": ""
         }
       ],
-      "notes": "Heat pump water heater."
+      "notes": "Heat pump water heater.",
+      "description": "Replaces existing water heater with a heat pump water heater (HPWH) that uses refrigerant-based heat extraction from surrounding air to heat water at 2-3x the efficiency of electric resistance units."
     },
     "10": {
       "upgrade_id": 10,
@@ -1844,7 +1918,8 @@
           "url": "https://www.eia.gov/analysis/studies/buildings/equipcosts/pdf/full.pdf"
         }
       ],
-      "notes": "High efficiency NG tankless water heater."
+      "notes": "High efficiency NG tankless water heater.",
+      "description": "Replaces existing water heater with a high-efficiency natural gas tankless (on-demand) water heater that heats water only when needed, eliminating standby losses from storage tanks."
     },
     "11": {
       "upgrade_id": 11,
@@ -1868,7 +1943,8 @@
           "url": "https://www1.eere.energy.gov/buildings/pdfs/80170.pdf"
         }
       ],
-      "notes": "Air sealing. Cost in $/ft^2 wall area."
+      "notes": "Air sealing. Cost in $/ft^2 wall area.",
+      "description": "Reduces building air infiltration through targeted sealing of air leakage pathways including gaps around penetrations, joints, and framing connections to reduce uncontrolled air exchange."
     },
     "12": {
       "upgrade_id": 12,
@@ -1898,7 +1974,8 @@
           "url": "https://remdb.nrel.gov/measures.php?gId=10&ctId=376"
         }
       ],
-      "notes": "Attic floor insulation for unfinished attics. Using roof insulation ECM."
+      "notes": "Attic floor insulation for unfinished attics. Using roof insulation ECM.",
+      "description": "Adds blown-in or batt insulation to the attic floor of homes with unfinished attic spaces, reducing heat transfer through the ceiling assembly to unconditioned attic space."
     },
     "13": {
       "upgrade_id": 13,
@@ -1920,7 +1997,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "Duct sealing and insulation. Combined REMDB duct measures."
+      "notes": "Duct sealing and insulation. Combined REMDB duct measures.",
+      "description": "Seals duct leakage points and adds insulation to exposed ductwork in unconditioned spaces, reducing distribution losses from the forced-air HVAC system."
     },
     "14": {
       "upgrade_id": 14,
@@ -1944,7 +2022,8 @@
           "url": "https://www1.eere.energy.gov/buildings/pdfs/80170.pdf"
         }
       ],
-      "notes": "Drill and fill wall insulation with air sealing. Wall insulation ECM."
+      "notes": "Drill and fill wall insulation with air sealing. Wall insulation ECM.",
+      "description": "Injects loose-fill insulation into existing wall cavities through small drilled holes combined with air sealing, improving thermal resistance of wood-framed walls without removing interior or exterior finishes."
     },
     "15": {
       "upgrade_id": 15,
@@ -1975,7 +2054,8 @@
         "[11] Air Sealing",
         "[12] Attic Floor Insulation for Unfinished Attics",
         "[13] Duct Sealing and Insulation"
-      ]
+      ],
+      "description": "Envelope package combining air sealing, attic floor insulation for unfinished attics, and duct sealing and insulation to address the most common residential envelope deficiencies."
     },
     "16": {
       "upgrade_id": 16,
@@ -2008,7 +2088,8 @@
         "[12] Attic Floor Insulation for Unfinished Attics",
         "[13] Duct Sealing and Insulation",
         "[14] Drill and Fill Wall Insulation with Air Sealing"
-      ]
+      ],
+      "description": "Comprehensive envelope package combining air sealing, attic floor insulation, duct sealing and insulation, and drill-and-fill wall cavity insulation for thorough building shell improvement."
     },
     "17": {
       "upgrade_id": 17,
@@ -2032,7 +2113,8 @@
           "url": "https://github.com/trynthink/scout/blob/master/scout/supporting_data/convert_data/cpl_envelope_mels.json"
         }
       ],
-      "notes": "ENERGY STAR windows."
+      "notes": "ENERGY STAR windows.",
+      "description": "Replaces existing windows with ENERGY STAR certified windows featuring low-E coatings, insulated frames, and gas fills meeting current program efficiency requirements for the applicable climate zone."
     },
     "18": {
       "upgrade_id": 18,
@@ -2065,7 +2147,8 @@
         "[11] Air Sealing",
         "[12] Attic Floor Insulation for Unfinished Attics",
         "[13] Duct Sealing and Insulation"
-      ]
+      ],
+      "description": "Comprehensive package combining a dual-speed geothermal heat pump with thermally enhanced ground loop, air sealing, attic floor insulation, and duct sealing for deep energy retrofits."
     },
     "19": {
       "upgrade_id": 19,
@@ -2087,7 +2170,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "EV Level 1 charging. Charger hardware only, vehicle cost excluded."
+      "notes": "EV Level 1 charging. Charger hardware only, vehicle cost excluded.",
+      "description": "Models household adoption of an electric vehicle charged with Level 1 (120V, ~1.4 kW) home charging, adding EV electricity consumption to the dwelling's energy profile."
     },
     "20": {
       "upgrade_id": 20,
@@ -2109,7 +2193,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "EV Level 2 charging. Includes 240V wiring and charger."
+      "notes": "EV Level 2 charging. Includes 240V wiring and charger.",
+      "description": "Models household adoption of an electric vehicle charged with Level 2 (240V, ~7.7 kW) home charging, adding EV electricity consumption to the dwelling's energy profile."
     },
     "21": {
       "upgrade_id": 21,
@@ -2131,7 +2216,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "Efficient EV with L2 charging. Same charger cost, vehicle cost excluded."
+      "notes": "Efficient EV with L2 charging. Same charger cost, vehicle cost excluded.",
+      "description": "Models household adoption of a high-efficiency electric vehicle (lower kWh/mile) charged with Level 2 (240V) home charging, representing best-in-class EV efficiency."
     },
     "22": {
       "upgrade_id": 22,
@@ -2153,7 +2239,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "EV L2 charging + demand flexibility. Charger + smart thermostat."
+      "notes": "EV L2 charging + demand flexibility. Charger + smart thermostat.",
+      "description": "Models electric vehicle adoption with Level 2 home charging and demand-flexible charging controls that shift charging to off-peak grid periods to reduce peak demand impacts."
     },
     "23": {
       "upgrade_id": 23,
@@ -2175,7 +2262,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "Efficient EV L2 + demand flexibility. Same charger cost."
+      "notes": "Efficient EV L2 + demand flexibility. Same charger cost.",
+      "description": "Models high-efficiency electric vehicle adoption with Level 2 home charging and demand-flexible charging controls that shift charging to off-peak grid periods."
     },
     "24": {
       "upgrade_id": 24,
@@ -2197,7 +2285,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure."
+      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure.",
+      "description": "Implements HVAC demand flexibility by shedding load during on-peak periods with a 2\u00b0F thermostat offset (raising cooling setpoint or lowering heating setpoint) to reduce peak electricity demand."
     },
     "25": {
       "upgrade_id": 25,
@@ -2219,7 +2308,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure."
+      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure.",
+      "description": "Implements HVAC demand flexibility by pre-conditioning the home (pre-cooling or pre-heating) with a 2\u00b0F offset during a 4-hour window before peak periods, then allowing temperature to drift during peak."
     },
     "26": {
       "upgrade_id": 26,
@@ -2241,7 +2331,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure."
+      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure.",
+      "description": "Implements HVAC demand flexibility by shedding load during on-peak periods with a 4\u00b0F thermostat offset for more aggressive peak demand reduction compared to the 2\u00b0F variant."
     },
     "27": {
       "upgrade_id": 27,
@@ -2263,7 +2354,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure."
+      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure.",
+      "description": "Implements HVAC demand flexibility by pre-conditioning the home with a 4\u00b0F offset during a 4-hour window before peak periods, then allowing temperature to drift during peak for greater load shifting."
     },
     "28": {
       "upgrade_id": 28,
@@ -2285,7 +2377,8 @@
           "url": "https://remdb.nrel.gov/"
         }
       ],
-      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure."
+      "notes": "HVAC demand flexibility via smart thermostat. Controls-only measure.",
+      "description": "Implements HVAC demand flexibility by pre-conditioning the home with a 2\u00b0F offset during a shorter 1-hour window before peak periods, providing moderate load shifting with minimal pre-peak energy increase."
     },
     "29": {
       "upgrade_id": 29,
@@ -2309,7 +2402,8 @@
           "url": "https://www1.eere.energy.gov/buildings/pdfs/80170.pdf"
         }
       ],
-      "notes": "General air sealing."
+      "notes": "General air sealing.",
+      "description": "Performs general air sealing to reduce building infiltration rates, targeting accessible air leakage pathways throughout the dwelling envelope."
     },
     "30": {
       "upgrade_id": 30,
@@ -2340,7 +2434,8 @@
         "[29] General Air Sealing",
         "[12] Attic Floor Insulation for Unfinished Attics",
         "[13] Duct Sealing and Insulation"
-      ]
+      ],
+      "description": "Combines general air sealing with attic floor insulation and duct sealing and insulation for a cost-effective envelope improvement package addressing major infiltration and insulation deficiencies."
     },
     "31": {
       "upgrade_id": 31,
@@ -2373,7 +2468,8 @@
         "[29] General Air Sealing",
         "[12] Attic Floor Insulation for Unfinished Attics",
         "[13] Duct Sealing and Insulation"
-      ]
+      ],
+      "description": "Comprehensive package combining a dual-speed geothermal heat pump with thermally enhanced ground loop, general air sealing, attic floor insulation, and duct sealing for deep energy retrofits."
     },
     "32": {
       "upgrade_id": 32,
@@ -2406,7 +2502,8 @@
         "[29] General Air Sealing",
         "[12] Attic Floor Insulation for Unfinished Attics",
         "[13] Duct Sealing and Insulation"
-      ]
+      ],
+      "description": "Comprehensive package combining a variable-speed geothermal heat pump with thermally enhanced ground loop, general air sealing, attic floor insulation, and duct sealing for maximum energy savings."
     }
   },
   "regional_adjustments": {
