@@ -298,9 +298,8 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 
         <PTableBody>
           <PTableRow
-            v-for="(m, idx) in sortedApplicable"
+            v-for="m in sortedApplicable"
             :key="m.upgrade_id"
-            :class="idx % 2 === 1 ? 'measures-row--striped' : ''"
           >
             <PTableCell class="measures-cell measures-cell--name">
               <PTypography variant="body2">{{ m.name }}</PTypography>
@@ -408,12 +407,9 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
         <PTable class="measures-table">
           <PTableBody>
             <PTableRow
-              v-for="(m, idx) in nonApplicableMeasures"
+              v-for="m in nonApplicableMeasures"
               :key="m.upgrade_id"
-              :class="[
-                'measures-row--dimmed',
-                idx % 2 === 1 ? 'measures-row--striped' : '',
-              ]"
+              class="measures-row--dimmed"
             >
               <PTableCell class="measures-cell measures-cell--name">
                 <PTypography variant="body2">{{ m.name }}</PTypography>
@@ -541,6 +537,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 
 .measures-table :deep(tbody tr) {
   background-color: var(--app-surface-raised, white);
+  border-bottom: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
 /* ---- Header cells ---- */
@@ -582,7 +579,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   left: 0;
   z-index: 3;
-  background-color: inherit;
+  background-color: var(--app-surface-raised, white);
 }
 
 .measures-cell--category {
@@ -590,7 +587,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   left: 220px;
   z-index: 3;
-  background-color: inherit;
+  background-color: var(--app-surface-raised, white);
   border-right: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
@@ -657,11 +654,6 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   font-family: var(--font-mono);
   font-size: 0.75rem;
   white-space: nowrap;
-}
-
-/* ---- Striped rows ---- */
-.measures-row--striped {
-  background: var(--app-surface);
 }
 
 /* ---- Dimmed (non-applicable) rows ---- */
