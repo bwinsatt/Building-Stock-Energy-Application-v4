@@ -119,7 +119,7 @@ function confidencePercent(confidence: number | null): string {
 <style scoped>
 .assumptions-panel {
   background: var(--app-surface-raised);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--partner-gray-2, #E8EBEE);
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -143,7 +143,7 @@ function confidencePercent(confidence: number | null): string {
 .assumptions-toggle__icon {
   display: inline-block;
   font-size: 0.625rem;
-  color: #64748b;
+  color: var(--partner-gray-6, #6F7881);
   transition: transform 0.2s ease;
 }
 
@@ -155,13 +155,14 @@ function confidencePercent(confidence: number | null): string {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
-  color: #475569;
+  color: var(--partner-text-secondary, #6F7881);
 }
 
 .assumptions-toggle__count {
-  font-family: var(--font-mono);
+  font-family: 'Roboto', sans-serif;
   font-size: 0.6875rem;
-  color: #94a3b8;
+  font-weight: 400;
+  color: var(--partner-gray-5, #94a3b8);
   margin-left: auto;
 }
 
@@ -176,22 +177,24 @@ function confidencePercent(confidence: number | null): string {
 .assumptions-section + .assumptions-section {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--partner-gray-2, #E8EBEE);
 }
 
 .assumptions-section__title {
-  font-family: var(--font-display);
+  font-family: 'Roboto', sans-serif;
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #8b95a1;
+  color: var(--partner-gray-6, #6F7881);
   margin-bottom: 0.5rem;
 }
 
 .assumptions-section__desc {
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
-  color: #94a3b8;
+  font-weight: 400;
+  color: var(--partner-gray-5, #A6ADB4);
   margin: 0 0 0.75rem;
 }
 
@@ -217,18 +220,20 @@ function confidencePercent(confidence: number | null): string {
 }
 
 .assumptions-item__label {
-  font-family: var(--font-display);
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
-  font-weight: 500;
-  color: #64748b;
+  font-weight: 400;
+  letter-spacing: 0.026rem;
+  color: var(--partner-text-secondary, #6F7881);
   min-width: 0;
   flex-shrink: 0;
 }
 
 .assumptions-item__value {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.25rem;
   color: var(--partner-text-primary, #333e47);
   flex: 1;
   text-align: right;
