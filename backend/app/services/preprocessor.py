@@ -903,7 +903,28 @@ class _ZipcodeLookup:
         )
 
 
+    def get_emission_factor(self, zipcode: str) -> float | None:
+        """Return the electricity emission factor (kg CO2e/kWh) for a zipcode.
+
+        Returns None if the factor is not available for this prefix.
+        """
+        if self._prefixes is None:
+            self._load()
+        assert self._prefixes is not None
+
+        prefix = zipcode[:3]
+        entry = self._prefixes.get(prefix)
+        if entry is not None:
+            return entry.get("electricity_emission_factor_kg_co2e_per_kwh")
+        return None
+
+
 _zip_lookup = _ZipcodeLookup()
+
+
+def get_electricity_emission_factor(zipcode: str) -> float | None:
+    """Return the electricity emission factor (kg CO2e/kWh) for a zipcode."""
+    return _zip_lookup.get_emission_factor(zipcode)
 
 
 # ---------------------------------------------------------------------------
