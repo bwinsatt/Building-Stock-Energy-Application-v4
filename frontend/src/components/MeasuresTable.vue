@@ -120,14 +120,21 @@ interface CategoryConfig {
   label: string
 }
 
+const CATEGORY_DISPLAY_MAP: Record<string, { variant: BadgeVariant; label: string }> = {
+  hvac: { variant: 'primary', label: 'HVAC' },
+  envelope: { variant: 'success', label: 'Envelope' },
+  lighting: { variant: 'warning', label: 'Lighting' },
+  demand_flex: { variant: 'secondary', label: 'Demand Flex' },
+  water_heating: { variant: 'neutral', label: 'Water Heating' },
+  kitchen: { variant: 'neutral', label: 'Kitchen' },
+  package: { variant: 'primary', label: 'Package' },
+}
+
 function getCategoryConfig(category: string): CategoryConfig {
   const lower = category.toLowerCase()
-  if (lower.includes('hvac')) return { variant: 'primary', label: category }
-  if (lower.includes('envelope')) return { variant: 'success', label: category }
-  if (lower.includes('lighting')) return { variant: 'warning', label: category }
-  if (lower.includes('demand_flex')) return { variant: 'secondary', label: category }
-  if (lower.includes('water_heating')) return { variant: 'neutral', label: category }
-  if (lower.includes('package')) return { variant: 'primary', label: category }
+  for (const [key, config] of Object.entries(CATEGORY_DISPLAY_MAP)) {
+    if (lower.includes(key)) return config
+  }
   return { variant: 'neutral', label: category }
 }
 
@@ -206,7 +213,7 @@ function paybackColor(val?: number): string {
               :sort-direction="getSortDirection('annual_savings')"
               @sort-changed="(dir: 'asc' | 'desc' | undefined) => handleSort('annual_savings', dir)"
             >
-              Annual Bill Savings
+              Annual Bill Savings ($)
             </PTableHead>
             <PTableHead
               class="measures-th measures-th--numeric"
