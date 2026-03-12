@@ -232,6 +232,9 @@ def _assess_single(
 
     measures: list[MeasureResult] = []
 
+    # Electricity emission factor (same for all upgrades — same building/zipcode)
+    electricity_ef = get_electricity_emission_factor(building.zipcode)
+
     for uid in upgrade_ids:
         # Check applicability
         if uid not in delta_results:
@@ -334,7 +337,6 @@ def _assess_single(
         )
 
         # Emissions reduction
-        electricity_ef = get_electricity_emission_factor(building.zipcode)
         emissions_pct = calculate_emissions_reduction_pct(
             baseline_eui, post_eui, electricity_ef
         )
@@ -351,10 +353,10 @@ def _assess_single(
                 cost=cost,
                 utility_bill_savings_per_sf=round(bill_savings_per_sf, 4),
                 simple_payback_years=round(payback, 1) if payback else None,
-                electricity_savings_kwh=elec_savings_kwh if elec_savings_kwh else None,
-                gas_savings_therms=gas_savings_therms if gas_savings_therms else None,
-                other_fuel_savings_kbtu=other_savings_kbtu if other_savings_kbtu else None,
-                emissions_reduction_pct=round(emissions_pct, 1) if emissions_pct else None,
+                electricity_savings_kwh=elec_savings_kwh,
+                gas_savings_therms=gas_savings_therms,
+                other_fuel_savings_kbtu=other_savings_kbtu,
+                emissions_reduction_pct=round(emissions_pct, 1),
                 description=_get_upgrade_description(uid, dataset, cost_calculator),
             )
         )
