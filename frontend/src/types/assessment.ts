@@ -54,6 +54,10 @@ export interface MeasureResult {
   utility_bill_savings_per_sf?: number
   simple_payback_years?: number
   emissions_reduction_pct?: number
+  electricity_savings_kwh?: number
+  gas_savings_therms?: number
+  other_fuel_savings_kbtu?: number
+  description?: string
 }
 
 export interface ImputedField {
