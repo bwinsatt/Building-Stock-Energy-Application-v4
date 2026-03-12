@@ -532,12 +532,16 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: inherit;
+  background-color: var(--partner-background-gray);
 }
 
 .measures-table :deep(tbody tr) {
   background-color: var(--app-surface-raised, white);
   border-bottom: 1px solid var(--partner-border-divider, #e2e8f0);
+}
+
+.measures-table :deep(tbody tr:hover) {
+  background-color: var(--partner-fill-hover);
 }
 
 /* ---- Header cells ---- */
@@ -550,7 +554,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   left: 0;
   z-index: 11;
-  background-color: inherit;
+  background-color: var(--partner-background-gray);
 }
 
 .measures-th--category {
@@ -558,7 +562,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   position: sticky;
   left: 220px;
   z-index: 11;
-  background-color: inherit;
+  background-color: var(--partner-background-gray);
   border-right: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
