@@ -11,6 +11,7 @@ import {
   PButton,
   PTypography,
   PTooltip,
+  PIcon,
 } from '@partnerdevops/partner-components'
 import type { MeasureResult } from '../types/assessment'
 
@@ -163,6 +164,41 @@ function paybackColor(val?: number): string {
   if (val <= 15) return '#eab308'
   return '#ef4444'
 }
+
+// ---- Description expand/collapse ----
+
+const DESC_TRUNCATE_LENGTH = 90
+
+const allDescExpanded = ref(false)
+const expandedDescIds = ref(new Set<number>())
+
+function isDescExpanded(upgradeId: number): boolean {
+  return allDescExpanded.value || expandedDescIds.value.has(upgradeId)
+}
+
+function toggleDescRow(upgradeId: number) {
+  const ids = new Set(expandedDescIds.value)
+  if (ids.has(upgradeId)) {
+    ids.delete(upgradeId)
+    // If we were in expand-all mode and user collapses one, exit expand-all
+    allDescExpanded.value = false
+  } else {
+    ids.add(upgradeId)
+  }
+  expandedDescIds.value = ids
+}
+
+function toggleDescAll() {
+  allDescExpanded.value = !allDescExpanded.value
+  // Clear individual overrides when toggling global
+  expandedDescIds.value = new Set()
+}
+
+function truncateText(text: string | undefined | null, maxLength: number): string {
+  if (!text) return '\u2014'
+  if (text.length <= maxLength) return text
+  return text.substring(0, maxLength) + '...'
+}
 </script>
 
 <template>
@@ -248,7 +284,14 @@ function paybackColor(val?: number): string {
               Useful Life (yrs)
             </PTableHead>
             <PTableHead class="measures-th measures-th--desc">
-              Description
+              <span class="measures-desc-toggle" @click="toggleDescAll">
+                <PIcon
+                  :name="allDescExpanded ? 'chevron-down' : 'chevron-right'"
+                  size="small"
+                  class="measures-desc-toggle__icon"
+                />
+                Description
+              </span>
             </PTableHead>
           </PTableRow>
         </PTableHeader>
@@ -262,7 +305,7 @@ function paybackColor(val?: number): string {
             <PTableCell class="measures-cell measures-cell--name">
               <PTypography variant="body2">{{ m.name }}</PTypography>
             </PTableCell>
-            <PTableCell class="measures-cell">
+            <PTableCell class="measures-cell measures-cell--category">
               <PBadge :variant="getCategoryConfig(m.category).variant" appearance="standard">
                 {{ getCategoryConfig(m.category).label }}
               </PBadge>
@@ -331,9 +374,18 @@ function paybackColor(val?: number): string {
             </PTableCell>
             <!-- Description -->
             <PTableCell class="measures-cell measures-cell--desc">
-              <PTypography variant="body2" component="span">
-                {{ m.description ?? '\u2014' }}
-              </PTypography>
+              <div class="measures-desc-content" v-if="m.description">
+                <PIcon
+                  :name="isDescExpanded(m.upgrade_id) ? 'chevron-down' : 'chevron-right'"
+                  size="small"
+                  class="measures-desc-row-icon"
+                  @click="toggleDescRow(m.upgrade_id)"
+                />
+                <PTypography variant="body2" component="span">
+                  {{ isDescExpanded(m.upgrade_id) ? m.description : truncateText(m.description, DESC_TRUNCATE_LENGTH) }}
+                </PTypography>
+              </div>
+              <PTypography v-else variant="body2" component="span">&#8212;</PTypography>
             </PTableCell>
           </PTableRow>
         </PTableBody>
@@ -352,7 +404,7 @@ function paybackColor(val?: number): string {
         {{ nonApplicableMeasures.length }} non-applicable measures
       </PButton>
 
-      <div v-if="showNonApplicable" class="measures-table-wrapper measures-nonapplicable__table">
+      <div v-if="showNonApplicable" class="measures-table-wrapper measures-nonapplicable__table measures-table-wrapper--secondary">
         <PTable class="measures-table">
           <PTableBody>
             <PTableRow
@@ -366,7 +418,7 @@ function paybackColor(val?: number): string {
               <PTableCell class="measures-cell measures-cell--name">
                 <PTypography variant="body2">{{ m.name }}</PTypography>
               </PTableCell>
-              <PTableCell class="measures-cell">
+              <PTableCell class="measures-cell measures-cell--category">
                 <PBadge :variant="getCategoryConfig(m.category).variant" appearance="standard">
                   {{ getCategoryConfig(m.category).label }}
                 </PBadge>
@@ -399,9 +451,18 @@ function paybackColor(val?: number): string {
                 <PTypography variant="body2" component="span">&#8212;</PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--desc">
-                <PTypography variant="body2" component="span">
-                  {{ m.description ?? '\u2014' }}
-                </PTypography>
+                <div class="measures-desc-content" v-if="m.description">
+                  <PIcon
+                    :name="isDescExpanded(m.upgrade_id) ? 'chevron-down' : 'chevron-right'"
+                    size="small"
+                    class="measures-desc-row-icon"
+                    @click="toggleDescRow(m.upgrade_id)"
+                  />
+                  <PTypography variant="body2" component="span">
+                    {{ isDescExpanded(m.upgrade_id) ? m.description : truncateText(m.description, DESC_TRUNCATE_LENGTH) }}
+                  </PTypography>
+                </div>
+                <PTypography v-else variant="body2" component="span">&#8212;</PTypography>
               </PTableCell>
             </PTableRow>
           </PTableBody>
@@ -452,12 +513,34 @@ function paybackColor(val?: number): string {
 }
 
 /* ---- Table wrapper ---- */
+/*
+ * NOTE: Sticky columns and sticky header are implemented via scoped CSS here
+ * because the partner-components PTable does not yet support sticky/pinned columns.
+ * When integrating into the main application (SL Heaven), these overrides should
+ * be migrated to the partner-components library as proper PTable props/features.
+ * Reference: SL Heaven AssetPlanner table pattern.
+ */
 .measures-table-wrapper {
-  overflow-x: auto;
+  max-height: 75vh;
+  overflow-y: auto;
+  overflow-x: scroll;
+  position: relative;
 }
 
 .measures-table {
   width: 100%;
+}
+
+/* ---- Sticky header ---- */
+.measures-table :deep(thead) {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: inherit;
+}
+
+.measures-table :deep(tbody tr) {
+  background-color: var(--app-surface-raised, white);
 }
 
 /* ---- Header cells ---- */
@@ -467,10 +550,19 @@ function paybackColor(val?: number): string {
 
 .measures-th--name {
   min-width: 220px;
+  position: sticky;
+  left: 0;
+  z-index: 11;
+  background-color: inherit;
 }
 
 .measures-th--category {
   min-width: 120px;
+  position: sticky;
+  left: 220px;
+  z-index: 11;
+  background-color: inherit;
+  border-right: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
 .measures-th--numeric {
@@ -487,6 +579,19 @@ function paybackColor(val?: number): string {
   font-weight: 500;
   color: var(--partner-text-primary, #333e47);
   min-width: 220px;
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background-color: inherit;
+}
+
+.measures-cell--category {
+  min-width: 120px;
+  position: sticky;
+  left: 220px;
+  z-index: 3;
+  background-color: inherit;
+  border-right: 1px solid var(--partner-border-divider, #e2e8f0);
 }
 
 .measures-cell--mono {
@@ -498,13 +603,49 @@ function paybackColor(val?: number): string {
 }
 
 .measures-th--desc {
-  min-width: 250px;
+  min-width: 280px;
 }
 
 .measures-cell--desc {
-  max-width: 350px;
+  min-width: 280px;
+  max-width: 400px;
   white-space: normal;
   line-height: 1.4;
+}
+
+/* ---- Description expand toggle ---- */
+.measures-desc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.measures-desc-toggle:hover {
+  color: var(--partner-text-primary, #333e47);
+}
+
+.measures-desc-toggle__icon {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.measures-desc-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.measures-desc-row-icon {
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-top: 0.125rem;
+  transition: transform 0.2s ease;
+}
+
+.measures-desc-row-icon:hover {
+  color: var(--partner-text-primary, #333e47);
 }
 
 /* ---- Cost tooltip trigger ---- */
@@ -536,6 +677,10 @@ function paybackColor(val?: number): string {
 
 .measures-nonapplicable__table {
   margin-top: 0.5rem;
+}
+
+.measures-table-wrapper--secondary {
+  max-height: 40vh;
 }
 
 /* ---- Responsive ---- */
