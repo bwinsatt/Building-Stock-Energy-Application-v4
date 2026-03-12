@@ -1,5 +1,7 @@
 """Tests for emissions calculation module."""
 
+import logging
+
 import pytest
 from app.services.emissions import calculate_emissions
 
@@ -92,3 +94,42 @@ class TestEmissionsReductionPct:
         post_upgrade = {"electricity": 0.0}
         result = calculate_emissions_reduction_pct(baseline, post_upgrade, 0.4)
         assert abs(result - 100.0) < 0.001
+
+    def test_reduction_clamped_to_100_when_raw_exceeds_100(self):
+        """Reductions should be clamped at 100%."""
+        from app.services.emissions import calculate_emissions_reduction_pct
+
+        baseline = {"electricity": 10.0}
+        post_upgrade = {"electricity": -1.0}
+        result = calculate_emissions_reduction_pct(baseline, post_upgrade, 0.4)
+        assert result == 100.0
+
+    def test_negative_reduction_within_range_is_preserved(self):
+        """Negative reductions within bounds should be preserved."""
+        from app.services.emissions import calculate_emissions_reduction_pct
+
+        baseline = {"electricity": 10.0}
+        post_upgrade = {"electricity": 12.0}
+        result = calculate_emissions_reduction_pct(baseline, post_upgrade, 0.4)
+        assert result == pytest.approx(-20.0)
+
+    def test_reduction_clamped_to_minus_100_when_raw_below_range(self):
+        """Very negative reductions should be clamped at -100%."""
+        from app.services.emissions import calculate_emissions_reduction_pct
+
+        baseline = {"electricity": 10.0}
+        post_upgrade = {"electricity": 30.0}
+        result = calculate_emissions_reduction_pct(baseline, post_upgrade, 0.4)
+        assert result == -100.0
+
+    def test_logs_warning_when_reduction_is_clamped(self, caplog):
+        """Out-of-range raw reductions should emit a warning for debugging."""
+        from app.services.emissions import calculate_emissions_reduction_pct
+
+        caplog.set_level(logging.WARNING)
+        baseline = {"electricity": 10.0}
+        post_upgrade = {"electricity": -1.0}
+        result = calculate_emissions_reduction_pct(baseline, post_upgrade, 0.4)
+
+        assert result == 100.0
+        assert "out of range" in caplog.text

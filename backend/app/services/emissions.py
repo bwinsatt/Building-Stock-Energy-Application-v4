@@ -7,9 +7,12 @@ Designed to be reusable for both baseline and post-upgrade energy values.
 
 from __future__ import annotations
 
+import logging
 from typing import Optional
 
 from app.constants import KWH_TO_KBTU, FOSSIL_FUEL_EMISSION_FACTORS
+
+logger = logging.getLogger(__name__)
 
 
 def calculate_emissions(
@@ -56,8 +59,8 @@ def calculate_emissions_reduction_pct(
         electricity_ef: electricity emission factor in kg CO2e/kWh.
 
     Returns:
-        Emissions reduction percentage (0-100). Returns 0.0 if baseline
-        emissions are zero.
+        Emissions reduction percentage, clamped to -100 to 100. Returns 0.0
+        if baseline emissions are zero.
     """
     baseline_emissions = calculate_emissions(baseline_energy_kwh, electricity_ef)
     post_emissions = calculate_emissions(post_upgrade_energy_kwh, electricity_ef)
@@ -65,4 +68,16 @@ def calculate_emissions_reduction_pct(
     if baseline_emissions <= 0:
         return 0.0
 
-    return (baseline_emissions - post_emissions) / baseline_emissions * 100
+    raw_pct = (baseline_emissions - post_emissions) / baseline_emissions * 100
+    clamped_pct = max(-100.0, min(100.0, raw_pct))
+
+    if clamped_pct != raw_pct:
+        logger.warning(
+            "Emissions reduction out of range (raw=%s, baseline=%s, post=%s); clamped to %s",
+            round(raw_pct, 4),
+            round(baseline_emissions, 4),
+            round(post_emissions, 4),
+            round(clamped_pct, 4),
+        )
+
+    return clamped_pct

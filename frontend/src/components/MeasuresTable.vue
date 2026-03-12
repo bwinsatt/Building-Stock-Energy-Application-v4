@@ -125,6 +125,7 @@ const CATEGORY_DISPLAY_MAP: Record<string, { variant: BadgeVariant; label: strin
   envelope: { variant: 'success', label: 'Envelope' },
   lighting: { variant: 'warning', label: 'Lighting' },
   demand_flex: { variant: 'secondary', label: 'Demand Flex' },
+  water_heater: { variant: 'neutral', label: 'Water Heating' },
   water_heating: { variant: 'neutral', label: 'Water Heating' },
   kitchen: { variant: 'neutral', label: 'Kitchen' },
   package: { variant: 'primary', label: 'Package' },
