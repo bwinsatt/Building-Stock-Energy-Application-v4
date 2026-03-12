@@ -22,13 +22,13 @@ from app.schemas.response import (
     InputSummary,
     MeasureResult,
 )
-from app.services.preprocessor import preprocess, year_to_vintage
+from app.constants import KWH_TO_KBTU, KWH_TO_THERMS
+from app.services.emissions import calculate_emissions_reduction_pct
+from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
 from app.services.cost_calculator import CostCalculatorService
 
 logger = logging.getLogger(__name__)
-
-from app.constants import KWH_TO_KBTU
 
 
 
@@ -86,6 +86,21 @@ def _get_upgrade_category(
     )
     entry = catalog.get(str(upgrade_id), {})
     return entry.get("measure_category", "other")
+
+
+def _get_upgrade_description(
+    upgrade_id: int,
+    dataset: str,
+    cost_calculator: CostCalculatorService,
+) -> str | None:
+    """Return the measure description from the cost lookup."""
+    catalog = (
+        cost_calculator._comstock
+        if dataset == "comstock"
+        else cost_calculator._resstock
+    )
+    entry = catalog.get(str(upgrade_id), {})
+    return entry.get("description")
 
 
 # ---------------------------------------------------------------------------
@@ -308,6 +323,22 @@ def _assess_single(
         if cost and bill_savings_per_sf > 0:
             payback = cost.installed_cost_per_sf / bill_savings_per_sf
 
+        # Per-fuel savings in display units
+        elec_savings_kwh = round(savings_kwh.get("electricity", 0.0), 2)
+        gas_savings_therms = round(
+            savings_kwh.get("natural_gas", 0.0) * KWH_TO_THERMS, 4
+        )
+        other_fuels = ["fuel_oil", "propane", "district_heating"]
+        other_savings_kbtu = round(
+            sum(savings_kwh.get(f, 0.0) for f in other_fuels) * KWH_TO_KBTU, 2
+        )
+
+        # Emissions reduction
+        electricity_ef = get_electricity_emission_factor(building.zipcode)
+        emissions_pct = calculate_emissions_reduction_pct(
+            baseline_eui, post_eui, electricity_ef
+        )
+
         measures.append(
             MeasureResult(
                 upgrade_id=uid,
@@ -320,6 +351,11 @@ def _assess_single(
                 cost=cost,
                 utility_bill_savings_per_sf=round(bill_savings_per_sf, 4),
                 simple_payback_years=round(payback, 1) if payback else None,
+                electricity_savings_kwh=elec_savings_kwh if elec_savings_kwh else None,
+                gas_savings_therms=gas_savings_therms if gas_savings_therms else None,
+                other_fuel_savings_kbtu=other_savings_kbtu if other_savings_kbtu else None,
+                emissions_reduction_pct=round(emissions_pct, 1) if emissions_pct else None,
+                description=_get_upgrade_description(uid, dataset, cost_calculator),
             )
         )
 
