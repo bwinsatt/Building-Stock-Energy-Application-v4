@@ -527,9 +527,20 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   width: 100%;
 }
 
+/*
+ * The shadcn Table component wraps <table> in <div class="overflow-auto">.
+ * That intermediate div intercepts position:sticky as the scroll container
+ * (even without a height constraint, overflow:auto creates a scroll container
+ * in CSS terms). Override to visible so .measures-table-wrapper is the
+ * effective scroll container for sticky headers and columns.
+ */
+.measures-table-wrapper > :deep(div) {
+  overflow: visible;
+}
+
 /* ---- Sticky header ----
- * position:sticky on <thead> is unreliable across browsers; sticky must be on
- * the individual <th> elements (matches SL Heaven EWEM pattern: th { position:sticky; top:0 })
+ * position:sticky on individual <th> elements (SL Heaven EWEM pattern).
+ * Works because the scroll container is now .measures-table-wrapper.
  */
 .measures-table :deep(tbody tr) {
   background-color: var(--app-surface-raised, white);
