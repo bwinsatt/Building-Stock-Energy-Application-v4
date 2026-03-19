@@ -1,5 +1,6 @@
 """
-Model Manager — indexes all XGBoost models at startup but loads them lazily.
+Model Manager — indexes all XGBoost/LightGBM/CatBoost models at startup but
+loads them lazily.
 
 Models are organised in nested dicts keyed by dataset ('comstock' / 'resstock'),
 model category ('baseline', 'sizing', 'rates', 'upgrades'), and target name.
@@ -9,6 +10,11 @@ Loading strategy:
   - First request for a dataset: eagerly load baseline + sizing + rates (~11
     small models).
   - Upgrade models: loaded on-demand with an LRU cache to cap memory usage.
+
+Ensemble blending:
+  - baseline and upgrade models support multiple prefixes (XGB, LGBM, CB).
+  - Predictions from all available prefixes are averaged with equal weights.
+  - If only XGB models exist on disk, blending is transparent (single-model avg).
 """
 
 import json
@@ -44,12 +50,24 @@ _DIR_MAP = {
 }
 
 # Regex patterns for model file naming conventions
-_RE_UPGRADE = re.compile(r"^XGB_upgrade(\d+)_(.+)\.pkl$")
+_MODEL_PREFIXES = ('XGB', 'LGBM', 'CB')
+_RE_UPGRADE = re.compile(r"^(XGB|LGBM|CB)_upgrade(\d+)_(.+)\.pkl$")
 _RE_SIZING  = re.compile(r"^XGB_(.+)\.pkl$")
 _RE_RATE    = re.compile(r"^XGB_rate_(.+)\.pkl$")
 
 # Default max upgrade bundles kept in memory per dataset
 _DEFAULT_LRU_CAP = 400
+
+
+# ---------------------------------------------------------------------------
+# _blend_predictions  (ensemble averaging)
+# ---------------------------------------------------------------------------
+
+def _blend_predictions(predictions: dict[str, float]) -> float:
+    """Average predictions from multiple model types. Equal weights."""
+    if not predictions:
+        raise ValueError("No predictions to blend")
+    return sum(predictions.values()) / len(predictions)
 
 
 # ---------------------------------------------------------------------------
@@ -100,9 +118,9 @@ def encode_features(df, feature_cols, encoders=None):
                 df_enc[col] = pd.Categorical(df_enc[col], categories=categories)
             else:
                 # Column is string but not in encoders — treat as numeric
-                df_enc[col] = pd.to_numeric(df_enc[col], errors="coerce").fillna(0)
+                df_enc[col] = pd.to_numeric(df_enc[col], errors="coerce")
         else:
-            df_enc[col] = pd.to_numeric(df_enc[col], errors="coerce").fillna(0)
+            df_enc[col] = pd.to_numeric(df_enc[col], errors="coerce")
 
     return df_enc, encoders
 
@@ -190,12 +208,20 @@ class ModelManager:
                 m = _RE_UPGRADE.match(name)
                 if not m:
                     continue
-                upgrade_id = int(m.group(1))
-                fuel_name = m.group(2)
+                prefix = m.group(1)
+                upgrade_id = int(m.group(2))
+                fuel_name = m.group(3)
                 if upgrade_id == 0:
-                    self._index[dataset]["baseline"][fuel_name] = pkl_path
+                    # baseline: fuel -> {prefix: Path}
+                    if fuel_name not in self._index[dataset]["baseline"]:
+                        self._index[dataset]["baseline"][fuel_name] = {}
+                    self._index[dataset]["baseline"][fuel_name][prefix] = pkl_path
                 else:
-                    self._index[dataset]["upgrades"][(upgrade_id, fuel_name)] = pkl_path
+                    # upgrades: (upgrade_id, fuel) -> {prefix: Path}
+                    key = (upgrade_id, fuel_name)
+                    if key not in self._index[dataset]["upgrades"]:
+                        self._index[dataset]["upgrades"][key] = {}
+                    self._index[dataset]["upgrades"][key][prefix] = pkl_path
                 indexed += 1
 
             elif category == "sizing":
@@ -226,10 +252,21 @@ class ModelManager:
             if self._dataset_initialised[dataset]:
                 return  # double-check after acquiring lock
             for category in ("baseline", "sizing", "rates"):
-                for key, pkl_path in self._index[dataset][category].items():
-                    bundle = self._load_bundle(pkl_path)
-                    if bundle:
-                        self._loaded[dataset][category][key] = bundle
+                for key, value in self._index[dataset][category].items():
+                    if category == "baseline":
+                        # value is {prefix: Path} dict
+                        ensemble = {}
+                        for prefix, pkl_path in value.items():
+                            bundle = self._load_bundle(pkl_path)
+                            if bundle:
+                                ensemble[prefix] = bundle
+                        if ensemble:
+                            self._loaded[dataset]["baseline"][key] = ensemble
+                    else:
+                        # sizing/rates: value is a Path (unchanged)
+                        bundle = self._load_bundle(value)
+                        if bundle:
+                            self._loaded[dataset][category][key] = bundle
             count = sum(
                 len(self._loaded[dataset][c]) for c in ("baseline", "sizing", "rates")
             )
@@ -239,7 +276,10 @@ class ModelManager:
             self._dataset_initialised[dataset] = True
 
     def _get_upgrade_bundle(self, dataset: str, upgrade_id: int, fuel: str) -> Optional[dict]:
-        """Get an upgrade bundle, loading from disk if not cached."""
+        """Get an upgrade ensemble dict, loading from disk if not cached.
+
+        Returns a dict mapping prefix -> bundle (e.g. {'XGB': {...}}).
+        """
         cache = self._upgrade_cache[dataset]
         cache_key = (upgrade_id, fuel)
 
@@ -248,24 +288,29 @@ class ModelManager:
             cache.move_to_end(cache_key)
             return cache[cache_key]
 
-        # Slow path: load from disk
-        pkl_path = self._index[dataset]["upgrades"].get(cache_key)
-        if pkl_path is None:
+        # Slow path: load all prefixes from disk
+        prefix_paths = self._index[dataset]["upgrades"].get(cache_key)
+        if not prefix_paths:
             return None
 
-        bundle = self._load_bundle(pkl_path)
-        if bundle is None:
+        ensemble = {}
+        for prefix, pkl_path in prefix_paths.items():
+            bundle = self._load_bundle(pkl_path)
+            if bundle:
+                ensemble[prefix] = bundle
+
+        if not ensemble:
             return None
 
         with self._lock:
-            cache[cache_key] = bundle
+            cache[cache_key] = ensemble
             cache.move_to_end(cache_key)
             # Evict oldest if over cap
             while len(cache) > self._lru_cap:
                 evicted_key, _ = cache.popitem(last=False)
                 logger.debug("Evicted upgrade model %s/%s from cache", dataset, evicted_key)
 
-        return bundle
+        return ensemble
 
     # -- generic bundle loader --
 
@@ -352,6 +397,13 @@ class ModelManager:
 
         return float(pred)
 
+    def _predict_ensemble(self, ensemble: dict, features_dict: dict, _enc_cache: dict | None = None) -> float:
+        """Run all models in an ensemble bundle and blend predictions."""
+        predictions = {}
+        for prefix, bundle in ensemble.items():
+            predictions[prefix] = self._predict_single(bundle, features_dict, _enc_cache)
+        return _blend_predictions(predictions)
+
     # ------------------------------------------------------------------
     # Public prediction methods
     # ------------------------------------------------------------------
@@ -369,8 +421,8 @@ class ModelManager:
                 f"No baseline models loaded for dataset '{dataset}'"
             )
         return {
-            fuel: self._predict_single(bundle, features_dict, _enc_cache)
-            for fuel, bundle in bundles.items()
+            fuel: self._predict_ensemble(ensemble, features_dict, _enc_cache)
+            for fuel, ensemble in bundles.items()
         }
 
     def predict_sizing(self, features_dict: dict, dataset: str, _enc_cache: dict | None = None) -> dict:
@@ -471,12 +523,12 @@ class ModelManager:
 
         results = {}
         for fuel in fuel_keys:
-            bundle = self._get_upgrade_bundle(dataset, upgrade_id, fuel)
-            if bundle is None:
+            ensemble = self._get_upgrade_bundle(dataset, upgrade_id, fuel)
+            if ensemble is None:
                 logger.warning(
                     "Failed to load upgrade %d/%s for %s", upgrade_id, fuel, dataset
                 )
                 continue
-            results[fuel] = self._predict_single(bundle, features_dict, _enc_cache)
+            results[fuel] = self._predict_ensemble(ensemble, features_dict, _enc_cache)
 
         return results
