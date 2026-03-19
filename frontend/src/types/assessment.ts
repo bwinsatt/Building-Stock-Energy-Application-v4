@@ -17,6 +17,11 @@ export interface BuildingInput {
   water_heater_efficiency?: string
   insulation_wall?: string
   infiltration?: string
+  annual_electricity_kwh?: number
+  annual_natural_gas_therms?: number
+  annual_fuel_oil_gallons?: number
+  annual_propane_gallons?: number
+  annual_district_heating_kbtu?: number
 }
 
 export interface FuelBreakdown {
@@ -31,6 +36,8 @@ export interface BaselineResult {
   total_eui_kbtu_sf: number
   eui_by_fuel: FuelBreakdown
   emissions_kg_co2e_per_sf?: number
+  actual_eui_by_fuel?: FuelBreakdown
+  actual_total_eui_kbtu_sf?: number
 }
 
 export interface CostEstimate {
@@ -81,6 +88,7 @@ export interface BuildingResult {
   baseline: BaselineResult
   measures: MeasureResult[]
   input_summary: InputSummary
+  calibrated: boolean
 }
 
 export interface AssessmentResponse {
