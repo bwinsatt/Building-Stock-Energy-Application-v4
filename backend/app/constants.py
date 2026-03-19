@@ -10,6 +10,11 @@ KWH_TO_KBTU = 3.412
 KWH_TO_THERMS = 0.03412
 TONS_TO_KBTUH = 12.0
 
+# Fuel-to-kWh conversion factors (for utility bill input conversion)
+KWH_PER_THERM = 29.31          # 1 therm = 29.31 kWh
+KWH_PER_GALLON_FUEL_OIL = 40.6  # 1 gallon #2 fuel oil = 40.6 kWh
+KWH_PER_GALLON_PROPANE = 26.8   # 1 gallon propane = 26.8 kWh
+
 # Area conversions
 SQFT_PER_M2 = 10.7639
 M2_PER_SQFT = 1 / SQFT_PER_M2  # ~0.0929

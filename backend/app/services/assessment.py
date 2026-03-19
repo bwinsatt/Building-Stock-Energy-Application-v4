@@ -22,7 +22,7 @@ from app.schemas.response import (
     InputSummary,
     MeasureResult,
 )
-from app.constants import KWH_TO_KBTU, KWH_TO_THERMS
+from app.constants import KWH_TO_KBTU, KWH_TO_THERMS, KWH_PER_THERM, KWH_PER_GALLON_FUEL_OIL, KWH_PER_GALLON_PROPANE
 from app.services.emissions import calculate_emissions_reduction_pct
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
@@ -162,6 +162,39 @@ def _geometric_sizing(
         "wall_area": wall_area,
         "roof_area": roof_area,
         "window_area": window_area,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Utility data conversion helper
+# ---------------------------------------------------------------------------
+
+def convert_utility_to_eui(
+    sqft: float,
+    annual_electricity_kwh: float | None = None,
+    annual_natural_gas_therms: float | None = None,
+    annual_fuel_oil_gallons: float | None = None,
+    annual_propane_gallons: float | None = None,
+    annual_district_heating_kbtu: float | None = None,
+) -> dict[str, float] | None:
+    """Convert user-provided annual utility data to kWh/sqft per fuel.
+
+    Returns None if no utility data is provided.
+    """
+    has_data = any(v is not None for v in [
+        annual_electricity_kwh, annual_natural_gas_therms,
+        annual_fuel_oil_gallons, annual_propane_gallons,
+        annual_district_heating_kbtu,
+    ])
+    if not has_data:
+        return None
+
+    return {
+        "electricity": (annual_electricity_kwh or 0) / sqft,
+        "natural_gas": (annual_natural_gas_therms or 0) * KWH_PER_THERM / sqft,
+        "fuel_oil": (annual_fuel_oil_gallons or 0) * KWH_PER_GALLON_FUEL_OIL / sqft,
+        "propane": (annual_propane_gallons or 0) * KWH_PER_GALLON_PROPANE / sqft,
+        "district_heating": (annual_district_heating_kbtu or 0) / KWH_TO_KBTU / sqft,
     }
 
 
