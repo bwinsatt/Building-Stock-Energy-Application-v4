@@ -59,6 +59,7 @@ export function useProjects() {
     projectId: number, address: string,
     buildingInput: Record<string, unknown>,
     utilityData?: Record<string, unknown>,
+    lookupData?: Record<string, unknown>,
   ) {
     const resp = await fetch(`${API_BASE}/projects/${projectId}/buildings`, {
       method: 'POST',
@@ -67,8 +68,16 @@ export function useProjects() {
         address,
         building_input: buildingInput,
         utility_data: utilityData,
+        lookup_data: lookupData,
       }),
     })
+    if (!resp.ok) throw new Error('Failed to create building')
+    return await resp.json()
+  }
+
+  async function fetchBuilding(projectId: number, buildingId: number) {
+    const resp = await fetch(`${API_BASE}/projects/${projectId}/buildings/${buildingId}`)
+    if (!resp.ok) throw new Error('Building not found')
     return await resp.json()
   }
 
@@ -84,12 +93,13 @@ export function useProjects() {
         body: JSON.stringify({ result, calibrated }),
       },
     )
+    if (!resp.ok) throw new Error('Failed to save assessment')
     return await resp.json()
   }
 
   return {
     projects, currentProject, loading, error,
     fetchProjects, fetchProject, createProject,
-    deleteProject, createBuilding, saveAssessment,
+    deleteProject, createBuilding, fetchBuilding, saveAssessment,
   }
 }
