@@ -22,6 +22,11 @@ KWH_PER_GALLON_PROPANE = 26.8   # 1 gallon propane = 26.8 kWh
 SQFT_PER_M2 = 10.7639
 M2_PER_SQFT = 1 / SQFT_PER_M2  # ~0.0929
 
+# Geometric defaults for building sizing
+STORY_HEIGHT_COMMERCIAL = 12  # feet
+STORY_HEIGHT_RESIDENTIAL = 10  # feet
+ASPECT_RATIO = 1.8  # length / width
+
 # Fossil fuel emission factors (kg CO2e per kBtu)
 # Source: NREL archive calculations, standard EPA factors
 # Geometric defaults for building sizing
