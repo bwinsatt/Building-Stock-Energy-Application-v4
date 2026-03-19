@@ -29,6 +29,23 @@ class BuildingInput(BaseModel):
     annual_propane_gallons: Optional[float] = None
     annual_district_heating_kbtu: Optional[float] = None
 
+    # Advanced inputs (optional — XGBoost handles NaN natively)
+    thermostat_heating_setpoint: Optional[float] = Field(
+        None, ge=50, le=85, description="Heating setpoint (°F)"
+    )
+    thermostat_cooling_setpoint: Optional[float] = Field(
+        None, ge=65, le=90, description="Cooling setpoint (°F)"
+    )
+    thermostat_heating_setback: Optional[float] = Field(
+        None, ge=0, le=20, description="Heating setback delta (°F)"
+    )
+    thermostat_cooling_setback: Optional[float] = Field(
+        None, ge=0, le=20, description="Cooling setback delta (°F)"
+    )
+    weekend_operating_hours: Optional[float] = Field(
+        None, ge=0, le=24, description="Weekend operating hours per day"
+    )
+
 
 class AssessmentRequest(BaseModel):
     buildings: list[BuildingInput]

@@ -71,6 +71,27 @@ RESSTOCK_FIELD_MAP = {
 }
 
 # ---------------------------------------------------------------------------
+# Advanced optional input field maps (thermostat, weekend hours)
+# These map user-facing field names to training-data column names.
+# Values are NaN when not provided — XGBoost handles NaN natively.
+# ---------------------------------------------------------------------------
+
+COMSTOCK_ADVANCED_FIELD_MAP = {
+    "thermostat_heating_setpoint": "in.tstat_htg_sp_f..f",
+    "thermostat_cooling_setpoint": "in.tstat_clg_sp_f..f",
+    "thermostat_heating_setback": "in.tstat_htg_delta_f..delta_f",
+    "thermostat_cooling_setback": "in.tstat_clg_delta_f..delta_f",
+    "weekend_operating_hours": "in.weekend_operating_hours..hr",
+}
+
+RESSTOCK_ADVANCED_FIELD_MAP = {
+    "thermostat_heating_setpoint": "in.heating_setpoint",
+    "thermostat_cooling_setpoint": "in.cooling_setpoint",
+    "thermostat_heating_setback": "in.heating_setpoint_offset_magnitude",
+    "thermostat_cooling_setback": "in.cooling_setpoint_offset_magnitude",
+}
+
+# ---------------------------------------------------------------------------
 # Auto-imputed features (no direct user input; always filled automatically)
 # ---------------------------------------------------------------------------
 
@@ -918,6 +939,18 @@ class _ZipcodeLookup:
             return entry.get("electricity_emission_factor_kg_co2e_per_kwh")
         return None
 
+    def get_hdd_cdd(self, zipcode: str) -> tuple[float, float]:
+        """Return (hdd65f, cdd65f) for a zipcode. Falls back to national medians."""
+        if self._prefixes is None:
+            self._load()
+        assert self._prefixes is not None
+
+        prefix = zipcode[:3]
+        entry = self._prefixes.get(prefix)
+        if entry is not None:
+            return entry.get("hdd65f", 4800.0), entry.get("cdd65f", 1400.0)
+        return 4800.0, 1400.0  # national median fallback
+
 
 _zip_lookup = _ZipcodeLookup()
 
@@ -1156,6 +1189,7 @@ def preprocess(
     state, climate_zone, cluster_name = _get_location_from_zipcode(
         building_input.zipcode
     )
+    hdd65f, cdd65f = _zip_lookup.get_hdd_cdd(building_input.zipcode)
 
     # --- 4. Impute missing optional fields ---
     bt_defaults = DEFAULTS.get(building_input.building_type, DEFAULT_FALLBACK)
@@ -1319,6 +1353,20 @@ def preprocess(
             "source": "derived",
             "confidence": None,
         }
+
+    # --- 8c. Derive HDD/CDD and derived features ---
+    features['hdd65f'] = hdd65f
+    features['cdd65f'] = cdd65f
+    features['floor_plate_sqft'] = building_input.sqft / building_input.num_stories
+
+    # --- 8d. Map advanced optional inputs (NaN when not provided) ---
+    advanced_map = COMSTOCK_ADVANCED_FIELD_MAP if not is_resstock else RESSTOCK_ADVANCED_FIELD_MAP
+    for user_field, model_col in advanced_map.items():
+        value = getattr(building_input, user_field, None)
+        if value is not None:
+            features[model_col] = value
+        else:
+            features[model_col] = float('nan')  # XGBoost handles NaN natively
 
     # --- 9. Expose resolved efficiency/envelope values in imputed_details ---
     # For ResStock: show the actual heating/cooling/DHW efficiency, wall

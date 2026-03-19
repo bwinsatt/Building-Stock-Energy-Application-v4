@@ -1,0 +1,390 @@
+{
+  "Alaska": {
+    "hdd65f": 8752.6,
+    "cdd65f": 20.6
+  },
+  "Amarillo-Lubbock-Abilene-Midland-San Angelo": {
+    "hdd65f": 3690.0,
+    "cdd65f": 2498.1
+  },
+  "Boise-Twin Falls": {
+    "hdd65f": 5369.6,
+    "cdd65f": 1340.3
+  },
+  "Brownsville-Corpus Christi-McAllen-Victoria Areas": {
+    "hdd65f": 725.8,
+    "cdd65f": 4905.0
+  },
+  "CO Mountain Rural": {
+    "hdd65f": 8168.6,
+    "cdd65f": 612.3
+  },
+  "California Climate Zone 10": {
+    "hdd65f": 2169.7,
+    "cdd65f": 3694.8
+  },
+  "California Climate Zone 11": {
+    "hdd65f": 2907.8,
+    "cdd65f": 1823.9
+  },
+  "California Climate Zone 12": {
+    "hdd65f": 2759.7,
+    "cdd65f": 1544.4
+  },
+  "California Climate Zone 13": {
+    "hdd65f": 2122.0,
+    "cdd65f": 2695.6
+  },
+  "California Climate Zone 3": {
+    "hdd65f": 3057.6,
+    "cdd65f": 231.9
+  },
+  "California Climate Zone 4": {
+    "hdd65f": 2641.2,
+    "cdd65f": 489.7
+  },
+  "California Climate Zone 7": {
+    "hdd65f": 2346.3,
+    "cdd65f": 1025.4
+  },
+  "California Climate Zone 8": {
+    "hdd65f": 1236.0,
+    "cdd65f": 1769.0
+  },
+  "California Climate Zone 9": {
+    "hdd65f": 3089.3,
+    "cdd65f": 2498.5
+  },
+  "California Climate Zones 1, 2, and 16": {
+    "hdd65f": 3789.7,
+    "cdd65f": 834.8
+  },
+  "California Climate Zones 14 and 15": {
+    "hdd65f": 1119.4,
+    "cdd65f": 4955.5
+  },
+  "California Climate Zones 5 and 6": {
+    "hdd65f": 2792.3,
+    "cdd65f": 490.2
+  },
+  "Carson City, Storey and Washoe County": {
+    "hdd65f": 4894.9,
+    "cdd65f": 1554.3
+  },
+  "Central Alabama": {
+    "hdd65f": 2700.3,
+    "cdd65f": 2484.0
+  },
+  "Colorado Eastern Plains": {
+    "hdd65f": 6539.3,
+    "cdd65f": 1070.3
+  },
+  "Counties in North Carolina and South Carolina": {
+    "hdd65f": 3089.9,
+    "cdd65f": 2233.4
+  },
+  "Des Moines, Cedar Rapids, Sioux Falls": {
+    "hdd65f": 7516.1,
+    "cdd65f": 1121.1
+  },
+  "Eastern Counties in South Carolina and Georgia": {
+    "hdd65f": 1981.6,
+    "cdd65f": 2794.0
+  },
+  "Eau Claire, La Crosse, Rochester, and Wausau": {
+    "hdd65f": 8447.8,
+    "cdd65f": 869.5
+  },
+  "Florida": {
+    "hdd65f": 283.5,
+    "cdd65f": 4269.4
+  },
+  "Greater Columbia and Jefferson City Missouri": {
+    "hdd65f": 5183.7,
+    "cdd65f": 1902.1
+  },
+  "Greater Kansas City": {
+    "hdd65f": 5510.9,
+    "cdd65f": 1735.9
+  },
+  "Greater Minneapolis-St Paul": {
+    "hdd65f": 8037.1,
+    "cdd65f": 1026.8
+  },
+  "Hawaii": {
+    "hdd65f": 25.2,
+    "cdd65f": 4189.6
+  },
+  "Indianapolis-St. Louis-Springfield-Peoria": {
+    "hdd65f": 5041.2,
+    "cdd65f": 1909.3
+  },
+  "Las Vegas": {
+    "hdd65f": 2067.7,
+    "cdd65f": 4174.5
+  },
+  "MD Eastern Shore and Rural Northern VA": {
+    "hdd65f": 4010.4,
+    "cdd65f": 2001.0
+  },
+  "Northern Arizona and Washington County Utah": {
+    "hdd65f": 3687.3,
+    "cdd65f": 2715.1
+  },
+  "Northern New England": {
+    "hdd65f": 7354.3,
+    "cdd65f": 798.3
+  },
+  "Northern New York": {
+    "hdd65f": 6400.6,
+    "cdd65f": 1132.5
+  },
+  "Northern Pacific Coast": {
+    "hdd65f": 4829.7,
+    "cdd65f": 83.9
+  },
+  "Northwestern PA, Ashtabula and Chautauqua Counties": {
+    "hdd65f": 6555.4,
+    "cdd65f": 911.6
+  },
+  "Phoenix Area": {
+    "hdd65f": 1238.6,
+    "cdd65f": 4467.7
+  },
+  "Rural Climate Zone 2A - Georgia and Florida": {
+    "hdd65f": 1740.3,
+    "cdd65f": 2909.5
+  },
+  "Rural Climate Zone 3A": {
+    "hdd65f": 2940.0,
+    "cdd65f": 2492.7
+  },
+  "Rural Counties in the Southwest": {
+    "hdd65f": 4282.2,
+    "cdd65f": 2032.3
+  },
+  "Rural Lower Midwest and High Plains": {
+    "hdd65f": 6402.6,
+    "cdd65f": 1386.9
+  },
+  "Rural Lower Plains-Upper South Appalachia": {
+    "hdd65f": 4534.3,
+    "cdd65f": 1756.4
+  },
+  "Rural Midwest Climate Zone 6A": {
+    "hdd65f": 8292.7,
+    "cdd65f": 900.8
+  },
+  "Rural Midwest North": {
+    "hdd65f": 9301.3,
+    "cdd65f": 657.1
+  },
+  "Rural Mountain West": {
+    "hdd65f": 5880.5,
+    "cdd65f": 1268.0
+  },
+  "Rural North and South Carolina Counties": {
+    "hdd65f": 2952.1,
+    "cdd65f": 2401.3
+  },
+  "Rural Rocky Mountains North": {
+    "hdd65f": 8212.8,
+    "cdd65f": 658.1
+  },
+  "Rural Southern Arizona": {
+    "hdd65f": 1717.3,
+    "cdd65f": 3826.5
+  },
+  "Rural Southern Michigan and the Toledo Area": {
+    "hdd65f": 6673.2,
+    "cdd65f": 1067.3
+  },
+  "Rural Upper Michigan, Door and Marinette Counties": {
+    "hdd65f": 7675.0,
+    "cdd65f": 756.7
+  },
+  "Rural West Texas and Oklahoma and Southern New Mexico": {
+    "hdd65f": 2962.6,
+    "cdd65f": 2914.6
+  },
+  "Rural Western Oklahoma": {
+    "hdd65f": 4242.2,
+    "cdd65f": 2259.6
+  },
+  "San Antonio to Waco": {
+    "hdd65f": 1829.0,
+    "cdd65f": 3264.1
+  },
+  "Small Urban Areas in the Dakotas, Idaho, Montana, and Wyoming": {
+    "hdd65f": 7727.4,
+    "cdd65f": 723.5
+  },
+  "Small Urban Northern New York Areas": {
+    "hdd65f": 7277.0,
+    "cdd65f": 870.3
+  },
+  "Southern New England": {
+    "hdd65f": 6133.9,
+    "cdd65f": 1037.3
+  },
+  "the Albuquerque-Santa Fe Area": {
+    "hdd65f": 4015.1,
+    "cdd65f": 1860.1
+  },
+  "the Bismark and Rapid City Area": {
+    "hdd65f": 8072.7,
+    "cdd65f": 714.1
+  },
+  "the Burlington Area and Penobscot County": {
+    "hdd65f": 7099.5,
+    "cdd65f": 1055.5
+  },
+  "the Central Gulf Coast Area": {
+    "hdd65f": 1639.2,
+    "cdd65f": 3262.8
+  },
+  "the Charleston-Huntington-Beckley Area": {
+    "hdd65f": 4649.8,
+    "cdd65f": 1487.3
+  },
+  "the Cheyenne-Denver-Colorado Springs Area": {
+    "hdd65f": 6053.6,
+    "cdd65f": 1089.3
+  },
+  "the Chicago to Green Bay and Madison Area": {
+    "hdd65f": 6814.5,
+    "cdd65f": 1032.0
+  },
+  "the Cleveland to Pittsburgh Greater Area": {
+    "hdd65f": 5828.7,
+    "cdd65f": 1178.1
+  },
+  "the Colorado Mountains": {
+    "hdd65f": 7755.0,
+    "cdd65f": 901.0
+  },
+  "the Columbus-Albany Area": {
+    "hdd65f": 2104.0,
+    "cdd65f": 2733.4
+  },
+  "the Columbus-Dayton-Cincinnati-Lexington Area": {
+    "hdd65f": 5069.8,
+    "cdd65f": 1493.0
+  },
+  "the Duluth-Grand Forks-Fargo Area": {
+    "hdd65f": 9799.4,
+    "cdd65f": 763.0
+  },
+  "the El Paso-Las Cruces Area": {
+    "hdd65f": 2140.0,
+    "cdd65f": 3359.7
+  },
+  "the Evansville and the Shawnee National Forest Area": {
+    "hdd65f": 4756.3,
+    "cdd65f": 1889.0
+  },
+  "the Greater Atlanta and Macon Area": {
+    "hdd65f": 3001.0,
+    "cdd65f": 2141.9
+  },
+  "the Greater Central Virginia and Eastern Shore Area": {
+    "hdd65f": 3900.1,
+    "cdd65f": 1925.2
+  },
+  "the Greater Columbia-Fayetteville-Jefferson City-Joplin-Springfield-Wichita Areas": {
+    "hdd65f": 4526.3,
+    "cdd65f": 1885.2
+  },
+  "the Greater Dallas-Fort Worth Area": {
+    "hdd65f": 2668.9,
+    "cdd65f": 3224.5
+  },
+  "the Greater Gulf Coastal Plains": {
+    "hdd65f": 1913.4,
+    "cdd65f": 3327.6
+  },
+  "the Greater Little Rock Area": {
+    "hdd65f": 3525.0,
+    "cdd65f": 2379.8
+  },
+  "the Greater Louisville Area": {
+    "hdd65f": 4352.9,
+    "cdd65f": 2063.8
+  },
+  "the Greater Memphis Area": {
+    "hdd65f": 3536.7,
+    "cdd65f": 2260.6
+  },
+  "the Greater Nashville and Hopkinsville-Bowling Green Area": {
+    "hdd65f": 3553.8,
+    "cdd65f": 2273.1
+  },
+  "the Greater New York City Area": {
+    "hdd65f": 4839.1,
+    "cdd65f": 1379.4
+  },
+  "the Greater Seattle Area": {
+    "hdd65f": 4347.3,
+    "cdd65f": 477.6
+  },
+  "the Huntsville-Florence Area": {
+    "hdd65f": 3092.7,
+    "cdd65f": 2371.9
+  },
+  "the Jackson-Hattiesburg Area": {
+    "hdd65f": 2505.8,
+    "cdd65f": 2486.2
+  },
+  "the Knoxville-Chattanooga-Asheville and Greenville, SC Area": {
+    "hdd65f": 3354.3,
+    "cdd65f": 1914.0
+  },
+  "the Northwestern Utah and Pocatello Area": {
+    "hdd65f": 4951.9,
+    "cdd65f": 1720.9
+  },
+  "the Omaha-Lincoln Area": {
+    "hdd65f": 6625.0,
+    "cdd65f": 1368.6
+  },
+  "the Portland-Salem-Medford Area": {
+    "hdd65f": 4318.3,
+    "cdd65f": 755.6
+  },
+  "the Rochester and La Crosse Area": {
+    "hdd65f": 8412.5,
+    "cdd65f": 786.3
+  },
+  "the Rochester-Buffalo and Erie, PA Area": {
+    "hdd65f": 6566.1,
+    "cdd65f": 1049.8
+  },
+  "the Rural Eastern Climate Zone 5A Area": {
+    "hdd65f": 5499.7,
+    "cdd65f": 1361.9
+  },
+  "the Shreveport-Texarkana and Alexandria Area": {
+    "hdd65f": 2388.6,
+    "cdd65f": 2982.2
+  },
+  "the Spokane-Coeur d'Alene-Lewiston-Yakima-Wenatchee Area": {
+    "hdd65f": 6263.3,
+    "cdd65f": 915.0
+  },
+  "the Tallahassee-Valdosta Area": {
+    "hdd65f": 1740.3,
+    "cdd65f": 2723.8
+  },
+  "the Texas Border Area": {
+    "hdd65f": 1132.0,
+    "cdd65f": 4360.2
+  },
+  "the Tulsa to Wichita Falls I-44 Corridor": {
+    "hdd65f": 3859.6,
+    "cdd65f": 2417.7
+  },
+  "the Washington DC to Philadelphia Area": {
+    "hdd65f": 4679.2,
+    "cdd65f": 1563.4
+  }
+}

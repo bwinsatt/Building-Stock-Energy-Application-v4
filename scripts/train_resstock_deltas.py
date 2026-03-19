@@ -24,6 +24,7 @@ sys.path.insert(0, PROJECT_ROOT)
 from scripts.training_utils import (
     load_upgrades_lookup, encode_features, tune_hyperparameters,
     train_single_model, evaluate_model, save_model_artifacts,
+    prepare_catboost_data, train_lightgbm_model, train_catboost_model,
 )
 
 # ==============================================================================
@@ -67,13 +68,57 @@ FEATURE_COLS = [
     'in.lighting',
     'in.infiltration',
     'in.geometry_foundation_type',
+    # --- New features ---
+    'hdd65f',
+    'cdd65f',
+    'in.heating_setpoint',
+    'in.cooling_setpoint',
+    'in.heating_setpoint_offset_magnitude',
+    'in.cooling_setpoint_offset_magnitude',
+    'floor_plate_sqft',
+    # --- Baseline EUI features ---
+    'baseline_electricity',
+    'baseline_natural_gas',
+    'baseline_fuel_oil',
+    'baseline_propane',
+]
+
+CAT_FEATURE_NAMES = [
+    'in.geometry_building_type_recs',
+    'in.geometry_building_type_height',
+    'in.ashrae_iecc_climate_zone_2004',
+    'cluster_name',
+    'in.vintage',
+    'in.heating_fuel',
+    'in.hvac_heating_type',
+    'in.hvac_heating_efficiency',
+    'in.hvac_cooling_type',
+    'in.hvac_cooling_efficiency',
+    'in.hvac_has_shared_system',
+    'in.water_heater_fuel',
+    'in.water_heater_efficiency',
+    'in.geometry_wall_type',
+    'in.insulation_wall',
+    'in.insulation_floor',
+    'in.window_areas',
+    'in.windows',
+    'in.lighting',
+    'in.infiltration',
+    'in.geometry_foundation_type',
 ]
 
 # Columns to load from parquet (cluster_name is derived from county join)
 LOAD_COLS = ['bldg_id', 'applicability',
              'in.geometry_building_number_units_mf', 'in.vacancy_status',
-             'in.county'] + FEATURE_COLS + list(FUEL_TYPES.values())
-LOAD_COLS = [c for c in LOAD_COLS if c != 'cluster_name']
+             'in.county'] + FEATURE_COLS + list(FUEL_TYPES.values()) + [
+    'in.heating_setpoint', 'in.cooling_setpoint',
+    'in.heating_setpoint_offset_magnitude', 'in.cooling_setpoint_offset_magnitude',
+]
+LOAD_COLS = [c for c in LOAD_COLS if c not in ('cluster_name', 'hdd65f', 'cdd65f',
+                                                 'floor_plate_sqft',
+                                                 'baseline_electricity', 'baseline_natural_gas',
+                                                 'baseline_fuel_oil', 'baseline_propane')]
+LOAD_COLS = list(dict.fromkeys(LOAD_COLS))  # deduplicate while preserving order
 
 # Hyperparameter tuning groups (same grouping as absolute models)
 TUNE_GROUPS = {
@@ -133,6 +178,20 @@ def load_baseline_data(cluster_lookup):
     for col in FUEL_TYPES.values():
         df[col] = df[col].fillna(0)
 
+    # Join HDD/CDD from cluster_hdd_cdd.json (built by scripts/build_hdd_cdd_lookup.py)
+    hdd_cdd_path = os.path.join(PROJECT_ROOT, 'backend', 'app', 'data', 'cluster_hdd_cdd.json')
+    with open(hdd_cdd_path) as f:
+        cluster_hdd_cdd = json.load(f)
+    df['hdd65f'] = df['cluster_name'].map(lambda c: cluster_hdd_cdd.get(c, {}).get('hdd65f', 4800.0))
+    df['cdd65f'] = df['cluster_name'].map(lambda c: cluster_hdd_cdd.get(c, {}).get('cdd65f', 1400.0))
+
+    # Derived features
+    df['floor_plate_sqft'] = pd.to_numeric(df['in.sqft..ft2'], errors='coerce') / pd.to_numeric(df['in.geometry_stories'], errors='coerce').clip(lower=1)
+
+    # Baseline EUI features are NaN for upgrade 0
+    for fuel_name in FUEL_TYPES:
+        df[f'baseline_{fuel_name}'] = float('nan')
+
     return df
 
 
@@ -173,6 +232,17 @@ def load_paired_data(upgrade_id, df_baseline, cluster_lookup):
     # Compute deltas (positive = energy saved)
     for fuel_name, fuel_col in FUEL_TYPES.items():
         df[f"delta_{fuel_name}"] = df[fuel_col] - df[f"upgrade_{fuel_col}"]
+
+    # Rename baseline fuel columns for use as features
+    FUEL_COL_MAP = {
+        'out.electricity.total.energy_consumption_intensity..kwh_per_ft2': 'baseline_electricity',
+        'out.natural_gas.total.energy_consumption_intensity..kwh_per_ft2': 'baseline_natural_gas',
+        'out.fuel_oil.total.energy_consumption_intensity..kwh_per_ft2': 'baseline_fuel_oil',
+        'out.propane.total.energy_consumption_intensity..kwh_per_ft2': 'baseline_propane',
+    }
+    for orig_col, new_col in FUEL_COL_MAP.items():
+        if orig_col in df.columns:
+            df[new_col] = df[orig_col]
 
     # Drop metadata columns
     df = df.drop(columns=['bldg_id', 'applicability',
@@ -305,54 +375,67 @@ def train_all(upgrade_ids, tune_trials=50, skip_tuning=False):
             })
             continue
 
-        # Encode features once per upgrade
+        # Encode features for XGBoost/LightGBM
         X_enc, encoders = encode_features(df, FEATURE_COLS)
+        cat_indices = [i for i, col in enumerate(FEATURE_COLS) if col in CAT_FEATURE_NAMES]
 
-        # Same train/test split for all fuel types
+        # Prepare CatBoost data (string categoricals)
+        X_cb = prepare_catboost_data(df, FEATURE_COLS, CAT_FEATURE_NAMES)
+
+        # Same train/test split
         train_idx, test_idx = train_test_split(
             np.arange(len(X_enc)), test_size=0.2, random_state=42
         )
-        X_train, X_test = X_enc.iloc[train_idx], X_enc.iloc[test_idx]
 
         for fuel_name in FUEL_TYPES:
             target_col = f"delta_{fuel_name}"
             y = df[target_col].values
             y_train, y_test = y[train_idx], y[test_idx]
 
-            # Train model
+            # Train XGBoost
             t0 = time.time()
-            model = train_single_model(X_train, y_train, params)
-            train_time = time.time() - t0
+            xgb_model = train_single_model(X_enc.iloc[train_idx], y_train, params)
+            xgb_time = time.time() - t0
+            xgb_metrics = evaluate_model(xgb_model, X_enc.iloc[test_idx], y_test)
 
-            # Evaluate
-            train_metrics = evaluate_model(model, X_train, y_train)
-            test_metrics = evaluate_model(model, X_test, y_test)
+            # Train LightGBM
+            t0 = time.time()
+            lgbm_model = train_lightgbm_model(X_enc.iloc[train_idx], y_train, params, cat_indices)
+            lgbm_time = time.time() - t0
+            lgbm_metrics = evaluate_model(lgbm_model, X_enc.iloc[test_idx], y_test)
 
-            print(f"  {fuel_name:>18}: MAE={test_metrics['mae_kbtu_sf']:6.2f} kBtu/sf, "
-                  f"R²={test_metrics['r2']:.4f}, Time={train_time:.1f}s")
+            # Train CatBoost
+            t0 = time.time()
+            cb_model = train_catboost_model(X_cb.iloc[train_idx], y_train, params, cat_indices)
+            cb_time = time.time() - t0
+            cb_metrics = evaluate_model(cb_model, X_cb.iloc[test_idx], y_test)
 
-            # Save with same naming convention
-            model_name = f'XGB_upgrade{uid}_{fuel_name}'
-            save_model_artifacts(model, encoders, FEATURE_COLS, test_metrics,
-                                 OUTPUT_DIR, model_name)
-            n_models_trained += 1
+            print(f"  {fuel_name:>18}: XGB={xgb_metrics['mae_kbtu_sf']:5.2f}  LGBM={lgbm_metrics['mae_kbtu_sf']:5.2f}  CB={cb_metrics['mae_kbtu_sf']:5.2f} kBtu/sf")
 
-            all_results.append({
-                'upgrade_id': uid,
-                'measure_name': measure_name,
-                'fuel_type': fuel_name,
-                'group': group,
-                'status': 'success',
-                'model_type': 'delta',
-                'n_applicable': n_applicable,
-                'n_paired': n_paired,
-                'train_mae_kbtu_sf': train_metrics['mae_kbtu_sf'],
-                'train_r2': train_metrics['r2'],
-                'test_mae_kbtu_sf': test_metrics['mae_kbtu_sf'],
-                'test_r2': test_metrics['r2'],
-                'test_rmse_kwh_ft2': test_metrics['rmse_kwh_ft2'],
-                'train_time_s': train_time,
-            })
+            # Save all 3 model types
+            for prefix, model, metrics, X_data in [
+                ('XGB', xgb_model, xgb_metrics, X_enc),
+                ('LGBM', lgbm_model, lgbm_metrics, X_enc),
+                ('CB', cb_model, cb_metrics, X_cb),
+            ]:
+                model_name = f'{prefix}_upgrade{uid}_{fuel_name}'
+                save_model_artifacts(model, encoders, FEATURE_COLS, metrics, OUTPUT_DIR, model_name)
+                n_models_trained += 1
+
+                all_results.append({
+                    'upgrade_id': uid,
+                    'measure_name': measure_name,
+                    'fuel_type': fuel_name,
+                    'group': group,
+                    'model_prefix': prefix,
+                    'status': 'success',
+                    'model_type': 'delta',
+                    'n_applicable': n_applicable,
+                    'n_paired': n_paired,
+                    'test_mae_kbtu_sf': metrics['mae_kbtu_sf'],
+                    'test_r2': metrics['r2'],
+                    'test_rmse_kwh_ft2': metrics['rmse_kwh_ft2'],
+                })
 
         print(f"  Samples: {n_paired} paired buildings")
 

@@ -9,8 +9,10 @@ from app.services.preprocessor import (
     year_to_vintage,
     COMSTOCK_FIELD_MAP,
     COMSTOCK_AUTO_IMPUTE,
+    COMSTOCK_ADVANCED_FIELD_MAP,
     RESSTOCK_FIELD_MAP,
     RESSTOCK_AUTO_IMPUTE,
+    RESSTOCK_ADVANCED_FIELD_MAP,
     _ENERGY_CODE_FIELDS,
 )
 
@@ -25,8 +27,14 @@ def test_valid_office_input(office_input):
     features, imputed_details, dataset, climate_zone, state = preprocess(office_input)
 
     assert dataset == "comstock"
-    # Should have all ComStock field-map columns + auto-imputed columns + energy codes
-    expected_cols = set(COMSTOCK_FIELD_MAP.values()) | set(COMSTOCK_AUTO_IMPUTE.keys()) | set(_ENERGY_CODE_FIELDS)
+    # Should have all ComStock field-map columns + auto-imputed columns + energy codes + derived + advanced
+    expected_cols = (
+        set(COMSTOCK_FIELD_MAP.values())
+        | set(COMSTOCK_AUTO_IMPUTE.keys())
+        | set(_ENERGY_CODE_FIELDS)
+        | set(COMSTOCK_ADVANCED_FIELD_MAP.values())
+        | {'hdd65f', 'cdd65f', 'floor_plate_sqft'}
+    )
     assert set(features.keys()) == expected_cols
     assert climate_zone  # non-empty
     assert state  # non-empty
@@ -37,7 +45,12 @@ def test_valid_mf_input(mf_input):
     features, imputed_details, dataset, climate_zone, state = preprocess(mf_input)
 
     assert dataset == "resstock"
-    expected_cols = set(RESSTOCK_FIELD_MAP.values()) | set(RESSTOCK_AUTO_IMPUTE.keys())
+    expected_cols = (
+        set(RESSTOCK_FIELD_MAP.values())
+        | set(RESSTOCK_AUTO_IMPUTE.keys())
+        | set(RESSTOCK_ADVANCED_FIELD_MAP.values())
+        | {'hdd65f', 'cdd65f', 'floor_plate_sqft'}
+    )
     # building_type_height is added dynamically based on num_stories
     expected_cols.add("in.geometry_building_type_height")
     assert set(features.keys()) == expected_cols
