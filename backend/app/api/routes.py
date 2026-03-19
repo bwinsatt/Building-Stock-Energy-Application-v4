@@ -11,6 +11,9 @@ from app.services.assessment import assess_buildings
 from app.services.address_lookup import lookup_address
 from app.services.autocomplete import PhotonProvider
 from app.services.energy_star import EnergyStarService
+import pgeocode
+
+from app.services.bps_query import query_bps
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -136,6 +139,46 @@ async def lookup(address: str, req: Request):
     result = lookup_address(address, imputation_service=imputation_service)
     if result is None:
         raise HTTPException(status_code=404, detail="Address not found")
+    return result
+
+
+@router.get("/bps/search")
+async def bps_search(
+    address: str,
+    city: str | None = None,
+    state: str | None = None,
+    zipcode: str | None = None,
+    county: str | None = None,
+):
+    """Search BPS benchmarking databases for a building's energy data."""
+    if not city or not state:
+        from app.services.address_lookup import geocode_address
+        geo = geocode_address(address)
+        if geo is None:
+            raise HTTPException(status_code=404, detail="Could not geocode address")
+        city = city or geo.get("city")
+        state = state or geo.get("state")
+        zipcode = zipcode or geo.get("zipcode")
+
+    if not city or not state:
+        raise HTTPException(status_code=400, detail="Could not determine city/state")
+
+    # Resolve county if not provided
+    if not county and zipcode:
+        try:
+            nomi = pgeocode.Nominatim("US")
+            result = nomi.query_postal_code(zipcode)
+            if hasattr(result, "county_name"):
+                county_val = result.county_name
+                if county_val == county_val:  # NaN check
+                    county = county_val
+        except Exception:
+            pass
+
+    result = await query_bps(address, city, state, county, zipcode)
+    if result is None:
+        raise HTTPException(status_code=404, detail="No benchmarking data found for this address")
+
     return result
 
 

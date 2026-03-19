@@ -1,6 +1,6 @@
 export interface FieldResult {
   value: string | number | null
-  source: 'osm' | 'computed' | 'imputed' | 'nyc_opendata' | 'chicago_opendata' | null
+  source: 'osm' | 'computed' | 'imputed' | 'nyc_opendata' | 'chicago_opendata' | 'benchmarking' | null
   confidence: number | null
 }
 
@@ -15,6 +15,10 @@ export interface LookupResponse {
     polygon: number[][]
     levels: number | null
   }>
+  bps_available: boolean
+  bps_ordinance_name: string | null
+  city: string | null
+  state: string | null
 }
 
 export interface AddressSuggestion {

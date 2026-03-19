@@ -17,7 +17,10 @@ from geopy.geocoders import Nominatim
 from pyproj import CRS, Transformer
 from shapely.geometry import Point, Polygon
 
+import pgeocode
+
 from app.inference.imputation_service import ImputationService
+from app.services.bps_query import check_bps_availability
 
 logger = logging.getLogger(__name__)
 
@@ -242,6 +245,13 @@ from app.constants import SQFT_PER_M2
 TYPICAL_FLOOR_HEIGHT_M = 3.4
 
 
+def _is_nan(value) -> bool:
+    try:
+        return value != value  # NaN != NaN
+    except Exception:
+        return False
+
+
 # ---------------------------------------------------------------------------
 # Geocoding
 # ---------------------------------------------------------------------------
@@ -273,11 +283,18 @@ def geocode_address(address: str) -> dict | None:
         if match:
             zipcode = match.group(1)
 
+    # Extract city and state from Nominatim address details
+    addr_details = location.raw.get("address", {})
+    city = addr_details.get("city") or addr_details.get("town") or addr_details.get("village")
+    state = addr_details.get("state")
+
     return {
         "lat": location.latitude,
         "lon": location.longitude,
         "address": location.address,
         "zipcode": zipcode,
+        "city": city,
+        "state": state,
     }
 
 
@@ -679,6 +696,28 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
                 if result["value"] is not None:
                     building_fields[field] = result
 
+    # Step 6: Check BPS benchmarking data availability
+    bps_available = False
+    bps_ordinance_name = None
+    city = geo.get("city")
+    state_name = geo.get("state")
+
+    if city and state_name:
+        county = None
+        if zipcode:
+            try:
+                nomi = pgeocode.Nominatim("US")
+                result = nomi.query_postal_code(zipcode)
+                if hasattr(result, "county_name") and not _is_nan(result.county_name):
+                    county = result.county_name
+            except Exception:
+                pass
+
+        bps_check = check_bps_availability(city, state_name, county, zipcode)
+        if bps_check is not None:
+            bps_available = True
+            bps_ordinance_name = bps_check["ordinance_name"]
+
     return {
         "address": geo["address"],
         "lat": lat,
@@ -687,4 +726,8 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         "building_fields": building_fields,
         "target_building_polygon": target_polygon,
         "nearby_buildings": nearby_buildings,
+        "bps_available": bps_available,
+        "bps_ordinance_name": bps_ordinance_name,
+        "city": city,
+        "state": state_name,
     }
