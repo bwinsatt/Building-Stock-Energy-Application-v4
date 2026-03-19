@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.schemas.request import BuildingInput
+from app.schemas.response import BaselineResult, FuelBreakdown
 from app.main import app as fastapi_app
 
 
@@ -63,6 +64,20 @@ def minimal_input():
         num_stories=2,
         zipcode="90210",
         year_built=1990,
+    )
+
+
+@pytest.fixture
+def sample_baseline():
+    return BaselineResult(
+        total_eui_kbtu_sf=54.2,
+        eui_by_fuel=FuelBreakdown(
+            electricity=25.0,
+            natural_gas=20.0,
+            fuel_oil=0.0,
+            propane=0.0,
+            district_heating=0.0,
+        ),
     )
 
 
