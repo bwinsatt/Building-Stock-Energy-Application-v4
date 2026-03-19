@@ -31,6 +31,8 @@ export interface BaselineResult {
   total_eui_kbtu_sf: number
   eui_by_fuel: FuelBreakdown
   emissions_kg_co2e_per_sf?: number
+  actual_total_eui_kbtu_sf?: number
+  actual_eui_by_fuel?: Partial<FuelBreakdown>
 }
 
 export interface CostEstimate {
@@ -81,6 +83,7 @@ export interface BuildingResult {
   baseline: BaselineResult
   measures: MeasureResult[]
   input_summary: InputSummary
+  calibrated?: boolean
 }
 
 export interface AssessmentResponse {

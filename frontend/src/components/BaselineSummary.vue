@@ -9,6 +9,7 @@ const THERM_TO_KBTU = 100
 const props = defineProps<{
   baseline: BaselineResult
   sqft: number
+  calibrated?: boolean
 }>()
 
 interface FuelConfig {
@@ -100,9 +101,36 @@ const barSegments = computed(() => {
 <template>
   <div class="baseline-card">
     <!-- Header -->
-    <PTypography variant="h4" class="baseline-card__title">
-      Baseline Energy Use
-    </PTypography>
+    <div class="baseline-card__header">
+      <PTypography variant="h4" class="baseline-card__title">
+        Baseline Energy Use
+      </PTypography>
+      <span v-if="calibrated" class="calibrated-badge">Calibrated</span>
+    </div>
+
+    <!-- Calibration: actual vs predicted comparison -->
+    <div v-if="calibrated && baseline.actual_total_eui_kbtu_sf !== undefined" class="calibration-comparison">
+      <div class="calibration-comparison__row">
+        <span class="calibration-comparison__label">Predicted:</span>
+        <span class="calibration-comparison__value">{{ baseline.total_eui_kbtu_sf.toFixed(1) }} kBtu/sf</span>
+      </div>
+      <div class="calibration-comparison__row">
+        <span class="calibration-comparison__label">Actual:</span>
+        <span class="calibration-comparison__value calibration-comparison__value--actual">{{ baseline.actual_total_eui_kbtu_sf.toFixed(1) }} kBtu/sf</span>
+      </div>
+      <!-- Per-fuel actual breakdown -->
+      <div v-if="baseline.actual_eui_by_fuel" class="calibration-comparison__fuel-breakdown">
+        <template v-for="fuel in activeFuels" :key="fuel.key">
+          <template v-if="baseline.actual_eui_by_fuel[fuel.key] !== undefined">
+            <div class="calibration-comparison__fuel-row">
+              <span class="calibration-comparison__fuel-dot" :style="{ backgroundColor: fuel.color }"></span>
+              <span class="calibration-comparison__fuel-label">{{ fuel.label }}:</span>
+              <span class="calibration-comparison__fuel-value">{{ baseline.actual_eui_by_fuel[fuel.key]!.toFixed(1) }} kBtu/sf</span>
+            </div>
+          </template>
+        </template>
+      </div>
+    </div>
 
     <!-- Two-column layout: left stats + bar, right consumption list -->
     <div class="baseline-layout">
@@ -231,9 +259,100 @@ const barSegments = computed(() => {
   margin-bottom: 1.5rem;
 }
 
-.baseline-card__title {
+.baseline-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
   margin-bottom: 1.25rem;
+}
+
+.baseline-card__title {
   color: var(--partner-text-primary, #333e47);
+}
+
+/* ---- Calibrated badge ---- */
+.calibrated-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  line-height: 1.4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---- Calibration comparison panel ---- */
+.calibration-comparison {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.calibration-comparison__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.calibration-comparison__label {
+  color: #4b5563;
+  font-weight: 500;
+  min-width: 5rem;
+}
+
+.calibration-comparison__value {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.calibration-comparison__value--actual {
+  color: #166534;
+  font-weight: 600;
+}
+
+.calibration-comparison__fuel-breakdown {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #bbf7d0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.calibration-comparison__fuel-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+}
+
+.calibration-comparison__fuel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.calibration-comparison__fuel-label {
+  color: #6b7280;
+  min-width: 8rem;
+}
+
+.calibration-comparison__fuel-value {
+  font-family: var(--font-mono);
+  color: #374151;
+  font-size: 0.8125rem;
 }
 
 /* ---- Two-column layout ---- */

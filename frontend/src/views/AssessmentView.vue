@@ -76,7 +76,7 @@ function onSubmit(input: BuildingInput) {
 
       <AssumptionsPanel :summary="result.input_summary" />
 
-      <BaselineSummary :baseline="result.baseline" :sqft="lastSqft" />
+      <BaselineSummary :baseline="result.baseline" :sqft="lastSqft" :calibrated="result.calibrated ?? false" />
 
       <!-- Separator between baseline and measures -->
       <div class="section-separator" aria-hidden="true" />
