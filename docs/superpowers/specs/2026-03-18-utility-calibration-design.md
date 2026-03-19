@@ -155,7 +155,7 @@ BuildingInput (with annual_electricity_kwh, etc.)
 ### Key Behaviors
 
 - Baseline model always runs — even in calibrated mode, predicted vs actual comparison is shown
-- **Savings clamping:** Per-fuel savings are NOT clamped at zero — negative savings are valid for fuel-switching measures (e.g., electrification increases electricity use while eliminating gas). Post-upgrade EUI per fuel is clamped at zero: `post_upgrade_eui = max(0, baseline - savings)` — a building cannot use negative energy for a given fuel. This replaces the previous `max(0.0, d)` clamp on savings which incorrectly suppressed fuel-switching effects.
+- **Savings clamping:** Per-fuel savings are NOT clamped at zero — negative savings are valid for fuel-switching measures (e.g., electrification increases electricity use while eliminating gas). However, savings for fuels with zero baseline consumption are forced to zero — can't save what you don't use (eliminates spurious small savings for fuel oil/propane/district heating when the building only uses electricity and gas). Post-upgrade EUI per fuel is clamped at zero: `post_upgrade_eui = max(0, baseline - savings)` — a building cannot use negative energy for a given fuel.
 - Cost calculations, rates, and emissions are unchanged — they work off savings output regardless of source
 
 ## 5. Persistence Layer (SQLite)

@@ -454,10 +454,17 @@ Change:
     savings_kwh = {fuel: max(0.0, d) for fuel, d in delta.items()}
 ```
 
-To (just pass through raw delta predictions):
+To:
 ```python
-    savings_kwh = dict(delta.items())
+    savings_kwh = {
+        fuel: d if effective_baseline.get(fuel, 0) > 0.001 else 0.0
+        for fuel, d in delta.items()
+    }
 ```
+
+This does two things:
+1. **Removes the `max(0.0, d)` clamp** — negative per-fuel savings allowed (fuel switching)
+2. **Zeroes out savings for fuels with no baseline consumption** — if the building doesn't use fuel oil/propane/district heating (baseline ≈ 0), savings for those fuels are forced to zero. The 0.001 kWh/sqft threshold avoids floating-point noise.
 
 Update post-upgrade EUI (line 254) to clamp at zero — a building cannot use negative energy for a given fuel:
 ```python
