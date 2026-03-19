@@ -1,0 +1,258 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useProjects } from '../composables/useProjects'
+import type { Building } from '../types/projects'
+
+const props = defineProps<{ projectId: number }>()
+const emit = defineEmits<{ back: [] }>()
+
+const { currentProject, loading, error, fetchProject } = useProjects()
+
+const expandedBuildingId = ref<number | null>(null)
+
+function toggleBuilding(building: Building) {
+  expandedBuildingId.value = expandedBuildingId.value === building.id ? null : building.id
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
+onMounted(() => {
+  fetchProject(props.projectId)
+})
+</script>
+
+<template>
+  <div class="project-detail">
+    <!-- Header -->
+    <div class="detail-header">
+      <button class="back-btn" @click="emit('back')">
+        &larr; Back to Projects
+      </button>
+      <h2 class="detail-title">{{ currentProject?.name ?? 'Loading...' }}</h2>
+      <span v-if="currentProject" class="detail-meta">
+        Created {{ formatDate(currentProject.created_at) }}
+      </span>
+    </div>
+
+    <!-- Loading -->
+    <div v-if="loading" class="state-box">
+      <p class="state-text">Loading project...</p>
+    </div>
+
+    <!-- Error -->
+    <div v-else-if="error" class="error-box">
+      <p class="error-text">{{ error }}</p>
+    </div>
+
+    <!-- Content -->
+    <template v-else-if="currentProject">
+      <div class="section-label">Buildings</div>
+
+      <!-- Empty state -->
+      <div
+        v-if="!currentProject.buildings || currentProject.buildings.length === 0"
+        class="empty-box"
+      >
+        <p class="empty-text">No buildings yet.</p>
+        <p class="empty-subtext">Buildings added during an energy audit will appear here.</p>
+      </div>
+
+      <!-- Building list -->
+      <div v-else class="building-list">
+        <div
+          v-for="building in currentProject.buildings"
+          :key="building.id"
+          class="building-card"
+        >
+          <button
+            class="building-row"
+            @click="toggleBuilding(building)"
+          >
+            <div class="building-info">
+              <span class="building-address">{{ building.address }}</span>
+              <span class="building-date">Added {{ formatDate(building.created_at) }}</span>
+            </div>
+            <span class="chevron" :class="{ 'chevron--open': expandedBuildingId === building.id }">
+              &#x25BE;
+            </span>
+          </button>
+
+          <!-- Expanded: assessment history (not yet populated in this worktree) -->
+          <div v-if="expandedBuildingId === building.id" class="assessment-section">
+            <p class="assessment-empty">No assessments saved for this building yet.</p>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>
+
+<style scoped>
+.project-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Header */
+.detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.back-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  color: #005199;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  transition: opacity 0.15s;
+}
+
+.back-btn:hover {
+  opacity: 0.75;
+}
+
+.detail-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333e47;
+  margin: 0;
+}
+
+.detail-meta {
+  font-size: 0.75rem;
+  color: #6f7881;
+}
+
+/* Section label */
+.section-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+/* State boxes */
+.state-box,
+.empty-box {
+  background: var(--app-surface-raised, #ffffff);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.state-text {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.error-box {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+}
+
+.error-text {
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+.empty-text {
+  font-size: 0.9375rem;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.empty-subtext {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+/* Building list */
+.building-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.building-card {
+  background: var(--app-surface-raised, #ffffff);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.building-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+
+.building-row:hover {
+  background: #f8fafc;
+}
+
+.building-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.building-address {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #333e47;
+}
+
+.building-date {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.chevron {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.chevron--open {
+  transform: rotate(180deg);
+}
+
+/* Assessment section */
+.assessment-section {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.assessment-empty {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+</style>

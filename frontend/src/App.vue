@@ -26,7 +26,32 @@
 
     <!-- Main content -->
     <main class="app-container py-8">
-      <AssessmentView />
+      <nav class="flex gap-1 border-b border-gray-200 mb-6">
+        <button
+          @click="currentView = 'assessment'"
+          :class="[
+            'px-4 py-2 text-sm font-medium rounded-t-lg transition-colors',
+            currentView === 'assessment'
+              ? 'bg-white text-blue-600 border border-b-white -mb-px'
+              : 'text-gray-500 hover:text-gray-700'
+          ]"
+        >
+          Energy Audit
+        </button>
+        <button
+          @click="currentView = 'projects'"
+          :class="[
+            'px-4 py-2 text-sm font-medium rounded-t-lg transition-colors',
+            currentView === 'projects'
+              ? 'bg-white text-blue-600 border border-b-white -mb-px'
+              : 'text-gray-500 hover:text-gray-700'
+          ]"
+        >
+          Projects
+        </button>
+      </nav>
+      <AssessmentView v-if="currentView === 'assessment'" />
+      <ProjectsView v-if="currentView === 'projects'" />
     </main>
   </div>
 </template>
@@ -34,9 +59,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import AssessmentView from './views/AssessmentView.vue'
+import ProjectsView from './components/ProjectsView.vue'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 const offloading = ref(false)
+const currentView = ref<'assessment' | 'projects'>('assessment')
 
 async function offloadModels() {
   offloading.value = true
