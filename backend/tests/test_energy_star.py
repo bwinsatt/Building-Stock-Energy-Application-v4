@@ -1,13 +1,17 @@
 import xml.etree.ElementTree as ET
+from unittest.mock import patch, MagicMock
 
+import httpx
 import pytest
 
 from app.schemas.energy_star import EnergyStarRequest, EnergyStarResponse
+from app.schemas.request import BuildingInput
 from app.schemas.response import BaselineResult, FuelBreakdown
 from app.services.energy_star import (
     BUILDING_TYPE_TO_ESPM,
     ESPM_PROPERTY_USE_ELEMENT,
     FUEL_MAPPING,
+    EnergyStarService,
     build_target_finder_xml,
     parse_target_finder_response,
 )
@@ -226,3 +230,116 @@ def test_parse_response_no_score():
     assert resp.reasons_for_no_score is not None
     assert len(resp.reasons_for_no_score) > 0
     assert resp.espm_property_type == "Convention Center"
+
+
+# ---------------------------------------------------------------------------
+# Task 5: EnergyStarService tests
+# ---------------------------------------------------------------------------
+
+
+def test_get_score_success(office_input, sample_baseline):
+    """EnergyStarService.get_score returns score=72 and eligible=True on a 200 response."""
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.text = SAMPLE_RESPONSE_WITH_SCORE
+
+    with patch("app.services.energy_star.httpx.post", return_value=mock_response) as mock_post:
+        service = EnergyStarService(base_url="https://test.example.com", username="u", password="p")
+        result = service.get_score(office_input, sample_baseline)
+
+    assert result.eligible is True
+    assert result.score == 72
+    mock_post.assert_called_once()
+
+
+def test_get_score_with_address(office_input, sample_baseline):
+    """EnergyStarService.get_score includes the address in the XML sent to the API."""
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.text = SAMPLE_RESPONSE_WITH_SCORE
+
+    address = "1600 Pennsylvania Ave NW, Washington, DC 20500"
+    with patch("app.services.energy_star.httpx.post", return_value=mock_response) as mock_post:
+        service = EnergyStarService(base_url="https://test.example.com", username="u", password="p")
+        service.get_score(office_input, sample_baseline, address=address)
+
+    call_kwargs = mock_post.call_args
+    xml_body = call_kwargs.kwargs.get("content") or call_kwargs.args[1]
+    assert "1600 Pennsylvania Ave NW" in xml_body
+
+
+def test_get_score_unmapped_type(sample_baseline):
+    """EnergyStarService.get_score returns eligible=False without calling the API for unmapped types."""
+    unknown_building = BuildingInput(
+        building_type="UnknownType",
+        sqft=10000,
+        num_stories=1,
+        zipcode="20001",
+        year_built=2000,
+    )
+    with patch("app.services.energy_star.httpx.post") as mock_post:
+        service = EnergyStarService(base_url="https://test.example.com", username="u", password="p")
+        result = service.get_score(unknown_building, sample_baseline)
+
+    assert result.eligible is False
+    assert result.reasons_for_no_score is not None
+    assert any("UnknownType" in r for r in result.reasons_for_no_score)
+    mock_post.assert_not_called()
+
+
+def test_get_score_api_error(office_input, sample_baseline):
+    """EnergyStarService.get_score raises RuntimeError when httpx.ConnectError is thrown."""
+    with patch("app.services.energy_star.httpx.post", side_effect=httpx.ConnectError("connection refused")):
+        service = EnergyStarService(base_url="https://test.example.com", username="u", password="p")
+        with pytest.raises(RuntimeError, match="unavailable"):
+            service.get_score(office_input, sample_baseline)
+
+
+def test_get_score_auth_failure(office_input, sample_baseline):
+    """EnergyStarService.get_score raises RuntimeError on a 401 response."""
+    mock_response = MagicMock()
+    mock_response.status_code = 401
+
+    with patch("app.services.energy_star.httpx.post", return_value=mock_response):
+        service = EnergyStarService(base_url="https://test.example.com", username="u", password="p")
+        with pytest.raises(RuntimeError, match="authentication failed"):
+            service.get_score(office_input, sample_baseline)
+
+
+# ---------------------------------------------------------------------------
+# Task 6: FastAPI endpoint tests
+# ---------------------------------------------------------------------------
+
+
+def test_energy_star_endpoint(app_client, office_input, sample_baseline):
+    """POST /energy-star/score returns score=72 when ESPM responds with a valid score."""
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.text = SAMPLE_RESPONSE_WITH_SCORE
+
+    payload = {
+        "building": office_input.model_dump(),
+        "baseline": sample_baseline.model_dump(),
+    }
+
+    with patch("app.services.energy_star.httpx.post", return_value=mock_response):
+        resp = app_client.post("/energy-star/score", json=payload)
+
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["score"] == 72
+    assert data["eligible"] is True
+
+
+def test_energy_star_endpoint_api_down(app_client, office_input, sample_baseline):
+    """POST /energy-star/score returns 502 when the ESPM API is unreachable."""
+    payload = {
+        "building": office_input.model_dump(),
+        "baseline": sample_baseline.model_dump(),
+    }
+
+    with patch("app.services.energy_star.httpx.post", side_effect=httpx.ConnectError("refused")):
+        resp = app_client.post("/energy-star/score", json=payload)
+
+    assert resp.status_code == 502
+    assert "unavailable" in resp.json()["detail"]

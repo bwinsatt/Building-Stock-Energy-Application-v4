@@ -1,10 +1,15 @@
+import logging
 import os
 import xml.etree.ElementTree as ET
 from typing import Optional
 
+import httpx
+
 from app.schemas.request import BuildingInput
 from app.schemas.response import BaselineResult
 from app.schemas.energy_star import EnergyStarResponse
+
+logger = logging.getLogger(__name__)
 
 BUILDING_TYPE_TO_ESPM = {
     "Office": "Office",
@@ -128,6 +133,57 @@ def build_target_finder_xml(
     ET.SubElement(score_node, "value").text = "75"
 
     return ET.tostring(root, encoding="unicode", xml_declaration=False)
+
+
+class EnergyStarService:
+    def __init__(self, base_url=None, username=None, password=None):
+        self.base_url = base_url or ESPM_BASE_URL
+        self.username = username or ESPM_USERNAME
+        self.password = password or ESPM_PASSWORD
+
+    def get_score(self, building: BuildingInput, baseline: BaselineResult, address: Optional[str] = None) -> EnergyStarResponse:
+        # 1. Check if building type is mapped
+        espm_type = BUILDING_TYPE_TO_ESPM.get(building.building_type)
+        if espm_type is None:
+            return EnergyStarResponse(
+                eligible=False,
+                espm_property_type=building.building_type,
+                reasons_for_no_score=[f"No ESPM mapping for building type '{building.building_type}'"],
+            )
+
+        # 2. Resolve state from zipcode using _zip_lookup
+        from app.services.preprocessor import _zip_lookup
+        try:
+            state, _, _ = _zip_lookup.lookup(building.zipcode)
+        except ValueError:
+            state = ""
+
+        # 3. Build XML
+        xml_body = build_target_finder_xml(building, baseline, address, state)
+
+        # 4. Call ESPM API
+        url = f"{self.base_url}/targetFinder?measurementSystem=EPA"
+        try:
+            response = httpx.post(
+                url,
+                content=xml_body,
+                headers={"Content-Type": "application/xml"},
+                auth=(self.username, self.password),
+                timeout=ESPM_TIMEOUT,
+            )
+        except httpx.ConnectError as exc:
+            raise RuntimeError("ENERGY STAR service unavailable") from exc
+        except httpx.TimeoutException as exc:
+            raise RuntimeError("ENERGY STAR service timed out") from exc
+
+        if response.status_code == 401:
+            raise RuntimeError("ENERGY STAR authentication failed")
+        if response.status_code != 200:
+            logger.error("ESPM API error %d: %s", response.status_code, response.text)
+            raise RuntimeError(f"ENERGY STAR API returned status {response.status_code}")
+
+        # 5. Parse response
+        return parse_target_finder_response(response.text, espm_type)
 
 
 def parse_target_finder_response(xml_text: str, espm_property_type: str) -> EnergyStarResponse:
