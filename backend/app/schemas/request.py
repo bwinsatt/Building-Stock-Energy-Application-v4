@@ -22,6 +22,13 @@ class BuildingInput(BaseModel):
     insulation_wall: Optional[str] = None
     infiltration: Optional[str] = None
 
+    # Utility bill data (optional, for calibration)
+    annual_electricity_kwh: Optional[float] = None
+    annual_natural_gas_therms: Optional[float] = None
+    annual_fuel_oil_gallons: Optional[float] = None
+    annual_propane_gallons: Optional[float] = None
+    annual_district_heating_kbtu: Optional[float] = None
+
 
 class AssessmentRequest(BaseModel):
     buildings: list[BuildingInput]
