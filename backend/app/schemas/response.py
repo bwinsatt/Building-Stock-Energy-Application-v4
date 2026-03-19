@@ -14,6 +14,8 @@ class BaselineResult(BaseModel):
     total_eui_kbtu_sf: float
     eui_by_fuel: FuelBreakdown
     emissions_kg_co2e_per_sf: Optional[float] = None
+    actual_eui_by_fuel: Optional[FuelBreakdown] = None
+    actual_total_eui_kbtu_sf: Optional[float] = None
 
 
 class CostEstimate(BaseModel):
@@ -64,6 +66,7 @@ class BuildingResult(BaseModel):
     baseline: BaselineResult
     measures: list[MeasureResult]
     input_summary: InputSummary
+    calibrated: bool = False
 
 
 class AssessmentResponse(BaseModel):

@@ -53,3 +53,34 @@ def test_building_input_without_utility_data():
         year_built=1985,
     )
     assert inp.annual_electricity_kwh is None
+
+
+from app.schemas.response import BaselineResult, BuildingResult, FuelBreakdown
+
+
+def test_baseline_result_with_actual_eui():
+    """BaselineResult should accept actual EUI fields."""
+    fuel = FuelBreakdown(
+        electricity=10.0, natural_gas=5.0, fuel_oil=0, propane=0, district_heating=0,
+    )
+    baseline = BaselineResult(
+        total_eui_kbtu_sf=51.18,
+        eui_by_fuel=fuel,
+        actual_eui_by_fuel=fuel,
+        actual_total_eui_kbtu_sf=60.0,
+    )
+    assert baseline.actual_total_eui_kbtu_sf == 60.0
+    assert baseline.actual_eui_by_fuel.electricity == 10.0
+
+
+def test_baseline_result_without_actual_eui():
+    """BaselineResult without actual EUI should default to None."""
+    fuel = FuelBreakdown(
+        electricity=10.0, natural_gas=5.0, fuel_oil=0, propane=0, district_heating=0,
+    )
+    baseline = BaselineResult(
+        total_eui_kbtu_sf=51.18,
+        eui_by_fuel=fuel,
+    )
+    assert baseline.actual_eui_by_fuel is None
+    assert baseline.actual_total_eui_kbtu_sf is None
