@@ -23,9 +23,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # Project root = worktree root (scripts/../)
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(_SCRIPT_DIR)
-sys.path.insert(0, PROJECT_ROOT)
-
-from scripts.training_utils import encode_features
 
 # Try imports — fail fast with clear message
 try:
@@ -214,6 +211,21 @@ def load_data(sample_size):
         'out.params.cdd65f': 'cdd65f',
     })
 
+    # Clean thermostat columns: convert from string to numeric, replace 999 sentinel → NaN
+    # ComStock uses 999 to indicate "no thermostat data" for ~26% of buildings
+    tstat_cols = [
+        'in.tstat_clg_sp_f..f', 'in.tstat_htg_sp_f..f',
+        'in.tstat_clg_delta_f..delta_f', 'in.tstat_htg_delta_f..delta_f',
+        'in.weekend_operating_hours..hr',
+    ]
+    for col in tstat_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+            df.loc[df[col] >= 999, col] = float('nan')
+
+    n_nan_tstat = df['in.tstat_htg_sp_f..f'].isna().sum() if 'in.tstat_htg_sp_f..f' in df.columns else 0
+    print(f"  Thermostat sentinels cleaned: {n_nan_tstat:,} buildings ({n_nan_tstat/len(df)*100:.1f}%) have NaN setpoints")
+
     # Derive floor_plate_sqft
     stories = pd.to_numeric(df['in.number_stories'], errors='coerce').fillna(1).clip(lower=1)
     df['floor_plate_sqft'] = pd.to_numeric(df['in.sqft..ft2'], errors='coerce') / stories
@@ -275,17 +287,38 @@ def build_catboost(X_train, y_train, cat_indices):
 # DATA PREPARATION HELPERS
 # =============================================================================
 
+def encode_features_preserve_nan(df, feature_cols, cat_feature_names):
+    """
+    Encode features for XGBoost/LightGBM, preserving NaN in numeric columns.
+    XGBoost and LightGBM handle NaN natively — fillna(0) destroys that signal.
+    """
+    df_enc = df[feature_cols].copy()
+    encoders = {}
+    for col in feature_cols:
+        if col in cat_feature_names:
+            df_enc[col] = df_enc[col].astype(str)
+            categories = sorted(df_enc[col].unique().tolist())
+            encoders[col] = categories
+            df_enc[col] = pd.Categorical(df_enc[col], categories=categories)
+        else:
+            df_enc[col] = pd.to_numeric(df_enc[col], errors='coerce')
+            # DO NOT fillna — XGBoost/LightGBM handle NaN natively
+    return df_enc, encoders
+
+
 def prepare_catboost_data(df, feature_cols, cat_feature_names):
     """
     Prepare DataFrame for CatBoost: string categoricals, numeric numerics.
     CatBoost requires string-typed categoricals, NOT pd.Categorical.
+    Preserves NaN for numeric columns (CatBoost handles them natively).
     """
     df_cb = df[feature_cols].copy()
     for col in feature_cols:
         if col in cat_feature_names:
             df_cb[col] = df_cb[col].astype(str)
         else:
-            df_cb[col] = pd.to_numeric(df_cb[col], errors='coerce').fillna(0)
+            df_cb[col] = pd.to_numeric(df_cb[col], errors='coerce')
+            # DO NOT fillna — CatBoost handles NaN natively
     return df_cb
 
 
@@ -315,8 +348,8 @@ def run_feature_set(label, feature_cols, df, train_idx, test_idx):
     """
     cat_indices = [i for i, col in enumerate(feature_cols) if col in CAT_FEATURE_NAMES]
 
-    # XGBoost / LightGBM: pd.Categorical encoding
-    X_enc, _ = encode_features(df, feature_cols)
+    # XGBoost / LightGBM: pd.Categorical encoding (NaN preserved for native handling)
+    X_enc, _ = encode_features_preserve_nan(df, feature_cols, CAT_FEATURE_NAMES)
     X_train_enc = X_enc.iloc[train_idx]
     X_test_enc  = X_enc.iloc[test_idx]
 
