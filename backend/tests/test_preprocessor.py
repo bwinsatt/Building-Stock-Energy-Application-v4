@@ -549,3 +549,32 @@ def test_resstock_thermostat_none_is_float_nan(mf_input):
     features, _, _, _, _ = preprocess(mf_input)
     import math
     assert math.isnan(features["in.heating_setpoint"])
+
+
+# ---------------------------------------------------------------------------
+# Full pipeline integration tests
+# ---------------------------------------------------------------------------
+
+
+def test_full_pipeline_tall_building_no_crash(office_input):
+    """A 30-story building should not crash CatBoost with 'over_25'."""
+    office_input.num_stories = 30
+    office_input.sqft = 500000
+    features, _, dataset, _, _ = preprocess(office_input)
+    assert features["in.number_stories"] == "over_25"
+    assert isinstance(features["in.number_stories"], str)
+    assert isinstance(features["in.weekday_operating_hours..hr"], str)
+
+
+def test_full_pipeline_resstock_types_correct(mf_input):
+    """All ResStock categorical features should be strings."""
+    mf_input.thermostat_heating_setpoint = 70.0
+    mf_input.thermostat_cooling_setpoint = 75.0
+    mf_input.thermostat_heating_setback = 5.0
+    mf_input.thermostat_cooling_setback = 4.0
+    features, _, dataset, _, _ = preprocess(mf_input)
+    assert isinstance(features["in.geometry_stories"], str)
+    assert features["in.heating_setpoint"] == "70F"
+    assert features["in.cooling_setpoint"] == "75F"
+    assert features["in.heating_setpoint_offset_magnitude"] == "6F"
+    assert features["in.cooling_setpoint_offset_magnitude"] == "5F"
