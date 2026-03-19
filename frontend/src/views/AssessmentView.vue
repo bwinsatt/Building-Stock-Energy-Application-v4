@@ -79,7 +79,7 @@ function onSubmit(input: BuildingInput) {
 
       <AssumptionsPanel :summary="result.input_summary" />
 
-      <BaselineSummary :baseline="result.baseline" :sqft="lastSqft" />
+      <BaselineSummary :baseline="result.baseline" :sqft="lastSqft" :calibrated="result.calibrated ?? false" />
 
       <EnergyStarScore
         v-if="lastBuilding"
