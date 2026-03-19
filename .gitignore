@@ -46,3 +46,4 @@ Validation/CBECS/cbecs_validation_results.xlsx
 
 # Old git data
 .git-old/
+backend/app/data/bps/*.csv

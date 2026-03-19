@@ -11,6 +11,8 @@ from app.services.assessment import assess_buildings
 from app.services.address_lookup import lookup_address
 from app.services.autocomplete import PhotonProvider
 from app.services.energy_star import EnergyStarService
+import pgeocode
+
 from app.services.bps_query import query_bps
 
 logger = logging.getLogger(__name__)
@@ -164,7 +166,6 @@ async def bps_search(
     # Resolve county if not provided
     if not county and zipcode:
         try:
-            import pgeocode
             nomi = pgeocode.Nominatim("US")
             result = nomi.query_postal_code(zipcode)
             if hasattr(result, "county_name"):

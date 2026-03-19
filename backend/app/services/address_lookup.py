@@ -17,6 +17,8 @@ from geopy.geocoders import Nominatim
 from pyproj import CRS, Transformer
 from shapely.geometry import Point, Polygon
 
+import pgeocode
+
 from app.inference.imputation_service import ImputationService
 from app.services.bps_query import check_bps_availability
 
@@ -704,7 +706,6 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         county = None
         if zipcode:
             try:
-                import pgeocode
                 nomi = pgeocode.Nominatim("US")
                 result = nomi.query_postal_code(zipcode)
                 if hasattr(result, "county_name") and not _is_nan(result.county_name):

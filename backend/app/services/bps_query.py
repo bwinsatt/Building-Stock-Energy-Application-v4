@@ -9,12 +9,14 @@ import re
 import httpx
 from rapidfuzz import fuzz
 
+from app.constants import KWH_TO_KBTU
 from app.services.bps_config import BPS_CONFIGS, FIELD_MAPPINGS, ZIPCODE_CITY_OVERRIDES
 
 logger = logging.getLogger(__name__)
 
 # Minimum fuzzy-match confidence (0–1 scale) to accept an address match.
 _FUZZY_THRESHOLD = 0.88
+_KBTU_PER_THERM = 100.0
 
 _ADDRESS_ABBREVIATIONS = {
     "St": "Street", "Ave": "Avenue", "Blvd": "Boulevard", "Dr": "Drive",
@@ -40,11 +42,11 @@ def _normalize_address(address: str) -> str:
     parts = address.split()
     expanded = []
     for part in parts:
-        # Try the original casing first (abbreviations are title-case keys).
-        replacement = _ADDRESS_ABBREVIATIONS.get(part)
+        # Strip trailing period (e.g. "St." -> "St") before lookup.
+        clean = part.rstrip(".")
+        replacement = _ADDRESS_ABBREVIATIONS.get(clean)
         if replacement is None:
-            # Also try title-cased version for all-caps input like "NW".
-            replacement = _ADDRESS_ABBREVIATIONS.get(part.title())
+            replacement = _ADDRESS_ABBREVIATIONS.get(clean.title())
         expanded.append(replacement if replacement else part)
     return " ".join(expanded).lower()
 
@@ -380,12 +382,12 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
 
     # Convert kBtu fields to user-facing units
     if result.get("electricity_kbtu") is not None:
-        result["electricity_kwh"] = result.pop("electricity_kbtu") / 3.412
+        result["electricity_kwh"] = result.pop("electricity_kbtu") / KWH_TO_KBTU
     elif "electricity_kbtu" in result:
         del result["electricity_kbtu"]
 
     if result.get("natural_gas_kbtu") is not None:
-        result["natural_gas_therms"] = result.pop("natural_gas_kbtu") / 100.0
+        result["natural_gas_therms"] = result.pop("natural_gas_kbtu") / _KBTU_PER_THERM
     elif "natural_gas_kbtu" in result:
         del result["natural_gas_kbtu"]
 

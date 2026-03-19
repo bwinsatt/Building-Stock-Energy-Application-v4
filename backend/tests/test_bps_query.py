@@ -16,7 +16,7 @@ def test_nyc_config_exists():
     assert "2023" in nyc["endpoints"]
 
 
-def test_all_16_ordinances_present():
+def test_all_18_ordinances_present():
     total = (
         len(BPS_CONFIGS["city"])
         + len(BPS_CONFIGS["county"])
