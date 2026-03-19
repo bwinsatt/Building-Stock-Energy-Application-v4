@@ -6,9 +6,11 @@ from fastapi import APIRouter, Request, HTTPException
 from app.schemas.request import AssessmentRequest
 from app.schemas.response import AssessmentResponse
 from app.schemas.lookup_response import LookupResponse
+from app.schemas.energy_star import EnergyStarRequest, EnergyStarResponse
 from app.services.assessment import assess_buildings
 from app.services.address_lookup import lookup_address
 from app.services.autocomplete import PhotonProvider
+from app.services.energy_star import EnergyStarService
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -151,6 +153,19 @@ async def autocomplete(q: str = "") -> list[dict]:
         }
         for s in suggestions
     ]
+
+
+@router.post("/energy-star/score", response_model=EnergyStarResponse)
+async def energy_star_score(request: EnergyStarRequest):
+    service = EnergyStarService()
+    try:
+        return service.get_score(
+            building=request.building,
+            baseline=request.baseline,
+            address=request.address,
+        )
+    except RuntimeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
 
 
 @router.get("/health")
