@@ -616,6 +616,23 @@ def _comstock_number_stories(num_stories: int) -> str:
         return "over_25"
 
 
+def _operating_hours_weekly_to_daily(hours_per_week: float) -> str:
+    """Convert weekly operating hours to ComStock daily categorical string.
+
+    Training data uses hours/day as categorical strings in 0.25-hr increments,
+    ranging from 5.75 to 18.75.
+    """
+    hours_per_day = hours_per_week / 7.0
+    # Clamp to training data range
+    hours_per_day = max(5.75, min(18.75, hours_per_day))
+    # Snap to nearest 0.25, with explicit rounding to avoid float precision noise
+    hours_per_day = round(round(hours_per_day * 4) / 4, 2)
+    # Format: drop trailing ".0" for whole numbers (e.g. "8" not "8.0")
+    if hours_per_day == int(hours_per_day):
+        return str(int(hours_per_day))
+    return str(hours_per_day)
+
+
 def _resstock_building_type_height(num_stories: int) -> str:
     """Map number of stories to ResStock building_type_height category."""
     if num_stories <= 3:
@@ -1321,6 +1338,9 @@ def preprocess(
         # Convert num_stories to categorical bin (ComStock only)
         elif user_field == "num_stories" and not is_resstock and isinstance(value, (int, float)):
             value = _comstock_number_stories(int(value))
+        # Convert operating_hours (hrs/week) to daily categorical string (ComStock only)
+        elif user_field == "operating_hours" and not is_resstock and isinstance(value, (int, float)):
+            value = _operating_hours_weekly_to_daily(float(value))
         # Map user-facing values to training-data values
         elif user_field in value_map and isinstance(value, str):
             value = value_map[user_field].get(value, value)

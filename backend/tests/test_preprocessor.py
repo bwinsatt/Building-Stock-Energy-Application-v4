@@ -460,3 +460,43 @@ def test_forced_air_furnace_key_maps_correctly_for_comstock():
     assert dataset == "comstock"
     # Should resolve to the Residential style HVAC
     assert features["in.hvac_system_type"] == "Residential AC with residential forced air furnace"
+
+
+# ---------------------------------------------------------------------------
+# Operating hours conversion tests
+# ---------------------------------------------------------------------------
+
+
+def test_operating_hours_converted_to_daily_string(office_input):
+    """Operating hours (hrs/week) should become categorical string hrs/day."""
+    office_input.operating_hours = 56.0  # 56 hrs/week = 8 hrs/day
+    features, _, _, _, _ = preprocess(office_input)
+    assert features["in.weekday_operating_hours..hr"] == "8"
+    assert isinstance(features["in.weekday_operating_hours..hr"], str)
+
+
+def test_operating_hours_snaps_to_quarter(office_input):
+    """Operating hours should snap to nearest 0.25 increment."""
+    office_input.operating_hours = 75.0  # 75/7 = 10.714 → snap to 10.75
+    features, _, _, _, _ = preprocess(office_input)
+    assert features["in.weekday_operating_hours..hr"] == "10.75"
+
+
+def test_operating_hours_clamped_to_range(office_input):
+    """Operating hours outside 5.75-18.75 hrs/day should be clamped."""
+    office_input.operating_hours = 168.0  # 24 hrs/day → clamp to 18.75
+    features, _, _, _, _ = preprocess(office_input)
+    assert features["in.weekday_operating_hours..hr"] == "18.75"
+
+    office_input.operating_hours = 10.0  # 1.43 hrs/day → clamp to 5.75
+    features, _, _, _, _ = preprocess(office_input)
+    assert features["in.weekday_operating_hours..hr"] == "5.75"
+
+
+def test_default_operating_hours_is_valid_string(office_input):
+    """Default imputed operating hours should also be a valid string."""
+    office_input.operating_hours = None
+    features, _, _, _, _ = preprocess(office_input)
+    val = features["in.weekday_operating_hours..hr"]
+    assert isinstance(val, str)
+    assert 5.75 <= float(val) <= 18.75
