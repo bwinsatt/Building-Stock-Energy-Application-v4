@@ -2,10 +2,21 @@
 import { ref, onMounted } from 'vue'
 import { useProjects } from '../composables/useProjects'
 import ProjectDetail from './ProjectDetail.vue'
+import SavedAssessmentView from './SavedAssessmentView.vue'
+import type { Building, Assessment } from '../types/projects'
 
 const { projects, loading, error, fetchProjects, createProject, deleteProject } = useProjects()
 
 const selectedProjectId = ref<number | null>(null)
+const viewingAssessment = ref<{ building: Building; assessment: Assessment } | null>(null)
+
+function onViewAssessment(building: Building, assessment: Assessment) {
+  viewingAssessment.value = { building, assessment }
+}
+
+function onBackFromAssessment() {
+  viewingAssessment.value = null
+}
 const showCreateInput = ref(false)
 const newProjectName = ref('')
 const creating = ref(false)
@@ -60,11 +71,20 @@ onMounted(() => {
 </script>
 
 <template>
+  <!-- Saved assessment view -->
+  <SavedAssessmentView
+    v-if="viewingAssessment"
+    :building="viewingAssessment.building"
+    :assessment="viewingAssessment.assessment"
+    @back="onBackFromAssessment"
+  />
+
   <!-- Detail view -->
   <ProjectDetail
-    v-if="selectedProjectId !== null"
+    v-else-if="selectedProjectId !== null"
     :project-id="selectedProjectId"
     @back="goBack"
+    @view-assessment="onViewAssessment"
   />
 
   <!-- List view -->

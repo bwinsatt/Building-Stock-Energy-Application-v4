@@ -13,6 +13,7 @@ class CreateBuildingRequest(BaseModel):
     address: str
     building_input: dict
     utility_data: dict | None = None
+    lookup_data: dict | None = None
 
 
 class SaveAssessmentRequest(BaseModel):
@@ -54,7 +55,16 @@ def create_building(project_id: int, req: CreateBuildingRequest, request: Reques
         address=req.address,
         building_input=req.building_input,
         utility_data=req.utility_data,
+        lookup_data=req.lookup_data,
     )
+
+
+@router.get("/{project_id}/buildings/{building_id}")
+def get_building(project_id: int, building_id: int, request: Request):
+    building = request.app.state.database.get_building(project_id, building_id)
+    if building is None:
+        raise HTTPException(status_code=404, detail="Building not found")
+    return building
 
 
 @router.post("/{project_id}/buildings/{building_id}/assessments")

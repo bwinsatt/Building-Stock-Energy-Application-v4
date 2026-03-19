@@ -1,3 +1,5 @@
+import type { LookupResponse } from './lookup'
+
 export interface Project {
   id: number
   name: string
@@ -12,6 +14,8 @@ export interface Building {
   address: string
   building_input: Record<string, unknown>
   utility_data: Record<string, unknown> | null
+  lookup_data: LookupResponse | null
+  assessments?: Assessment[]
   created_at: string
   updated_at: string
 }

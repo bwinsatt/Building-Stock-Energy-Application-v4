@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useProjects } from '../composables/useProjects'
-import type { Building } from '../types/projects'
+import type { Building, Assessment } from '../types/projects'
 
 const props = defineProps<{ projectId: number }>()
-const emit = defineEmits<{ back: [] }>()
+const emit = defineEmits<{
+  back: []
+  'view-assessment': [building: Building, assessment: Assessment]
+}>()
 
 const { currentProject, loading, error, fetchProject } = useProjects()
 
@@ -83,9 +86,26 @@ onMounted(() => {
             </span>
           </button>
 
-          <!-- Expanded: assessment history (not yet populated in this worktree) -->
+          <!-- Expanded: assessment history -->
           <div v-if="expandedBuildingId === building.id" class="assessment-section">
-            <p class="assessment-empty">No assessments saved for this building yet.</p>
+            <template v-if="building.assessments && building.assessments.length > 0">
+              <div
+                v-for="assessment in building.assessments"
+                :key="assessment.id"
+                class="assessment-row"
+                @click="emit('view-assessment', building, assessment)"
+              >
+                <div class="assessment-row__info">
+                  <span class="assessment-row__date">{{ formatDate(assessment.created_at) }}</span>
+                  <span v-if="assessment.calibrated" class="calibrated-badge">Calibrated</span>
+                  <span v-if="assessment.result?.baseline" class="assessment-row__eui">
+                    {{ (assessment.result.baseline as any)?.total_eui_kbtu_sf?.toFixed(1) }} kBtu/sf
+                  </span>
+                </div>
+                <span class="assessment-row__arrow">&#x25B8;</span>
+              </div>
+            </template>
+            <p v-else class="assessment-empty">No assessments saved for this building yet.</p>
           </div>
         </div>
       </div>
@@ -254,5 +274,45 @@ onMounted(() => {
   color: #94a3b8;
   text-align: center;
   padding: 0.5rem 0;
+}
+
+.assessment-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: background 0.1s;
+}
+.assessment-row:hover { background: #e2e8f0; }
+.assessment-row__info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.assessment-row__date {
+  font-size: 0.8125rem;
+  color: #333e47;
+  font-weight: 500;
+}
+.assessment-row__eui {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+.calibrated-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 0.0625rem 0.375rem;
+  border-radius: 9999px;
+}
+.assessment-row__arrow {
+  color: #94a3b8;
+  font-size: 0.75rem;
 }
 </style>
