@@ -643,6 +643,21 @@ def _resstock_building_type_height(num_stories: int) -> str:
         return "Multi-Family with 5+ Units, 8+ Stories"
 
 
+def _resstock_setpoint_to_category(temp_f: float) -> str:
+    """Convert a temperature float to ResStock categorical string (e.g. 70.0 → '70F')."""
+    return f"{round(temp_f)}F"
+
+
+def _resstock_setback_to_category(delta_f: float, categories: list[float]) -> str:
+    """Snap a setback delta to the nearest ResStock category and format as string."""
+    nearest = min(categories, key=lambda c: abs(c - delta_f))
+    return f"{int(nearest)}F"
+
+
+_HEATING_SETBACK_CATEGORIES = [0, 3, 6, 12]
+_COOLING_SETBACK_CATEGORIES = [0, 2, 5, 9]
+
+
 def _resstock_per_unit_sqft(total_sqft: float, num_stories: int) -> float:
     """Convert whole-building sqft to per-unit sqft for ResStock.
 
@@ -1386,6 +1401,14 @@ def preprocess(
     for user_field, model_col in advanced_map.items():
         value = getattr(building_input, user_field, None)
         if value is not None:
+            # ResStock thermostat columns are categorical strings in training data
+            if is_resstock:
+                if user_field in ("thermostat_heating_setpoint", "thermostat_cooling_setpoint"):
+                    value = _resstock_setpoint_to_category(value)
+                elif user_field == "thermostat_heating_setback":
+                    value = _resstock_setback_to_category(value, _HEATING_SETBACK_CATEGORIES)
+                elif user_field == "thermostat_cooling_setback":
+                    value = _resstock_setback_to_category(value, _COOLING_SETBACK_CATEGORIES)
             features[model_col] = value
         else:
             features[model_col] = float('nan')  # XGBoost handles NaN natively

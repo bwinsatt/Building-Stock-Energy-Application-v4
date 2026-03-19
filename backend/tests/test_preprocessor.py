@@ -513,3 +513,39 @@ def test_resstock_stories_is_string(mf_input):
     features, _, _, _, _ = preprocess(mf_input)
     assert isinstance(features["in.geometry_stories"], str)
     assert features["in.geometry_stories"] == "5"
+
+
+def test_resstock_heating_setpoint_is_string_with_f(mf_input):
+    """ResStock heating setpoint should be string like '70F'."""
+    mf_input.thermostat_heating_setpoint = 70.0
+    features, _, _, _, _ = preprocess(mf_input)
+    assert features["in.heating_setpoint"] == "70F"
+
+
+def test_resstock_cooling_setpoint_is_string_with_f(mf_input):
+    """ResStock cooling setpoint should be string like '75F'."""
+    mf_input.thermostat_cooling_setpoint = 75.0
+    features, _, _, _, _ = preprocess(mf_input)
+    assert features["in.cooling_setpoint"] == "75F"
+
+
+def test_resstock_heating_setback_snaps_to_category(mf_input):
+    """ResStock heating setback should snap to nearest category (0F/3F/6F/12F)."""
+    mf_input.thermostat_heating_setback = 5.0  # nearest is 6F
+    features, _, _, _, _ = preprocess(mf_input)
+    assert features["in.heating_setpoint_offset_magnitude"] == "6F"
+
+
+def test_resstock_cooling_setback_snaps_to_category(mf_input):
+    """ResStock cooling setback should snap to nearest category (0F/2F/5F/9F)."""
+    mf_input.thermostat_cooling_setback = 4.0  # nearest is 5F
+    features, _, _, _, _ = preprocess(mf_input)
+    assert features["in.cooling_setpoint_offset_magnitude"] == "5F"
+
+
+def test_resstock_thermostat_none_is_float_nan(mf_input):
+    """When thermostat not provided, value should be float NaN."""
+    mf_input.thermostat_heating_setpoint = None
+    features, _, _, _, _ = preprocess(mf_input)
+    import math
+    assert math.isnan(features["in.heating_setpoint"])
