@@ -16,3 +16,7 @@ class LookupResponse(BaseModel):
     building_fields: dict[str, FieldResult]
     target_building_polygon: Optional[list[list[float]]] = None
     nearby_buildings: list[dict] = []
+    bps_available: bool = False
+    bps_ordinance_name: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None

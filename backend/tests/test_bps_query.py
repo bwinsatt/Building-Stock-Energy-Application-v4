@@ -334,3 +334,58 @@ async def test_query_bps_with_mock():
         assert result is not None
         assert result["ordinance_name"] == "NYC LL84"
         assert result["match_confidence"] is not None
+
+
+# ---------------------------------------------------------------------------
+# Task 8: Lookup response schema tests
+# ---------------------------------------------------------------------------
+
+from app.schemas.lookup_response import LookupResponse
+
+
+def test_lookup_response_has_bps_fields():
+    resp = LookupResponse(
+        address="350 Fifth Avenue, New York, NY",
+        lat=40.748,
+        lon=-73.985,
+        zipcode="10118",
+        building_fields={},
+        bps_available=True,
+        bps_ordinance_name="NYC LL84",
+        city="New York",
+        state="New York",
+    )
+    assert resp.bps_available is True
+    assert resp.bps_ordinance_name == "NYC LL84"
+    assert resp.city == "New York"
+
+
+def test_lookup_response_bps_defaults():
+    resp = LookupResponse(
+        address="123 Main St",
+        lat=0,
+        lon=0,
+        building_fields={},
+    )
+    assert resp.bps_available is False
+    assert resp.bps_ordinance_name is None
+    assert resp.city is None
+    assert resp.state is None
+
+
+# ---------------------------------------------------------------------------
+# Task 9: BPS search endpoint tests
+# ---------------------------------------------------------------------------
+
+
+def test_bps_search_endpoint_no_ordinance(app_client):
+    """Non-BPS city should return 404."""
+    resp = app_client.get(
+        "/bps/search",
+        params={
+            "address": "123 Main St, Dallas, TX",
+            "city": "Dallas",
+            "state": "Texas",
+        },
+    )
+    assert resp.status_code == 404
