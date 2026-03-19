@@ -68,7 +68,7 @@ class MockModelManager:
     def warm_upgrades(self, dataset, upgrade_ids):
         pass
 
-    def predict_delta(self, features_dict, upgrade_id, dataset, _enc_cache=None):
+    def predict_delta(self, features_dict, upgrade_id, dataset, baseline_eui=None, _enc_cache=None):
         baseline = self.predict_baseline(features_dict, dataset)
         return {fuel: eui * 0.1 for fuel, eui in baseline.items()}
 

@@ -22,7 +22,16 @@ from app.schemas.response import (
     InputSummary,
     MeasureResult,
 )
-from app.constants import KWH_TO_KBTU, KWH_TO_THERMS
+from app.constants import (
+    KWH_TO_KBTU,
+    KWH_TO_THERMS,
+    KWH_PER_GALLON_FUEL_OIL,
+    KWH_PER_GALLON_PROPANE,
+    KWH_PER_THERM,
+    STORY_HEIGHT_COMMERCIAL,
+    STORY_HEIGHT_RESIDENTIAL,
+    ASPECT_RATIO,
+)
 from app.services.emissions import calculate_emissions_reduction_pct
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
@@ -107,13 +116,6 @@ def _get_upgrade_description(
 # Geometric sizing (wall / roof / window area)
 # ---------------------------------------------------------------------------
 
-# Typical floor-to-floor heights (ft)
-_STORY_HEIGHT_COMMERCIAL = 12
-_STORY_HEIGHT_RESIDENTIAL = 10
-
-# Default aspect ratio for commercial buildings
-_ASPECT_RATIO = 1.8
-
 # Regex to parse "10-20%" style WWR strings
 _RE_WWR = re.compile(r"(\d+)-(\d+)%")
 
@@ -145,12 +147,12 @@ def _geometric_sizing(
     Returns areas in ft².
     """
     story_height = (
-        _STORY_HEIGHT_RESIDENTIAL if dataset == "resstock"
-        else _STORY_HEIGHT_COMMERCIAL
+        STORY_HEIGHT_RESIDENTIAL if dataset == "resstock"
+        else STORY_HEIGHT_COMMERCIAL
     )
     floor_area = sqft / max(num_stories, 1)
-    width = math.sqrt(floor_area / _ASPECT_RATIO)
-    length = width * _ASPECT_RATIO
+    width = math.sqrt(floor_area / ASPECT_RATIO)
+    length = width * ASPECT_RATIO
     perimeter = 2 * (length + width)
 
     wall_area = perimeter * story_height * num_stories
@@ -162,6 +164,39 @@ def _geometric_sizing(
         "wall_area": wall_area,
         "roof_area": roof_area,
         "window_area": window_area,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Utility data conversion helper
+# ---------------------------------------------------------------------------
+
+def convert_utility_to_eui(
+    sqft: float,
+    annual_electricity_kwh: float | None = None,
+    annual_natural_gas_therms: float | None = None,
+    annual_fuel_oil_gallons: float | None = None,
+    annual_propane_gallons: float | None = None,
+    annual_district_heating_kbtu: float | None = None,
+) -> dict[str, float] | None:
+    """Convert user-provided annual utility data to kWh/sqft per fuel.
+
+    Returns None if no utility data is provided.
+    """
+    has_data = any(v is not None for v in [
+        annual_electricity_kwh, annual_natural_gas_therms,
+        annual_fuel_oil_gallons, annual_propane_gallons,
+        annual_district_heating_kbtu,
+    ])
+    if not has_data:
+        return None
+
+    return {
+        "electricity": (annual_electricity_kwh or 0) / sqft,
+        "natural_gas": (annual_natural_gas_therms or 0) * KWH_PER_THERM / sqft,
+        "fuel_oil": (annual_fuel_oil_gallons or 0) * KWH_PER_GALLON_FUEL_OIL / sqft,
+        "propane": (annual_propane_gallons or 0) * KWH_PER_GALLON_PROPANE / sqft,
+        "district_heating": (annual_district_heating_kbtu or 0) / KWH_TO_KBTU / sqft,
     }
 
 
@@ -189,6 +224,18 @@ def _assess_single(
     # 2. Predict baseline EUI (kWh/ft2 per fuel)
     baseline_eui = model_manager.predict_baseline(features, dataset, enc_cache)
 
+    # Convert utility data to kWh/sqft if provided
+    actual_baseline_eui = convert_utility_to_eui(
+        sqft=building.sqft,
+        annual_electricity_kwh=building.annual_electricity_kwh,
+        annual_natural_gas_therms=building.annual_natural_gas_therms,
+        annual_fuel_oil_gallons=building.annual_fuel_oil_gallons,
+        annual_propane_gallons=building.annual_propane_gallons,
+        annual_district_heating_kbtu=building.annual_district_heating_kbtu,
+    )
+    calibrated = actual_baseline_eui is not None
+    effective_baseline = actual_baseline_eui if calibrated else baseline_eui
+
     # 3. Predict sizing (capacity for cost calculation) + geometric areas
     sizing = model_manager.predict_sizing(features, dataset, enc_cache)
     # Clamp sizing predictions to zero — negative capacity is physically impossible
@@ -206,8 +253,8 @@ def _assess_single(
     # 4. Predict utility rates ($/kWh per fuel)
     rates = model_manager.predict_rates(features, dataset, enc_cache)
 
-    # 5. Convert baseline to kBtu/sf (clamp negatives to zero)
-    baseline_kbtu = {fuel: max(0.0, eui * KWH_TO_KBTU) for fuel, eui in baseline_eui.items()}
+    # 5. Convert effective baseline to kBtu/sf (clamp negatives to zero)
+    baseline_kbtu = {fuel: max(0.0, eui * KWH_TO_KBTU) for fuel, eui in effective_baseline.items()}
     total_baseline_kbtu = sum(baseline_kbtu.values())
 
     # 6. Check applicability and predict upgrades
@@ -224,7 +271,9 @@ def _assess_single(
     delta_results: dict[int, dict] = {}
 
     def _predict_upgrade(uid: int) -> tuple[int, dict]:
-        return uid, model_manager.predict_delta(features, uid, dataset)
+        return uid, model_manager.predict_delta(
+            features, uid, dataset, baseline_eui=effective_baseline,
+        )
 
     with ThreadPoolExecutor(max_workers=8) as pool:
         for uid, delta in pool.map(_predict_upgrade, applicable_ids):
@@ -249,12 +298,15 @@ def _assess_single(
             continue
 
         delta = delta_results[uid]
-        savings_kwh = {fuel: max(0.0, d) for fuel, d in delta.items()}
+        savings_kwh = {
+            fuel: d if effective_baseline.get(fuel, 0) > 0.001 else 0.0
+            for fuel, d in delta.items()
+        }
 
-        # Derive post-upgrade EUI from baseline - savings
+        # Derive post-upgrade EUI from baseline - savings (floor at zero)
         post_eui = {
-            fuel: baseline_eui.get(fuel, 0) - savings_kwh.get(fuel, 0)
-            for fuel in baseline_eui
+            fuel: max(0.0, effective_baseline.get(fuel, 0) - savings_kwh.get(fuel, 0))
+            for fuel in effective_baseline
         }
 
         category = _get_upgrade_category(uid, dataset, cost_calculator)
@@ -318,7 +370,7 @@ def _assess_single(
         # Bill savings: sum of (rate * savings) per fuel
         bill_savings_per_sf = sum(
             savings_kwh.get(fuel, 0) * rates.get(fuel, 0)
-            for fuel in baseline_eui
+            for fuel in effective_baseline
         )
 
         # Simple payback
@@ -338,7 +390,7 @@ def _assess_single(
 
         # Emissions reduction
         emissions_pct = calculate_emissions_reduction_pct(
-            baseline_eui, post_eui, electricity_ef
+            effective_baseline, post_eui, electricity_ef
         )
 
         measures.append(
@@ -378,6 +430,12 @@ def _assess_single(
         baseline=BaselineResult(
             total_eui_kbtu_sf=round(total_baseline_kbtu, 2),
             eui_by_fuel=fuel_breakdown,
+            actual_eui_by_fuel=FuelBreakdown(**{
+                fuel: val * KWH_TO_KBTU for fuel, val in actual_baseline_eui.items()
+            }) if calibrated else None,
+            actual_total_eui_kbtu_sf=sum(
+                val * KWH_TO_KBTU for val in actual_baseline_eui.values()
+            ) if calibrated else None,
         ),
         measures=measures,
         input_summary=InputSummary(
@@ -393,6 +451,7 @@ def _assess_single(
                 k: ImputedField(**v) for k, v in imputed_details.items()
             },
         ),
+        calibrated=calibrated,
     )
 
 
