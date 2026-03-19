@@ -1104,84 +1104,20 @@ git commit -m "feat: add validation experiment for baseline EUI as delta model f
 
 ---
 
-## Task 11: V2 Training Scripts (Conditional on Validation)
+## Task 11: ~~V2 Training Scripts~~ — DEFERRED TO ENSEMBLE PLAN
 
-**Depends on:** Task 10 results showing meaningful improvement.
+**Status:** Deferred. Baseline EUI feature columns will be added as part of the ensemble + feature engineering plan (`docs/superpowers/plans/2026-03-19-ensemble-and-feature-engineering.md`, Task 5) rather than creating separate v2 training scripts. This avoids maintaining two forks of the training scripts.
 
-**Files:**
-- Create: `scripts/train_comstock_deltas_v2.py` (copy of `train_comstock_deltas.py`)
-- Create: `scripts/train_resstock_deltas_v2.py` (copy of `train_resstock_deltas.py`)
+**What the ensemble plan's Task 5 will include from this work:**
+- Add `baseline_{fuel}` columns (electricity, natural_gas, fuel_oil, propane, district_heating for ComStock; no district_heating for ResStock) to `FEATURE_COLS` in both training scripts
+- After baseline/upgrade merge, rename baseline fuel EUI columns to `baseline_{fuel}` and retain them as features
+- These columns will be NaN-valued during training for baseline (upgrade 0) rows, teaching the model to handle both calibrated and uncalibrated inference
 
-- [ ] **Step 1: Copy existing training scripts**
-
-```bash
-cp scripts/train_comstock_deltas.py scripts/train_comstock_deltas_v2.py
-cp scripts/train_resstock_deltas.py scripts/train_resstock_deltas_v2.py
-```
-
-- [ ] **Step 2: Modify train_comstock_deltas_v2.py**
-
-Add baseline EUI columns to `FEATURE_COLS` (around line 67):
-```python
-BASELINE_EUI_COLS = [
-    "baseline_electricity",
-    "baseline_natural_gas",
-    "baseline_fuel_oil",
-    "baseline_propane",
-    "baseline_district_heating",
-]
-FEATURE_COLS = FEATURE_COLS + BASELINE_EUI_COLS
-```
-
-In the data loading/merge section (around line 177 where deltas are computed), stop dropping the baseline fuel columns. Instead, rename them to `baseline_{fuel}` and keep them in the feature set.
-
-The exact column names in the parquet files are like `out.electricity.total.energy_consumption_intensity..kwh_per_ft2`. Map these to `baseline_electricity`, etc., after the merge.
-
-- [ ] **Step 3: Modify train_resstock_deltas_v2.py**
-
-Same changes as Step 2, but with 4 baseline columns (no `district_heating`):
-```python
-BASELINE_EUI_COLS = [
-    "baseline_electricity",
-    "baseline_natural_gas",
-    "baseline_fuel_oil",
-    "baseline_propane",
-]
-```
-
-- [ ] **Step 4: Test run v2 training on a single upgrade**
-
-Run: `python3 scripts/train_comstock_deltas_v2.py --upgrades 5`
-Expected: Trains successfully, saves models with baseline columns in `feature_columns` metadata
-
-- [ ] **Step 5: Verify v2 model metadata includes baseline columns**
-
-```bash
-python3 -c "import json; meta = json.load(open('XGB_Models/ComStock_Upgrades_2025_R3/XGB_upgrade5_electricity_meta.json')); print(meta['feature_columns'])"
-```
-Expected: Feature list includes `baseline_electricity`, `baseline_natural_gas`, etc.
-
-- [ ] **Step 6: Full retraining**
-
-Run both v2 scripts for all upgrades:
-```bash
-python3 scripts/train_comstock_deltas_v2.py
-python3 scripts/train_resstock_deltas_v2.py
-```
-
-Note: This is the atomic swap — v2 models overwrite v1 models in the same directory.
-
-- [ ] **Step 7: Run full backend test suite after model swap**
-
-Run: `cd backend && pytest`
-Expected: All tests pass. The models now expect baseline columns, and `predict_delta` passes them (from Task 5). Existing tests pass because `predict_delta` passes `baseline_eui=None` which means no baseline features are injected — but wait, v2 models expect them. **Important:** After the model swap, `predict_delta` must ALWAYS receive `baseline_eui` (either predicted or actual). Verify Task 6 changes handle this.
-
-- [ ] **Step 8: Commit**
-
-```bash
-git add scripts/train_comstock_deltas_v2.py scripts/train_resstock_deltas_v2.py
-git commit -m "feat: add v2 delta training scripts with baseline EUI as input feature"
-```
+**Validation results (Task 10) supporting this decision:**
+- ComStock upgrades 5 & 10: +12-18% R² with ground-truth baseline EUI
+- Error propagation (predicted baseline): ~equal to control (no regression)
+- Noise robustness: maintains gains even with 20% Gaussian noise
+- Pipeline safeguard: `baseline_eui` only passed to `predict_delta` when user provides actual utility data; otherwise `None`/NaN
 
 ---
 
@@ -1612,19 +1548,19 @@ git commit -m "feat: add calibrated building input fixture and integration tests
 
 Tasks can be parallelized across these independent tracks:
 
-**Track A — Validation & Training (sequential):**
-Task 10 (validation) → Task 11 (v2 training, conditional)
+**Track A — Validation (complete):**
+Task 10 (validation) ✅ — Results: +12-18% R² with actual data, no regression without. Task 11 (v2 training) deferred to ensemble plan.
 
-**Track B — Schema & Pipeline (sequential):**
-Task 1 (constants) → Task 2 (request schema) → Task 3 (response schema) → Task 4 (conversion helper) → Task 5 (model manager) → Task 6 (pipeline wiring) → Task 18 (fixtures)
+**Track B — Schema & Pipeline (complete):**
+Task 1 ✅ → Task 2 ✅ → Task 3 ✅ → Task 4 ✅ → Task 5 ✅ → Task 6 ✅ → Task 18 ✅
 
-**Track C — Persistence (sequential):**
-Task 7 (database) → Task 8 (API endpoints)
+**Track C — Persistence (complete):**
+Task 7 ✅ → Task 8 ✅
 
-**Track D — Frontend (sequential, depends on B and C):**
-Task 12 (types) → Task 13 (composable) → Task 14 (navigation) → Task 15 (projects view) → Task 16 (utility input) → Task 17 (results indicator)
+**Track D — Frontend (complete):**
+Task 12 ✅ → Task 13 ✅ → Task 14 ✅ → Task 15 ✅ → Task 16 ✅ → Task 17 ✅
 
 **Independent:**
-Task 9 (compression) — can run anytime
+Task 9 (compression) ✅
 
-**Tracks A, B, C, and Task 9 can all start in parallel.**
+**Remaining:** Task 11 (model retraining with baseline EUI features) is now part of the ensemble + feature engineering plan (`docs/superpowers/plans/2026-03-19-ensemble-and-feature-engineering.md`, Task 5). The baseline EUI columns will be added alongside HDD/CDD, thermostat, and derived features in a single retraining pass.
