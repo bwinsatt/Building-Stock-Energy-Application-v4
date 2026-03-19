@@ -392,32 +392,42 @@ def train_all(upgrade_ids, tune_trials=50, skip_tuning=False):
             y = df[target_col].values
             y_train, y_test = y[train_idx], y[test_idx]
 
+            # Skip if all targets are constant (no signal to learn)
+            if np.std(y_train) < 1e-10:
+                print(f"  {fuel_name:>18}: SKIPPED (constant target)")
+                continue
+
+            trained_models = []
+
             # Train XGBoost
             t0 = time.time()
             xgb_model = train_single_model(X_enc.iloc[train_idx], y_train, params)
-            xgb_time = time.time() - t0
             xgb_metrics = evaluate_model(xgb_model, X_enc.iloc[test_idx], y_test)
+            trained_models.append(('XGB', xgb_model, xgb_metrics))
 
             # Train LightGBM
-            t0 = time.time()
-            lgbm_model = train_lightgbm_model(X_enc.iloc[train_idx], y_train, params, cat_indices)
-            lgbm_time = time.time() - t0
-            lgbm_metrics = evaluate_model(lgbm_model, X_enc.iloc[test_idx], y_test)
+            try:
+                t0 = time.time()
+                lgbm_model = train_lightgbm_model(X_enc.iloc[train_idx], y_train, params, cat_indices)
+                lgbm_metrics = evaluate_model(lgbm_model, X_enc.iloc[test_idx], y_test)
+                trained_models.append(('LGBM', lgbm_model, lgbm_metrics))
+            except Exception as e:
+                print(f"  {fuel_name:>18}: LGBM skipped ({e})")
 
             # Train CatBoost
-            t0 = time.time()
-            cb_model = train_catboost_model(X_cb.iloc[train_idx], y_train, params, cat_indices)
-            cb_time = time.time() - t0
-            cb_metrics = evaluate_model(cb_model, X_cb.iloc[test_idx], y_test)
+            try:
+                t0 = time.time()
+                cb_model = train_catboost_model(X_cb.iloc[train_idx], y_train, params, cat_indices)
+                cb_metrics = evaluate_model(cb_model, X_cb.iloc[test_idx], y_test)
+                trained_models.append(('CB', cb_model, cb_metrics))
+            except Exception as e:
+                print(f"  {fuel_name:>18}: CB skipped ({e})")
 
-            print(f"  {fuel_name:>18}: XGB={xgb_metrics['mae_kbtu_sf']:5.2f}  LGBM={lgbm_metrics['mae_kbtu_sf']:5.2f}  CB={cb_metrics['mae_kbtu_sf']:5.2f} kBtu/sf")
+            mae_parts = [f"{p}={m['mae_kbtu_sf']:5.2f}" for p, _, m in trained_models]
+            print(f"  {fuel_name:>18}: {' '.join(mae_parts)} kBtu/sf")
 
-            # Save all 3 model types
-            for prefix, model, metrics, X_data in [
-                ('XGB', xgb_model, xgb_metrics, X_enc),
-                ('LGBM', lgbm_model, lgbm_metrics, X_enc),
-                ('CB', cb_model, cb_metrics, X_cb),
-            ]:
+            # Save trained models
+            for prefix, model, metrics in trained_models:
                 model_name = f'{prefix}_upgrade{uid}_{fuel_name}'
                 save_model_artifacts(model, encoders, FEATURE_COLS, metrics, OUTPUT_DIR, model_name)
                 n_models_trained += 1

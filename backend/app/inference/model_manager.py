@@ -397,11 +397,37 @@ class ModelManager:
 
         return float(pred)
 
+    @staticmethod
+    def _predict_single_catboost(bundle: dict, features_dict: dict) -> float:
+        """Run a CatBoost model — needs string-typed categoricals, not pd.Categorical."""
+        meta = bundle["meta"]
+        feature_cols = meta["feature_columns"]
+        log_target = meta.get("log_target", False)
+        encoders = bundle["encoders"]
+
+        row = {col: features_dict.get(col, np.nan) for col in feature_cols}
+        df = pd.DataFrame([row])
+
+        # CatBoost encoding: string for categoricals, numeric for others
+        for col in feature_cols:
+            if col in encoders:
+                df[col] = df[col].astype(str)
+            else:
+                df[col] = pd.to_numeric(df[col], errors="coerce")
+
+        pred = bundle["model"].predict(df)[0]
+        if log_target:
+            pred = float(np.expm1(pred))
+        return float(pred)
+
     def _predict_ensemble(self, ensemble: dict, features_dict: dict, _enc_cache: dict | None = None) -> float:
         """Run all models in an ensemble bundle and blend predictions."""
         predictions = {}
         for prefix, bundle in ensemble.items():
-            predictions[prefix] = self._predict_single(bundle, features_dict, _enc_cache)
+            if prefix == 'CB':
+                predictions[prefix] = self._predict_single_catboost(bundle, features_dict)
+            else:
+                predictions[prefix] = self._predict_single(bundle, features_dict, _enc_cache)
         return _blend_predictions(predictions)
 
     # ------------------------------------------------------------------
