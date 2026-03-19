@@ -365,42 +365,22 @@ def run_upgrade_experiment(cfg, upgrade_id, df):
         )
 
         # ---------- 2. Experiment (ground-truth baseline EUI as feature) ----------
-        bl_gt_train_col = baseline_train[fuel_name].reshape(-1, 1)
-        bl_gt_test_col = baseline_test[fuel_name].reshape(-1, 1)
-
-        X_exp_train = np.hstack([X_base_train.values, bl_gt_train_col])
-        X_exp_test = np.hstack([X_base_test.values, bl_gt_test_col])
-
-        # Rebuild as DataFrame so XGBoost sees categorical dtypes for original cols
-        exp_col_names = list(X_base_train.columns) + [f"baseline_{fuel_name}"]
-        X_exp_train_df = pd.DataFrame(X_exp_train, columns=exp_col_names)
-        X_exp_test_df = pd.DataFrame(X_exp_test, columns=exp_col_names)
-        # Restore categorical dtypes for the base feature columns
-        for col in X_base_train.columns:
-            if hasattr(X_base_train[col], 'cat'):
-                X_exp_train_df[col] = pd.Categorical(
-                    X_exp_train_df[col], categories=X_base_train[col].cat.categories
-                )
-                X_exp_test_df[col] = pd.Categorical(
-                    X_exp_test_df[col], categories=X_base_test[col].cat.categories
-                )
+        bl_col_name = f"baseline_{fuel_name}"
+        X_exp_train_df = X_base_train.copy().reset_index(drop=True)
+        X_exp_train_df[bl_col_name] = baseline_train[fuel_name].astype(float)
+        X_exp_test_df = X_base_test.copy().reset_index(drop=True)
+        X_exp_test_df[bl_col_name] = baseline_test[fuel_name].astype(float)
 
         _, exp_mae, exp_rmse, exp_r2 = train_and_evaluate(
             X_exp_train_df, y_train, X_exp_test_df, y_test
         )
 
         # ---------- 3. Error propagation (predicted baseline as feature) ----------
-        bl_pred_test_col = predicted_baseline_test[fuel_name].reshape(-1, 1)
         # Training still uses ground-truth baseline (at inference time, we'd have
         # a predicted baseline from the baseline model)
         X_ep_train_df = X_exp_train_df.copy()
-        X_ep_test = np.hstack([X_base_test.values, bl_pred_test_col])
-        X_ep_test_df = pd.DataFrame(X_ep_test, columns=exp_col_names)
-        for col in X_base_test.columns:
-            if hasattr(X_base_test[col], 'cat'):
-                X_ep_test_df[col] = pd.Categorical(
-                    X_ep_test_df[col], categories=X_base_test[col].cat.categories
-                )
+        X_ep_test_df = X_base_test.copy().reset_index(drop=True)
+        X_ep_test_df[bl_col_name] = predicted_baseline_test[fuel_name].astype(float)
 
         # Retrain with gt baseline as feature (same model as experiment), evaluate
         # on test set using *predicted* baseline feature
@@ -422,18 +402,10 @@ def run_upgrade_experiment(cfg, upgrade_id, df):
         bl_noisy10_train = baseline_train[fuel_name] + rng.normal(0, noise_std_10, size=len(train_idx))
         bl_noisy10_test = baseline_test[fuel_name] + rng.normal(0, noise_std_10, size=len(test_idx))
 
-        X_n10_train = np.hstack([X_base_train.values, bl_noisy10_train.reshape(-1, 1)])
-        X_n10_test = np.hstack([X_base_test.values, bl_noisy10_test.reshape(-1, 1)])
-        X_n10_train_df = pd.DataFrame(X_n10_train, columns=exp_col_names)
-        X_n10_test_df = pd.DataFrame(X_n10_test, columns=exp_col_names)
-        for col in X_base_train.columns:
-            if hasattr(X_base_train[col], 'cat'):
-                X_n10_train_df[col] = pd.Categorical(
-                    X_n10_train_df[col], categories=X_base_train[col].cat.categories
-                )
-                X_n10_test_df[col] = pd.Categorical(
-                    X_n10_test_df[col], categories=X_base_test[col].cat.categories
-                )
+        X_n10_train_df = X_base_train.copy().reset_index(drop=True)
+        X_n10_train_df[bl_col_name] = bl_noisy10_train.astype(float)
+        X_n10_test_df = X_base_test.copy().reset_index(drop=True)
+        X_n10_test_df[bl_col_name] = bl_noisy10_test.astype(float)
 
         _, n10_mae, n10_rmse, n10_r2 = train_and_evaluate(
             X_n10_train_df, y_train, X_n10_test_df, y_test
@@ -446,18 +418,10 @@ def run_upgrade_experiment(cfg, upgrade_id, df):
         bl_noisy20_train = baseline_train[fuel_name] + rng2.normal(0, noise_std_20, size=len(train_idx))
         bl_noisy20_test = baseline_test[fuel_name] + rng2.normal(0, noise_std_20, size=len(test_idx))
 
-        X_n20_train = np.hstack([X_base_train.values, bl_noisy20_train.reshape(-1, 1)])
-        X_n20_test = np.hstack([X_base_test.values, bl_noisy20_test.reshape(-1, 1)])
-        X_n20_train_df = pd.DataFrame(X_n20_train, columns=exp_col_names)
-        X_n20_test_df = pd.DataFrame(X_n20_test, columns=exp_col_names)
-        for col in X_base_train.columns:
-            if hasattr(X_base_train[col], 'cat'):
-                X_n20_train_df[col] = pd.Categorical(
-                    X_n20_train_df[col], categories=X_base_train[col].cat.categories
-                )
-                X_n20_test_df[col] = pd.Categorical(
-                    X_n20_test_df[col], categories=X_base_test[col].cat.categories
-                )
+        X_n20_train_df = X_base_train.copy().reset_index(drop=True)
+        X_n20_train_df[bl_col_name] = bl_noisy20_train.astype(float)
+        X_n20_test_df = X_base_test.copy().reset_index(drop=True)
+        X_n20_test_df[bl_col_name] = bl_noisy20_test.astype(float)
 
         _, n20_mae, n20_rmse, n20_r2 = train_and_evaluate(
             X_n20_train_df, y_train, X_n20_test_df, y_test

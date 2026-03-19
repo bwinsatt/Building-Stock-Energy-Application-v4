@@ -272,7 +272,8 @@ def _assess_single(
 
     def _predict_upgrade(uid: int) -> tuple[int, dict]:
         return uid, model_manager.predict_delta(
-            features, uid, dataset, baseline_eui=effective_baseline,
+            features, uid, dataset,
+            baseline_eui=actual_baseline_eui if calibrated else None,
         )
 
     with ThreadPoolExecutor(max_workers=8) as pool:
