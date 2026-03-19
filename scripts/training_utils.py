@@ -191,11 +191,11 @@ def save_model_artifacts(model, encoders, feature_cols, metrics, output_dir, mod
 
     # Save model
     model_path = os.path.join(output_dir, f'{model_name}.pkl')
-    joblib.dump(model, model_path)
+    joblib.dump(model, model_path, compress=3)
 
     # Save encoders (category lists per column)
     enc_path = os.path.join(output_dir, f'{model_name}_encoders.pkl')
-    joblib.dump(encoders, enc_path)
+    joblib.dump(encoders, enc_path, compress=3)
 
     # Save metadata
     meta = {
