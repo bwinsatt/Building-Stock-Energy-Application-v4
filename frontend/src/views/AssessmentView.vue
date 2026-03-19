@@ -1,29 +1,71 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { PTypography, PIcon } from '@partnerdevops/partner-components'
 import { useAssessment } from '../composables/useAssessment'
+import { useProjects } from '../composables/useProjects'
+import ProjectSelector from '../components/ProjectSelector.vue'
 import BuildingForm from '../components/BuildingForm.vue'
 import BaselineSummary from '../components/BaselineSummary.vue'
 import MeasuresTable from '../components/MeasuresTable.vue'
 import AssumptionsPanel from '../components/AssumptionsPanel.vue'
 import EnergyStarScore from '../components/EnergyStarScore.vue'
 import type { BuildingInput } from '../types/assessment'
+import type { LookupResponse } from '../types/lookup'
 
 const { loading, error, result, assess } = useAssessment()
+const { createBuilding, saveAssessment } = useProjects()
+
 const lastSqft = ref(0)
 const lastBuilding = ref<BuildingInput | null>(null)
+const selectedProjectId = ref<number | null>(null)
+const lastLookupResult = ref<LookupResponse | null>(null)
+const lastAddress = ref('')
+const saveStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle')
+
+function onLookupComplete(lookupResult: LookupResponse | null, address: string) {
+  lastLookupResult.value = lookupResult
+  lastAddress.value = address
+}
 
 function onSubmit(input: BuildingInput) {
   lastSqft.value = input.sqft
   lastBuilding.value = input
+  saveStatus.value = 'idle'
   assess(input)
 }
+
+// Autosave: watch for assessment result and save when project is selected
+watch(result, async (newResult) => {
+  if (!newResult || !selectedProjectId.value || !lastBuilding.value) return
+  saveStatus.value = 'saving'
+  try {
+    const building = await createBuilding(
+      selectedProjectId.value,
+      lastAddress.value || lastBuilding.value.zipcode,
+      lastBuilding.value as unknown as Record<string, unknown>,
+      undefined, // utility_data
+      lastLookupResult.value as unknown as Record<string, unknown>,
+    )
+    await saveAssessment(
+      selectedProjectId.value,
+      building.id,
+      newResult as unknown as Record<string, unknown>,
+      newResult.calibrated ?? false,
+    )
+    saveStatus.value = 'saved'
+  } catch {
+    saveStatus.value = 'error'
+  }
+})
 </script>
 
 <template>
   <div class="assessment-view">
+    <!-- Project Selector -->
+    <ProjectSelector v-model:project-id="selectedProjectId" />
+
     <!-- Form -->
-    <BuildingForm @submit="onSubmit" :disabled="loading" />
+    <BuildingForm @submit="onSubmit" @lookup-complete="onLookupComplete" :disabled="loading" />
 
     <!-- Loading state -->
     <div v-if="loading" class="loading-card">
@@ -76,6 +118,10 @@ function onSubmit(input: BuildingInput) {
         </PTypography>
         <div class="results-divider__line" aria-hidden="true" />
       </div>
+
+      <span v-if="saveStatus === 'saving'" class="save-indicator">Saving...</span>
+      <span v-else-if="saveStatus === 'saved'" class="save-indicator save-indicator--success">Saved to project</span>
+      <span v-else-if="saveStatus === 'error'" class="save-indicator save-indicator--error">Save failed</span>
 
       <AssumptionsPanel :summary="result.input_summary" />
 
@@ -237,6 +283,19 @@ function onSubmit(input: BuildingInput) {
 .error-card__message {
   color: #64748b;
   word-break: break-word;
+}
+
+/* ---- Save indicator ---- */
+.save-indicator {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+}
+.save-indicator--success {
+  color: #16a34a;
+}
+.save-indicator--error {
+  color: #dc2626;
 }
 
 /* ---- Responsive ---- */

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, watch, computed } from 'vue'
 import type { BuildingInput } from '../types/assessment'
-import type { FieldResult } from '../types/lookup'
+import type { FieldResult, LookupResponse } from '../types/lookup'
 import {
   BUILDING_TYPES,
   HEATING_FUELS,
@@ -21,6 +21,7 @@ defineProps<{
 
 const emit = defineEmits<{
   submit: [payload: BuildingInput]
+  'lookup-complete': [result: LookupResponse | null, address: string]
 }>()
 
 const form = reactive<BuildingInput>({
@@ -140,6 +141,8 @@ watch(lookupResult, (result) => {
       fieldSources.value[lookupKey] = field
     }
   }
+
+  emit('lookup-complete', result, result.address)
 
   // Allow watchers to fire normally after this tick
   setTimeout(() => { populatingFromLookup.value = false }, 0)
