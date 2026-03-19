@@ -17,6 +17,12 @@ export interface BuildingInput {
   water_heater_efficiency?: string
   insulation_wall?: string
   infiltration?: string
+  // Utility bill data (optional, used for calibration)
+  annual_electricity_kwh?: number
+  annual_natural_gas_therms?: number
+  annual_fuel_oil_gallons?: number
+  annual_propane_gallons?: number
+  annual_district_heating_kbtu?: number
 }
 
 export interface FuelBreakdown {

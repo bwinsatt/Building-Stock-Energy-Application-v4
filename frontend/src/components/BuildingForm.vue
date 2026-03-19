@@ -34,6 +34,21 @@ const form = reactive<BuildingInput>({
 const advancedFields = ref<Partial<BuildingInput>>({})
 const hvacCategory = ref('')
 
+// Utility data section state
+const showUtilityData = ref(false)
+const showExtraFuels = ref(false)
+
+// Utility data fields (kept separate to make filtering easier)
+const utilityData = reactive<{
+  annual_electricity_kwh?: number
+  annual_natural_gas_therms?: number
+  annual_fuel_oil_gallons?: number
+  annual_propane_gallons?: number
+  annual_district_heating_kbtu?: number
+}>({})
+
+const isCommercialBuilding = computed(() => form.building_type !== 'Multi-Family')
+
 const availableHvacCategories = computed(() => getHvacCategoriesForDataset(form.building_type))
 
 watch(hvacCategory, (newCat) => {
@@ -192,6 +207,7 @@ function onSubmit() {
   const merged = {
     ...form,
     ...advancedFields.value,
+    ...utilityData,
   }
   // Strip empty strings, undefined, and fields that were auto-imputed by the
   // address lookup so the backend re-imputes them and populates imputed_details
@@ -397,6 +413,102 @@ function onSubmit() {
       @update:hvac-variant="(v: string) => form.hvac_system_type = v"
     />
 
+    <!-- Section: Utility Data (collapsible) -->
+    <div class="utility-section">
+      <button
+        type="button"
+        class="utility-toggle"
+        @click="showUtilityData = !showUtilityData"
+        :aria-expanded="showUtilityData"
+      >
+        <span class="utility-toggle__label">Have utility bills? <span class="utility-toggle__optional">(Optional)</span></span>
+        <span class="utility-toggle__icon" :class="{ 'utility-toggle__icon--open': showUtilityData }">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+
+      <div v-if="showUtilityData" class="utility-fields">
+        <p class="utility-fields__desc">Enter annual consumption data to calibrate the energy model to your building's actual usage.</p>
+
+        <div class="form-grid">
+          <!-- Annual Electricity -->
+          <div class="form-field">
+            <label class="form-label" for="annual-electricity">Annual Electricity (kWh)</label>
+            <PNumericInput
+              id="annual-electricity"
+              v-model="utilityData.annual_electricity_kwh"
+              :min="0"
+              :step="1000"
+              size="medium"
+            />
+          </div>
+
+          <!-- Annual Natural Gas -->
+          <div class="form-field">
+            <label class="form-label" for="annual-natural-gas">Annual Natural Gas (therms)</label>
+            <PNumericInput
+              id="annual-natural-gas"
+              v-model="utilityData.annual_natural_gas_therms"
+              :min="0"
+              :step="100"
+              size="medium"
+            />
+          </div>
+        </div>
+
+        <!-- Add more fuel types link -->
+        <button
+          v-if="!showExtraFuels"
+          type="button"
+          class="utility-more-link"
+          @click="showExtraFuels = true"
+        >
+          + Add more fuel types
+        </button>
+
+        <!-- Extra fuel types -->
+        <div v-if="showExtraFuels" class="form-grid utility-extra-fuels">
+          <!-- Annual Fuel Oil -->
+          <div class="form-field">
+            <label class="form-label" for="annual-fuel-oil">Annual Fuel Oil (gallons)</label>
+            <PNumericInput
+              id="annual-fuel-oil"
+              v-model="utilityData.annual_fuel_oil_gallons"
+              :min="0"
+              :step="10"
+              size="medium"
+            />
+          </div>
+
+          <!-- Annual Propane -->
+          <div class="form-field">
+            <label class="form-label" for="annual-propane">Annual Propane (gallons)</label>
+            <PNumericInput
+              id="annual-propane"
+              v-model="utilityData.annual_propane_gallons"
+              :min="0"
+              :step="10"
+              size="medium"
+            />
+          </div>
+
+          <!-- Annual District Heating (commercial only) -->
+          <div v-if="isCommercialBuilding" class="form-field">
+            <label class="form-label" for="annual-district-heating">Annual District Heating (kBtu)</label>
+            <PNumericInput
+              id="annual-district-heating"
+              v-model="utilityData.annual_district_heating_kbtu"
+              :min="0"
+              :step="10000"
+              size="medium"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Submit -->
     <div class="form-actions">
       <p v-if="validationError" class="form-validation-error">{{ validationError }}</p>
@@ -572,5 +684,79 @@ function onSubmit() {
   margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid #e2e6ea;
+}
+
+/* Utility data collapsible section */
+.utility-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e6ea;
+}
+
+.utility-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.utility-toggle__label {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--app-header-bg);
+}
+
+.utility-toggle__optional {
+  font-weight: 400;
+  color: #6b7a8a;
+}
+
+.utility-toggle__icon {
+  display: flex;
+  align-items: center;
+  color: #6b7a8a;
+  transition: transform 0.2s ease;
+}
+
+.utility-toggle__icon--open {
+  transform: rotate(180deg);
+}
+
+.utility-fields {
+  margin-top: 1rem;
+}
+
+.utility-fields__desc {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: #6b7a8a;
+  margin: 0 0 1rem;
+}
+
+.utility-more-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  color: var(--app-accent, #2563eb);
+  margin-top: 0.75rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.utility-more-link:hover {
+  color: var(--app-accent-dark, #1d4ed8);
+}
+
+.utility-extra-fuels {
+  margin-top: 1rem;
 }
 </style>
