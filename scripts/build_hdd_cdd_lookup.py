@@ -11,7 +11,6 @@ Usage:
     python3 scripts/build_hdd_cdd_lookup.py --dry-run  # preview without writing
 """
 import os
-import sys
 import json
 import argparse
 import pandas as pd
