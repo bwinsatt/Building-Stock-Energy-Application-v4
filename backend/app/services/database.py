@@ -34,6 +34,7 @@ class Database:
                     address         TEXT,
                     building_input  JSON,
                     utility_data    JSON,
+                    lookup_data     JSON,
                     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
@@ -45,12 +46,16 @@ class Database:
                     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             """)
+            try:
+                conn.execute("ALTER TABLE buildings ADD COLUMN lookup_data JSON")
+            except sqlite3.OperationalError:
+                pass  # Column already exists
 
     def _row_to_dict(self, row: sqlite3.Row | None) -> dict | None:
         if row is None:
             return None
         d = dict(row)
-        for key in ("building_input", "utility_data", "result"):
+        for key in ("building_input", "utility_data", "result", "lookup_data"):
             if key in d and d[key] is not None:
                 d[key] = json.loads(d[key])
         if "calibrated" in d and d["calibrated"] is not None:
@@ -83,7 +88,16 @@ class Database:
                 "SELECT * FROM buildings WHERE project_id = ? ORDER BY created_at",
                 (project_id,),
             ).fetchall()
-            project["buildings"] = [self._row_to_dict(b) for b in buildings]
+            building_list = []
+            for b in buildings:
+                building = self._row_to_dict(b)
+                assessment_rows = conn.execute(
+                    "SELECT * FROM assessments WHERE building_id = ? ORDER BY created_at DESC",
+                    (building["id"],),
+                ).fetchall()
+                building["assessments"] = [self._row_to_dict(a) for a in assessment_rows]
+                building_list.append(building)
+            project["buildings"] = building_list
             return project
 
     def delete_project(self, project_id: int):
@@ -95,16 +109,34 @@ class Database:
     def create_building(
         self, project_id: int, address: str,
         building_input: dict, utility_data: dict | None = None,
+        lookup_data: dict | None = None,
     ) -> dict:
         with self._connect() as conn:
             cursor = conn.execute(
-                "INSERT INTO buildings (project_id, address, building_input, utility_data) VALUES (?, ?, ?, ?)",
+                "INSERT INTO buildings (project_id, address, building_input, utility_data, lookup_data) VALUES (?, ?, ?, ?, ?)",
                 (project_id, address, json.dumps(building_input),
-                 json.dumps(utility_data) if utility_data else None),
+                 json.dumps(utility_data) if utility_data else None,
+                 json.dumps(lookup_data) if lookup_data else None),
             )
             return self._row_to_dict(
                 conn.execute("SELECT * FROM buildings WHERE id = ?", (cursor.lastrowid,)).fetchone()
             )
+
+    def get_building(self, project_id: int, building_id: int) -> dict | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT * FROM buildings WHERE id = ? AND project_id = ?",
+                (building_id, project_id),
+            ).fetchone()
+            if row is None:
+                return None
+            building = self._row_to_dict(row)
+            assessment_rows = conn.execute(
+                "SELECT * FROM assessments WHERE building_id = ? ORDER BY created_at DESC",
+                (building_id,),
+            ).fetchall()
+            building["assessments"] = [self._row_to_dict(a) for a in assessment_rows]
+            return building
 
     # --- Assessments ---
 
