@@ -51,6 +51,18 @@ def _normalize_address(address: str) -> str:
     return " ".join(expanded).lower()
 
 
+def _extract_street(address: str) -> str:
+    """Strip city/state/zip suffix from a full address.
+
+    "350 Fifth Avenue, New York, NY 10118" -> "350 Fifth Avenue"
+    BPS API records typically store only the street portion, so we need
+    to match against just the street part of the user's full address.
+    """
+    # Split on comma and take the first part (street)
+    parts = address.split(",")
+    return parts[0].strip()
+
+
 def _match_address(
     records: list[dict],
     address: str,
@@ -60,7 +72,9 @@ def _match_address(
 
     Returns ``{"record": <dict>, "confidence": <float>}`` or ``None``.
     """
-    normalized_query = _normalize_address(address)
+    # Match against just the street portion — API records typically omit city/state/zip
+    street = _extract_street(address)
+    normalized_query = _normalize_address(street)
 
     # 1. Try direct (exact, case-insensitive) match first.
     for record in records:
