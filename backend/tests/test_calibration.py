@@ -120,3 +120,56 @@ def test_convert_utility_to_eui_none_input():
     """When no utility data provided, return None."""
     result = convert_utility_to_eui(sqft=50000)
     assert result is None
+
+
+import pytest
+from app.services.assessment import _assess_single
+
+
+def _get_app_state():
+    """Return (mm, cc, imp) from app.state, or None if models not loaded."""
+    try:
+        from app.main import app
+        mm = app.state.model_manager
+        cc = app.state.cost_calculator
+        imp = getattr(app.state, "imputation_service", None)
+        # Check that at least one dataset has baseline models loaded
+        has_models = any(
+            mm._loaded.get(ds, {}).get("baseline")
+            for ds in ("comstock", "resstock")
+        )
+        if not has_models:
+            return None
+        return mm, cc, imp
+    except AttributeError:
+        return None
+
+
+@pytest.mark.skipif(
+    not pytest.importorskip("app.inference.model_manager", reason="Models not available"),
+    reason="Models not available",
+)
+def test_calibrated_assessment_returns_calibrated_flag(calibrated_office_input):
+    """Integration test: assessment with utility data should return calibrated=True."""
+    state = _get_app_state()
+    if state is None:
+        pytest.skip("Models not loaded — run with a live app context")
+    mm, cc, imp = state
+
+    result = _assess_single(calibrated_office_input, 0, mm, cc, imp)
+    assert result.calibrated is True
+    assert result.baseline.actual_eui_by_fuel is not None
+    assert result.baseline.actual_total_eui_kbtu_sf is not None
+    assert result.baseline.actual_total_eui_kbtu_sf > 0
+
+
+def test_uncalibrated_assessment_returns_not_calibrated(office_input):
+    """Integration test: assessment without utility data should return calibrated=False."""
+    state = _get_app_state()
+    if state is None:
+        pytest.skip("Models not loaded — run with a live app context")
+    mm, cc, imp = state
+
+    result = _assess_single(office_input, 0, mm, cc, imp)
+    assert result.calibrated is False
+    assert result.baseline.actual_eui_by_fuel is None
