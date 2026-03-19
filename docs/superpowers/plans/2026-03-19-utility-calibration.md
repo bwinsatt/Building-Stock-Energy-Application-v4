@@ -447,23 +447,27 @@ Update the `_predict_upgrade` inner function (line 225) to pass `baseline_eui`:
         )
 ```
 
-Update savings clamping (line 251) to also cap at baseline.
+Replace savings clamping (line 251). **Remove the existing `max(0.0, d)` clamp** — negative per-fuel savings are valid for fuel-switching measures (e.g., electrification increases electricity while eliminating gas). The old clamp was unintentional and suppressed this signal:
 
-**Note: This is an intentional behavior change.** Currently savings are only clamped at 0 (no negative savings), but post-upgrade EUI can go negative if savings exceed baseline. This fix caps savings at the baseline value so `post_upgrade_eui >= 0` always. This affects ALL assessments, not just calibrated ones. Existing tests should still pass since the change only affects edge cases where the model over-predicts savings:
+Change:
 ```python
-    savings_kwh = {
-        fuel: min(max(0.0, d), effective_baseline.get(fuel, 0))
-        for fuel, d in delta.items()
-    }
+    savings_kwh = {fuel: max(0.0, d) for fuel, d in delta.items()}
 ```
 
-Update post-upgrade EUI to clamp at zero (line 254):
+To (just pass through raw delta predictions):
+```python
+    savings_kwh = dict(delta.items())
+```
+
+Update post-upgrade EUI (line 254) to clamp at zero — a building cannot use negative energy for a given fuel:
 ```python
     post_eui = {
         fuel: max(0.0, effective_baseline.get(fuel, 0) - savings_kwh.get(fuel, 0))
         for fuel in effective_baseline
     }
 ```
+
+**Note: This is an intentional behavior change.** Negative per-fuel savings are now allowed (fuel switching). Post-upgrade EUI per fuel is floored at zero. This affects ALL assessments, not just calibrated ones. Electrification measures will now correctly show increased electricity use alongside decreased gas use.
 
 When building the response, set calibration fields:
 ```python
