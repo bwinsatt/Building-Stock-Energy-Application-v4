@@ -2,6 +2,7 @@
 import { reactive, ref, watch, computed } from 'vue'
 import type { BuildingInput } from '../types/assessment'
 import type { FieldResult } from '../types/lookup'
+import type { BpsSearchResult } from '../types/bps'
 import {
   BUILDING_TYPES,
   HEATING_FUELS,
@@ -14,6 +15,7 @@ import AdvancedDetails from './AdvancedDetails.vue'
 import AddressLookup from './AddressLookup.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
 import { useAddressLookup } from '../composables/useAddressLookup'
+import { useBpsSearch } from '../composables/useBpsSearch'
 
 defineProps<{
   disabled?: boolean
@@ -71,11 +73,15 @@ watch(() => form.building_type, () => {
 
 const { loading: lookupLoading, error: lookupError, lookupResult, lookup } = useAddressLookup()
 
+const bpsSearch = useBpsSearch()
+const bpsDismissed = ref(false)
+
 // Track which fields were auto-filled and their source
 const fieldSources = ref<Record<string, FieldResult>>({})
 
 const PUBLIC_RECORD_SOURCES = new Set(['osm', 'nyc_opendata', 'chicago_opendata'])
 function sourceLabel(source: string | null): string {
+  if (source === 'benchmarking') return 'benchmarking'
   return source && PUBLIC_RECORD_SOURCES.has(source) ? 'public records' : 'estimated'
 }
 
@@ -144,6 +150,32 @@ watch(lookupResult, (result) => {
   // Allow watchers to fire normally after this tick
   setTimeout(() => { populatingFromLookup.value = false }, 0)
 })
+
+// Reset BPS state when address changes
+watch(() => lookupResult.value, () => {
+  bpsSearch.clear()
+  bpsDismissed.value = false
+})
+
+function importBpsData(bpsResult: BpsSearchResult) {
+  if (bpsResult.has_per_fuel_data) {
+    if (bpsResult.electricity_kwh != null) {
+      utilityData.annual_electricity_kwh = bpsResult.electricity_kwh
+      fieldSources.value['annual_electricity_kwh'] = { value: bpsResult.electricity_kwh, source: 'benchmarking', confidence: bpsResult.match_confidence }
+    }
+    if (bpsResult.natural_gas_therms != null) {
+      utilityData.annual_natural_gas_therms = bpsResult.natural_gas_therms
+      fieldSources.value['annual_natural_gas_therms'] = { value: bpsResult.natural_gas_therms, source: 'benchmarking', confidence: bpsResult.match_confidence }
+    }
+    if (bpsResult.fuel_oil_gallons != null) {
+      utilityData.annual_fuel_oil_gallons = bpsResult.fuel_oil_gallons
+      fieldSources.value['annual_fuel_oil_gallons'] = { value: bpsResult.fuel_oil_gallons, source: 'benchmarking', confidence: bpsResult.match_confidence }
+    }
+  }
+
+  showUtilityData.value = true
+  bpsDismissed.value = true
+}
 
 // Clear source badge when user manually changes a field
 const populatingFromLookup = ref(false)
@@ -245,6 +277,94 @@ function onSubmit() {
       :nearby-buildings="lookupResult.nearby_buildings"
       :num-stories="Number(lookupResult.building_fields.num_stories?.value ?? 1)"
     />
+
+    <!-- BPS Benchmarking Banner -->
+    <div v-if="lookupResult?.bps_available && !bpsDismissed" class="bps-banner">
+      <!-- State 1: Available (not yet searched) -->
+      <div v-if="!bpsSearch.searched.value && !bpsSearch.loading.value" class="bps-banner__available">
+        <div class="bps-banner__icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 1L10 5.5L15 6.5L11.5 10L12.5 15L8 12.5L3.5 15L4.5 10L1 6.5L6 5.5L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="bps-banner__content">
+          <span class="bps-banner__text">
+            <strong>{{ lookupResult.bps_ordinance_name }}</strong> benchmarking data may be available for this address.
+          </span>
+          <button
+            type="button"
+            class="bps-banner__action"
+            @click="bpsSearch.search(lookupResult!.address, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
+          >
+            Search Records
+          </button>
+        </div>
+        <button type="button" class="bps-banner__dismiss" @click="bpsDismissed = true" aria-label="Dismiss">&times;</button>
+      </div>
+
+      <!-- State 2: Loading -->
+      <div v-else-if="bpsSearch.loading.value" class="bps-banner__loading">
+        <div class="bps-banner__spinner"></div>
+        <span class="bps-banner__text">Searching {{ lookupResult.bps_ordinance_name }} records...</span>
+      </div>
+
+      <!-- State 3: Found -->
+      <div v-else-if="bpsSearch.result.value" class="bps-banner__found">
+        <div class="bps-banner__found-header">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>{{ bpsSearch.result.value.ordinance_name }}</strong> record found</span>
+          <button type="button" class="bps-banner__dismiss" @click="bpsDismissed = true" aria-label="Dismiss">&times;</button>
+        </div>
+        <div class="bps-banner__data">
+          <div v-if="bpsSearch.result.value.property_name" class="bps-banner__data-item">
+            <span class="bps-banner__data-label">Property</span>
+            <span class="bps-banner__data-value">{{ bpsSearch.result.value.property_name }}</span>
+          </div>
+          <div v-if="bpsSearch.result.value.site_eui_kbtu_sf" class="bps-banner__data-item">
+            <span class="bps-banner__data-label">Site EUI</span>
+            <span class="bps-banner__data-value">{{ bpsSearch.result.value.site_eui_kbtu_sf.toFixed(1) }} kBtu/ft²</span>
+          </div>
+          <div v-if="bpsSearch.result.value.electricity_kwh" class="bps-banner__data-item">
+            <span class="bps-banner__data-label">Electricity</span>
+            <span class="bps-banner__data-value">{{ Math.round(bpsSearch.result.value.electricity_kwh).toLocaleString() }} kWh</span>
+          </div>
+          <div v-if="bpsSearch.result.value.natural_gas_therms" class="bps-banner__data-item">
+            <span class="bps-banner__data-label">Natural Gas</span>
+            <span class="bps-banner__data-value">{{ Math.round(bpsSearch.result.value.natural_gas_therms).toLocaleString() }} therms</span>
+          </div>
+          <div v-if="bpsSearch.result.value.energy_star_score" class="bps-banner__data-item">
+            <span class="bps-banner__data-label">ENERGY STAR</span>
+            <span class="bps-banner__data-value">{{ bpsSearch.result.value.energy_star_score }}</span>
+          </div>
+        </div>
+        <div class="bps-banner__actions">
+          <button type="button" class="bps-banner__import" @click="importBpsData(bpsSearch.result.value!)">
+            Import to Utility Data
+          </button>
+        </div>
+      </div>
+
+      <!-- State 4: Not found -->
+      <div v-else-if="bpsSearch.searched.value && !bpsSearch.result.value && !bpsSearch.error.value && !bpsSearch.loading.value" class="bps-banner__not-found">
+        <span class="bps-banner__text">No matching record found in {{ lookupResult.bps_ordinance_name }}.</span>
+        <button type="button" class="bps-banner__dismiss" @click="bpsDismissed = true" aria-label="Dismiss">&times;</button>
+      </div>
+
+      <!-- State 5: Error -->
+      <div v-else-if="bpsSearch.error.value" class="bps-banner__error">
+        <span class="bps-banner__text">Search failed. Please try again.</span>
+        <button
+          type="button"
+          class="bps-banner__action"
+          @click="bpsSearch.search(lookupResult!.address, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
+        >
+          Retry
+        </button>
+        <button type="button" class="bps-banner__dismiss" @click="bpsDismissed = true" aria-label="Dismiss">&times;</button>
+      </div>
+    </div>
 
     <!-- Section: Required Fields -->
     <div class="form-section">
@@ -758,5 +878,191 @@ function onSubmit() {
 
 .utility-extra-fuels {
   margin-top: 1rem;
+}
+
+/* BPS Benchmarking Banner */
+.bps-banner {
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+}
+
+.bps-banner__available {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+  border: 1px solid #99f6e4;
+  border-radius: 6px;
+}
+
+.bps-banner__icon {
+  flex-shrink: 0;
+  color: #0d9488;
+}
+
+.bps-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.bps-banner__text {
+  color: #134e4a;
+  line-height: 1.4;
+}
+
+.bps-banner__action {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #0d9488;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.bps-banner__action:hover {
+  color: #0f766e;
+}
+
+.bps-banner__dismiss {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0.125rem;
+  cursor: pointer;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: #6b7280;
+  opacity: 0.6;
+}
+
+.bps-banner__dismiss:hover {
+  opacity: 1;
+}
+
+.bps-banner__loading {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  border-radius: 6px;
+  color: #134e4a;
+}
+
+.bps-banner__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #99f6e4;
+  border-top-color: #0d9488;
+  border-radius: 50%;
+  animation: bps-spin 0.6s linear infinite;
+}
+
+@keyframes bps-spin {
+  to { transform: rotate(360deg); }
+}
+
+.bps-banner__found {
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  border: 1px solid #86efac;
+  border-radius: 6px;
+}
+
+.bps-banner__found-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #166534;
+  font-weight: 500;
+  margin-bottom: 0.625rem;
+}
+
+.bps-banner__data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.625rem;
+}
+
+.bps-banner__data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.bps-banner__data-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.bps-banner__data-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.bps-banner__actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.bps-banner__import {
+  background: #059669;
+  color: white;
+  border: none;
+  padding: 0.375rem 0.875rem;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.bps-banner__import:hover {
+  background: #047857;
+}
+
+.bps-banner__not-found {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: #fefce8;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  color: #713f12;
+}
+
+.bps-banner__error {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  color: #991b1b;
+}
+
+.field-badge--benchmarking {
+  background: #d1fae5;
+  color: #065f46;
 }
 </style>
