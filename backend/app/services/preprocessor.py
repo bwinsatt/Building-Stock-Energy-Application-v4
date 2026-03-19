@@ -1338,6 +1338,9 @@ def preprocess(
         # Convert num_stories to categorical bin (ComStock only)
         elif user_field == "num_stories" and not is_resstock and isinstance(value, (int, float)):
             value = _comstock_number_stories(int(value))
+        # Convert num_stories to string for ResStock (categorical in training data)
+        elif user_field == "num_stories" and is_resstock and isinstance(value, (int, float)):
+            value = str(int(value))
         # Convert operating_hours (hrs/week) to daily categorical string (ComStock only)
         elif user_field == "operating_hours" and not is_resstock and isinstance(value, (int, float)):
             value = _operating_hours_weekly_to_daily(float(value))

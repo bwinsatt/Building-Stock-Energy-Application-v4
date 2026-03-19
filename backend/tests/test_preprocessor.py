@@ -506,3 +506,10 @@ def test_default_operating_hours_is_valid_string(office_input):
     val = features["in.weekday_operating_hours..hr"]
     assert isinstance(val, str)
     assert 5.75 <= float(val) <= 18.75
+
+
+def test_resstock_stories_is_string(mf_input):
+    """ResStock in.geometry_stories should be a string, not int."""
+    features, _, _, _, _ = preprocess(mf_input)
+    assert isinstance(features["in.geometry_stories"], str)
+    assert features["in.geometry_stories"] == "5"
