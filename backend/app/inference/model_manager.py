@@ -450,13 +450,25 @@ class ModelManager:
         logger.info("Pre-warmed %d upgrade bundles for %s", len(keys_to_load), dataset)
 
     def predict_delta(
-        self, features_dict: dict, upgrade_id: int, dataset: str, _enc_cache: dict | None = None
+        self, features_dict: dict, upgrade_id: int, dataset: str,
+        baseline_eui: dict[str, float] | None = None,
+        _enc_cache: dict | None = None,
     ) -> dict:
         """Run per-fuel delta/savings models for one upgrade.
 
         Returns dict of fuel -> predicted savings (kWh/ft2).
         Positive values mean the upgrade saves energy for that fuel.
+
+        If *baseline_eui* is provided (fuel -> EUI value), those values are
+        injected into the feature dict as ``baseline_{fuel}`` keys before
+        inference, allowing the model to condition savings predictions on the
+        actual or predicted baseline consumption.
         """
+        if baseline_eui is not None:
+            features_dict = {**features_dict}  # shallow copy
+            for fuel, eui_val in baseline_eui.items():
+                features_dict[f"baseline_{fuel}"] = eui_val
+
         dataset = dataset.lower()
 
         # Find all fuels for this upgrade from the index
