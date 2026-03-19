@@ -86,3 +86,14 @@ export interface BuildingResult {
 export interface AssessmentResponse {
   results: BuildingResult[]
 }
+
+export interface EnergyStarResponse {
+  score: number | null
+  eligible: boolean
+  median_eui_kbtu_sf: number | null
+  target_eui_kbtu_sf: number | null
+  design_eui_kbtu_sf: number | null
+  percentile_text: string | null
+  espm_property_type: string
+  reasons_for_no_score: string[] | null
+}
