@@ -6,13 +6,16 @@ import BuildingForm from '../components/BuildingForm.vue'
 import BaselineSummary from '../components/BaselineSummary.vue'
 import MeasuresTable from '../components/MeasuresTable.vue'
 import AssumptionsPanel from '../components/AssumptionsPanel.vue'
+import EnergyStarScore from '../components/EnergyStarScore.vue'
 import type { BuildingInput } from '../types/assessment'
 
 const { loading, error, result, assess } = useAssessment()
 const lastSqft = ref(0)
+const lastBuilding = ref<BuildingInput | null>(null)
 
 function onSubmit(input: BuildingInput) {
   lastSqft.value = input.sqft
+  lastBuilding.value = input
   assess(input)
 }
 </script>
@@ -77,6 +80,12 @@ function onSubmit(input: BuildingInput) {
       <AssumptionsPanel :summary="result.input_summary" />
 
       <BaselineSummary :baseline="result.baseline" :sqft="lastSqft" />
+
+      <EnergyStarScore
+        v-if="lastBuilding"
+        :building="lastBuilding"
+        :baseline="result.baseline"
+      />
 
       <!-- Separator between baseline and measures -->
       <div class="section-separator" aria-hidden="true" />
