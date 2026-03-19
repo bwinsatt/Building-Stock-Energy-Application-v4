@@ -8,6 +8,9 @@ to avoid duplication and ensure consistency.
 # Energy unit conversions
 KWH_TO_KBTU = 3.412
 KWH_TO_THERMS = 0.03412
+KWH_PER_GALLON_FUEL_OIL = 40.6    # 138,500 BTU/gallon / 3,412 BTU/kWh
+KWH_PER_GALLON_PROPANE = 26.8     # 91,500 BTU/gallon / 3,412 BTU/kWh
+KWH_PER_THERM = 29.31             # 1 / KWH_TO_THERMS
 TONS_TO_KBTUH = 12.0
 
 # Area conversions
