@@ -1347,9 +1347,8 @@ def preprocess(
         features[model_col] = value
 
     # --- 7. Add auto-imputed features ---
-    # Override building_subtype for ComStock to match the building type.
     if not is_resstock:
-        auto_impute["in.building_subtype"] = building_input.building_type
+        auto_impute["in.building_subtype"] = "NA"
 
     features.update(auto_impute)
 

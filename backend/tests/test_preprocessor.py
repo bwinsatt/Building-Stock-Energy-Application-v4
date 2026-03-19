@@ -56,6 +56,12 @@ def test_valid_mf_input(mf_input):
     assert set(features.keys()) == expected_cols
 
 
+def test_building_subtype_is_na_for_standard_types(office_input):
+    """building_subtype should be 'NA' for standard building types, not the type name."""
+    features, _, _, _, _ = preprocess(office_input)
+    assert features["in.building_subtype"] == "NA"
+
+
 def test_imputation_fills_missing(minimal_input):
     """Minimal input (only required fields) should trigger imputation."""
     features, imputed_details, dataset, climate_zone, state = preprocess(minimal_input)
