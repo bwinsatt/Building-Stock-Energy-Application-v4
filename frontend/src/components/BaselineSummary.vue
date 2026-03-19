@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { PTypography, PBadge, PTooltip } from '@partnerdevops/partner-components'
+import { PTypography, PTooltip } from '@partnerdevops/partner-components'
 import type { BaselineResult, FuelBreakdown } from '../types/assessment'
 
 const KWH_TO_KBTU = 3.412
@@ -92,8 +92,8 @@ const barSegments = computed(() => {
   // Normalize so they sum to 100
   return fuels.map((fuel, i) => ({
     fuel,
-    actualPercent: rawPercents[i],
-    visualWidth: (boosted[i] / boostedTotal) * 100,
+    actualPercent: rawPercents[i] ?? 0,
+    visualWidth: ((boosted[i] ?? 0) / boostedTotal) * 100,
   }))
 })
 </script>
@@ -179,13 +179,13 @@ const barSegments = computed(() => {
                     backgroundColor: seg.fuel.color,
                   }"
                   role="img"
-                  :aria-label="`${seg.fuel.label}: ${seg.actualPercent.toFixed(1)}%`"
+                  :aria-label="`${seg.fuel.label}: ${(seg.actualPercent ?? 0).toFixed(1)}%`"
                 ></div>
               </template>
               <template #tooltip-content>
                 <div class="fuel-bar__tooltip">
                   <span class="fuel-bar__tooltip-label">{{ seg.fuel.label }}</span>
-                  <span class="fuel-bar__tooltip-pct">{{ seg.actualPercent.toFixed(1) }}%</span>
+                  <span class="fuel-bar__tooltip-pct">{{ (seg.actualPercent ?? 0).toFixed(1) }}%</span>
                   <span class="fuel-bar__tooltip-val">
                     {{ baseline.eui_by_fuel[seg.fuel.key].toFixed(1) }} kBtu/sf
                   </span>

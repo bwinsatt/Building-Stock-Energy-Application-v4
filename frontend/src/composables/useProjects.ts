@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import type { Project, Building, Assessment } from '@/types/projects'
+import type { Project } from '../types/projects'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
