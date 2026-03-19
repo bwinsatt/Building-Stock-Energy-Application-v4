@@ -389,3 +389,41 @@ def test_bps_search_endpoint_no_ordinance(app_client):
         },
     )
     assert resp.status_code == 404
+
+
+# ---------------------------------------------------------------------------
+# Task 13: E2E tests (live API queries, gated behind --run-e2e)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.e2e
+@pytest.mark.asyncio
+async def test_bps_full_flow_nyc():
+    """E2E: full BPS query flow for a known NYC building."""
+    result = await query_bps(
+        address="350 Fifth Avenue, New York, NY 10118",
+        city="New York",
+        state="New York",
+        county=None,
+        zipcode="10118",
+    )
+    assert result is not None
+    assert result["ordinance_name"] == "NYC LL84"
+    assert result["site_eui_kbtu_sf"] is not None
+    assert isinstance(result["site_eui_kbtu_sf"], float)
+    assert result["match_confidence"] >= 0.88
+
+
+@pytest.mark.e2e
+@pytest.mark.asyncio
+async def test_bps_full_flow_chicago():
+    """E2E: full BPS query flow for a known Chicago building."""
+    result = await query_bps(
+        address="233 S Wacker Dr, Chicago, IL 60606",
+        city="Chicago",
+        state="Illinois",
+        county=None,
+        zipcode="60606",
+    )
+    assert result is not None
+    assert result["ordinance_name"] == "Chicago Benchmarking"
