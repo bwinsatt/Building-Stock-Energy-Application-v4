@@ -82,6 +82,21 @@ def sample_baseline():
 
 
 @pytest.fixture
+def calibrated_office_input():
+    """Office input with utility data for calibration testing."""
+    return BuildingInput(
+        building_type="Office",
+        sqft=50000,
+        num_stories=3,
+        zipcode="20001",
+        year_built=1985,
+        heating_fuel="NaturalGas",
+        annual_electricity_kwh=600000,
+        annual_natural_gas_therms=12000,
+    )
+
+
+@pytest.fixture
 def app_client():
     with TestClient(fastapi_app) as client:
         yield client
