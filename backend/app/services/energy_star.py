@@ -4,6 +4,7 @@ from typing import Optional
 
 from app.schemas.request import BuildingInput
 from app.schemas.response import BaselineResult
+from app.schemas.energy_star import EnergyStarResponse
 
 BUILDING_TYPE_TO_ESPM = {
     "Office": "Office",
@@ -127,3 +128,45 @@ def build_target_finder_xml(
     ET.SubElement(score_node, "value").text = "75"
 
     return ET.tostring(root, encoding="unicode", xml_declaration=False)
+
+
+def parse_target_finder_response(xml_text: str, espm_property_type: str) -> EnergyStarResponse:
+    """Parse the XML response from the ENERGY STAR Target Finder API."""
+    root = ET.fromstring(xml_text)
+
+    metrics: dict[str, float] = {}
+    for metric in root.findall(".//metric"):
+        name = metric.get("name")
+        value_el = metric.find("value")
+        if name and value_el is not None and value_el.text:
+            try:
+                metrics[name] = float(value_el.text)
+            except ValueError:
+                pass
+
+    design_score = metrics.get("designScore")
+    median_eui = metrics.get("medianSiteIntensity")
+    design_eui = metrics.get("designSiteIntensity")
+    target_eui = metrics.get("designTargetSiteIntensity")
+
+    if design_score is not None:
+        score_int = int(design_score)
+        return EnergyStarResponse(
+            score=score_int,
+            eligible=True,
+            median_eui_kbtu_sf=median_eui,
+            target_eui_kbtu_sf=target_eui,
+            design_eui_kbtu_sf=design_eui,
+            percentile_text=f"Better than {score_int}% of similar buildings",
+            espm_property_type=espm_property_type,
+        )
+    else:
+        return EnergyStarResponse(
+            score=None,
+            eligible=False,
+            median_eui_kbtu_sf=median_eui,
+            target_eui_kbtu_sf=target_eui,
+            design_eui_kbtu_sf=design_eui,
+            espm_property_type=espm_property_type,
+            reasons_for_no_score=["ENERGY STAR score not available for this property type or configuration"],
+        )

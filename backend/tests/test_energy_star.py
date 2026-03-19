@@ -9,6 +9,7 @@ from app.services.energy_star import (
     ESPM_PROPERTY_USE_ELEMENT,
     FUEL_MAPPING,
     build_target_finder_xml,
+    parse_target_finder_response,
 )
 
 # ---------------------------------------------------------------------------
@@ -182,3 +183,46 @@ def test_build_xml_skips_zero_fuels(office_input):
     entries = root.findall(".//designEntry")
     assert len(entries) == 1
     assert entries[0].find("energyType").text == "Electric"
+
+
+# ---------------------------------------------------------------------------
+# Task 4: Response Parser tests
+# ---------------------------------------------------------------------------
+
+SAMPLE_RESPONSE_WITH_SCORE = """<?xml version="1.0" encoding="UTF-8"?>
+<propertyMetrics>
+    <metric name="medianSiteIntensity" uom="kBtu/ft2" dataType="numeric"><value>77.4</value></metric>
+    <metric name="designSiteIntensity" uom="kBtu/ft2" dataType="numeric"><value>54.2</value></metric>
+    <metric name="designScore" dataType="numeric"><value>72</value></metric>
+    <metric name="designTargetSiteIntensity" uom="kBtu/ft2" dataType="numeric"><value>48.3</value></metric>
+</propertyMetrics>"""
+
+SAMPLE_RESPONSE_NO_SCORE = """<?xml version="1.0" encoding="UTF-8"?>
+<propertyMetrics>
+    <metric name="medianSiteIntensity" uom="kBtu/ft2" dataType="numeric"><value>120.5</value></metric>
+    <metric name="designSiteIntensity" uom="kBtu/ft2" dataType="numeric"><value>95.0</value></metric>
+    <metric name="designTargetSiteIntensity" uom="kBtu/ft2" dataType="numeric"><value>60.0</value></metric>
+</propertyMetrics>"""
+
+
+def test_parse_response_with_score():
+    """parse_target_finder_response extracts score, EUI values, and sets eligible=True."""
+    resp = parse_target_finder_response(SAMPLE_RESPONSE_WITH_SCORE, "Office")
+    assert resp.score == 72
+    assert resp.eligible is True
+    assert resp.median_eui_kbtu_sf == 77.4
+    assert resp.target_eui_kbtu_sf == 48.3
+    assert resp.design_eui_kbtu_sf == 54.2
+    assert "72%" in resp.percentile_text
+    assert resp.espm_property_type == "Office"
+
+
+def test_parse_response_no_score():
+    """parse_target_finder_response sets eligible=False and reasons when no designScore present."""
+    resp = parse_target_finder_response(SAMPLE_RESPONSE_NO_SCORE, "Convention Center")
+    assert resp.score is None
+    assert resp.eligible is False
+    assert resp.median_eui_kbtu_sf == 120.5
+    assert resp.reasons_for_no_score is not None
+    assert len(resp.reasons_for_no_score) > 0
+    assert resp.espm_property_type == "Convention Center"
