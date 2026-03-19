@@ -51,9 +51,7 @@
         </button>
       </nav>
       <AssessmentView v-if="currentView === 'assessment'" />
-      <div v-if="currentView === 'projects'">
-        <p class="text-gray-500">Projects view coming soon...</p>
-      </div>
+      <ProjectsView v-if="currentView === 'projects'" />
     </main>
   </div>
 </template>
@@ -61,6 +59,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import AssessmentView from './views/AssessmentView.vue'
+import ProjectsView from './components/ProjectsView.vue'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 const offloading = ref(false)
