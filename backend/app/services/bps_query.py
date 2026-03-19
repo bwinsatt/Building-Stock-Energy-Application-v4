@@ -300,10 +300,44 @@ async def _query_ckan(
 
 
 # ---------------------------------------------------------------------------
-# CSV handler
+# CSV handler (with caching for large files)
 # ---------------------------------------------------------------------------
 
 _BPS_DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "bps")
+
+# Cache: file_path → {building_number → [rows]}
+_csv_cache: dict[str, dict[str, list[dict]]] = {}
+
+
+def _load_csv_indexed(file_path: str, addr_field: str) -> dict[str, list[dict]]:
+    """Load a CSV file and index rows by leading building number.
+
+    Returns a dict mapping building number → list of matching rows.
+    Cached after first load so the 55MB CA AB802 file is only read once.
+    """
+    if file_path in _csv_cache:
+        return _csv_cache[file_path]
+
+    if not os.path.exists(file_path):
+        logger.warning("BPS CSV file not found: %s", file_path)
+        return {}
+
+    index: dict[str, list[dict]] = {}
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                addr = row.get(addr_field, "")
+                bldg_num = _extract_building_number(addr)
+                if bldg_num:
+                    index.setdefault(bldg_num, []).append(row)
+    except Exception as e:
+        logger.warning("BPS CSV read failed for %s: %s", file_path, e)
+        return {}
+
+    _csv_cache[file_path] = index
+    logger.info("BPS CSV cached: %s (%d building numbers)", file_path, len(index))
+    return index
 
 
 def _query_csv(address: str, config: dict) -> list[dict]:
@@ -326,22 +360,10 @@ def _query_csv(address: str, config: dict) -> list[dict]:
             else:
                 file_path = os.path.join(_BPS_DATA_DIR, csv_filename)
 
-            if not os.path.exists(file_path):
-                logger.warning("BPS CSV file not found: %s", file_path)
-                continue
-
-            try:
-                with open(file_path, encoding="utf-8") as f:
-                    reader = csv.DictReader(f)
-                    filtered = [
-                        row for row in reader
-                        if row.get(addr_field, "").lower().startswith(f"{building_number} ")
-                    ]
-                    if filtered:
-                        return filtered
-            except Exception as e:
-                logger.warning("BPS CSV read failed for %s: %s", csv_filename, e)
-                continue
+            index = _load_csv_indexed(file_path, addr_field)
+            matches = index.get(building_number, [])
+            if matches:
+                return matches
 
     return []
 
@@ -380,7 +402,13 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
                 # Allow intermediate fields (e.g. electricity_kbtu, natural_gas_kbtu)
                 result[std_field] = value
 
-    # Convert kBtu fields to user-facing units
+    # Convert intermediate fields to standard units
+    # Austin ECAD reports EUI in kWh/sqft — convert to kBtu/sqft
+    if result.get("site_eui_kwh_sf") is not None:
+        result["site_eui_kbtu_sf"] = result.pop("site_eui_kwh_sf") * KWH_TO_KBTU
+    elif "site_eui_kwh_sf" in result:
+        del result["site_eui_kwh_sf"]
+
     if result.get("electricity_kbtu") is not None:
         result["electricity_kwh"] = result.pop("electricity_kbtu") / KWH_TO_KBTU
     elif "electricity_kbtu" in result:

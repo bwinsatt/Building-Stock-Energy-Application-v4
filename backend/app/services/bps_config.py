@@ -309,7 +309,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "Match_addr": "matched_address",
     },
     "Austin ECAD": {
-        "kwh_sqft": "site_eui_kbtu_sf",
+        "kwh_sqft": "site_eui_kwh_sf",  # kWh/sqft — needs conversion to kBtu/sqft
         "building_name": "property_name",
         "commercial_property_property_street_address": "matched_address",
     },

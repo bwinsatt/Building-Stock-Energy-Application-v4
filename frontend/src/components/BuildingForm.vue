@@ -555,7 +555,12 @@ function onSubmit() {
         <div class="form-grid">
           <!-- Annual Electricity -->
           <div class="form-field">
-            <label class="form-label" for="annual-electricity">Annual Electricity (kWh)</label>
+            <label class="form-label" for="annual-electricity">
+              Annual Electricity (kWh)
+              <span v-if="fieldSources['annual_electricity_kwh']" class="field-badge" :class="'field-badge--' + fieldSources['annual_electricity_kwh'].source">
+                {{ sourceLabel(fieldSources['annual_electricity_kwh'].source) }}
+              </span>
+            </label>
             <PNumericInput
               id="annual-electricity"
               v-model="utilityData.annual_electricity_kwh"
@@ -567,7 +572,12 @@ function onSubmit() {
 
           <!-- Annual Natural Gas -->
           <div class="form-field">
-            <label class="form-label" for="annual-natural-gas">Annual Natural Gas (therms)</label>
+            <label class="form-label" for="annual-natural-gas">
+              Annual Natural Gas (therms)
+              <span v-if="fieldSources['annual_natural_gas_therms']" class="field-badge" :class="'field-badge--' + fieldSources['annual_natural_gas_therms'].source">
+                {{ sourceLabel(fieldSources['annual_natural_gas_therms'].source) }}
+              </span>
+            </label>
             <PNumericInput
               id="annual-natural-gas"
               v-model="utilityData.annual_natural_gas_therms"
@@ -592,7 +602,12 @@ function onSubmit() {
         <div v-if="showExtraFuels" class="form-grid utility-extra-fuels">
           <!-- Annual Fuel Oil -->
           <div class="form-field">
-            <label class="form-label" for="annual-fuel-oil">Annual Fuel Oil (gallons)</label>
+            <label class="form-label" for="annual-fuel-oil">
+              Annual Fuel Oil (gallons)
+              <span v-if="fieldSources['annual_fuel_oil_gallons']" class="field-badge" :class="'field-badge--' + fieldSources['annual_fuel_oil_gallons'].source">
+                {{ sourceLabel(fieldSources['annual_fuel_oil_gallons'].source) }}
+              </span>
+            </label>
             <PNumericInput
               id="annual-fuel-oil"
               v-model="utilityData.annual_fuel_oil_gallons"

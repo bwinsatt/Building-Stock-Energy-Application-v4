@@ -316,6 +316,54 @@ def test_transform_result_with_direct_kwh_therms():
     assert result["has_per_fuel_data"] is True
 
 
+def test_transform_result_kwh_sqft_to_kbtu():
+    """Austin ECAD reports EUI in kWh/sqft — must convert to kBtu/sqft."""
+    record = {
+        "kwh_sqft": "25.0",
+        "commercial_property_property_street_address": "100 CONGRESS AVE",
+    }
+    field_mapping = {
+        "kwh_sqft": "site_eui_kwh_sf",
+        "commercial_property_property_street_address": "matched_address",
+    }
+    result = _transform_result(record, field_mapping)
+    # 25 kWh/sqft * 3.412 = 85.3 kBtu/sqft
+    assert result["site_eui_kbtu_sf"] is not None
+    assert abs(result["site_eui_kbtu_sf"] - 85.3) < 0.1
+    assert "site_eui_kwh_sf" not in result
+
+
+def test_query_csv_caches_on_second_call(tmp_path):
+    """CSV data should be cached — second call should not re-read the file."""
+    from app.services.bps_query import _csv_cache
+
+    csv_content = "Address,Site EUI\n100 Main Street,72.4\n200 Oak Ave,50.0\n"
+    csv_file = tmp_path / "cache_test.csv"
+    csv_file.write_text(csv_content)
+    file_path = str(csv_file)
+
+    # Clear cache for this file if present
+    _csv_cache.pop(file_path, None)
+
+    config = {
+        "endpoints": {"2023": {"Benchmarking": file_path}},
+        "address_field": "Address",
+        "api_type": "csv",
+    }
+    # First call — loads and caches
+    records1 = _query_csv("100 Main Street", config)
+    assert len(records1) >= 1
+    assert file_path in _csv_cache
+
+    # Second call — uses cache (even if file were deleted)
+    csv_file.unlink()
+    records2 = _query_csv("100 Main Street", config)
+    assert len(records2) >= 1
+
+    # Cleanup
+    _csv_cache.pop(file_path, None)
+
+
 @pytest.mark.asyncio
 async def test_query_bps_with_mock():
     mock_records = [{"address_1": "350 FIFTH AVENUE", "site_eui_kbtu_ft": "72.4"}]
