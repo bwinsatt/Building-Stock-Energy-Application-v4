@@ -72,9 +72,9 @@ def encode_features(df, feature_cols, encoders=None):
                         df_enc[col] = enc.transform(df_enc[col])
                 else:
                     # Column was numeric during training
-                    df_enc[col] = pd.to_numeric(df_enc[col], errors='coerce').fillna(0)
+                    df_enc[col] = pd.to_numeric(df_enc[col], errors='coerce')
         else:
-            df_enc[col] = pd.to_numeric(df_enc[col], errors='coerce').fillna(0)
+            df_enc[col] = pd.to_numeric(df_enc[col], errors='coerce')
 
     return df_enc, encoders
 
@@ -147,6 +147,53 @@ def train_single_model(X_train, y_train, params, random_state=42):
         **params
     )
     model.fit(X_train, y_train)
+    return model
+
+
+def prepare_catboost_data(df, feature_cols, cat_feature_names):
+    """Prepare DataFrame for CatBoost: string-typed categoricals, numeric pass-through."""
+    df_cb = df[feature_cols].copy()
+    for col in feature_cols:
+        if col in cat_feature_names:
+            df_cb[col] = df_cb[col].astype(str)
+        else:
+            df_cb[col] = pd.to_numeric(df_cb[col], errors='coerce')
+            # DO NOT fillna — CatBoost handles NaN natively
+    return df_cb
+
+
+def train_lightgbm_model(X_train, y_train, params, cat_indices, random_state=42):
+    """Train a LightGBM model. X_train should have pd.Categorical dtype columns."""
+    from lightgbm import LGBMRegressor
+    lgbm_params = {
+        'objective': 'regression',
+        'n_estimators': params.get('n_estimators', 300),
+        'max_depth': params.get('max_depth', 6),
+        'learning_rate': params.get('learning_rate', 0.1),
+        'min_child_weight': params.get('min_child_weight', 5),
+        'subsample': params.get('subsample', 0.8),
+        'colsample_bytree': params.get('colsample_bytree', 0.8),
+        'random_state': random_state,
+        'n_jobs': -1,
+        'verbose': -1,
+    }
+    model = LGBMRegressor(**lgbm_params)
+    model.fit(X_train, y_train, categorical_feature=cat_indices)
+    return model
+
+
+def train_catboost_model(X_train_str, y_train, params, cat_indices, random_state=42):
+    """Train a CatBoost model. X_train_str must have string-typed categoricals."""
+    from catboost import CatBoostRegressor
+    model = CatBoostRegressor(
+        iterations=params.get('n_estimators', 300),
+        depth=min(params.get('max_depth', 6), 10),
+        learning_rate=params.get('learning_rate', 0.1),
+        random_seed=random_state,
+        verbose=0,
+        cat_features=cat_indices,
+    )
+    model.fit(X_train_str, y_train)
     return model
 
 
