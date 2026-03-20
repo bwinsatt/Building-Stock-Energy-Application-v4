@@ -8,6 +8,7 @@ export interface BpsSearchResult {
   electricity_kwh: number | null
   natural_gas_therms: number | null
   fuel_oil_gallons: number | null
+  district_heating_kbtu: number | null
   energy_star_score: number | null
   has_per_fuel_data: boolean
 }

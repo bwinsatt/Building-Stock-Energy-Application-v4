@@ -37,9 +37,8 @@ BPS_CONFIGS: dict = {
         "new york, new york": {
             "ordinance_name": "NYC LL84",
             "endpoints": {
-                "2023": {"Benchmarking": "https://data.cityofnewyork.us/resource/5zyy-y8am.json"},
+                "2024": {"Benchmarking": "https://data.cityofnewyork.us/resource/5zyy-y8am.json"},
                 "2022": {"Benchmarking": "https://data.cityofnewyork.us/resource/7x5e-2fxh.json"},
-                "2021": {"Benchmarking": "https://data.cityofnewyork.us/resource/usc3-8zwd.json"},
             },
             "address_field": "address_1",
             "api_type": "socrata",
@@ -217,8 +216,11 @@ for _zc in _BOSTON_ZIPCODES:
 FIELD_MAPPINGS: dict[str, dict[str, str]] = {
     "NYC LL84": {
         "site_eui_kbtu_ft": "site_eui_kbtu_sf",
-        "electricity_use_grid_purchase_1": "electricity_kbtu",
+        "electricity_use_grid_purchase_1": "electricity_kwh",
         "natural_gas_use_kbtu": "natural_gas_kbtu",
+        "district_steam_use_kbtu": "district_steam_kbtu",
+        "district_hot_water_use_kbtu": "district_hot_water_kbtu",
+        "fuel_oil_2_use_kbtu": "fuel_oil_kbtu",
         "energy_star_score": "energy_star_score",
         "property_name": "property_name",
         "address_1": "matched_address",
@@ -235,6 +237,9 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "Site EUI (Energy Use Intensity kBtu/ft2)": "site_eui_kbtu_sf",
         "Electricity Usage (kWh)": "electricity_kwh",
         "Natural Gas Usage (kBtu)": "natural_gas_kbtu",
+        "District Steam Usage (kBtu)": "district_steam_kbtu",
+        "District Hot Water Usage (kBtu)": "district_hot_water_kbtu",
+        "Fuel Oil 2 Usage (kBtu)": "fuel_oil_kbtu",
         "Energy Star Score": "energy_star_score",
         "Property Owner Name": "property_name",
         "Building Address": "matched_address",
@@ -253,7 +258,10 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
     },
     "DC BEPS": {
         "SITEEUI_KBTU_FT": "site_eui_kbtu_sf",
+        "ELECTRICITYUSE_GRID_KWH": "electricity_kwh",
         "NATURALGASUSE_THERMS": "natural_gas_therms",
+        "DISTRSTEAM_KBTU": "district_steam_kbtu",
+        "FUELOILANDDIESELFUELUSEKBTU": "fuel_oil_kbtu",
         "ENERGYSTARSCORE": "energy_star_score",
         "PROPERTYNAME": "property_name",
         "ADDRESSOFRECORD": "matched_address",
@@ -298,6 +306,8 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "site_eui_kbtuft2": "site_eui_kbtu_sf",
         "electric_use_kbtu": "electricity_kbtu",
         "natural_gas_use_kbtu": "natural_gas_kbtu",
+        "steam_use_kbtu": "district_steam_kbtu",
+        "fuel_oil_02_use_kbtu": "fuel_oil_kbtu",
         "energy_star_score": "energy_star_score",
         "property_name": "property_name",
         "street_address": "matched_address",

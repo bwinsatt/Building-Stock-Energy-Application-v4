@@ -174,6 +174,10 @@ function importBpsData(bpsResult: BpsSearchResult) {
       utilityData.annual_fuel_oil_gallons = bpsResult.fuel_oil_gallons
       fieldSources.value['annual_fuel_oil_gallons'] = { value: bpsResult.fuel_oil_gallons, source: 'benchmarking', confidence: bpsResult.match_confidence }
     }
+    if (bpsResult.district_heating_kbtu != null) {
+      utilityData.annual_district_heating_kbtu = bpsResult.district_heating_kbtu
+      fieldSources.value['annual_district_heating_kbtu'] = { value: bpsResult.district_heating_kbtu, source: 'benchmarking', confidence: bpsResult.match_confidence }
+    }
   }
 
   showUtilityData.value = true
@@ -336,6 +340,10 @@ function onSubmit() {
           <div v-if="bpsSearch.result.value.natural_gas_therms" class="bps-banner__data-item">
             <span class="bps-banner__data-label">Natural Gas</span>
             <span class="bps-banner__data-value">{{ Math.round(bpsSearch.result.value.natural_gas_therms).toLocaleString() }} therms</span>
+          </div>
+          <div v-if="bpsSearch.result.value.district_heating_kbtu" class="bps-banner__data-item">
+            <span class="bps-banner__data-label">District Steam</span>
+            <span class="bps-banner__data-value">{{ Math.round(bpsSearch.result.value.district_heating_kbtu).toLocaleString() }} kBtu</span>
           </div>
           <div v-if="bpsSearch.result.value.energy_star_score" class="bps-banner__data-item">
             <span class="bps-banner__data-label">ENERGY STAR</span>

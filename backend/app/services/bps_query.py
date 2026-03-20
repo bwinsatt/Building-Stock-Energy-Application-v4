@@ -9,7 +9,7 @@ import re
 import httpx
 from rapidfuzz import fuzz
 
-from app.constants import KWH_TO_KBTU
+from app.constants import KWH_TO_KBTU, KWH_PER_GALLON_FUEL_OIL
 from app.services.bps_config import BPS_CONFIGS, FIELD_MAPPINGS, ZIPCODE_CITY_OVERRIDES
 
 logger = logging.getLogger(__name__)
@@ -27,6 +27,13 @@ _ADDRESS_ABBREVIATIONS = {
     "E": "East", "W": "West",
 }
 
+# Normalize spelled-out ordinals to numeric form so "Fifth" and "5th" match.
+_ORDINAL_WORDS = {
+    "first": "1st", "second": "2nd", "third": "3rd", "fourth": "4th",
+    "fifth": "5th", "sixth": "6th", "seventh": "7th", "eighth": "8th",
+    "ninth": "9th", "tenth": "10th", "eleventh": "11th", "twelfth": "12th",
+}
+
 # Pre-compile the building-number regex.
 _BUILDING_NUMBER_RE = re.compile(r"^\d+(-\d+)?")
 
@@ -38,7 +45,7 @@ def _extract_building_number(address: str) -> str | None:
 
 
 def _normalize_address(address: str) -> str:
-    """Lowercase and expand common street abbreviations."""
+    """Lowercase, expand abbreviations, and normalize ordinals."""
     parts = address.split()
     expanded = []
     for part in parts:
@@ -48,19 +55,38 @@ def _normalize_address(address: str) -> str:
         if replacement is None:
             replacement = _ADDRESS_ABBREVIATIONS.get(clean.title())
         expanded.append(replacement if replacement else part)
-    return " ".join(expanded).lower()
+    result = " ".join(expanded).lower()
+    # Normalize spelled-out ordinals → numeric (e.g. "fifth" → "5th")
+    for word, numeric in _ORDINAL_WORDS.items():
+        result = result.replace(word, numeric)
+    return result
 
 
 def _extract_street(address: str) -> str:
     """Strip city/state/zip suffix from a full address.
 
-    "350 Fifth Avenue, New York, NY 10118" -> "350 Fifth Avenue"
+    User-typed:  "350 Fifth Avenue, New York, NY 10118" -> "350 Fifth Avenue"
+    Nominatim:   "Empire State Building, 350, 5th Avenue, Koreatown, ..." -> "350 5th Avenue"
+
     BPS API records typically store only the street portion, so we need
     to match against just the street part of the user's full address.
     """
-    # Split on comma and take the first part (street)
-    parts = address.split(",")
-    return parts[0].strip()
+    parts = [p.strip() for p in address.split(",")]
+
+    # If the first part already starts with a building number, it's a
+    # simple "350 Fifth Avenue, City, State" format.
+    if _BUILDING_NUMBER_RE.match(parts[0]):
+        return parts[0]
+
+    # Nominatim format: "Building Name, 350, 5th Avenue, Neighborhood, ..."
+    # Find the part that looks like a building number, then combine with
+    # the next part (street name).
+    for i, part in enumerate(parts):
+        if _BUILDING_NUMBER_RE.match(part) and i + 1 < len(parts):
+            return f"{part} {parts[i + 1]}"
+
+    # Fallback: return the first part as-is.
+    return parts[0]
 
 
 def _match_address(
@@ -399,8 +425,17 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
         "electricity_kwh": None,
         "natural_gas_therms": None,
         "fuel_oil_gallons": None,
+        "district_heating_kbtu": None,
         "energy_star_score": None,
         "has_per_fuel_data": False,
+    }
+
+    # Fields that must be numeric for downstream unit conversions
+    _NUMERIC_FIELDS = {
+        "site_eui_kbtu_sf", "site_eui_kwh_sf", "electricity_kbtu", "electricity_kwh",
+        "natural_gas_kbtu", "natural_gas_therms", "fuel_oil_kbtu", "fuel_oil_gallons",
+        "district_steam_kbtu", "district_hot_water_kbtu", "district_heating_kbtu",
+        "energy_star_score",
     }
 
     for api_field, std_field in field_mapping.items():
@@ -409,12 +444,15 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
             try:
                 value = float(value)
             except (ValueError, TypeError):
-                pass
-            if std_field in result:
-                result[std_field] = value
-            else:
-                # Allow intermediate fields (e.g. electricity_kbtu, natural_gas_kbtu)
-                result[std_field] = value
+                # Non-numeric value — keep as string for text fields,
+                # but set to None for fields that need arithmetic.
+                if std_field in _NUMERIC_FIELDS:
+                    value = None
+            if value is not None:
+                if std_field in result:
+                    result[std_field] = value
+                else:
+                    result[std_field] = value
 
     # Convert intermediate fields to standard units
     # Austin ECAD reports EUI in kWh/sqft — convert to kBtu/sqft
@@ -433,9 +471,27 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
     elif "natural_gas_kbtu" in result:
         del result["natural_gas_kbtu"]
 
+    # Convert fuel oil kBtu to gallons (138.5 kBtu/gallon)
+    if result.get("fuel_oil_kbtu") is not None:
+        result["fuel_oil_gallons"] = result.pop("fuel_oil_kbtu") / (KWH_PER_GALLON_FUEL_OIL * KWH_TO_KBTU)
+    elif "fuel_oil_kbtu" in result:
+        del result["fuel_oil_kbtu"]
+
+    # District steam/heating: aggregate all district sources into district_heating_kbtu
+    district_total = 0.0
+    has_district = False
+    for key in ("district_steam_kbtu", "district_hot_water_kbtu"):
+        val = result.pop(key, None)
+        if val is not None:
+            district_total += val
+            has_district = True
+    if has_district:
+        result["district_heating_kbtu"] = district_total
+
     result["has_per_fuel_data"] = (
         result.get("electricity_kwh") is not None
         or result.get("natural_gas_therms") is not None
+        or result.get("district_heating_kbtu") is not None
     )
 
     return result
@@ -458,6 +514,11 @@ async def query_bps(
     if availability is None:
         return None
 
+    # Normalize to street-only before querying and matching — Nominatim
+    # addresses include building names, neighborhoods, etc. that break
+    # building-number extraction and fuzzy matching.
+    street = _extract_street(address)
+
     config_key = availability["config_key"]
     tier = availability["tier"]
     config = BPS_CONFIGS[tier][config_key]
@@ -465,13 +526,13 @@ async def query_bps(
     api_type = config["api_type"]
 
     if api_type == "socrata":
-        records = await _query_socrata(address, config)
+        records = await _query_socrata(street, config)
     elif api_type == "arcgis":
-        records = await _query_arcgis(address, config)
+        records = await _query_arcgis(street, config)
     elif api_type == "ckan":
-        records = await _query_ckan(address, config)
+        records = await _query_ckan(street, config)
     elif api_type == "csv":
-        records = _query_csv(address, config)
+        records = _query_csv(street, config)
     else:
         logger.error("Unknown BPS API type: %s", api_type)
         return None
@@ -479,7 +540,25 @@ async def query_bps(
     if not records:
         return None
 
-    match = _match_address(records, address, config["address_field"])
+    # Prefer the most recent reporting year — multi-year datasets return
+    # records across all years; sort so the matcher encounters newest first.
+    _YEAR_FIELDS = ("report_year", "calendar_year", "year")
+    for yf in _YEAR_FIELDS:
+        if records[0].get(yf) is not None:
+            records.sort(key=lambda r: str(r.get(yf, "")), reverse=True)
+            break
+
+    # Narrow results by zipcode when available — addresses like
+    # "350 5th Avenue" exist in multiple boroughs/neighborhoods.
+    if zipcode and len(records) > 1:
+        _ZIP_FIELDS = ("postal_code", "zip", "zipcode", "zip_code", "postcode")
+        for zf in _ZIP_FIELDS:
+            filtered = [r for r in records if str(r.get(zf, "")).startswith(zipcode)]
+            if filtered:
+                records = filtered
+                break
+
+    match = _match_address(records, street, config["address_field"])
     if match is None:
         return None
 
@@ -488,7 +567,16 @@ async def query_bps(
     result["ordinance_name"] = ordinance_name
     result["match_confidence"] = match["confidence"]
 
-    years = sorted(config["endpoints"].keys(), reverse=True)
-    result["reporting_year"] = int(years[0]) if years else None
+    # Prefer the actual year from the record; fall back to config key
+    record = match["record"]
+    record_year = record.get("report_year") or record.get("calendar_year") or record.get("year")
+    if record_year:
+        try:
+            result["reporting_year"] = int(record_year)
+        except (ValueError, TypeError):
+            result["reporting_year"] = None
+    else:
+        years = sorted(config["endpoints"].keys(), reverse=True)
+        result["reporting_year"] = int(years[0]) if years else None
 
     return result
