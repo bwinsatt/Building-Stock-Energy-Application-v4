@@ -247,8 +247,15 @@ def _assess_single(
     # ResStock sizing predictions are per-unit; keep them per-unit and let the
     # cost calculator produce per-unit costs, then convert to $/sf below.
     resstock_per_unit_sqft: Optional[float] = None
+    resstock_per_unit_sizing: Optional[dict] = None
     if dataset == "resstock":
         resstock_per_unit_sqft = features.get("in.sqft..ft2", 900.0)
+        # Geometric areas are whole-building; scale to per-unit for cost calc
+        n_units = building.sqft / resstock_per_unit_sqft if resstock_per_unit_sqft > 0 else 1
+        resstock_per_unit_sizing = {**sizing}
+        for area_key in ("wall_area", "roof_area", "window_area"):
+            if area_key in resstock_per_unit_sizing:
+                resstock_per_unit_sizing[area_key] = sizing[area_key] / n_units
 
     # 4. Predict utility rates ($/kWh per fuel)
     rates = model_manager.predict_rates(features, dataset, enc_cache)
@@ -337,7 +344,8 @@ def _assess_single(
             if resstock_per_unit_sqft is not None:
                 # ResStock: calculate per-unit cost, then convert to $/sf
                 per_unit_cost = cost_calculator.calculate_cost(
-                    uid, dataset, resstock_per_unit_sqft, sizing, state
+                    uid, dataset, resstock_per_unit_sqft,
+                    resstock_per_unit_sizing, state
                 )
                 # Convert per-unit total to $/sf, then scale to whole building
                 cost_per_sf = (
