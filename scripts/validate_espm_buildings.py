@@ -368,7 +368,7 @@ def result_to_rows(profile: dict, result: BuildingResult, calibrated: bool) -> l
         mrow["measure_name"] = m.name
         mrow["upgrade_id"] = m.upgrade_id
         mrow["applicable"] = m.applicable
-        mrow["savings_pct"] = round(m.savings_pct * 100, 2) if m.savings_pct is not None else ""
+        mrow["savings_pct"] = round(m.savings_pct, 2) if m.savings_pct is not None else ""
         mrow["savings_kbtu_sf"] = round(m.savings_kbtu_sf, 3) if m.savings_kbtu_sf is not None else ""
         mrow["electricity_savings_kwh"] = (
             round(m.electricity_savings_kwh, 2) if m.electricity_savings_kwh is not None else ""
@@ -389,7 +389,7 @@ def result_to_rows(profile: dict, result: BuildingResult, calibrated: bool) -> l
             round(m.simple_payback_years, 1) if m.simple_payback_years is not None else ""
         )
         mrow["emissions_reduction_pct"] = (
-            round(m.emissions_reduction_pct * 100, 2)
+            round(m.emissions_reduction_pct, 2)
             if m.emissions_reduction_pct is not None
             else ""
         )
@@ -421,7 +421,7 @@ def check_anomalies(profile: dict, result: BuildingResult, calibrated: bool) -> 
 
         # Savings range check
         if m.savings_pct is not None:
-            sp = m.savings_pct * 100
+            sp = m.savings_pct  # already in percentage form (e.g. 15.0 = 15%)
             if sp < 0.5:
                 anomalies.append(f"{name}{cal_tag}: {m.name} savings only {sp:.2f}%")
             elif sp > 60:
@@ -486,7 +486,7 @@ def check_calibration_shifts(
         if rel_change > 50:
             anomalies.append(
                 f"{name}: {cm.name} savings shifted {rel_change:.0f}% "
-                f"(uncal={us * 100:.1f}% -> cal={cs * 100:.1f}%)"
+                f"(uncal={us:.1f}% -> cal={cs:.1f}%)"
             )
 
     return anomalies
