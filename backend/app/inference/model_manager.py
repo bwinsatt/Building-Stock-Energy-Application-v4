@@ -403,19 +403,24 @@ class ModelManager:
         meta = bundle["meta"]
         feature_cols = meta["feature_columns"]
         log_target = meta.get("log_target", False)
-        encoders = bundle["encoders"]
+        model = bundle["model"]
 
         row = {col: features_dict.get(col, np.nan) for col in feature_cols}
         df = pd.DataFrame([row])
 
-        # CatBoost encoding: string for categoricals, numeric for others
-        for col in feature_cols:
-            if col in encoders:
+        # Use the CatBoost model's own categorical feature indices rather than
+        # the encoders dict — the encoders come from encode_features() which may
+        # mark columns as categorical that CatBoost was trained to treat as
+        # numeric (e.g. in.number_stories was trained as numeric via
+        # pd.to_numeric because it was missing from CAT_FEATURE_NAMES).
+        cat_indices = set(model.get_cat_feature_indices())
+        for i, col in enumerate(feature_cols):
+            if i in cat_indices:
                 df[col] = df[col].astype(str)
             else:
                 df[col] = pd.to_numeric(df[col], errors="coerce")
 
-        pred = bundle["model"].predict(df)[0]
+        pred = model.predict(df)[0]
         if log_target:
             pred = float(np.expm1(pred))
         return float(pred)
