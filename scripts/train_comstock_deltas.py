@@ -90,6 +90,7 @@ FEATURE_COLS = [
 
 CAT_FEATURE_NAMES = [
     'in.comstock_building_type_group',
+    'in.number_stories',
     'in.as_simulated_ashrae_iecc_climate_zone_2006',
     'cluster_name',
     'in.vintage',
@@ -104,11 +105,18 @@ CAT_FEATURE_NAMES = [
     'in.window_type',
     'in.window_to_wall_ratio_category',
     'in.interior_lighting_generation',
+    'in.weekday_operating_hours..hr',
     'in.building_subtype',
+    'in.aspect_ratio',
     'in.energy_code_followed_during_last_hvac_replacement',
     'in.energy_code_followed_during_last_roof_replacement',
     'in.energy_code_followed_during_last_walls_replacement',
     'in.energy_code_followed_during_last_svc_water_htg_replacement',
+    'in.tstat_clg_sp_f..f',
+    'in.tstat_htg_sp_f..f',
+    'in.tstat_clg_delta_f..delta_f',
+    'in.tstat_htg_delta_f..delta_f',
+    'in.weekend_operating_hours..hr',
 ]
 
 # Columns to load from parquet (cluster_name is derived from county join)

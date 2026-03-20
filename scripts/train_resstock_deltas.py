@@ -86,6 +86,7 @@ FEATURE_COLS = [
 CAT_FEATURE_NAMES = [
     'in.geometry_building_type_recs',
     'in.geometry_building_type_height',
+    'in.geometry_stories',
     'in.ashrae_iecc_climate_zone_2004',
     'cluster_name',
     'in.vintage',
@@ -105,6 +106,10 @@ CAT_FEATURE_NAMES = [
     'in.lighting',
     'in.infiltration',
     'in.geometry_foundation_type',
+    'in.heating_setpoint',
+    'in.cooling_setpoint',
+    'in.heating_setpoint_offset_magnitude',
+    'in.cooling_setpoint_offset_magnitude',
 ]
 
 # Columns to load from parquet (cluster_name is derived from county join)
