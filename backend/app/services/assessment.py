@@ -273,7 +273,7 @@ def _assess_single(
     def _predict_upgrade(uid: int) -> tuple[int, dict]:
         return uid, model_manager.predict_delta(
             features, uid, dataset,
-            baseline_eui=actual_baseline_eui if calibrated else None,
+            baseline_eui=actual_baseline_eui if calibrated else baseline_eui,
         )
 
     with ThreadPoolExecutor(max_workers=8) as pool:
@@ -299,10 +299,18 @@ def _assess_single(
             continue
 
         delta = delta_results[uid]
-        savings_kwh = {
-            fuel: d if effective_baseline.get(fuel, 0) > 0.001 else 0.0
-            for fuel, d in delta.items()
-        }
+        savings_kwh = {}
+        for fuel, d in delta.items():
+            bl = effective_baseline.get(fuel, 0)
+            if bl <= 0.001:
+                # No meaningful baseline consumption — zero out savings
+                savings_kwh[fuel] = 0.0
+            elif d > 0:
+                # Positive savings capped at baseline (can't save more than you use)
+                savings_kwh[fuel] = min(d, bl)
+            else:
+                # Negative savings (fuel-switching increase) — pass through
+                savings_kwh[fuel] = d
 
         # Derive post-upgrade EUI from baseline - savings (floor at zero)
         post_eui = {
