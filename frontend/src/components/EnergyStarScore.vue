@@ -117,7 +117,7 @@ function formatNumber(value: number): string {
             </div>
           </div>
 
-          <PTypography variant="caption" class="es-metrics__type">
+          <PTypography variant="body2" class="es-metrics__type">
             ESPM property type: {{ result.espm_property_type }}
           </PTypography>
         </div>

@@ -12,8 +12,8 @@
         <a class="p-header-nav-link">Home</a>
         <a class="p-header-nav-link">Services</a>
         <a class="p-header-nav-link">Properties</a>
-        <a class="p-header-nav-link">Projects</a>
-        <a class="p-header-nav-link active">Energy Audit Lite</a>
+        <a class="p-header-nav-link" :class="{ active: currentView === 'projects' }" @click="currentView = 'projects'">Projects</a>
+        <a class="p-header-nav-link" :class="{ active: currentView === 'assessment' }" @click="currentView = 'assessment'">Energy Audit Lite</a>
       </div>
       <div class="p-header-right">
         <button class="p-offload-btn" title="Free model memory" @click="offloadModels" :disabled="offloading">
@@ -26,30 +26,6 @@
 
     <!-- Main content -->
     <main class="app-container py-8">
-      <nav class="flex gap-1 border-b border-gray-200 mb-6">
-        <button
-          @click="currentView = 'assessment'"
-          :class="[
-            'px-4 py-2 text-sm font-medium rounded-t-lg transition-colors',
-            currentView === 'assessment'
-              ? 'bg-white text-blue-600 border border-b-white -mb-px'
-              : 'text-gray-500 hover:text-gray-700'
-          ]"
-        >
-          Energy Audit
-        </button>
-        <button
-          @click="currentView = 'projects'"
-          :class="[
-            'px-4 py-2 text-sm font-medium rounded-t-lg transition-colors',
-            currentView === 'projects'
-              ? 'bg-white text-blue-600 border border-b-white -mb-px'
-              : 'text-gray-500 hover:text-gray-700'
-          ]"
-        >
-          Projects
-        </button>
-      </nav>
       <AssessmentView v-if="currentView === 'assessment'" />
       <ProjectsView v-if="currentView === 'projects'" />
     </main>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { PButton, PTypography, PTextInput } from '@partnerdevops/partner-components'
 import { useProjects } from '../composables/useProjects'
 import ProjectDetail from './ProjectDetail.vue'
 import SavedAssessmentView from './SavedAssessmentView.vue'
@@ -31,6 +32,7 @@ function goBack() {
 }
 
 async function handleCreate() {
+  if (creating.value) return
   const name = newProjectName.value.trim()
   if (!name) return
   creating.value = true
@@ -91,56 +93,60 @@ onMounted(() => {
   <div v-else class="projects-view">
     <!-- Toolbar -->
     <div class="projects-toolbar">
-      <h2 class="projects-title">Projects</h2>
-      <button
+      <PTypography variant="h4" class="projects-title">Projects</PTypography>
+      <PButton
         v-if="!showCreateInput"
-        class="btn-primary"
+        variant="primary"
+        size="medium"
+        icon="add"
         @click="showCreateInput = true"
       >
-        + New Project
-      </button>
+        New Project
+      </PButton>
     </div>
 
     <!-- Inline create form -->
     <div v-if="showCreateInput" class="create-form">
-      <input
+      <PTextInput
         v-model="newProjectName"
-        class="create-input"
         placeholder="Project name"
-        autofocus
         :disabled="creating"
+        class="create-input"
         @keydown="handleKeydown"
       />
-      <button
-        class="btn-primary"
+      <PButton
+        variant="primary"
+        size="medium"
         :disabled="creating || !newProjectName.trim()"
         @click="handleCreate"
       >
         {{ creating ? 'Creating...' : 'Create' }}
-      </button>
-      <button
-        class="btn-ghost"
+      </PButton>
+      <PButton
+        variant="neutral"
+        appearance="outlined"
+        size="medium"
         :disabled="creating"
         @click="showCreateInput = false; newProjectName = ''"
       >
         Cancel
-      </button>
+      </PButton>
     </div>
 
     <!-- Loading -->
     <div v-if="loading" class="state-box">
-      <p class="state-text">Loading projects...</p>
+      <PTypography variant="body2" class="state-text">Loading projects...</PTypography>
     </div>
 
     <!-- Error -->
     <div v-else-if="error" class="error-box">
-      <p class="error-text">{{ error }}</p>
+      <PTypography variant="body2" class="error-text">{{ error }}</PTypography>
     </div>
 
     <!-- Empty state -->
     <div v-else-if="projects.length === 0 && !showCreateInput" class="empty-box">
-      <p class="empty-text">No projects yet.</p>
-      <p class="empty-subtext">Create a project to start saving energy audit results.</p>
+      <PTypography variant="body1" class="empty-text">No projects yet.</PTypography>
+      <PTypography variant="body2" class="empty-subtext">Create a project to start saving energy audit results.</PTypography>
     </div>
 
     <!-- Project cards -->
@@ -152,21 +158,23 @@ onMounted(() => {
         @click="selectProject(project.id)"
       >
         <div class="project-card__body">
-          <span class="project-name">{{ project.name }}</span>
-          <span class="project-meta">
+          <PTypography variant="body1" class="project-name">{{ project.name }}</PTypography>
+          <PTypography variant="body2" class="project-meta">
             Created {{ formatDate(project.created_at) }}
             <template v-if="project.buildings && project.buildings.length > 0">
               &middot; {{ project.buildings.length }} building{{ project.buildings.length === 1 ? '' : 's' }}
             </template>
-          </span>
+          </PTypography>
         </div>
-        <button
-          class="delete-btn"
+        <PButton
+          variant="error"
+          appearance="text"
+          size="small"
+          icon="close"
+          icon-button
           title="Delete project"
           @click="handleDelete(project.id, $event)"
-        >
-          &times;
-        </button>
+        />
       </div>
     </div>
   </div>
@@ -174,6 +182,7 @@ onMounted(() => {
 
 <style scoped>
 .projects-view {
+  font-family: 'Roboto', system-ui, -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -187,54 +196,8 @@ onMounted(() => {
 }
 
 .projects-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333e47;
+  color: var(--partner-text, #333e47);
   margin: 0;
-}
-
-/* Buttons */
-.btn-primary {
-  background: #005199;
-  color: #ffffff;
-  border: none;
-  border-radius: 0.375rem;
-  padding: 0.4375rem 0.875rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #003f78;
-}
-
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-ghost {
-  background: transparent;
-  color: #6f7881;
-  border: 1px solid #c4cdd5;
-  border-radius: 0.375rem;
-  padding: 0.4375rem 0.875rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.btn-ghost:hover:not(:disabled) {
-  color: #333e47;
-  border-color: #6f7881;
-}
-
-.btn-ghost:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* Create form */
@@ -247,59 +210,40 @@ onMounted(() => {
 .create-input {
   flex: 1;
   max-width: 24rem;
-  border: 1px solid #c4cdd5;
-  border-radius: 0.375rem;
-  padding: 0.4375rem 0.75rem;
-  font-size: 0.875rem;
-  color: #333e47;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-.create-input:focus {
-  border-color: #005199;
-}
-
-.create-input:disabled {
-  background: #f8fafc;
 }
 
 /* State boxes */
 .state-box,
 .empty-box {
-  background: var(--app-surface-raised, #ffffff);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  background: var(--partner-background-white, #ffffff);
+  border: 1px solid var(--partner-border-default, #a6adb4);
+  border-radius: var(--partner-radius-md, 4px);
   padding: 3rem 1.5rem;
   text-align: center;
 }
 
 .state-text {
-  font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--partner-gray-6, #6f7881);
 }
 
 .error-box {
   background: #fef2f2;
-  border: 1px solid #fca5a5;
-  border-radius: 0.5rem;
+  border: 1px solid var(--partner-error-main, #B71C1C);
+  border-radius: var(--partner-radius-md, 4px);
   padding: 1rem 1.25rem;
 }
 
 .error-text {
-  font-size: 0.875rem;
-  color: #dc2626;
+  color: var(--partner-error-main, #B71C1C);
 }
 
 .empty-text {
-  font-size: 0.9375rem;
-  color: #64748b;
+  color: var(--partner-gray-6, #6f7881);
   margin-bottom: 0.25rem;
 }
 
 .empty-subtext {
-  font-size: 0.8125rem;
-  color: #94a3b8;
+  color: var(--partner-gray-5, #a6adb4);
 }
 
 /* Project list */
@@ -310,9 +254,9 @@ onMounted(() => {
 }
 
 .project-card {
-  background: var(--app-surface-raised, #ffffff);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  background: var(--partner-background-white, #ffffff);
+  border: 1px solid var(--partner-border-default, #a6adb4);
+  border-radius: var(--partner-radius-md, 4px);
   padding: 0.875rem 1rem;
   display: flex;
   align-items: center;
@@ -322,8 +266,8 @@ onMounted(() => {
 }
 
 .project-card:hover {
-  border-color: #005199;
-  box-shadow: 0 1px 4px rgba(0, 81, 153, 0.1);
+  border-color: var(--partner-primary-main, #005199);
+  box-shadow: var(--partner-shadow-sm, 0px 1px 4px rgba(0,0,0,0.16));
 }
 
 .project-card__body {
@@ -333,31 +277,11 @@ onMounted(() => {
 }
 
 .project-name {
-  font-size: 0.9375rem;
   font-weight: 500;
-  color: #333e47;
+  color: var(--partner-text, #333e47);
 }
 
 .project-meta {
-  font-size: 0.75rem;
-  color: #94a3b8;
-}
-
-.delete-btn {
-  flex-shrink: 0;
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-size: 1.25rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0.25rem 0.375rem;
-  border-radius: 0.25rem;
-  transition: color 0.15s, background 0.15s;
-}
-
-.delete-btn:hover {
-  color: #dc2626;
-  background: #fef2f2;
+  color: var(--partner-gray-5, #a6adb4);
 }
 </style>

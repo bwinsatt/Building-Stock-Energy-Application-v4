@@ -344,19 +344,19 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
             <!-- Electricity Savings -->
             <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
               <PTypography variant="body2" component="span">
-                {{ m.electricity_savings_kwh != null ? formatNumber(m.electricity_savings_kwh) : '\u2014' }}
+                {{ m.electricity_savings_kwh != null ? Math.round(m.electricity_savings_kwh * sqft).toLocaleString() : '\u2014' }}
               </PTypography>
             </PTableCell>
             <!-- Gas Savings -->
             <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
               <PTypography variant="body2" component="span">
-                {{ m.gas_savings_therms != null ? formatNumber(m.gas_savings_therms, 2) : '\u2014' }}
+                {{ m.gas_savings_therms != null ? Math.round(m.gas_savings_therms * sqft).toLocaleString() : '\u2014' }}
               </PTypography>
             </PTableCell>
             <!-- Other Fuel Savings -->
             <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
               <PTypography variant="body2" component="span">
-                {{ m.other_fuel_savings_kbtu != null ? formatNumber(m.other_fuel_savings_kbtu) : '\u2014' }}
+                {{ m.other_fuel_savings_kbtu != null ? Math.round(m.other_fuel_savings_kbtu * sqft).toLocaleString() : '\u2014' }}
               </PTypography>
             </PTableCell>
             <!-- Emissions Reduction -->

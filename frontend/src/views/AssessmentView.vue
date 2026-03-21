@@ -131,6 +131,7 @@ watch(result, async (newResult) => {
         v-if="lastBuilding"
         :building="lastBuilding"
         :baseline="result.baseline"
+        :address="lastAddress"
       />
 
       <!-- Separator between baseline and measures -->
