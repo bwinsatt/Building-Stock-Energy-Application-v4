@@ -43,7 +43,7 @@ export function useProjects() {
       body: JSON.stringify({ name }),
     })
     const project = await resp.json()
-    projects.value.push(project)
+    await fetchProjects()
     return project
   }
 
