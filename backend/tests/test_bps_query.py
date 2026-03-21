@@ -13,7 +13,7 @@ def test_nyc_config_exists():
     assert nyc["ordinance_name"] == "NYC LL84"
     assert nyc["api_type"] == "socrata"
     assert nyc["address_field"] == "address_1"
-    assert "2023" in nyc["endpoints"]
+    assert "2024" in nyc["endpoints"]
 
 
 def test_all_18_ordinances_present():

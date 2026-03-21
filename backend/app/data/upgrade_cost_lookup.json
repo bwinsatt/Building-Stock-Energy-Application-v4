@@ -753,7 +753,7 @@
         }
       ],
       "notes": "Chiller replacement; using chiller component costs from Scout ECM.",
-      "description": "Replaces existing chillers with high-efficiency chillers meeting current ASHRAE 90.1 minimum efficiency requirements, improving cooling plant performance."
+      "description": "Replaces existing chillers with high-efficiency chillers meeting current ASHRAE 90.1 minimum efficiency requirements, improving cooling plant performance. Includes chilled water supply temperature reset, which also reduces reheat energy in VAV systems."
     },
     "32": {
       "upgrade_id": 32,
