@@ -58,6 +58,7 @@ BPS_CONFIGS: dict = {
                 "2023": {"Benchmarking": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Environment_Energy_WebMercator/MapServer/45/query"},
             },
             "address_field": "ADDRESSOFRECORD",
+            "alt_address_field": "REPORTEDADDRESS",
             "api_type": "arcgis",
         },
         "atlanta, georgia": {
@@ -265,6 +266,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "ENERGYSTARSCORE": "energy_star_score",
         "PROPERTYNAME": "property_name",
         "ADDRESSOFRECORD": "matched_address",
+        "REPORTEDADDRESS": "matched_address",
     },
     "Seattle Benchmarking": {
         "siteeui_kbtu_sf": "site_eui_kbtu_sf",

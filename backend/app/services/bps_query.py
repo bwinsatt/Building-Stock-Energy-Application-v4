@@ -39,9 +39,14 @@ _BUILDING_NUMBER_RE = re.compile(r"^\d+(-\d+)?")
 
 
 def _extract_building_number(address: str) -> str | None:
-    """Return the leading building number (e.g. '123' or '45-18'), or None."""
+    """Return the leading building number (e.g. '123' or '45-18'), or None.
+
+    Strips leading zeros so '0801' and '801' are treated as equivalent.
+    """
     m = _BUILDING_NUMBER_RE.match(address.strip())
-    return m.group(0) if m else None
+    if not m:
+        return None
+    return m.group(0).lstrip("0") or "0"
 
 
 def _normalize_address(address: str) -> str:
@@ -93,44 +98,53 @@ def _match_address(
     records: list[dict],
     address: str,
     address_field: str,
+    alt_address_field: str | None = None,
 ) -> dict | None:
     """Find the best-matching record by address.
 
+    Checks ``address_field`` first, then ``alt_address_field`` (if provided)
+    so that owner-reported addresses (e.g. DC's REPORTEDADDRESS) are also
+    considered when the tax-lot address doesn't match.
+
     Returns ``{"record": <dict>, "confidence": <float>}`` or ``None``.
     """
+    fields_to_check = [address_field]
+    if alt_address_field:
+        fields_to_check.append(alt_address_field)
+
     # Match against just the street portion — API records typically omit city/state/zip
     street = _extract_street(address)
     normalized_query = _normalize_address(street)
-
-    # 1. Try direct (exact, case-insensitive) match first.
-    for record in records:
-        raw = record.get(address_field, "")
-        if raw and _normalize_address(str(raw)) == normalized_query:
-            return {"record": record, "confidence": 1.0}
-
-    # 2. Fuzzy matching — only consider records whose building number matches
-    #    (when the query has one) to avoid false positives on different buildings.
     query_bldg_num = _extract_building_number(address)
 
     best_score = 0.0
     best_record = None
 
-    for record in records:
-        raw = record.get(address_field, "")
-        if not raw:
-            continue
-        raw_str = str(raw)
+    for field in fields_to_check:
+        # 1. Try direct (exact, case-insensitive) match first.
+        for record in records:
+            raw = record.get(field, "")
+            if raw and _normalize_address(str(raw)) == normalized_query:
+                return {"record": record, "confidence": 1.0}
 
-        # If the query has a building number, skip records with a different one.
-        if query_bldg_num is not None:
-            rec_bldg_num = _extract_building_number(raw_str)
-            if rec_bldg_num != query_bldg_num:
+        # 2. Fuzzy matching — only consider records whose building number matches
+        #    (when the query has one) to avoid false positives on different buildings.
+        for record in records:
+            raw = record.get(field, "")
+            if not raw:
                 continue
+            raw_str = str(raw)
 
-        score = fuzz.ratio(_normalize_address(raw_str), normalized_query) / 100.0
-        if score > best_score:
-            best_score = score
-            best_record = record
+            # If the query has a building number, skip records with a different one.
+            if query_bldg_num is not None:
+                rec_bldg_num = _extract_building_number(raw_str)
+                if rec_bldg_num != query_bldg_num:
+                    continue
+
+            score = fuzz.ratio(_normalize_address(raw_str), normalized_query) / 100.0
+            if score > best_score:
+                best_score = score
+                best_record = record
 
     if best_record is not None and best_score >= _FUZZY_THRESHOLD:
         return {"record": best_record, "confidence": best_score}
@@ -229,12 +243,16 @@ async def _query_socrata(
                 if not endpoint.startswith("http"):
                     continue  # Skip CSV endpoints
 
-                params = {
-                    "$where": (
-                        f"LOWER({addr_field}) LIKE '{building_number} %' OR "
-                        f"LOWER({addr_field}) LIKE '{building_number}-%'"
-                    ),
-                }
+                # Also try zero-padded building numbers (e.g. "0801")
+                padded = building_number.zfill(4)
+                clauses = [
+                    f"LOWER({addr_field}) LIKE '{building_number} %'",
+                    f"LOWER({addr_field}) LIKE '{building_number}-%'",
+                ]
+                if padded != building_number:
+                    clauses.append(f"LOWER({addr_field}) LIKE '{padded} %'")
+                    clauses.append(f"LOWER({addr_field}) LIKE '{padded}-%'")
+                params = {"$where": " OR ".join(clauses)}
                 headers = {"X-App-Token": BPS_SOCRATA_TOKEN} if BPS_SOCRATA_TOKEN else {}
 
                 try:
@@ -275,11 +293,25 @@ async def _query_arcgis(
                 datasets = {"Benchmarking": datasets}
 
             for dataset_name, endpoint in datasets.items():
+                # Some datasets (e.g. DC GIS) zero-pad building numbers
+                # ("0801" instead of "801"), so search both forms.
+                # Also search alt_address_field if configured (e.g. DC's
+                # REPORTEDADDRESS which is the owner-reported street address
+                # vs ADDRESSOFRECORD which is the tax lot address).
+                padded = building_number.zfill(4)
+                search_fields = [addr_field]
+                alt_field = config.get("alt_address_field")
+                if alt_field:
+                    search_fields.append(alt_field)
+                clauses = []
+                for field in search_fields:
+                    clauses.append(f"LOWER({field}) LIKE '{building_number} %'")
+                    clauses.append(f"LOWER({field}) LIKE '{building_number}-%'")
+                    if padded != building_number:
+                        clauses.append(f"LOWER({field}) LIKE '{padded} %'")
+                        clauses.append(f"LOWER({field}) LIKE '{padded}-%'")
                 params = {
-                    "where": (
-                        f"LOWER({addr_field}) LIKE '{building_number} %' "
-                        f"OR LOWER({addr_field}) LIKE '{building_number}-%'"
-                    ),
+                    "where": " OR ".join(clauses),
                     "outFields": "*",
                     "f": "json",
                 }
@@ -440,7 +472,7 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
 
     for api_field, std_field in field_mapping.items():
         value = record.get(api_field)
-        if value is not None:
+        if value is not None and value != "":
             try:
                 value = float(value)
             except (ValueError, TypeError):
@@ -558,7 +590,10 @@ async def query_bps(
                 records = filtered
                 break
 
-    match = _match_address(records, street, config["address_field"])
+    match = _match_address(
+        records, street, config["address_field"],
+        alt_address_field=config.get("alt_address_field"),
+    )
     if match is None:
         return None
 

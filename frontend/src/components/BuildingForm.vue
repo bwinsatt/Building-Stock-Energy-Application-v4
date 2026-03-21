@@ -86,7 +86,10 @@ function sourceLabel(source: string | null): string {
   return source && PUBLIC_RECORD_SOURCES.has(source) ? 'public records' : 'estimated'
 }
 
+const lastRawAddress = ref('')
+
 function onAddressLookup(address: string) {
+  lastRawAddress.value = address
   lookup(address)
 }
 
@@ -148,7 +151,7 @@ watch(lookupResult, (result) => {
     }
   }
 
-  emit('lookup-complete', result, result.address)
+  emit('lookup-complete', result, lastRawAddress.value)
 
   // Allow watchers to fire normally after this tick
   setTimeout(() => { populatingFromLookup.value = false }, 0)
@@ -301,7 +304,7 @@ function onSubmit() {
           <button
             type="button"
             class="bps-banner__action"
-            @click="bpsSearch.search(lookupResult!.address, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
+            @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
           >
             Search Records
           </button>
@@ -369,7 +372,7 @@ function onSubmit() {
         <button
           type="button"
           class="bps-banner__action"
-          @click="bpsSearch.search(lookupResult!.address, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
+          @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
         >
           Retry
         </button>
