@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 """
 Train XGBoost models for ComStock building sizing predictions.
-Produces 5 models that predict capacity/area from the 25 ComStock features.
+Produces 2 capacity models used for upgrade cost estimation.
 
 Targets:
   - heating_capacity  (kBtu/hr)
   - cooling_capacity  (tons)
-  - wall_area         (m²)
-  - roof_area         (m²)
-  - window_area       (m²)
 
 Usage:
     python3 scripts/train_comstock_sizing.py                   # Train all targets
@@ -42,13 +39,11 @@ RAW_DIR = os.path.join(PROJECT_ROOT, 'ComStock', 'raw_data')
 LOOKUP_PATH = os.path.join(PROJECT_ROOT, 'ComStock', 'spatial_tract_lookup_table.csv')
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'XGB_Models', 'ComStock_Sizing')
 
-# Sizing target columns (capacity/area in native units)
+# Sizing target columns — only capacity targets (wall/roof/window area
+# are computed geometrically in assessment.py, not via ML sizing models)
 SIZING_TARGETS = {
     'heating_capacity': 'out.params.heating_equipment..kbtu_per_hr',
     'cooling_capacity': 'out.params.cooling_equipment_capacity..tons',
-    'wall_area': 'out.params.ext_wall_area..m2',
-    'roof_area': 'out.params.ext_roof_area..m2',
-    'window_area': 'out.params.ext_window_area..m2',
 }
 
 FEATURE_COLS = [
@@ -77,13 +72,59 @@ FEATURE_COLS = [
     'in.energy_code_followed_during_last_roof_replacement',
     'in.energy_code_followed_during_last_walls_replacement',
     'in.energy_code_followed_during_last_svc_water_htg_replacement',
+    # --- New features ---
+    'hdd65f',
+    'cdd65f',
+    'in.tstat_clg_sp_f..f',
+    'in.tstat_htg_sp_f..f',
+    'in.tstat_clg_delta_f..delta_f',
+    'in.tstat_htg_delta_f..delta_f',
+    'in.weekend_operating_hours..hr',
+    'floor_plate_sqft',
+]
+
+# Must match train_comstock_deltas.py exactly (updated by feature pipeline fixes)
+CAT_FEATURE_NAMES = [
+    'in.comstock_building_type_group',
+    'in.number_stories',
+    'in.as_simulated_ashrae_iecc_climate_zone_2006',
+    'cluster_name',
+    'in.vintage',
+    'in.heating_fuel',
+    'in.service_water_heating_fuel',
+    'in.hvac_category',
+    'in.hvac_cool_type',
+    'in.hvac_heat_type',
+    'in.hvac_system_type',
+    'in.hvac_vent_type',
+    'in.wall_construction_type',
+    'in.window_type',
+    'in.window_to_wall_ratio_category',
+    'in.interior_lighting_generation',
+    'in.weekday_operating_hours..hr',
+    'in.building_subtype',
+    'in.aspect_ratio',
+    'in.energy_code_followed_during_last_hvac_replacement',
+    'in.energy_code_followed_during_last_roof_replacement',
+    'in.energy_code_followed_during_last_walls_replacement',
+    'in.energy_code_followed_during_last_svc_water_htg_replacement',
+    'in.tstat_clg_sp_f..f',
+    'in.tstat_htg_sp_f..f',
+    'in.tstat_clg_delta_f..delta_f',
+    'in.tstat_htg_delta_f..delta_f',
+    'in.weekend_operating_hours..hr',
 ]
 
 # Columns to load from parquet (features + all sizing targets + metadata)
 LOAD_COLS = ['bldg_id', 'completed_status',
-             'in.as_simulated_nhgis_county_gisjoin'] + FEATURE_COLS + list(SIZING_TARGETS.values())
-# Remove cluster_name from LOAD_COLS since it's derived from spatial lookup
-LOAD_COLS = [c for c in LOAD_COLS if c != 'cluster_name']
+             'in.as_simulated_nhgis_county_gisjoin'] + \
+            [c for c in FEATURE_COLS if c not in (
+                'cluster_name', 'hdd65f', 'cdd65f', 'floor_plate_sqft',
+            )] + \
+            list(SIZING_TARGETS.values()) + [
+                'out.params.hdd65f', 'out.params.cdd65f',
+            ]
+LOAD_COLS = list(dict.fromkeys(LOAD_COLS))  # deduplicate
 
 # Single tuning group: tune on heating_capacity, apply to all targets
 TUNE_TARGET_KEY = 'heating_capacity'
@@ -140,6 +181,29 @@ def load_baseline_data(cluster_lookup):
     # Fill individual null targets with 0
     for col in target_cols:
         df[col] = df[col].fillna(0)
+
+    # Rename HDD/CDD to match inference names
+    df = df.rename(columns={
+        'out.params.hdd65f': 'hdd65f',
+        'out.params.cdd65f': 'cdd65f',
+    })
+
+    # Clean thermostat sentinel values (999 = no data → NaN)
+    tstat_cols = [
+        'in.tstat_clg_sp_f..f', 'in.tstat_htg_sp_f..f',
+        'in.tstat_clg_delta_f..delta_f', 'in.tstat_htg_delta_f..delta_f',
+        'in.weekend_operating_hours..hr',
+    ]
+    for col in tstat_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+            df.loc[df[col] >= 999, col] = float('nan')
+
+    # Derived features
+    df['floor_plate_sqft'] = (
+        pd.to_numeric(df['in.sqft..ft2'], errors='coerce') /
+        pd.to_numeric(df['in.number_stories'], errors='coerce').clip(lower=1)
+    )
 
     n_clean = len(df)
 

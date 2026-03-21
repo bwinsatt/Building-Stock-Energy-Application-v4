@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 """
 Train XGBoost models for ResStock sizing targets (Multi-Family 4+ units, occupied).
-Predicts equipment/envelope sizing parameters from building characteristics.
+Produces 2 capacity models used for upgrade cost estimation.
 
 Targets:
   - heating_capacity (kBtu/hr)
   - cooling_capacity (kBtu/hr)
-  - wall_area (ft2)
-  - roof_area (ft2)
-  - window_area (ft2)
 
 Usage:
     python3 scripts/train_resstock_sizing.py                  # Train all targets (with tuning)
@@ -40,12 +37,11 @@ RAW_DIR = os.path.join(PROJECT_ROOT, 'ResStock', 'raw_data')
 LOOKUP_PATH = os.path.join(PROJECT_ROOT, 'ComStock', 'spatial_tract_lookup_table.csv')
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'XGB_Models', 'ResStock_Sizing')
 
+# Only capacity targets — wall/roof/window area are computed geometrically
+# in assessment.py, not via ML sizing models
 SIZING_TARGETS = {
     'heating_capacity': 'out.params.size_heating_system_primary..kbtu_per_hr',
     'cooling_capacity': 'out.params.size_cooling_system_primary..kbtu_per_hr',
-    'wall_area': 'out.params.wall_area_above_grade_conditioned..ft2',
-    'roof_area': 'out.params.roof_area..ft2',
-    'window_area': 'out.params.window_area..ft2',
 }
 
 FEATURE_COLS = [
@@ -72,13 +68,58 @@ FEATURE_COLS = [
     'in.lighting',
     'in.infiltration',
     'in.geometry_foundation_type',
+    # --- New features ---
+    'hdd65f',
+    'cdd65f',
+    'in.heating_setpoint',
+    'in.cooling_setpoint',
+    'in.heating_setpoint_offset_magnitude',
+    'in.cooling_setpoint_offset_magnitude',
+    'floor_plate_sqft',
 ]
+
+# Must match train_resstock_deltas.py exactly (updated by feature pipeline fixes)
+CAT_FEATURE_NAMES = [
+    'in.geometry_building_type_recs',
+    'in.geometry_building_type_height',
+    'in.geometry_stories',
+    'in.ashrae_iecc_climate_zone_2004',
+    'cluster_name',
+    'in.vintage',
+    'in.heating_fuel',
+    'in.hvac_heating_type',
+    'in.hvac_heating_efficiency',
+    'in.hvac_cooling_type',
+    'in.hvac_cooling_efficiency',
+    'in.hvac_has_shared_system',
+    'in.water_heater_fuel',
+    'in.water_heater_efficiency',
+    'in.geometry_wall_type',
+    'in.insulation_wall',
+    'in.insulation_floor',
+    'in.window_areas',
+    'in.windows',
+    'in.lighting',
+    'in.infiltration',
+    'in.geometry_foundation_type',
+    'in.heating_setpoint',
+    'in.cooling_setpoint',
+    'in.heating_setpoint_offset_magnitude',
+    'in.cooling_setpoint_offset_magnitude',
+]
+
+HDD_CDD_PATH = os.path.join(PROJECT_ROOT, 'backend', 'app', 'data', 'cluster_hdd_cdd.json')
 
 # Columns to load from parquet (cluster_name is merged separately)
 LOAD_COLS = ['bldg_id', 'applicability',
              'in.geometry_building_number_units_mf', 'in.vacancy_status',
-             'in.county'] + FEATURE_COLS + list(SIZING_TARGETS.values())
-LOAD_COLS = [c for c in LOAD_COLS if c != 'cluster_name']
+             'in.county'] + \
+            [c for c in FEATURE_COLS if c not in (
+                'cluster_name', 'hdd65f', 'cdd65f', 'floor_plate_sqft',
+                'in.geometry_building_type_height',  # derived from stories
+            )] + \
+            list(SIZING_TARGETS.values())
+LOAD_COLS = list(dict.fromkeys(LOAD_COLS))  # deduplicate
 
 
 # ==============================================================================
@@ -123,6 +164,26 @@ def load_baseline_data(cluster_lookup):
         how='left'
     )
     df['cluster_name'] = df['cluster_name'].fillna('Unknown')
+
+    # HDD/CDD from cluster lookup (ResStock lacks out.params HDD/CDD)
+    with open(HDD_CDD_PATH) as f:
+        cluster_hdd_cdd = json.load(f)
+    df['hdd65f'] = df['cluster_name'].map(
+        lambda c: cluster_hdd_cdd.get(c, {}).get('hdd65f', 4800.0))
+    df['cdd65f'] = df['cluster_name'].map(
+        lambda c: cluster_hdd_cdd.get(c, {}).get('cdd65f', 1400.0))
+
+    # Derived features
+    df['floor_plate_sqft'] = (
+        pd.to_numeric(df['in.sqft..ft2'], errors='coerce') /
+        pd.to_numeric(df['in.geometry_stories'], errors='coerce').clip(lower=1)
+    )
+
+    # Building type height from stories (derived, not loaded from parquet)
+    stories = pd.to_numeric(df['in.geometry_stories'], errors='coerce').fillna(1)
+    df['in.geometry_building_type_height'] = stories.apply(
+        lambda s: '1-3' if s <= 3 else ('4-7' if s <= 7 else '8+')
+    )
 
     n_clean = len(df)
 
