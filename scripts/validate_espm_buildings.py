@@ -122,7 +122,7 @@ ESPM_TARGET_REFS = {
     210132,   # The Union (Multi-Family, CZ=5A)
     231829,   # Oakland Hills Apartments (Multi-Family, CZ=2A)
     233572,   # Warner Building (MediumOffice, CZ=4A)
-    222887,   # 5950 Nancy Ridge (MediumOffice, CZ=3B)
+    222887,   # 5950 Nancy Ridge (Warehouse, CZ=3B) — listed as MediumOffice in ESPM but actually a warehouse
     234770,   # B702 - Altoona RDC (Warehouse, CZ=5A)
     234425,   # 8500 Kerns (Warehouse, CZ=3B)
     233251,   # The Westin Stonebriar (LargeHotel, CZ=3A)
@@ -136,6 +136,11 @@ CBECS_TARGET_PUBIDS = {
     10,   # SecondarySchool, gas primary, CENDIV=2
     2,    # MediumOffice, warm climate (CENDIV=9)
     44,   # LargeOffice, cold climate (CENDIV=1)
+}
+
+# Per-building overrides for incorrect ESPM building types
+ESPM_BT_OVERRIDES = {
+    222887: "Warehouse and Storage",  # 5950 Nancy Ridge — listed as MediumOffice, actually warehouse
 }
 
 THERMS_TO_KBTU = 100.0  # 1 therm = 100 kBtu
@@ -164,7 +169,7 @@ def get_espm_buildings() -> list[dict]:
 
         name = str(row[2]) if row[2] else f"ESPM-{ref}"
         bt_raw = str(row[7]) if row[7] else ""
-        bt_mapped = ESPM_BT_MAP.get(bt_raw)
+        bt_mapped = ESPM_BT_OVERRIDES.get(ref_int) or ESPM_BT_MAP.get(bt_raw)
         if bt_mapped is None:
             log.warning("Skipping ESPM Ref=%s — unmapped building type %r", ref, bt_raw)
             continue
