@@ -1,10 +1,12 @@
 import logging
 import os
+import time
 import xml.etree.ElementTree as ET
 from typing import Optional
 
 import httpx
 
+from app.constants import KWH_TO_KBTU
 from app.schemas.request import BuildingInput
 from app.schemas.response import BaselineResult
 from app.schemas.energy_star import EnergyStarResponse
@@ -46,11 +48,11 @@ ESPM_PROPERTY_USE_ELEMENT = {
 }
 
 FUEL_MAPPING = {
-    "electricity": {"energyType": "Electric", "energyUnit": "kBtu (thousand Btu)"},
-    "natural_gas": {"energyType": "Natural Gas", "energyUnit": "kBtu (thousand Btu)"},
-    "fuel_oil": {"energyType": "Fuel Oil No 2", "energyUnit": "kBtu (thousand Btu)"},
-    "propane": {"energyType": "Propane", "energyUnit": "kBtu (thousand Btu)"},
-    "district_heating": {"energyType": "District Steam", "energyUnit": "kBtu (thousand Btu)"},
+    "electricity": {"energyType": "Electric", "energyUnit": "kWh (thousand Watt-hours)", "rateCost": "0.13", "rateCostUnit": "kWh (thousand Watt-hours)"},
+    "natural_gas": {"energyType": "Natural Gas", "energyUnit": "therms", "rateCost": "1.10", "rateCostUnit": "therms"},
+    "fuel_oil": {"energyType": "Fuel Oil No 2", "energyUnit": "Gallons (US)", "rateCost": "4.00", "rateCostUnit": "Gallons (US)"},
+    "propane": {"energyType": "Propane", "energyUnit": "Gallons (US)", "rateCost": "2.50", "rateCostUnit": "Gallons (US)"},
+    "district_heating": {"energyType": "District Steam", "energyUnit": "kBtu (thousand Btu)", "rateCost": "30.00", "rateCostUnit": "MBtu (million Btu)"},
 }
 
 ESPM_BASE_URL = os.environ.get("ESPM_BASE_URL", "https://portfoliomanager.energystar.gov/wstest")
@@ -72,7 +74,7 @@ def build_target_finder_xml(
     espm_type = BUILDING_TYPE_TO_ESPM[building.building_type]
     use_element = ESPM_PROPERTY_USE_ELEMENT.get(espm_type, "other")
 
-    name_value = f"{building.building_type} - {address or building.zipcode}"
+    name_value = f"{building.building_type} - {address or building.zipcode}"[:80]
     sqft_int = int(building.sqft)
 
     root = ET.Element("targetFinder")
@@ -87,10 +89,18 @@ def build_target_finder_xml(
 
     ET.SubElement(prop_info, "plannedConstructionCompletionYear").text = str(building.year_built)
 
+    city = ""
+    if address:
+        parts = [p.strip() for p in address.split(",")]
+        if len(parts) >= 2:
+            city = parts[-2]
+    city = city or "Unknown"
+
     ET.SubElement(
         prop_info,
         "address",
         address1=address or "N/A",
+        city=city,
         postalCode=building.zipcode,
         state=state,
         country="US",
@@ -117,15 +127,27 @@ def build_target_finder_xml(
         "district_heating": baseline.eui_by_fuel.district_heating,
     }
 
+    # Conversion factors: kBtu to native units
+    kbtu_to_native = {
+        "electricity": 1.0 / KWH_TO_KBTU,       # kBtu → kWh
+        "natural_gas": 1.0 / 100.0,              # kBtu → therms
+        "fuel_oil": 1.0 / 138.5,                 # kBtu → gallons (138,500 BTU/gal)
+        "propane": 1.0 / 91.5,                   # kBtu → gallons (91,500 BTU/gal)
+        "district_heating": 1.0,                  # stays kBtu
+    }
+
     for fuel_key, eui_kbtu_sf in fuel_values.items():
         if eui_kbtu_sf <= 0:
             continue
         mapping = FUEL_MAPPING[fuel_key]
         annual_kbtu = eui_kbtu_sf * building.sqft
+        annual_native = annual_kbtu * kbtu_to_native[fuel_key]
         entry = ET.SubElement(entries, "designEntry")
         ET.SubElement(entry, "energyType").text = mapping["energyType"]
-        ET.SubElement(entry, "energyUnit").text = "kBtu (thousand Btu)"
-        ET.SubElement(entry, "estimatedAnnualEnergyUsage").text = str(annual_kbtu)
+        ET.SubElement(entry, "energyUnit").text = mapping["energyUnit"]
+        ET.SubElement(entry, "estimatedAnnualEnergyUsage").text = f"{annual_native:.1f}"
+        ET.SubElement(entry, "energyRateCost").text = mapping["rateCost"]
+        ET.SubElement(entry, "energyRateCostUnit").text = mapping["rateCostUnit"]
 
     # target
     target = ET.SubElement(root, "target")
@@ -161,20 +183,31 @@ class EnergyStarService:
         # 3. Build XML
         xml_body = build_target_finder_xml(building, baseline, address, state)
 
-        # 4. Call ESPM API
+        # 4. Call ESPM API (retry on 429 rate limit)
         url = f"{self.base_url}/targetFinder?measurementSystem=EPA"
-        try:
-            response = httpx.post(
-                url,
-                content=xml_body,
-                headers={"Content-Type": "application/xml"},
-                auth=(self.username, self.password),
-                timeout=ESPM_TIMEOUT,
-            )
-        except httpx.ConnectError as exc:
-            raise RuntimeError("ENERGY STAR service unavailable") from exc
-        except httpx.TimeoutException as exc:
-            raise RuntimeError("ENERGY STAR service timed out") from exc
+        max_retries = 3
+        for attempt in range(max_retries + 1):
+            try:
+                response = httpx.post(
+                    url,
+                    content=xml_body,
+                    headers={"Content-Type": "application/xml"},
+                    auth=(self.username, self.password),
+                    timeout=ESPM_TIMEOUT,
+                )
+            except httpx.ConnectError as exc:
+                raise RuntimeError("ENERGY STAR service unavailable") from exc
+            except httpx.TimeoutException as exc:
+                raise RuntimeError("ENERGY STAR service timed out") from exc
+
+            if response.status_code == 429:
+                if attempt < max_retries:
+                    wait = 2 ** attempt  # 1s, 2s, 4s
+                    logger.warning("ESPM rate limited (429), retrying in %ds (attempt %d/%d)", wait, attempt + 1, max_retries)
+                    time.sleep(wait)
+                    continue
+                raise RuntimeError("ENERGY STAR rate limit exceeded after retries")
+            break
 
         if response.status_code == 401:
             raise RuntimeError("ENERGY STAR authentication failed")
