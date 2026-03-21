@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import type { BuildingInput, BuildingResult, AssessmentResponse } from '../types/assessment'
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export function useAssessment() {
   const loading = ref(false)

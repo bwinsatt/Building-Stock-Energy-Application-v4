@@ -1,7 +1,7 @@
 import { ref } from 'vue'
-import type { BpsSearchResult } from '@/types/bps'
+import type { BpsSearchResult } from '../types/bps'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
 export function useBpsSearch() {
   const loading = ref(false)
