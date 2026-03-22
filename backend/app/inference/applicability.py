@@ -20,6 +20,24 @@ from typing import Iterable, List, Set
 logger = logging.getLogger(__name__)
 
 # ============================================================================
+# Package → Constituent mapping (for UI lockout)
+# ============================================================================
+
+# Mapping of ComStock package upgrade IDs → their constituent individual upgrade IDs.
+# Used to enforce package/individual lockout in the measure selection UI.
+# ResStock does not have packages.
+PACKAGE_CONSTITUENTS: dict[int, list[int]] = {
+    54: [48, 50, 51],               # Package 1: Wall Insulation + Secondary Windows + Window Film
+    55: [43, 1],                     # Package 2: LED + HP-RTU (upgrade 1 = HP-RTU representative)
+    56: [43, 4],                     # Package 3: LED + Std HP-RTU (upgrade 4 per applicability check)
+    57: [48, 50, 51, 43, 1],         # Package 4: Package 1 + Package 2
+    58: [1, 19, 20, 21],             # Package 5: HP-RTU + Economizer + DCV + Energy Recovery
+    59: [28, 29, 30],                # Package 6: GHP (Hydronic/Packaged/Console variants)
+    63: [48, 50, 51, 28, 29, 30],    # Package 10: Package 1 + Package 6
+    64: [48, 50, 51, 28, 29, 30, 43],# Package 11: Package 10 + LED
+}
+
+# ============================================================================
 # Public API
 # ============================================================================
 
