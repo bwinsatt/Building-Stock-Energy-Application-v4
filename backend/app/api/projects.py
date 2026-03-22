@@ -21,6 +21,14 @@ class SaveAssessmentRequest(BaseModel):
     calibrated: bool
 
 
+class SelectionsUpdate(BaseModel):
+    selected_upgrade_ids: list[int]
+
+
+class ProjectedEspmUpdate(BaseModel):
+    projected_espm: dict
+
+
 @router.post("")
 def create_project(req: CreateProjectRequest, request: Request):
     return request.app.state.database.create_project(req.name)
@@ -77,3 +85,27 @@ def save_assessment(
         result=req.result,
         calibrated=req.calibrated,
     )
+
+
+@router.get("/{project_id}/buildings/{building_id}/selections")
+def get_selections(project_id: int, building_id: int, request: Request):
+    db = request.app.state.database
+    return db.get_selections(building_id)
+
+
+@router.put("/{project_id}/buildings/{building_id}/selections")
+def put_selections(
+    project_id: int, building_id: int, body: SelectionsUpdate, request: Request
+):
+    db = request.app.state.database
+    db.save_selections(building_id, body.selected_upgrade_ids)
+    return db.get_selections(building_id)
+
+
+@router.put("/{project_id}/buildings/{building_id}/selections/projected-espm")
+def put_projected_espm(
+    project_id: int, building_id: int, body: ProjectedEspmUpdate, request: Request
+):
+    db = request.app.state.database
+    db.save_projected_espm(building_id, body.projected_espm)
+    return db.get_selections(building_id)
