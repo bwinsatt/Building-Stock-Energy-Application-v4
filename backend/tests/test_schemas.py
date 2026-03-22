@@ -146,3 +146,40 @@ def test_measure_result_new_fields():
     )
     assert m2.electricity_savings_kwh == 5.0
     assert m2.description == "LED lighting retrofit."
+
+
+def test_measure_result_savings_by_fuel():
+    m = MeasureResult(
+        upgrade_id=1,
+        name="Test",
+        category="hvac",
+        applicable=True,
+        savings_by_fuel=FuelBreakdown(
+            electricity=5.0,
+            natural_gas=2.0,
+            fuel_oil=0.0,
+            propane=0.0,
+            district_heating=0.0,
+        ),
+    )
+    assert m.savings_by_fuel is not None
+    assert m.savings_by_fuel.electricity == 5.0
+
+
+def test_measure_result_constituent_upgrade_ids():
+    m = MeasureResult(
+        upgrade_id=54,
+        name="Package 1",
+        category="package",
+        applicable=True,
+        constituent_upgrade_ids=[48, 50, 51],
+    )
+    assert m.constituent_upgrade_ids == [48, 50, 51]
+
+
+def test_measure_result_defaults_none():
+    m = MeasureResult(
+        upgrade_id=1, name="Test", category="hvac", applicable=True
+    )
+    assert m.savings_by_fuel is None
+    assert m.constituent_upgrade_ids is None
