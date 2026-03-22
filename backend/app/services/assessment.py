@@ -33,6 +33,7 @@ from app.constants import (
     ASPECT_RATIO,
 )
 from app.services.emissions import calculate_emissions_reduction_pct
+from app.inference.applicability import PACKAGE_CONSTITUENTS
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
 from app.services.cost_calculator import CostCalculatorService
@@ -405,6 +406,18 @@ def _assess_single(
             sum(savings_kwh.get(f, 0.0) for f in other_fuels) * KWH_TO_KBTU, 2
         )
 
+        # Per-fuel savings in kBtu/sf for client-side projected EUI computation
+        savings_fuel_breakdown = FuelBreakdown(
+            electricity=round(savings_kwh.get("electricity", 0.0) * KWH_TO_KBTU, 4),
+            natural_gas=round(savings_kwh.get("natural_gas", 0.0) * KWH_TO_KBTU, 4),
+            fuel_oil=round(savings_kwh.get("fuel_oil", 0.0) * KWH_TO_KBTU, 4),
+            propane=round(savings_kwh.get("propane", 0.0) * KWH_TO_KBTU, 4),
+            district_heating=round(savings_kwh.get("district_heating", 0.0) * KWH_TO_KBTU, 4),
+        )
+
+        # Package constituent IDs (only for ComStock packages)
+        pkg_constituents = PACKAGE_CONSTITUENTS.get(uid)
+
         # Emissions reduction
         emissions_pct = calculate_emissions_reduction_pct(
             effective_baseline, post_eui, electricity_ef
@@ -427,6 +440,8 @@ def _assess_single(
                 other_fuel_savings_kbtu=other_savings_kbtu,
                 emissions_reduction_pct=round(emissions_pct, 1),
                 description=_get_upgrade_description(uid, dataset, cost_calculator),
+                savings_by_fuel=savings_fuel_breakdown,
+                constituent_upgrade_ids=pkg_constituents,
             )
         )
 
