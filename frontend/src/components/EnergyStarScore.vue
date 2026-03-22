@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { PTypography, PIcon } from '@partnerdevops/partner-components'
+import { PTypography, PIcon, PButton } from '@partnerdevops/partner-components'
 import { useEnergyStarScore } from '../composables/useEnergyStarScore'
 import type { BuildingInput, BaselineResult, ProjectedEui, EnergyStarResponse } from '../types/assessment'
 
@@ -388,7 +388,7 @@ const scoreDelta = computed(() => {
 .es-gauge {
   flex-shrink: 0;
   text-align: center;
-  width: 110px;
+  width: 120px;
 }
 .es-gauge__svg { width: 100px; height: 100px; display: block; margin: 0 auto; }
 .es-gauge__value {
