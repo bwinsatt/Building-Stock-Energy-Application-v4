@@ -198,6 +198,7 @@ const scoreDelta = computed(() => {
           <button class="es-btn" @click="emit('calculate-projected')">
             &#11088; Calculate Projected Score
           </button>
+          <div class="es-disclaimer">Estimates assume independent measure savings</div>
         </div>
       </div>
 
@@ -272,6 +273,7 @@ const scoreDelta = computed(() => {
             {{ selectedCount }} upgrade{{ selectedCount === 1 ? '' : 's' }} selected
           </PTypography>
           <button class="es-btn es-btn--outline" @click="emit('calculate-projected')">Recalculate</button>
+          <div class="es-disclaimer">Estimates assume independent measure savings</div>
         </div>
       </div>
     </div>
@@ -556,6 +558,14 @@ const scoreDelta = computed(() => {
   z-index: 1;
   background: var(--partner-white, #fff);
   padding: 0 0.25rem;
+}
+
+/* ---- Disclaimer ---- */
+.es-disclaimer {
+  font-size: 0.625rem;
+  color: var(--partner-gray-5);
+  margin-top: 0.5rem;
+  font-style: italic;
 }
 
 /* ---- Responsive ---- */

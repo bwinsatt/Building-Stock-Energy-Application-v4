@@ -155,9 +155,10 @@ class Database:
                 (building_id, json.dumps(result), calibrated),
             )
             row = conn.execute("SELECT * FROM assessments WHERE id = ?", (cursor.lastrowid,)).fetchone()
+            assessment = self._row_to_dict(row)
         # Clear stale projected ESPM (baseline changed)
         self.clear_projected_espm(building_id)
-        return self._row_to_dict(row)
+        return assessment
 
     def get_assessments(self, building_id: int) -> list[dict]:
         with self._connect() as conn:

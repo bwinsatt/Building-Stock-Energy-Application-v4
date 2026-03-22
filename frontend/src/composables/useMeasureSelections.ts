@@ -16,7 +16,12 @@ export function useMeasureSelections(
   building: Ref<BuildingInput | null>,
   buildingId: Ref<number | null>,
   address: Ref<string | null>,
+  projectId: Ref<number | null>,
 ) {
+  function _selectionsUrl(suffix = '') {
+    return `${API_BASE}/projects/${projectId.value}/buildings/${buildingId.value}/selections${suffix}`
+  }
+
   const selectedUpgradeIds = ref<Set<number>>(new Set())
   const projectedEspm = ref<EnergyStarResponse | null>(null)
   const projectedLoading = ref(false)
@@ -136,10 +141,10 @@ export function useMeasureSelections(
 
   // --- Persistence ---
   async function _saveSelections() {
-    if (!buildingId.value) return
+    if (!buildingId.value || !projectId.value) return
     try {
       await fetch(
-        `${API_BASE}/projects/0/buildings/${buildingId.value}/selections`,
+        _selectionsUrl(),
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -156,10 +161,10 @@ export function useMeasureSelections(
   }
 
   async function _clearProjectedEspm() {
-    if (!buildingId.value) return
+    if (!buildingId.value || !projectId.value) return
     try {
       await fetch(
-        `${API_BASE}/projects/0/buildings/${buildingId.value}/selections/projected-espm`,
+        _selectionsUrl('/projected-espm'),
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -172,10 +177,10 @@ export function useMeasureSelections(
   }
 
   async function loadSelections() {
-    if (!buildingId.value) return
+    if (!buildingId.value || !projectId.value) return
     try {
       const resp = await fetch(
-        `${API_BASE}/projects/0/buildings/${buildingId.value}/selections`,
+        _selectionsUrl(),
       )
       if (resp.ok) {
         const data = await resp.json()
@@ -231,9 +236,9 @@ export function useMeasureSelections(
       const espmResult = await resp.json()
       projectedEspm.value = espmResult
       // Save projected score to DB via dedicated endpoint
-      if (buildingId.value) {
+      if (buildingId.value && projectId.value) {
         await fetch(
-          `${API_BASE}/projects/0/buildings/${buildingId.value}/selections/projected-espm`,
+          _selectionsUrl('/projected-espm'),
           {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },

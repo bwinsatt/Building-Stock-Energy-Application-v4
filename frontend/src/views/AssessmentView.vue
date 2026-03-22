@@ -39,7 +39,24 @@ const {
   loadSelections,
   reconcileSelections,
   calculateProjectedScore,
-} = useMeasureSelections(measuresRef, baselineRef, lastBuilding, buildingIdRef, addressRef)
+} = useMeasureSelections(measuresRef, baselineRef, lastBuilding, buildingIdRef, addressRef, selectedProjectId)
+
+const replaceMessage = ref<string | null>(null)
+let replaceTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleToggleMeasure(upgradeId: number) {
+  const result = toggleMeasure(upgradeId)
+  if (result?.action === 'replace' && result.replaced) {
+    const names = result.replaced
+      .map(id => measuresRef.value.find(m => m.upgrade_id === id)?.name)
+      .filter(Boolean)
+    replaceMessage.value = `Replaced ${names.join(', ')} with package`
+    if (replaceTimer) clearTimeout(replaceTimer)
+    replaceTimer = setTimeout(() => { replaceMessage.value = null }, 4000)
+  } else {
+    replaceMessage.value = null
+  }
+}
 
 function onLookupComplete(lookupResult: LookupResponse | null, address: string) {
   lastLookupResult.value = lookupResult
@@ -177,7 +194,8 @@ watch(result, async (newResult) => {
         :sqft="lastSqft"
         :selected-upgrade-ids="selectedUpgradeIds"
         :disabled-by-package="disabledByPackage"
-        @toggle-measure="toggleMeasure"
+        :replace-message="replaceMessage"
+        @toggle-measure="handleToggleMeasure"
       />
     </template>
   </div>

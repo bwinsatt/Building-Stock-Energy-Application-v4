@@ -26,7 +26,7 @@ class SelectionsUpdate(BaseModel):
 
 
 class ProjectedEspmUpdate(BaseModel):
-    projected_espm: dict
+    projected_espm: dict | None
 
 
 @router.post("")
@@ -107,5 +107,8 @@ def put_projected_espm(
     project_id: int, building_id: int, body: ProjectedEspmUpdate, request: Request
 ):
     db = request.app.state.database
-    db.save_projected_espm(building_id, body.projected_espm)
+    if body.projected_espm is None:
+        db.clear_projected_espm(building_id)
+    else:
+        db.save_projected_espm(building_id, body.projected_espm)
     return db.get_selections(building_id)

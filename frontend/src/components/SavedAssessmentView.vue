@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { PTypography } from '@partnerdevops/partner-components'
 import BaselineSummary from './BaselineSummary.vue'
 import MeasuresTable from './MeasuresTable.vue'
@@ -36,6 +36,7 @@ const calibrated = computed(() => props.assessment.calibrated)
 const lookupData = computed(() => props.building.lookup_data)
 
 const buildingIdRef = computed(() => props.building.id ?? null)
+const projectIdRef = computed(() => props.building.project_id ?? null)
 const addressRef = computed(() => props.building.address ?? null)
 
 const {
@@ -49,7 +50,24 @@ const {
   loadSelections,
   reconcileSelections,
   calculateProjectedScore,
-} = useMeasureSelections(measures, baseline, buildingInput, buildingIdRef, addressRef)
+} = useMeasureSelections(measures, baseline, buildingInput, buildingIdRef, addressRef, projectIdRef)
+
+const replaceMessage = ref<string | null>(null)
+let replaceTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleToggleMeasure(upgradeId: number) {
+  const res = toggleMeasure(upgradeId)
+  if (res?.action === 'replace' && res.replaced) {
+    const names = res.replaced
+      .map(id => measures.value.find(m => m.upgrade_id === id)?.name)
+      .filter(Boolean)
+    replaceMessage.value = `Replaced ${names.join(', ')} with package`
+    if (replaceTimer) clearTimeout(replaceTimer)
+    replaceTimer = setTimeout(() => { replaceMessage.value = null }, 4000)
+  } else {
+    replaceMessage.value = null
+  }
+}
 
 // Load selections on mount
 loadSelections().then(() => reconcileSelections())
@@ -97,7 +115,8 @@ loadSelections().then(() => reconcileSelections())
         :sqft="sqft"
         :selected-upgrade-ids="selectedUpgradeIds"
         :disabled-by-package="disabledByPackage"
-        @toggle-measure="toggleMeasure"
+        :replace-message="replaceMessage"
+        @toggle-measure="handleToggleMeasure"
       />
     </template>
 

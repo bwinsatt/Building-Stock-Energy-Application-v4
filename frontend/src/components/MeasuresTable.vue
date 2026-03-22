@@ -21,6 +21,7 @@ const props = defineProps<{
   sqft: number
   selectedUpgradeIds?: Set<number>
   disabledByPackage?: Map<number, string>
+  replaceMessage?: string | null
 }>()
 
 const emit = defineEmits<{
@@ -239,6 +240,12 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
           Max savings: <strong class="measures-summary__highlight">{{ formatNumber(summaryStats.maxSavings) }}%</strong>
         </span>
       </div>
+    </div>
+
+    <!-- Replace notification -->
+    <div v-if="replaceMessage" class="measures-replace-msg">
+      <PIcon name="information" size="small" />
+      {{ replaceMessage }}
     </div>
 
     <!-- Individual measures collapsible (expanded by default) -->
@@ -929,6 +936,18 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 
 .measures-table-wrapper--secondary {
   max-height: 40vh;
+}
+
+/* ---- Replace notification ---- */
+.measures-replace-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--partner-blue-7);
+  background: var(--partner-blue-1);
+  border-top: 1px solid var(--partner-blue-3);
 }
 
 /* ---- Responsive ---- */
