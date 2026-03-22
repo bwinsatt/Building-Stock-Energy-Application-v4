@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { PTypography } from '@partnerdevops/partner-components'
 import BaselineSummary from './BaselineSummary.vue'
 import MeasuresTable from './MeasuresTable.vue'
 import AssumptionsPanel from './AssumptionsPanel.vue'
 import EnergyStarScore from './EnergyStarScore.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
+import { useMeasureSelections } from '../composables/useMeasureSelections'
 import type { Building, Assessment } from '../types/projects'
 import type { BuildingResult, BuildingInput, BaselineResult, MeasureResult, InputSummary } from '../types/assessment'
 
@@ -33,6 +34,25 @@ const calibrated = computed(() => props.assessment.calibrated)
 
 // Map data from lookup_data stored on the building
 const lookupData = computed(() => props.building.lookup_data)
+
+const buildingIdRef = computed(() => props.building.id ?? null)
+const addressRef = computed(() => props.building.address ?? null)
+
+const {
+  selectedUpgradeIds,
+  disabledByPackage,
+  projectedEui,
+  projectedEspm,
+  projectedLoading,
+  projectedError,
+  toggleMeasure,
+  loadSelections,
+  reconcileSelections,
+  calculateProjectedScore,
+} = useMeasureSelections(measures, baseline, buildingInput, buildingIdRef, addressRef)
+
+// Load selections on mount
+loadSelections().then(() => reconcileSelections())
 </script>
 
 <template>
@@ -64,9 +84,21 @@ const lookupData = computed(() => props.building.lookup_data)
         :building="buildingInput"
         :baseline="baseline"
         :address="building.address"
+        :selected-count="selectedUpgradeIds.size"
+        :projected-eui="projectedEui"
+        :projected-espm="projectedEspm"
+        :projected-loading="projectedLoading"
+        :projected-error="projectedError"
+        @calculate-projected="calculateProjectedScore"
       />
       <div class="section-separator" aria-hidden="true" />
-      <MeasuresTable :measures="measures" :sqft="sqft" />
+      <MeasuresTable
+        :measures="measures"
+        :sqft="sqft"
+        :selected-upgrade-ids="selectedUpgradeIds"
+        :disabled-by-package="disabledByPackage"
+        @toggle-measure="toggleMeasure"
+      />
     </template>
 
     <div v-else class="empty-state">
