@@ -65,6 +65,8 @@ export interface MeasureResult {
   gas_savings_therms?: number
   other_fuel_savings_kbtu?: number
   description?: string
+  savings_by_fuel?: FuelBreakdown | null
+  constituent_upgrade_ids?: number[] | null
 }
 
 export interface ImputedField {
@@ -93,6 +95,12 @@ export interface BuildingResult {
 
 export interface AssessmentResponse {
   results: BuildingResult[]
+}
+
+export interface ProjectedEui {
+  total_eui_kbtu_sf: number
+  eui_by_fuel: FuelBreakdown
+  reduction_pct: number
 }
 
 export interface EnergyStarResponse {
