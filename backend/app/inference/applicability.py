@@ -289,11 +289,15 @@ def _check_comstock_rules(upgrade_id: int, features: dict) -> bool:
 
     # ── Package 2 (55): LED + HP-RTU/HP-Boiler ──
     if upgrade_id == 55:
-        return lighting not in {"gen4_led", "gen5_led"}
+        if lighting in {"gen4_led", "gen5_led"}:
+            return False
+        return _check_comstock_rules(1, features) or has_boiler
 
     # ── Package 3 (56): Package 2 with Std HP-RTU ──
     if upgrade_id == 56:
-        return lighting not in {"gen4_led", "gen5_led"}
+        if lighting in {"gen4_led", "gen5_led"}:
+            return False
+        return _check_comstock_rules(4, features) or has_boiler
 
     # ── Package 4 (57): Package 1 + Package 2 ──
     if upgrade_id == 57:

@@ -64,20 +64,24 @@ function getSortValue(m: MeasureResult, col: SortColumn): number | null {
 
 // ---- Applicable / Non-applicable split ----
 
-const applicableMeasures = computed(() => {
-  return props.measures.filter((m) => m.applicable)
+const individualMeasures = computed(() => {
+  return props.measures.filter((m) => m.applicable && m.category !== 'package')
+})
+
+const packageMeasures = computed(() => {
+  return props.measures.filter((m) => m.applicable && m.category === 'package')
 })
 
 const nonApplicableMeasures = computed(() => {
   return props.measures.filter((m) => !m.applicable)
 })
 
-const sortedApplicable = computed(() => {
-  const items = [...applicableMeasures.value]
+function sortMeasures(items: MeasureResult[]): MeasureResult[] {
+  const sorted = [...items]
   const dir = sortDirection.value === 'asc' ? 1 : -1
   const col = sortColumn.value
 
-  items.sort((a, b) => {
+  sorted.sort((a, b) => {
     const aVal = getSortValue(a, col)
     const bVal = getSortValue(b, col)
     if (aVal == null && bVal == null) return 0
@@ -86,17 +90,22 @@ const sortedApplicable = computed(() => {
     return (aVal - bVal) * dir
   })
 
-  return items
-})
+  return sorted
+}
 
-// ---- Non-applicable collapse ----
+const sortedIndividual = computed(() => sortMeasures(individualMeasures.value))
+const sortedPackages = computed(() => sortMeasures(packageMeasures.value))
 
+// ---- Collapse toggles ----
+
+const showIndividual = ref(true)
+const showPackages = ref(true)
 const showNonApplicable = ref(false)
 
 // ---- Summary stats ----
 
 const summaryStats = computed(() => {
-  const applicable = applicableMeasures.value
+  const applicable = individualMeasures.value
   const count = applicable.length
 
   const paybacks = applicable
@@ -225,8 +234,20 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
       </div>
     </div>
 
-    <!-- Table -->
-    <div class="measures-table-wrapper">
+    <!-- Individual measures collapsible (expanded by default) -->
+    <div class="measures-section">
+      <PButton
+        variant="neutral"
+        appearance="text"
+        size="small"
+        :icon="showIndividual ? 'chevron-down' : 'chevron-right'"
+        @click="showIndividual = !showIndividual"
+      >
+        {{ individualMeasures.length }} Individual Measures
+      </PButton>
+    </div>
+
+    <div v-if="showIndividual" class="measures-table-wrapper">
       <PTable class="measures-table">
         <PTableHeader variant="gray-fill" size="small" :single-sort="true">
           <PTableRow>
@@ -298,7 +319,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 
         <PTableBody>
           <PTableRow
-            v-for="m in sortedApplicable"
+            v-for="m in sortedIndividual"
             :key="m.upgrade_id"
           >
             <PTableCell class="measures-cell measures-cell--name">
@@ -391,25 +412,71 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
       </PTable>
     </div>
 
-    <!-- Non-applicable measures collapsible -->
-    <div v-if="nonApplicableMeasures.length > 0" class="measures-nonapplicable">
+    <!-- Measure Packages collapsible (expanded by default) -->
+    <div v-if="packageMeasures.length > 0" class="measures-section">
       <PButton
         variant="neutral"
         appearance="text"
         size="small"
-        :icon="showNonApplicable ? 'chevron-down' : 'chevron-right'"
-        @click="showNonApplicable = !showNonApplicable"
+        :icon="showPackages ? 'chevron-down' : 'chevron-right'"
+        @click="showPackages = !showPackages"
       >
-        {{ nonApplicableMeasures.length }} non-applicable measures
+        {{ packageMeasures.length }} Measure Packages
       </PButton>
+    </div>
 
-      <div v-if="showNonApplicable" class="measures-table-wrapper measures-nonapplicable__table measures-table-wrapper--secondary">
+    <div v-if="packageMeasures.length > 0 && showPackages" class="measures-table-wrapper measures-packages__table">
         <PTable class="measures-table">
+          <PTableHeader variant="gray-fill" size="small" :single-sort="true">
+            <PTableRow>
+              <PTableHead class="measures-th measures-th--name">Measure</PTableHead>
+              <PTableHead class="measures-th measures-th--category">Category</PTableHead>
+              <PTableHead
+                class="measures-th measures-th--numeric"
+                :sortable="true"
+                :sort-direction="getSortDirection('savings_pct')"
+                @sort-changed="(dir: 'asc' | 'desc' | undefined) => handleSort('savings_pct', dir)"
+              >Savings %</PTableHead>
+              <PTableHead
+                class="measures-th measures-th--numeric"
+                :sortable="true"
+                :sort-direction="getSortDirection('annual_savings')"
+                @sort-changed="(dir: 'asc' | 'desc' | undefined) => handleSort('annual_savings', dir)"
+              >Annual Bill Savings ($)</PTableHead>
+              <PTableHead
+                class="measures-th measures-th--numeric"
+                :sortable="true"
+                :sort-direction="getSortDirection('installed_cost')"
+                @sort-changed="(dir: 'asc' | 'desc' | undefined) => handleSort('installed_cost', dir)"
+              >Installed Cost</PTableHead>
+              <PTableHead
+                class="measures-th measures-th--numeric"
+                :sortable="true"
+                :sort-direction="getSortDirection('payback')"
+                @sort-changed="(dir: 'asc' | 'desc' | undefined) => handleSort('payback', dir)"
+              >Payback (yrs)</PTableHead>
+              <PTableHead class="measures-th measures-th--numeric">Electricity Savings (kWh)</PTableHead>
+              <PTableHead class="measures-th measures-th--numeric">Gas Savings (therms)</PTableHead>
+              <PTableHead class="measures-th measures-th--numeric">Other Fuel Savings (kBtu)</PTableHead>
+              <PTableHead class="measures-th measures-th--numeric">Emissions Reduction (%)</PTableHead>
+              <PTableHead class="measures-th measures-th--numeric">Useful Life (yrs)</PTableHead>
+              <PTableHead class="measures-th measures-th--desc">
+                <span class="measures-desc-toggle" @click="toggleDescAll">
+                  <PIcon
+                    :name="allDescExpanded ? 'chevron-down' : 'chevron-right'"
+                    size="small"
+                    class="measures-desc-toggle__icon"
+                  />
+                  Description
+                </span>
+              </PTableHead>
+            </PTableRow>
+          </PTableHeader>
+
           <PTableBody>
             <PTableRow
-              v-for="m in nonApplicableMeasures"
+              v-for="m in sortedPackages"
               :key="m.upgrade_id"
-              class="measures-row--dimmed"
             >
               <PTableCell class="measures-cell measures-cell--name">
                 <PTypography variant="body2">{{ m.name }}</PTypography>
@@ -420,31 +487,61 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
                 </PBadge>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">{{ m.savings_pct != null ? formatNumber(m.savings_pct) + '%' : '\u2014' }}</PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">{{
+                  m.utility_bill_savings_per_sf != null
+                    ? formatCurrency(m.utility_bill_savings_per_sf * sqft)
+                    : '\u2014'
+                }}</PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTooltip v-if="m.cost?.cost_range" direction="top">
+                  <template #tooltip-trigger>
+                    <PTypography variant="body2" component="span" class="measures-cost-trigger">
+                      {{ formatCurrency(m.cost?.installed_cost_total) }}
+                    </PTypography>
+                  </template>
+                  <template #tooltip-content>
+                    <span class="measures-cost-tooltip">
+                      Range: {{ formatCurrency(m.cost.cost_range.low) }} – {{ formatCurrency(m.cost.cost_range.high) }}
+                    </span>
+                  </template>
+                </PTooltip>
+                <PTypography v-else variant="body2" component="span">
+                  {{ formatCurrency(m.cost?.installed_cost_total) }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span" :style="{ color: paybackColor(clampedPayback(m.simple_payback_years)), fontWeight: 600 }">
+                  {{ formatNumber(clampedPayback(m.simple_payback_years)) }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">
+                  {{ m.electricity_savings_kwh != null ? Math.round(m.electricity_savings_kwh * sqft).toLocaleString() : '\u2014' }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">
+                  {{ m.gas_savings_therms != null ? Math.round(m.gas_savings_therms * sqft).toLocaleString() : '\u2014' }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">
+                  {{ m.other_fuel_savings_kbtu != null ? Math.round(m.other_fuel_savings_kbtu * sqft).toLocaleString() : '\u2014' }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">
+                  {{ m.emissions_reduction_pct != null ? formatNumber(m.emissions_reduction_pct) + '%' : '\u2014' }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--mono measures-cell--right">
-                <PTypography variant="body2" component="span">&#8212;</PTypography>
+                <PTypography variant="body2" component="span">
+                  {{ m.cost?.useful_life_years != null ? m.cost.useful_life_years : '\u2014' }}
+                </PTypography>
               </PTableCell>
               <PTableCell class="measures-cell measures-cell--desc">
                 <div class="measures-desc-content" v-if="m.description">
@@ -464,7 +561,63 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
           </PTableBody>
         </PTable>
       </div>
+
+    <!-- Non-applicable measures collapsible -->
+    <div v-if="nonApplicableMeasures.length > 0" class="measures-section">
+      <PButton
+        variant="neutral"
+        appearance="text"
+        size="small"
+        :icon="showNonApplicable ? 'chevron-down' : 'chevron-right'"
+        @click="showNonApplicable = !showNonApplicable"
+      >
+        {{ nonApplicableMeasures.length }} Non-Applicable Measures
+      </PButton>
     </div>
+
+    <div v-if="nonApplicableMeasures.length > 0 && showNonApplicable" class="measures-table-wrapper measures-nonapplicable__table measures-table-wrapper--secondary">
+        <PTable class="measures-table">
+          <PTableBody>
+            <PTableRow
+              v-for="m in nonApplicableMeasures"
+              :key="m.upgrade_id"
+              class="measures-row--dimmed"
+            >
+              <PTableCell class="measures-cell measures-cell--name">
+                <PTypography variant="body2">{{ m.name }}</PTypography>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--category">
+                <PBadge :variant="getCategoryConfig(m.category).variant" appearance="standard">
+                  {{ getCategoryConfig(m.category).label }}
+                </PBadge>
+              </PTableCell>
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--mono measures-cell--right" />
+              <PTableCell class="measures-cell measures-cell--desc">
+                <div class="measures-desc-content" v-if="m.description">
+                  <PIcon
+                    :name="isDescExpanded(m.upgrade_id) ? 'chevron-down' : 'chevron-right'"
+                    size="small"
+                    class="measures-desc-row-icon"
+                    @click="toggleDescRow(m.upgrade_id)"
+                  />
+                  <PTypography variant="body2" component="span">
+                    {{ isDescExpanded(m.upgrade_id) ? m.description : truncateText(m.description, DESC_TRUNCATE_LENGTH) }}
+                  </PTypography>
+                </div>
+                <PTypography v-else variant="body2" component="span">&#8212;</PTypography>
+              </PTableCell>
+            </PTableRow>
+          </PTableBody>
+        </PTable>
+      </div>
   </div>
 </template>
 
@@ -517,7 +670,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
  * Reference: SL Heaven AssetPlanner table pattern.
  */
 .measures-table-wrapper {
-  max-height: 75vh;
+  max-height: 586px;
   overflow-y: auto;
   overflow-x: scroll;
   position: relative;
@@ -702,6 +855,17 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 /* ---- Dimmed (non-applicable) rows ---- */
 .measures-row--dimmed {
   opacity: 0.45;
+}
+
+
+/* ---- Collapsible section toggle ---- */
+.measures-section {
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.measures-packages__table {
+  max-height: 50vh;
 }
 
 /* ---- Non-applicable section ---- */

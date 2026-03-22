@@ -1184,24 +1184,27 @@
       "dataset": "comstock",
       "upgrade_name": "Secondary Windows",
       "measure_category": "envelope_window_secondary",
-      "cost_mid": 143.43,
-      "cost_low": null,
-      "cost_high": null,
+      "cost_mid": 27.5,
+      "cost_low": 15.0,
+      "cost_high": 40.0,
       "cost_basis": "$/ft^2 glazing",
       "cost_year_dollars": 2023,
       "useful_life_years": 25.0,
-      "cost_type": "full_replacement",
-      "scout_ecm_name": "(C) 90.1-2022 Windows",
-      "confidence": "high",
+      "cost_type": "retrofit_add",
+      "scout_ecm_name": null,
+      "confidence": "medium",
       "sources": [
         {
-          "title": "Scout Baseline Envelope Characteristics Database",
-          "author": "U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, Building Technologies Office",
+          "title": "DOE/PNNL Secondary Window Technology Review",
+          "author": "Pacific Northwest National Laboratory",
           "year": 2023,
-          "url": "https://github.com/trynthink/scout/blob/master/scout/supporting_data/convert_data/cpl_envelope_mels.json"
+          "url": ""
+        },
+        {
+          "name": "Industry estimates for interior storm / secondary glazing panels (commercial)"
         }
       ],
-      "notes": "Secondary windows (interior storm); using window ECM as upper bound proxy",
+      "notes": "Interior storm panels installed over existing glazing; significantly cheaper than full window replacement. Previous value ($143.43) was incorrectly copied from full replacement windows (upgrade 52).",
       "description": "Installs secondary window panels (interior storm windows) over existing windows to reduce air leakage and improve thermal resistance without full window replacement."
     },
     "51": {
@@ -1257,25 +1260,30 @@
       "dataset": "comstock",
       "upgrade_name": "Code Envelope",
       "measure_category": "envelope_code",
-      "cost_mid": 1.05,
-      "cost_low": 0.91,
-      "cost_high": 1.19,
-      "cost_basis": "$/ft^2 wall",
+      "is_package": true,
+      "component_upgrade_ids": [48, 49, 52],
+      "cost_method": "sum_of_components",
+      "cost_mid": 145.95,
+      "cost_low": 145.95,
+      "cost_high": 145.95,
+      "cost_basis": "mixed (see components)",
       "cost_year_dollars": 2023,
-      "useful_life_years": 100.0,
+      "useful_life_years": null,
       "cost_type": "full_replacement",
-      "scout_ecm_name": "(C) 90.1-2022 Walls & Air Sealing",
-      "confidence": "high",
+      "scout_ecm_name": null,
+      "confidence": "medium",
       "sources": [
         {
-          "title": "Scout Baseline Envelope Characteristics Database",
-          "author": "U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy, Building Technologies Office",
-          "year": 2023,
-          "url": "https://github.com/trynthink/scout/blob/master/scout/supporting_data/convert_data/cpl_envelope_mels.json"
+          "name": "Sum of component upgrade costs (wall insulation + roof insulation + new windows)"
         }
       ],
-      "notes": "Code-level envelope upgrade (walls + air sealing)",
-      "description": "Upgrades the complete building envelope (walls, roof, windows, and air sealing) to meet current energy code minimum requirements."
+      "component_details": [
+        "[48] Wall Insulation",
+        "[49] Roof Insulation",
+        "[52] New Windows"
+      ],
+      "notes": "Code-level envelope upgrade per ComStock measure env_0006. ComStock upgrades walls, roof, and windows to current ASHRAE 90.1 code. Previous cost used Scout walls+air sealing ECM only ($1.05/ft^2 wall), missing roof and window components entirely.",
+      "description": "Upgrades the complete building envelope (walls, roof, and windows) to meet current energy code minimum requirements."
     },
     "54": {
       "upgrade_id": 54,
