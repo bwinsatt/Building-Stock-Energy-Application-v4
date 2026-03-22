@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { PTypography, PIcon, PButton } from '@partnerdevops/partner-components'
+import { PTypography, PIcon } from '@partnerdevops/partner-components'
 import { useEnergyStarScore } from '../composables/useEnergyStarScore'
 import type { BuildingInput, BaselineResult, ProjectedEui, EnergyStarResponse } from '../types/assessment'
 

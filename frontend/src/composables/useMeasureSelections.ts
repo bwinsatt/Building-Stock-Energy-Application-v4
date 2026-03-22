@@ -4,7 +4,6 @@ import type {
   MeasureResult,
   BaselineResult,
   BuildingInput,
-  FuelBreakdown,
   ProjectedEui,
   EnergyStarResponse,
 } from '../types/assessment'

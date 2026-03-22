@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { PTypography } from '@partnerdevops/partner-components'
 import BaselineSummary from './BaselineSummary.vue'
 import MeasuresTable from './MeasuresTable.vue'
