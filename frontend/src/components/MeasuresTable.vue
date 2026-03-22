@@ -771,14 +771,23 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 }
 
 /* ---- Checkbox column ---- */
-.measures-th--checkbox,
+.measures-th--checkbox {
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  position: sticky;
+  left: 0;
+  z-index: 11; /* match other header sticky cells (name, category) */
+  text-align: center;
+}
+
 .measures-cell--checkbox {
   width: 40px;
   min-width: 40px;
   max-width: 40px;
   position: sticky;
   left: 0;
-  z-index: 11;
+  z-index: 3; /* same as other body sticky cells */
   background-color: inherit;
   text-align: center;
 }
