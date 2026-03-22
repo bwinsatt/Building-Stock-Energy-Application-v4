@@ -39,11 +39,18 @@ watch(result, async (newResult) => {
   if (!newResult || !selectedProjectId.value || !lastBuilding.value) return
   saveStatus.value = 'saving'
   try {
+    const utilityKeys = ['annual_electricity_kwh', 'annual_natural_gas_therms', 'annual_fuel_oil_gallons', 'annual_propane_gallons', 'annual_district_heating_kbtu'] as const
+    const utilityData: Record<string, number> = {}
+    for (const key of utilityKeys) {
+      if (lastBuilding.value[key] != null) {
+        utilityData[key] = lastBuilding.value[key]
+      }
+    }
     const building = await createBuilding(
       selectedProjectId.value,
       lastAddress.value || lastBuilding.value.zipcode,
       lastBuilding.value as unknown as Record<string, unknown>,
-      undefined, // utility_data
+      Object.keys(utilityData).length > 0 ? utilityData : undefined,
       lastLookupResult.value as unknown as Record<string, unknown>,
     )
     await saveAssessment(
