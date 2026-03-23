@@ -35,6 +35,9 @@ frontend/partner-components/node_modules/
 # Worktrees
 .worktrees/
 
+# Superpowers brainstorm artifacts
+.superpowers/
+
 # Generated artifacts (regenerable from scripts)
 scripts/validation_results/
 XGB_Models/ResStock_Upgrades_2025_R1/training_results_delta.xlsx
