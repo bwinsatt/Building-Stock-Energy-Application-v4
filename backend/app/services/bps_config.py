@@ -9,17 +9,17 @@ BPS_CONFIGS: dict = {
         "california": {
             "ordinance_name": "CA AB802",
             "endpoints": {
-                "2018": {"Benchmarking": "CA_AB802_database, 2025.04.28.csv"},
+                "2024": {"Benchmarking": "CA_AB802_2024.csv"},
             },
-            "address_field": "Address",
+            "address_field": "Address 1",
             "api_type": "csv",
         },
         "colorado": {
             "ordinance_name": "CO BPS",
             "endpoints": {
-                "2022": {"Benchmarking": "CO_BPS_2022-2025, 2025.05.07.csv"},
+                "2025": {"Benchmarking": "CO_BPS_2025.csv"},
             },
-            "address_field": "address_line_1_107",
+            "address_field": "Building Street Address",
             "api_type": "csv",
         },
     },
@@ -27,7 +27,7 @@ BPS_CONFIGS: dict = {
         "montgomery county, maryland": {
             "ordinance_name": "Montgomery County Benchmarking",
             "endpoints": {
-                "2023": {"Benchmarking": "https://data.montgomerycountymd.gov/resource/ensr-8pr2.json"},
+                "2024": {"Benchmarking": "https://data.montgomerycountymd.gov/resource/g6nn-rgwc.json"},
             },
             "address_field": "address",
             "api_type": "socrata",
@@ -46,8 +46,8 @@ BPS_CONFIGS: dict = {
         "denver, colorado": {
             "ordinance_name": "Energize Denver",
             "endpoints": {
+                "2024": {"Benchmarking": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/ArcGIS/rest/services/Energize_Denver_2024_Final_Master_Data_Set/FeatureServer/0/query"},
                 "2023": {"Benchmarking": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/ArcGIS/rest/services/_2023_Final_Master_Dataset/FeatureServer/0/query"},
-                "2022": {"Benchmarking": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC__2022_Final_Master_Dataset/FeatureServer/28/query"},
             },
             "address_field": "Street",
             "api_type": "arcgis",
@@ -88,7 +88,7 @@ BPS_CONFIGS: dict = {
         "los angeles, california": {
             "ordinance_name": "LA EBEWE",
             "endpoints": {
-                "2023": {"Benchmarking": "https://data.lacity.org/resource/9yda-i4ya.json"},
+                "2025": {"Benchmarking": "https://data.lacity.org/resource/9yda-i4ya.json"},
             },
             "address_field": "building_address",
             "api_type": "socrata",
@@ -96,10 +96,7 @@ BPS_CONFIGS: dict = {
         "san francisco, california": {
             "ordinance_name": "San Francisco Benchmarking",
             "endpoints": {
-                "2011": {
-                    "Benchmarking": "https://data.sfgov.org/resource/96ck-qcfe.json",
-                    "Audit Compliance": "SF_Audit_Compliance.csv",
-                },
+                "2025": {"Benchmarking": "https://data.sfgov.org/resource/4ua7-5sfx.json"},
             },
             "address_field": "building_address",
             "api_type": "socrata",
@@ -107,7 +104,7 @@ BPS_CONFIGS: dict = {
         "berkeley, california": {
             "ordinance_name": "Berkeley BESO",
             "endpoints": {
-                "2020": {"Benchmarking": "https://data.cityofberkeley.info/resource/5vy5-rwja.json"},
+                "2024": {"Benchmarking": "https://data.cityofberkeley.info/resource/5vy5-rwja.json"},
             },
             "address_field": "building_address",
             "api_type": "socrata",
@@ -127,7 +124,7 @@ BPS_CONFIGS: dict = {
         "cambridge, massachusetts": {
             "ordinance_name": "Cambridge BEUDO",
             "endpoints": {
-                "2023": {"Benchmarking": "https://data.cambridgema.gov/resource/72g6-j7aq.json"},
+                "2024": {"Benchmarking": "https://data.cambridgema.gov/resource/72g6-j7aq.json"},
             },
             "address_field": "address",
             "api_type": "socrata",
@@ -135,7 +132,7 @@ BPS_CONFIGS: dict = {
         "seattle, washington": {
             "ordinance_name": "Seattle Benchmarking",
             "endpoints": {
-                "2015": {"Benchmarking": "https://data.seattle.gov/resource/teqw-tu6e.json"},
+                "2024": {"Benchmarking": "https://data.seattle.gov/resource/teqw-tu6e.json"},
             },
             "address_field": "address",
             "api_type": "socrata",
@@ -155,6 +152,25 @@ BPS_CONFIGS: dict = {
             },
             "address_field": "Property Address Street*",
             "api_type": "csv",
+        },
+        "kansas city, missouri": {
+            "ordinance_name": "Kansas City Benchmarking",
+            "endpoints": {
+                "2023": {"Benchmarking": "https://data.kcmo.org/resource/p92b-cm6v.json"},
+                "2022": {"Benchmarking": "https://data.kcmo.org/resource/eys4-sd8d.json"},
+            },
+            "address_field": "building_address",
+            "api_type": "socrata",
+        },
+        "san jose, california": {
+            "ordinance_name": "San Jose BPO",
+            "endpoints": {
+                "2024": {"Benchmarking": "f7723c73-8ee3-43cd-9a3e-a8761cc29905"},
+                "2023": {"Benchmarking": "5cfd24d1-4a49-4e7f-a243-04238a46bb2a"},
+            },
+            "base_url": "https://data.sanjoseca.gov/api/3/action/datastore_search",
+            "address_field": "STREET",
+            "api_type": "ckan",
         },
         "philadelphia, pennsylvania": {
             "ordinance_name": "Philadelphia Benchmarking",
@@ -227,7 +243,9 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "address_1": "matched_address",
     },
     "Energize Denver": {
+        "Site_EUI__kBtu_sq_ft_": "site_eui_kbtu_sf",
         "Site_EUI__kBtu_Sq_Ft_": "site_eui_kbtu_sf",
+        "Electricity_Use___Grid_Purchase__KWh_": "electricity_kwh",
         "Electricity_Use_Grid_Purchase_a": "electricity_kbtu",
         "Natural_Gas_Use__kBtu_": "natural_gas_kbtu",
         "Energy_Star_Score": "energy_star_score",
@@ -280,6 +298,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "site_eui_kbtu_ft2": "site_eui_kbtu_sf",
         "electricity_use_grid_purchase_kwh": "electricity_kwh",
         "natural_gas_use_therms": "natural_gas_therms",
+        "district_steam_use_kbtu": "district_steam_kbtu",
         "energy_star_score": "energy_star_score",
         "address": "matched_address",
     },
@@ -290,12 +309,13 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "energy_star_score": "energy_star_score",
         "building_name": "property_name",
         "building_address": "matched_address",
+        "benchmark_year": "reporting_year",
     },
     "Berkeley BESO": {
-        "_2023_site_eui_kbtu_ft2_": "site_eui_kbtu_sf",
-        "_2023_electricity_use_grid_purchase_kwh_": "electricity_kwh",
-        "_2023_natural_gas_use_kbtu_": "natural_gas_kbtu",
-        "_2023_energy_star_score": "energy_star_score",
+        "_2024_site_eui_kbtu_ft2_": "site_eui_kbtu_sf",
+        "_2024_electricity_use_grid_purchase_kwh_": "electricity_kwh",
+        "_2024_natural_gas_use_therms_": "natural_gas_therms",
+        "_2024_energy_star_score": "energy_star_score",
         "property_building_name": "property_name",
         "building_address": "matched_address",
     },
@@ -326,15 +346,19 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "commercial_property_property_street_address": "matched_address",
     },
     "CA AB802": {
-        "EUI String": "site_eui_kbtu_sf",
+        "Weather Normalized Site EUI (kBtu/ft²)": "site_eui_kbtu_sf",
         "Electricity Use - Grid Purchase (kBtu)": "electricity_kbtu",
         "Natural Gas Use (kBtu)": "natural_gas_kbtu",
-        "ENERGY STAR Score Range": "energy_star_score",
-        "Building Name": "property_name",
-        "Address": "matched_address",
+        "District Steam Use (kBtu)": "district_steam_kbtu",
+        "District Hot Water Use (kBtu)": "district_hot_water_kbtu",
+        "Fuel Oil #2 Use (kBtu)": "fuel_oil_kbtu",
+        "ENERGY STAR Score": "energy_star_score",
+        "Property Name": "property_name",
+        "Address 1": "matched_address",
     },
     "CO BPS": {
-        "address_line_1_107": "matched_address",
+        "Weather Normalized Site EUI (kBtu/ft²)": "site_eui_kbtu_sf",
+        "Building Street Address": "matched_address",
     },
     "Miami Benchmarking": {
         "Site EUI**": "site_eui_kbtu_sf",
@@ -344,6 +368,24 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "Property Address Street*": "matched_address",
     },
     "Montgomery County Benchmarking": {
+        "site_eui": "site_eui_kbtu_sf",
+        "electricity_kwh": "electricity_kwh",
+        "natural_gas_therms": "natural_gas_therms",
+        "energy_star_score": "energy_star_score",
+        "building_name": "property_name",
         "address": "matched_address",
+    },
+    "Kansas City Benchmarking": {
+        "weather_normalized_site_eui": "site_eui_kbtu_sf",
+        "energy_star_score": "energy_star_score",
+        "building_name": "property_name",
+        "building_address": "matched_address",
+    },
+    "San Jose BPO": {
+        "SITE ENERGY USE INTENSITY (kBTU/ft^2)": "site_eui_kbtu_sf",
+        "TOTAL ELECTRICITY USE (kWh)": "electricity_kwh",
+        "TOTAL NATURAL GAS USE (therms)": "natural_gas_therms",
+        "ENERGY STAR SCORE": "energy_star_score",
+        "STREET": "matched_address",
     },
 }

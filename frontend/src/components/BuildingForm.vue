@@ -304,7 +304,7 @@ function onSubmit() {
           <button
             type="button"
             class="bps-banner__action"
-            @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
+            @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode, lookupResult!.bbl)"
           >
             Search Records
           </button>
@@ -372,7 +372,7 @@ function onSubmit() {
         <button
           type="button"
           class="bps-banner__action"
-          @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode)"
+          @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode, lookupResult!.bbl)"
         >
           Retry
         </button>

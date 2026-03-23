@@ -82,7 +82,7 @@ export const HVAC_CATEGORIES: HvacCategory[] = [
   },
   {
     key: 'central_chiller_boiler',
-    label: 'Central Boiler + Chiller',
+    label: 'Central Hydronic System',
     defaultVariant: 'VAV chiller with gas boiler reheat',
     datasets: ['comstock', 'resstock'],
     variants: [

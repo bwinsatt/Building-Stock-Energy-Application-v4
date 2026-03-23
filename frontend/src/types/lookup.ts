@@ -19,6 +19,7 @@ export interface LookupResponse {
   bps_ordinance_name: string | null
   city: string | null
   state: string | null
+  bbl: string | null
 }
 
 export interface AddressSuggestion {

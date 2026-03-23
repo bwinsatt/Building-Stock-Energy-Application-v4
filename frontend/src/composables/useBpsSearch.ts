@@ -14,6 +14,7 @@ export function useBpsSearch() {
     city?: string | null,
     state?: string | null,
     zipcode?: string | null,
+    bbl?: string | null,
   ): Promise<void> {
     loading.value = true
     error.value = null
@@ -24,6 +25,7 @@ export function useBpsSearch() {
     if (city) params.set('city', city)
     if (state) params.set('state', state)
     if (zipcode) params.set('zipcode', zipcode)
+    if (bbl) params.set('bbl', bbl)
 
     try {
       const resp = await fetch(`${API_BASE}/bps/search?${params}`)

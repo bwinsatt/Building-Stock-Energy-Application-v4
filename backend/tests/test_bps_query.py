@@ -16,13 +16,13 @@ def test_nyc_config_exists():
     assert "2024" in nyc["endpoints"]
 
 
-def test_all_18_ordinances_present():
+def test_all_20_ordinances_present():
     total = (
         len(BPS_CONFIGS["city"])
         + len(BPS_CONFIGS["county"])
         + len(BPS_CONFIGS["state"])
     )
-    assert total == 18
+    assert total == 20
 
 
 def test_zipcode_overrides_nyc():
