@@ -45,6 +45,14 @@ class Database:
                     calibrated  BOOLEAN,
                     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
+                CREATE TABLE IF NOT EXISTS measure_selections (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    building_id INTEGER NOT NULL UNIQUE,
+                    selected_upgrade_ids TEXT NOT NULL DEFAULT '[]',
+                    projected_espm TEXT,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (building_id) REFERENCES buildings(id) ON DELETE CASCADE
+                );
             """)
             try:
                 conn.execute("ALTER TABLE buildings ADD COLUMN lookup_data JSON")
@@ -146,9 +154,11 @@ class Database:
                 "INSERT INTO assessments (building_id, result, calibrated) VALUES (?, ?, ?)",
                 (building_id, json.dumps(result), calibrated),
             )
-            return self._row_to_dict(
-                conn.execute("SELECT * FROM assessments WHERE id = ?", (cursor.lastrowid,)).fetchone()
-            )
+            row = conn.execute("SELECT * FROM assessments WHERE id = ?", (cursor.lastrowid,)).fetchone()
+            assessment = self._row_to_dict(row)
+        # Clear stale projected ESPM (baseline changed)
+        self.clear_projected_espm(building_id)
+        return assessment
 
     def get_assessments(self, building_id: int) -> list[dict]:
         with self._connect() as conn:
@@ -157,3 +167,48 @@ class Database:
                 (building_id,),
             ).fetchall()
             return [self._row_to_dict(r) for r in rows]
+
+    # --- Measure Selections ---
+
+    def save_selections(self, building_id: int, upgrade_ids: list[int]) -> None:
+        with self._connect() as conn:
+            conn.execute(
+                """INSERT INTO measure_selections (building_id, selected_upgrade_ids, updated_at)
+                   VALUES (?, ?, CURRENT_TIMESTAMP)
+                   ON CONFLICT(building_id)
+                   DO UPDATE SET selected_upgrade_ids = excluded.selected_upgrade_ids,
+                                 updated_at = CURRENT_TIMESTAMP""",
+                (building_id, json.dumps(upgrade_ids)),
+            )
+
+    def get_selections(self, building_id: int) -> dict:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT selected_upgrade_ids, projected_espm, updated_at FROM measure_selections WHERE building_id = ?",
+                (building_id,),
+            ).fetchone()
+        if row is None:
+            return {"selected_upgrade_ids": [], "projected_espm": None, "updated_at": None}
+        return {
+            "selected_upgrade_ids": json.loads(row[0]),
+            "projected_espm": json.loads(row[1]) if row[1] else None,
+            "updated_at": row[2],
+        }
+
+    def save_projected_espm(self, building_id: int, espm_result: dict) -> None:
+        with self._connect() as conn:
+            conn.execute(
+                """UPDATE measure_selections
+                   SET projected_espm = ?, updated_at = CURRENT_TIMESTAMP
+                   WHERE building_id = ?""",
+                (json.dumps(espm_result), building_id),
+            )
+
+    def clear_projected_espm(self, building_id: int) -> None:
+        with self._connect() as conn:
+            conn.execute(
+                """UPDATE measure_selections
+                   SET projected_espm = NULL, updated_at = CURRENT_TIMESTAMP
+                   WHERE building_id = ?""",
+                (building_id,),
+            )

@@ -56,6 +56,7 @@ def _fetch_nyc_building_data(bin_id: str) -> dict | None:
         footprint = resp.json()[0]
         bbl = footprint.get("base_bbl") or footprint.get("mpluto_bbl")
         result = {
+            "bbl": bbl,
             "height_roof": footprint.get("heightroof") or footprint.get("height_roof"),
             "construction_year": footprint.get("cnstrct_yr") or footprint.get("construction_year"),
         }
@@ -499,6 +500,7 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
     building_fields: dict[str, dict] = {}
     target_polygon = None
     nearby_buildings = []
+    nyc_data = None
 
     if matched:
         tags = matched["tags"]
@@ -718,6 +720,9 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
             bps_available = True
             bps_ordinance_name = bps_check["ordinance_name"]
 
+    # Extract BBL from NYC data if available
+    bbl = nyc_data.get("bbl") if nyc_data else None
+
     return {
         "address": geo["address"],
         "lat": lat,
@@ -730,4 +735,5 @@ def lookup_address(address: str, imputation_service: ImputationService | None = 
         "bps_ordinance_name": bps_ordinance_name,
         "city": city,
         "state": state_name,
+        "bbl": bbl,
     }

@@ -12,12 +12,20 @@ import {
   PTypography,
   PTooltip,
   PIcon,
+  PCheckbox,
 } from '@partnerdevops/partner-components'
 import type { MeasureResult } from '../types/assessment'
 
 const props = defineProps<{
   measures: MeasureResult[]
   sqft: number
+  selectedUpgradeIds?: Set<number>
+  disabledByPackage?: Map<number, string>
+  replaceMessage?: string | null
+}>()
+
+const emit = defineEmits<{
+  'toggle-measure': [upgradeId: number]
 }>()
 
 // ---- Sorting ----
@@ -234,6 +242,12 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
       </div>
     </div>
 
+    <!-- Replace notification -->
+    <div v-if="replaceMessage" class="measures-replace-msg">
+      <PIcon name="information" size="small" />
+      {{ replaceMessage }}
+    </div>
+
     <!-- Individual measures collapsible (expanded by default) -->
     <div class="measures-section">
       <PButton
@@ -251,6 +265,9 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
       <PTable class="measures-table">
         <PTableHeader variant="gray-fill" size="small" :single-sort="true">
           <PTableRow>
+            <PTableHead class="measures-th measures-th--checkbox">
+              <!-- Empty header for checkbox column -->
+            </PTableHead>
             <PTableHead class="measures-th measures-th--name">
               Measure
             </PTableHead>
@@ -322,6 +339,22 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
             v-for="m in sortedIndividual"
             :key="m.upgrade_id"
           >
+            <PTableCell class="measures-cell measures-cell--checkbox">
+              <PCheckbox
+                v-if="!disabledByPackage?.has(m.upgrade_id)"
+                :checked="selectedUpgradeIds?.has(m.upgrade_id) ?? false"
+                size="small"
+                @changed="emit('toggle-measure', m.upgrade_id)"
+              />
+              <PTooltip v-else direction="top">
+                <template #tooltip-trigger>
+                  <PCheckbox :checked="false" disabled size="small" />
+                </template>
+                <template #tooltip-content>
+                  Included in {{ disabledByPackage?.get(m.upgrade_id) }}
+                </template>
+              </PTooltip>
+            </PTableCell>
             <PTableCell class="measures-cell measures-cell--name">
               <PTypography variant="body2">{{ m.name }}</PTypography>
             </PTableCell>
@@ -429,6 +462,8 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
         <PTable class="measures-table">
           <PTableHeader variant="gray-fill" size="small" :single-sort="true">
             <PTableRow>
+              <PTableHead class="measures-th measures-th--checkbox">
+              </PTableHead>
               <PTableHead class="measures-th measures-th--name">Measure</PTableHead>
               <PTableHead class="measures-th measures-th--category">Category</PTableHead>
               <PTableHead
@@ -478,6 +513,13 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
               v-for="m in sortedPackages"
               :key="m.upgrade_id"
             >
+              <PTableCell class="measures-cell measures-cell--checkbox">
+                <PCheckbox
+                  :checked="selectedUpgradeIds?.has(m.upgrade_id) ?? false"
+                  size="small"
+                  @changed="emit('toggle-measure', m.upgrade_id)"
+                />
+              </PTableCell>
               <PTableCell class="measures-cell measures-cell--name">
                 <PTypography variant="body2">{{ m.name }}</PTypography>
               </PTableCell>
@@ -583,6 +625,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
               :key="m.upgrade_id"
               class="measures-row--dimmed"
             >
+              <PTableCell class="measures-cell measures-cell--checkbox" />
               <PTableCell class="measures-cell measures-cell--name">
                 <PTypography variant="body2">{{ m.name }}</PTypography>
               </PTableCell>
@@ -727,15 +770,37 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   border-bottom: 1px solid var(--partner-border-disabled, #e2e8f0);
 }
 
+/* ---- Checkbox column ---- */
+.measures-th--checkbox {
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  position: sticky;
+  left: 0;
+  z-index: 11; /* match other header sticky cells (name, category) */
+  text-align: center;
+}
+
+.measures-cell--checkbox {
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  position: sticky;
+  left: 0;
+  z-index: 3; /* same as other body sticky cells */
+  background-color: inherit;
+  text-align: center;
+}
+
 .measures-th--name {
   min-width: 220px;
-  left: 0;
+  left: 40px;
   z-index: 11;
 }
 
 .measures-th--category {
   min-width: 120px;
-  left: 220px;
+  left: 260px;
   z-index: 11;
 }
 
@@ -754,7 +819,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
   color: var(--partner-text-primary, #333e47);
   min-width: 220px;
   position: sticky;
-  left: 0;
+  left: 40px;
   z-index: 3;
   background-color: inherit;
 }
@@ -762,7 +827,7 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 .measures-cell--category {
   min-width: 120px;
   position: sticky;
-  left: 220px;
+  left: 260px;
   z-index: 3;
   background-color: inherit;
 }
@@ -880,6 +945,18 @@ function truncateText(text: string | undefined | null, maxLength: number): strin
 
 .measures-table-wrapper--secondary {
   max-height: 40vh;
+}
+
+/* ---- Replace notification ---- */
+.measures-replace-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--partner-blue-7);
+  background: var(--partner-blue-1);
+  border-top: 1px solid var(--partner-blue-3);
 }
 
 /* ---- Responsive ---- */

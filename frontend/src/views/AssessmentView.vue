@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { PTypography, PIcon } from '@partnerdevops/partner-components'
 import { useAssessment } from '../composables/useAssessment'
 import { useProjects } from '../composables/useProjects'
@@ -9,6 +9,7 @@ import BaselineSummary from '../components/BaselineSummary.vue'
 import MeasuresTable from '../components/MeasuresTable.vue'
 import AssumptionsPanel from '../components/AssumptionsPanel.vue'
 import EnergyStarScore from '../components/EnergyStarScore.vue'
+import { useMeasureSelections } from '../composables/useMeasureSelections'
 import type { BuildingInput } from '../types/assessment'
 import type { LookupResponse } from '../types/lookup'
 
@@ -21,6 +22,41 @@ const selectedProjectId = ref<number | null>(null)
 const lastLookupResult = ref<LookupResponse | null>(null)
 const lastAddress = ref('')
 const saveStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle')
+
+const measuresRef = computed(() => result.value?.measures ?? [])
+const baselineRef = computed(() => result.value?.baseline ?? null)
+const buildingIdRef = ref<number | null>(null)
+const addressRef = computed(() => lastAddress.value || null)
+
+const {
+  selectedUpgradeIds,
+  disabledByPackage,
+  projectedEui,
+  projectedEspm,
+  projectedLoading,
+  projectedError,
+  toggleMeasure,
+  loadSelections,
+  reconcileSelections,
+  calculateProjectedScore,
+} = useMeasureSelections(measuresRef, baselineRef, lastBuilding, buildingIdRef, addressRef, selectedProjectId)
+
+const replaceMessage = ref<string | null>(null)
+let replaceTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleToggleMeasure(upgradeId: number) {
+  const result = toggleMeasure(upgradeId)
+  if (result?.action === 'replace' && result.replaced) {
+    const names = result.replaced
+      .map(id => measuresRef.value.find(m => m.upgrade_id === id)?.name)
+      .filter(Boolean)
+    replaceMessage.value = `Replaced ${names.join(', ')} with package`
+    if (replaceTimer) clearTimeout(replaceTimer)
+    replaceTimer = setTimeout(() => { replaceMessage.value = null }, 4000)
+  } else {
+    replaceMessage.value = null
+  }
+}
 
 function onLookupComplete(lookupResult: LookupResponse | null, address: string) {
   lastLookupResult.value = lookupResult
@@ -59,6 +95,9 @@ watch(result, async (newResult) => {
       newResult as unknown as Record<string, unknown>,
       newResult.calibrated ?? false,
     )
+    buildingIdRef.value = building.id
+    await loadSelections()
+    reconcileSelections()
     saveStatus.value = 'saved'
   } catch {
     saveStatus.value = 'error'
@@ -139,12 +178,25 @@ watch(result, async (newResult) => {
         :building="lastBuilding"
         :baseline="result.baseline"
         :address="lastAddress"
+        :selected-count="selectedUpgradeIds.size"
+        :projected-eui="projectedEui"
+        :projected-espm="projectedEspm"
+        :projected-loading="projectedLoading"
+        :projected-error="projectedError"
+        @calculate-projected="calculateProjectedScore"
       />
 
       <!-- Separator between baseline and measures -->
       <div class="section-separator" aria-hidden="true" />
 
-      <MeasuresTable :measures="result.measures" :sqft="lastSqft" />
+      <MeasuresTable
+        :measures="result.measures"
+        :sqft="lastSqft"
+        :selected-upgrade-ids="selectedUpgradeIds"
+        :disabled-by-package="disabledByPackage"
+        :replace-message="replaceMessage"
+        @toggle-measure="handleToggleMeasure"
+      />
     </template>
   </div>
 </template>

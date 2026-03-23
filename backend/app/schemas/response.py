@@ -43,6 +43,8 @@ class MeasureResult(BaseModel):
     gas_savings_therms: Optional[float] = None
     other_fuel_savings_kbtu: Optional[float] = None
     description: Optional[str] = None
+    savings_by_fuel: Optional[FuelBreakdown] = None
+    constituent_upgrade_ids: Optional[list[int]] = None
 
 
 class ImputedField(BaseModel):

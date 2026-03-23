@@ -107,3 +107,76 @@ def test_cascade_delete(db):
     db.save_assessment(building_id=1, result={"v": 1}, calibrated=False)
     db.delete_project(1)
     assert db.get_assessments(building_id=1) == []
+
+
+def test_save_selections(db):
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    db.save_selections(building_id=1, upgrade_ids=[3, 5, 8])
+    result = db.get_selections(building_id=1)
+    assert result is not None
+    assert result["selected_upgrade_ids"] == [3, 5, 8]
+    assert result["projected_espm"] is None
+    assert result["updated_at"] is not None
+
+
+def test_save_selections_upsert(db):
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    db.save_selections(building_id=1, upgrade_ids=[3, 5])
+    db.save_selections(building_id=1, upgrade_ids=[3, 5, 8, 10])
+    result = db.get_selections(building_id=1)
+    assert result["selected_upgrade_ids"] == [3, 5, 8, 10]
+
+
+def test_get_selections_empty(db):
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    result = db.get_selections(building_id=1)
+    assert result is not None
+    assert result["selected_upgrade_ids"] == []
+    assert result["projected_espm"] is None
+    assert result["updated_at"] is None
+
+
+def test_save_projected_espm(db):
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    db.save_selections(building_id=1, upgrade_ids=[3, 5])
+    espm = {"score": 72, "eligible": True, "espm_property_type": "Office"}
+    db.save_projected_espm(building_id=1, espm_result=espm)
+    result = db.get_selections(building_id=1)
+    assert result["projected_espm"]["score"] == 72
+
+
+def test_clear_projected_espm(db):
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    db.save_selections(building_id=1, upgrade_ids=[3, 5])
+    db.save_projected_espm(building_id=1, espm_result={"score": 72})
+    db.clear_projected_espm(building_id=1)
+    result = db.get_selections(building_id=1)
+    assert result["projected_espm"] is None
+    assert result["selected_upgrade_ids"] == [3, 5]  # preserved
+
+
+def test_clear_projected_espm_on_reassessment(db):
+    """Saving a new assessment should clear projected ESPM."""
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    db.save_selections(building_id=1, upgrade_ids=[3, 5])
+    db.save_projected_espm(building_id=1, espm_result={"score": 72})
+    db.save_assessment(building_id=1, result={"baseline": {}}, calibrated=False)
+    result = db.get_selections(building_id=1)
+    assert result["projected_espm"] is None
+    assert result["selected_upgrade_ids"] == [3, 5]
+
+
+def test_selections_cascade_delete(db):
+    """Deleting a building should cascade-delete its selections."""
+    db.create_project("Test Project")
+    db.create_building(1, "123 Main St", {"building_type": "Office", "sqft": 50000})
+    db.save_selections(building_id=1, upgrade_ids=[3])
+    db.delete_project(1)
+    result = db.get_selections(building_id=1)
+    assert result["selected_upgrade_ids"] == []

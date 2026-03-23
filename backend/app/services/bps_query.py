@@ -534,28 +534,117 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
 # ---------------------------------------------------------------------------
 
 
+async def _query_socrata_by_bbl(
+    bbl: str, config: dict, client: httpx.AsyncClient | None = None,
+) -> list[dict]:
+    """Query NYC LL84 Socrata API by BBL (Borough-Block-Lot).
+
+    Tries both raw (1012710071) and hyphenated (1-01271-0071) BBL formats
+    since the dataset contains both.
+    """
+    from app.services.bps_config import BPS_SOCRATA_TOKEN
+
+    bbl_field = "nyc_borough_block_and_lot"
+    raw_bbl = bbl.replace("-", "")
+    # Format as hyphenated: B-BBBBB-LLLL
+    if "-" not in bbl and len(raw_bbl) == 10:
+        hyphenated_bbl = f"{raw_bbl[0]}-{raw_bbl[1:6]}-{raw_bbl[6:]}"
+    else:
+        hyphenated_bbl = bbl
+
+    clauses = [f"{bbl_field}='{raw_bbl}'"]
+    if hyphenated_bbl != raw_bbl:
+        clauses.append(f"{bbl_field}='{hyphenated_bbl}'")
+
+    should_close = client is None
+    if client is None:
+        client = httpx.AsyncClient(timeout=_BPS_TIMEOUT)
+
+    try:
+        years = sorted(config["endpoints"].keys(), reverse=True)
+        for year in years:
+            datasets = config["endpoints"][year]
+            if isinstance(datasets, str):
+                datasets = {"Benchmarking": datasets}
+
+            for dataset_name, endpoint in datasets.items():
+                if not endpoint.startswith("http"):
+                    continue
+                params = {"$where": " OR ".join(clauses)}
+                headers = {"X-App-Token": BPS_SOCRATA_TOKEN} if BPS_SOCRATA_TOKEN else {}
+
+                try:
+                    resp = await client.get(endpoint, params=params, headers=headers)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        if data:
+                            return data
+                except (httpx.TimeoutException, httpx.HTTPError) as e:
+                    logger.warning("BPS BBL query failed for %s %s: %s", year, dataset_name, e)
+                    continue
+
+        return []
+    finally:
+        if should_close:
+            await client.aclose()
+
+
+def _build_result(record: dict, ordinance_name: str, config: dict, confidence: float) -> dict:
+    """Build a standardized BPS result from a matched record."""
+    field_mapping = FIELD_MAPPINGS.get(ordinance_name, {})
+    result = _transform_result(record, field_mapping)
+    result["ordinance_name"] = ordinance_name
+    result["match_confidence"] = confidence
+
+    record_year = record.get("report_year") or record.get("calendar_year") or record.get("year")
+    if record_year:
+        try:
+            result["reporting_year"] = int(record_year)
+        except (ValueError, TypeError):
+            result["reporting_year"] = None
+    else:
+        years = sorted(config["endpoints"].keys(), reverse=True)
+        result["reporting_year"] = int(years[0]) if years else None
+
+    return result
+
+
 async def query_bps(
     address: str,
     city: str,
     state: str,
     county: str | None,
     zipcode: str | None = None,
+    bbl: str | None = None,
 ) -> dict | None:
     """Search BPS benchmarking databases for a building."""
     availability = check_bps_availability(city, state, county, zipcode)
     if availability is None:
         return None
 
-    # Normalize to street-only before querying and matching — Nominatim
-    # addresses include building names, neighborhoods, etc. that break
-    # building-number extraction and fuzzy matching.
-    street = _extract_street(address)
-
     config_key = availability["config_key"]
     tier = availability["tier"]
     config = BPS_CONFIGS[tier][config_key]
     ordinance_name = config["ordinance_name"]
     api_type = config["api_type"]
+
+    # NYC BBL-based lookup — deterministic match, no fuzzy matching needed.
+    if bbl and ordinance_name == "NYC LL84":
+        records = await _query_socrata_by_bbl(bbl, config)
+        if records:
+            # Take most recent year
+            _YEAR_FIELDS = ("report_year", "calendar_year", "year")
+            for yf in _YEAR_FIELDS:
+                if records[0].get(yf) is not None:
+                    records.sort(key=lambda r: str(r.get(yf, "")), reverse=True)
+                    break
+            return _build_result(records[0], ordinance_name, config, confidence=1.0)
+        logger.info("BBL %s not found in LL84 data, falling back to address matching", bbl)
+
+    # Normalize to street-only before querying and matching — Nominatim
+    # addresses include building names, neighborhoods, etc. that break
+    # building-number extraction and fuzzy matching.
+    street = _extract_street(address)
 
     if api_type == "socrata":
         records = await _query_socrata(street, config)
@@ -597,21 +686,4 @@ async def query_bps(
     if match is None:
         return None
 
-    field_mapping = FIELD_MAPPINGS.get(ordinance_name, {})
-    result = _transform_result(match["record"], field_mapping)
-    result["ordinance_name"] = ordinance_name
-    result["match_confidence"] = match["confidence"]
-
-    # Prefer the actual year from the record; fall back to config key
-    record = match["record"]
-    record_year = record.get("report_year") or record.get("calendar_year") or record.get("year")
-    if record_year:
-        try:
-            result["reporting_year"] = int(record_year)
-        except (ValueError, TypeError):
-            result["reporting_year"] = None
-    else:
-        years = sorted(config["endpoints"].keys(), reverse=True)
-        result["reporting_year"] = int(years[0]) if years else None
-
-    return result
+    return _build_result(match["record"], ordinance_name, config, match["confidence"])

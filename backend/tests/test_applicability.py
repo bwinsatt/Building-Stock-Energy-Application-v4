@@ -725,3 +725,32 @@ class TestEdgeCases:
     def test_baseline_always_applicable(self):
         features = _comstock_features()
         assert check_applicability(0, "comstock", features, ALL_COMSTOCK) is True
+
+
+# ── PACKAGE_CONSTITUENTS mapping ───────────────────────────────────────────
+
+from app.inference.applicability import PACKAGE_CONSTITUENTS
+
+
+def test_package_constituents_mapping_exists():
+    assert isinstance(PACKAGE_CONSTITUENTS, dict)
+    # Package 1 (54) = wall + roof + windows
+    assert 54 in PACKAGE_CONSTITUENTS
+    assert isinstance(PACKAGE_CONSTITUENTS[54], list)
+    assert len(PACKAGE_CONSTITUENTS[54]) > 0
+
+
+def test_package_constituents_no_self_reference():
+    """Package constituent lists should not include the package's own ID."""
+    for pkg_id, constituents in PACKAGE_CONSTITUENTS.items():
+        assert pkg_id not in constituents, f"Package {pkg_id} contains itself"
+
+
+def test_package_constituents_are_valid_upgrade_ids():
+    """All constituent IDs should be individual upgrade IDs, not other packages."""
+    all_package_ids = set(PACKAGE_CONSTITUENTS.keys())
+    for pkg_id, constituents in PACKAGE_CONSTITUENTS.items():
+        for c in constituents:
+            assert c not in all_package_ids, (
+                f"Package {pkg_id} references another package {c}"
+            )

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { PTypography } from '@partnerdevops/partner-components'
 import BaselineSummary from './BaselineSummary.vue'
 import MeasuresTable from './MeasuresTable.vue'
 import AssumptionsPanel from './AssumptionsPanel.vue'
 import EnergyStarScore from './EnergyStarScore.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
+import { useMeasureSelections } from '../composables/useMeasureSelections'
 import type { Building, Assessment } from '../types/projects'
 import type { BuildingResult, BuildingInput, BaselineResult, MeasureResult, InputSummary } from '../types/assessment'
 
@@ -33,6 +34,43 @@ const calibrated = computed(() => props.assessment.calibrated)
 
 // Map data from lookup_data stored on the building
 const lookupData = computed(() => props.building.lookup_data)
+
+const buildingIdRef = computed(() => props.building.id ?? null)
+const projectIdRef = computed(() => props.building.project_id ?? null)
+const addressRef = computed(() => props.building.address ?? null)
+
+const {
+  selectedUpgradeIds,
+  disabledByPackage,
+  projectedEui,
+  projectedEspm,
+  projectedLoading,
+  projectedError,
+  toggleMeasure,
+  loadSelections,
+  reconcileSelections,
+  calculateProjectedScore,
+} = useMeasureSelections(measures, baseline, buildingInput, buildingIdRef, addressRef, projectIdRef)
+
+const replaceMessage = ref<string | null>(null)
+let replaceTimer: ReturnType<typeof setTimeout> | null = null
+
+function handleToggleMeasure(upgradeId: number) {
+  const res = toggleMeasure(upgradeId)
+  if (res?.action === 'replace' && res.replaced) {
+    const names = res.replaced
+      .map(id => measures.value.find(m => m.upgrade_id === id)?.name)
+      .filter(Boolean)
+    replaceMessage.value = `Replaced ${names.join(', ')} with package`
+    if (replaceTimer) clearTimeout(replaceTimer)
+    replaceTimer = setTimeout(() => { replaceMessage.value = null }, 4000)
+  } else {
+    replaceMessage.value = null
+  }
+}
+
+// Load selections on mount
+loadSelections().then(() => reconcileSelections())
 </script>
 
 <template>
@@ -64,9 +102,22 @@ const lookupData = computed(() => props.building.lookup_data)
         :building="buildingInput"
         :baseline="baseline"
         :address="building.address"
+        :selected-count="selectedUpgradeIds.size"
+        :projected-eui="projectedEui"
+        :projected-espm="projectedEspm"
+        :projected-loading="projectedLoading"
+        :projected-error="projectedError"
+        @calculate-projected="calculateProjectedScore"
       />
       <div class="section-separator" aria-hidden="true" />
-      <MeasuresTable :measures="measures" :sqft="sqft" />
+      <MeasuresTable
+        :measures="measures"
+        :sqft="sqft"
+        :selected-upgrade-ids="selectedUpgradeIds"
+        :disabled-by-package="disabledByPackage"
+        :replace-message="replaceMessage"
+        @toggle-measure="handleToggleMeasure"
+      />
     </template>
 
     <div v-else class="empty-state">

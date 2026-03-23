@@ -2,9 +2,11 @@ import asyncio
 import logging
 
 from fastapi import APIRouter, Request, HTTPException
+from pydantic import BaseModel
+from typing import Optional
 
-from app.schemas.request import AssessmentRequest
-from app.schemas.response import AssessmentResponse
+from app.schemas.request import AssessmentRequest, BuildingInput
+from app.schemas.response import AssessmentResponse, BaselineResult, FuelBreakdown
 from app.schemas.lookup_response import LookupResponse
 from app.schemas.energy_star import EnergyStarRequest, EnergyStarResponse
 from app.services.assessment import assess_buildings
@@ -149,6 +151,7 @@ async def bps_search(
     state: str | None = None,
     zipcode: str | None = None,
     county: str | None = None,
+    bbl: str | None = None,
 ):
     """Search BPS benchmarking databases for a building's energy data."""
     if not city or not state:
@@ -175,7 +178,7 @@ async def bps_search(
         except Exception:
             pass
 
-    result = await query_bps(address, city, state, county, zipcode)
+    result = await query_bps(address, city, state, county, zipcode, bbl=bbl)
     if result is None:
         raise HTTPException(status_code=404, detail="No benchmarking data found for this address")
 
@@ -196,6 +199,31 @@ async def autocomplete(q: str = "") -> list[dict]:
         }
         for s in suggestions
     ]
+
+
+class ProjectedScoreRequest(BaseModel):
+    building: BuildingInput
+    projected_eui_by_fuel: dict
+    address: Optional[str] = None
+
+
+@router.post("/energy-star/projected-score", response_model=EnergyStarResponse)
+async def projected_energy_star_score(req: ProjectedScoreRequest):
+    # Construct a synthetic BaselineResult from the projected fuel breakdown
+    projected_baseline = BaselineResult(
+        total_eui_kbtu_sf=sum(req.projected_eui_by_fuel.values()),
+        eui_by_fuel=FuelBreakdown(**req.projected_eui_by_fuel),
+    )
+
+    service = EnergyStarService()
+    try:
+        return service.get_score(
+            building=req.building,
+            baseline=projected_baseline,
+            address=req.address,
+        )
+    except RuntimeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
 
 
 @router.post("/energy-star/score", response_model=EnergyStarResponse)

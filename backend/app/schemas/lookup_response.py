@@ -20,3 +20,4 @@ class LookupResponse(BaseModel):
     bps_ordinance_name: Optional[str] = None
     city: Optional[str] = None
     state: Optional[str] = None
+    bbl: Optional[str] = None
