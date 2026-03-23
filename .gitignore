@@ -40,8 +40,17 @@ frontend/partner-components/node_modules/
 
 # Generated artifacts (regenerable from scripts)
 scripts/validation_results/
+scripts/*_results*.csv
 XGB_Models/ResStock_Upgrades_2025_R1/training_results_delta.xlsx
 Validation/CBECS/cbecs_validation_results.xlsx
+
+# Runtime databases
+backend/app/data/buildingstock.db
+backend/app/data/buildingstock.db-shm
+backend/app/data/buildingstock.db-wal
+
+# Training artifacts
+catboost_info/
 
 # Environment
 .env
