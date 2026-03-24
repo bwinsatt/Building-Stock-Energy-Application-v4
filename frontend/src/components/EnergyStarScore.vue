@@ -1,23 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { PTypography, PIcon } from '@partnerdevops/partner-components'
 import { useEnergyStarScore } from '../composables/useEnergyStarScore'
-import type { BuildingInput, BaselineResult, ProjectedEui, EnergyStarResponse } from '../types/assessment'
 
-const props = defineProps<{
-  building: BuildingInput
-  baseline: BaselineResult
-  address?: string | null
-  selectedCount?: number
-  projectedEui?: ProjectedEui | null
-  projectedEspm?: EnergyStarResponse | null
-  projectedLoading?: boolean
-  projectedError?: string | null
-}>()
+const props = defineProps({
+  building: { type: Object, required: true },
+  baseline: { type: Object, required: true },
+  address: { type: String, default: null },
+  selectedCount: { type: Number, default: 0 },
+  projectedEui: { type: Object, default: null },
+  projectedEspm: { type: Object, default: null },
+  projectedLoading: { type: Boolean, default: false },
+  projectedError: { type: String, default: null },
+})
 
-const emit = defineEmits<{
-  'calculate-projected': []
-}>()
+const emit = defineEmits(['calculate-projected'])
 
 const { loading, error, result, fetchScore } = useEnergyStarScore()
 
@@ -25,14 +22,13 @@ function handleClick() {
   fetchScore(props.building, props.baseline, props.address)
 }
 
-function formatNumber(value: number): string {
+function formatNumber(value) {
   return value.toLocaleString('en-US', { maximumFractionDigits: 1 })
 }
 
 // ---- State machine ----
-type ScoreState = 'trigger' | 'baseline-only' | 'measures-selected' | 'projected'
 
-const scoreState = computed<ScoreState>(() => {
+const scoreState = computed(() => {
   if (!result.value) return 'trigger'
   if (props.projectedEspm) return 'projected'
   if ((props.selectedCount ?? 0) > 0) return 'measures-selected'
@@ -40,14 +36,14 @@ const scoreState = computed<ScoreState>(() => {
 })
 
 // ---- Score color using Partner tokens ----
-function scoreColor(score: number | null): string {
+function scoreColor(score) {
   if (score == null) return 'var(--partner-gray-5)'
   if (score >= 75) return 'var(--partner-green-7)'
   if (score >= 50) return 'var(--partner-yellow-7)'
   return 'var(--partner-orange-7)'
 }
 
-function scoreDasharray(score: number | null): string {
+function scoreDasharray(score) {
   if (score == null) return '0 314'
   return `${(score / 100) * 314} 314`
 }

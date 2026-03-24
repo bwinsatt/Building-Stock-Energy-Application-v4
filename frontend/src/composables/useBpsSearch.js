@@ -1,21 +1,14 @@
 import { ref } from 'vue'
-import type { BpsSearchResult } from '../types/bps'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
 export function useBpsSearch() {
   const loading = ref(false)
-  const result = ref<BpsSearchResult | null>(null)
-  const error = ref<string | null>(null)
+  const result = ref(null)
+  const error = ref(null)
   const searched = ref(false)
 
-  async function search(
-    address: string,
-    city?: string | null,
-    state?: string | null,
-    zipcode?: string | null,
-    bbl?: string | null,
-  ): Promise<void> {
+  async function search(address, city, state, zipcode, bbl) {
     loading.value = true
     error.value = null
     result.value = null
@@ -37,7 +30,7 @@ export function useBpsSearch() {
         throw new Error('Search failed')
       }
       result.value = await resp.json()
-    } catch (e: unknown) {
+    } catch (e) {
       error.value = e instanceof Error ? e.message : 'Search failed'
     } finally {
       loading.value = false

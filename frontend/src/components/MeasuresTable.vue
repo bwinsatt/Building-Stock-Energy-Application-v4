@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import {
   PTable,
@@ -14,28 +14,23 @@ import {
   PIcon,
   PCheckbox,
 } from '@partnerdevops/partner-components'
-import type { MeasureResult } from '../types/assessment'
 
-const props = defineProps<{
-  measures: MeasureResult[]
-  sqft: number
-  selectedUpgradeIds?: Set<number>
-  disabledByPackage?: Map<number, string>
-  replaceMessage?: string | null
-}>()
+const props = defineProps({
+  measures: { type: Array, required: true },
+  sqft: { type: Number, required: true },
+  selectedUpgradeIds: { type: Set, default: undefined },
+  disabledByPackage: { type: Map, default: undefined },
+  replaceMessage: { type: String, default: null },
+})
 
-const emit = defineEmits<{
-  'toggle-measure': [upgradeId: number]
-}>()
+const emit = defineEmits(['toggle-measure'])
 
 // ---- Sorting ----
 
-type SortColumn = 'savings_pct' | 'annual_savings' | 'installed_cost' | 'payback'
+const sortColumn = ref('payback')
+const sortDirection = ref('asc')
 
-const sortColumn = ref<SortColumn>('payback')
-const sortDirection = ref<'asc' | 'desc'>('asc')
-
-function handleSort(col: SortColumn, dir: 'asc' | 'desc' | undefined) {
+function handleSort(col, dir) {
   if (dir === undefined) {
     // PTableHead cycles through asc -> desc -> undefined; reset to asc for the column
     sortColumn.value = col
@@ -46,16 +41,16 @@ function handleSort(col: SortColumn, dir: 'asc' | 'desc' | undefined) {
   }
 }
 
-function getSortDirection(col: SortColumn): 'asc' | 'desc' | undefined {
+function getSortDirection(col) {
   return sortColumn.value === col ? sortDirection.value : undefined
 }
 
-function clampedPayback(val?: number): number | undefined {
+function clampedPayback(val) {
   if (val == null) return undefined
   return Math.max(0, val)
 }
 
-function getSortValue(m: MeasureResult, col: SortColumn): number | null {
+function getSortValue(m, col) {
   switch (col) {
     case 'savings_pct':
       return m.savings_pct ?? null
@@ -84,7 +79,7 @@ const nonApplicableMeasures = computed(() => {
   return props.measures.filter((m) => !m.applicable)
 })
 
-function sortMeasures(items: MeasureResult[]): MeasureResult[] {
+function sortMeasures(items) {
   const sorted = [...items]
   const dir = sortDirection.value === 'asc' ? 1 : -1
   const col = sortColumn.value
@@ -118,12 +113,12 @@ const summaryStats = computed(() => {
 
   const paybacks = applicable
     .map((m) => clampedPayback(m.simple_payback_years))
-    .filter((v): v is number => v != null)
+    .filter((v) => v != null)
   const bestPayback = paybacks.length > 0 ? Math.min(...paybacks) : null
 
   const savings = applicable
     .map((m) => m.savings_pct)
-    .filter((v): v is number => v != null)
+    .filter((v) => v != null)
   const maxSavings = savings.length > 0 ? Math.max(...savings) : null
 
   return { count, bestPayback, maxSavings }
@@ -131,14 +126,7 @@ const summaryStats = computed(() => {
 
 // ---- Category badge mapping ----
 
-type BadgeVariant = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'neutral'
-
-interface CategoryConfig {
-  variant: BadgeVariant
-  label: string
-}
-
-const CATEGORY_DISPLAY_MAP: Record<string, { variant: BadgeVariant; label: string }> = {
+const CATEGORY_DISPLAY_MAP = {
   hvac: { variant: 'primary', label: 'HVAC' },
   envelope: { variant: 'success', label: 'Envelope' },
   lighting: { variant: 'warning', label: 'Lighting' },
@@ -149,7 +137,7 @@ const CATEGORY_DISPLAY_MAP: Record<string, { variant: BadgeVariant; label: strin
   package: { variant: 'primary', label: 'Package' },
 }
 
-function getCategoryConfig(category: string): CategoryConfig {
+function getCategoryConfig(category) {
   const lower = category.toLowerCase()
   for (const [key, config] of Object.entries(CATEGORY_DISPLAY_MAP)) {
     if (lower.includes(key)) return config
@@ -165,17 +153,17 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 })
 
-function formatCurrency(val?: number): string {
+function formatCurrency(val) {
   return val != null ? currencyFormatter.format(val) : '\u2014'
 }
 
-function formatNumber(val?: number, decimals = 1): string {
+function formatNumber(val, decimals = 1) {
   return val != null ? val.toFixed(decimals) : '\u2014'
 }
 
 // ---- Payback color ----
 
-function paybackColor(val?: number): string {
+function paybackColor(val) {
   if (val == null) return '#94a3b8'
   if (val < 5) return '#22c55e'
   if (val <= 15) return '#eab308'
@@ -187,13 +175,13 @@ function paybackColor(val?: number): string {
 const DESC_TRUNCATE_LENGTH = 90
 
 const allDescExpanded = ref(false)
-const expandedDescIds = ref(new Set<number>())
+const expandedDescIds = ref(new Set())
 
-function isDescExpanded(upgradeId: number): boolean {
+function isDescExpanded(upgradeId) {
   return allDescExpanded.value || expandedDescIds.value.has(upgradeId)
 }
 
-function toggleDescRow(upgradeId: number) {
+function toggleDescRow(upgradeId) {
   const ids = new Set(expandedDescIds.value)
   if (ids.has(upgradeId)) {
     ids.delete(upgradeId)
@@ -211,7 +199,7 @@ function toggleDescAll() {
   expandedDescIds.value = new Set()
 }
 
-function truncateText(text: string | undefined | null, maxLength: number): string {
+function truncateText(text, maxLength) {
   if (!text) return '\u2014'
   if (text.length <= maxLength) return text
   return text.substring(0, maxLength) + '...'

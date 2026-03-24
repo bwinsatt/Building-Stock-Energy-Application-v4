@@ -1,13 +1,12 @@
 import { ref } from 'vue'
-import type { Project } from '../types/projects'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export function useProjects() {
-  const projects = ref<Project[]>([])
-  const currentProject = ref<Project | null>(null)
+  const projects = ref([])
+  const currentProject = ref(null)
   const loading = ref(false)
-  const error = ref<string | null>(null)
+  const error = ref(null)
 
   async function fetchProjects() {
     loading.value = true
@@ -15,28 +14,28 @@ export function useProjects() {
     try {
       const resp = await fetch(`${API_BASE}/projects`)
       projects.value = await resp.json()
-    } catch (e: any) {
+    } catch (e) {
       error.value = e.message
     } finally {
       loading.value = false
     }
   }
 
-  async function fetchProject(id: number) {
+  async function fetchProject(id) {
     loading.value = true
     error.value = null
     try {
       const resp = await fetch(`${API_BASE}/projects/${id}`)
       if (!resp.ok) throw new Error('Project not found')
       currentProject.value = await resp.json()
-    } catch (e: any) {
+    } catch (e) {
       error.value = e.message
     } finally {
       loading.value = false
     }
   }
 
-  async function createProject(name: string) {
+  async function createProject(name) {
     const resp = await fetch(`${API_BASE}/projects`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +46,7 @@ export function useProjects() {
     return project
   }
 
-  async function deleteProject(id: number) {
+  async function deleteProject(id) {
     await fetch(`${API_BASE}/projects/${id}`, { method: 'DELETE' })
     projects.value = projects.value.filter(p => p.id !== id)
     if (currentProject.value?.id === id) {
@@ -56,10 +55,10 @@ export function useProjects() {
   }
 
   async function createBuilding(
-    projectId: number, address: string,
-    buildingInput: Record<string, unknown>,
-    utilityData?: Record<string, unknown>,
-    lookupData?: Record<string, unknown>,
+    projectId, address,
+    buildingInput,
+    utilityData,
+    lookupData,
   ) {
     const resp = await fetch(`${API_BASE}/projects/${projectId}/buildings`, {
       method: 'POST',
@@ -75,15 +74,15 @@ export function useProjects() {
     return await resp.json()
   }
 
-  async function fetchBuilding(projectId: number, buildingId: number) {
+  async function fetchBuilding(projectId, buildingId) {
     const resp = await fetch(`${API_BASE}/projects/${projectId}/buildings/${buildingId}`)
     if (!resp.ok) throw new Error('Building not found')
     return await resp.json()
   }
 
   async function saveAssessment(
-    projectId: number, buildingId: number,
-    result: Record<string, unknown>, calibrated: boolean,
+    projectId, buildingId,
+    result, calibrated,
   ) {
     const resp = await fetch(
       `${API_BASE}/projects/${projectId}/buildings/${buildingId}/assessments`,

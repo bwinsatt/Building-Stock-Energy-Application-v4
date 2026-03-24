@@ -1,6 +1,5 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from 'vue'
-import type { BuildingInput } from '../types/assessment'
 import {
   WALL_CONSTRUCTIONS,
   WINDOW_TYPES,
@@ -13,28 +12,24 @@ import {
   WALL_INSULATIONS_RESSTOCK,
   INFILTRATION_RATES_RESSTOCK,
 } from '../config/dropdowns'
-import type { HvacVariant } from '../config/dropdowns'
 import { PNumericInput, PButton, PTypography } from '@partnerdevops/partner-components'
 
 const CENTRAL_SYSTEM_VARIANTS = ['Fan Coil Units', 'Baseboards / Radiators']
 
-const props = defineProps<{
-  modelValue: Partial<BuildingInput>
-  hvacCategory: string
-  buildingType: string
-}>()
+const props = defineProps({
+  modelValue: { type: Object, required: true },
+  hvacCategory: { type: String, required: true },
+  buildingType: { type: String, required: true },
+})
 
-const emit = defineEmits<{
-  'update:modelValue': [value: Partial<BuildingInput>]
-  'update:hvacVariant': [value: string]
-}>()
+const emit = defineEmits(['update:modelValue', 'update:hvacVariant'])
 
 const expanded = ref(false)
 const selectedVariant = ref('')
 
 const currentDataset = computed(() => props.buildingType === 'Multi-Family' ? 'resstock' : 'comstock')
 
-const hvacVariants = computed<HvacVariant[]>(() => {
+const hvacVariants = computed(() => {
   if (!props.hvacCategory) return []
   const cat = HVAC_CATEGORIES.find(c => c.key === props.hvacCategory)
   if (!cat) return []
@@ -44,7 +39,7 @@ const hvacVariants = computed<HvacVariant[]>(() => {
 const isCentralSystem = computed(() => CENTRAL_SYSTEM_VARIANTS.includes(selectedVariant.value))
 
 // Filter water heater efficiencies by selected DHW fuel (show all if none selected)
-const DHW_FUEL_PREFIX: Record<string, string> = {
+const DHW_FUEL_PREFIX = {
   NaturalGas: 'Natural Gas',
   Electricity: 'Electric',
   FuelOil: 'Fuel Oil',
@@ -74,7 +69,7 @@ watch(selectedVariant, (val) => {
   }
 })
 
-function update(field: keyof BuildingInput, value: string | number | undefined) {
+function update(field, value) {
   emit('update:modelValue', { ...props.modelValue, [field]: value })
 }
 </script>
@@ -125,7 +120,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
             id="wall-construction"
             :value="modelValue.wall_construction ?? ''"
             class="form-select"
-            @change="update('wall_construction', ($event.target as HTMLSelectElement).value || undefined)"
+            @change="update('wall_construction', $event.target.value || undefined)"
           >
             <option value="">-- Select --</option>
             <option v-for="opt in WALL_CONSTRUCTIONS" :key="opt" :value="opt">{{ opt }}</option>
@@ -139,7 +134,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
             id="window-type"
             :value="modelValue.window_type ?? ''"
             class="form-select"
-            @change="update('window_type', ($event.target as HTMLSelectElement).value || undefined)"
+            @change="update('window_type', $event.target.value || undefined)"
           >
             <option value="">-- Select --</option>
             <option v-for="opt in WINDOW_TYPES" :key="opt" :value="opt">{{ opt }}</option>
@@ -153,7 +148,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
             id="wwr"
             :value="modelValue.window_to_wall_ratio ?? ''"
             class="form-select"
-            @change="update('window_to_wall_ratio', ($event.target as HTMLSelectElement).value || undefined)"
+            @change="update('window_to_wall_ratio', $event.target.value || undefined)"
           >
             <option value="">-- Select --</option>
             <option v-for="opt in WINDOW_TO_WALL_RATIOS" :key="opt" :value="opt">{{ opt }}</option>
@@ -167,7 +162,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
             id="lighting-type"
             :value="modelValue.lighting_type ?? ''"
             class="form-select"
-            @change="update('lighting_type', ($event.target as HTMLSelectElement).value || undefined)"
+            @change="update('lighting_type', $event.target.value || undefined)"
           >
             <option value="">-- Select --</option>
             <option v-for="opt in LIGHTING_TYPES" :key="opt" :value="opt">{{ opt }}</option>
@@ -195,7 +190,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
               :value="isCentralSystem ? 'Shared Heating' : (modelValue.hvac_heating_efficiency ?? '')"
               class="form-select"
               :disabled="isCentralSystem"
-              @change="update('hvac_heating_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
+              @change="update('hvac_heating_efficiency', $event.target.value || undefined)"
             >
               <option value="">-- Auto --</option>
               <option v-for="opt in HVAC_HEATING_EFFICIENCIES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
@@ -210,7 +205,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
               :value="isCentralSystem ? 'Shared Cooling' : (modelValue.hvac_cooling_efficiency ?? '')"
               class="form-select"
               :disabled="isCentralSystem"
-              @change="update('hvac_cooling_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
+              @change="update('hvac_cooling_efficiency', $event.target.value || undefined)"
             >
               <option value="">-- Auto --</option>
               <option v-for="opt in HVAC_COOLING_EFFICIENCIES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
@@ -224,7 +219,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
               id="wh-efficiency"
               :value="modelValue.water_heater_efficiency ?? ''"
               class="form-select"
-              @change="update('water_heater_efficiency', ($event.target as HTMLSelectElement).value || undefined)"
+              @change="update('water_heater_efficiency', $event.target.value || undefined)"
             >
               <option value="">-- Auto --</option>
               <option v-for="opt in filteredWaterHeaterEfficiencies" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
@@ -238,7 +233,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
               id="wall-insulation"
               :value="modelValue.insulation_wall ?? ''"
               class="form-select"
-              @change="update('insulation_wall', ($event.target as HTMLSelectElement).value || undefined)"
+              @change="update('insulation_wall', $event.target.value || undefined)"
             >
               <option value="">-- Auto --</option>
               <option v-for="opt in WALL_INSULATIONS_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
@@ -252,7 +247,7 @@ function update(field: keyof BuildingInput, value: string | number | undefined) 
               id="infiltration"
               :value="modelValue.infiltration ?? ''"
               class="form-select"
-              @change="update('infiltration', ($event.target as HTMLSelectElement).value || undefined)"
+              @change="update('infiltration', $event.target.value || undefined)"
             >
               <option value="">-- Auto --</option>
               <option v-for="opt in INFILTRATION_RATES_RESSTOCK" :key="opt.value" :value="opt.value">{{ opt.label }}</option>

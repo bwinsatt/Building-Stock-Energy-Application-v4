@@ -1,36 +1,28 @@
 import { ref, computed } from 'vue'
-import type { Ref } from 'vue'
-import type {
-  MeasureResult,
-  BaselineResult,
-  BuildingInput,
-  ProjectedEui,
-  EnergyStarResponse,
-} from '../types/assessment'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
 export function useMeasureSelections(
-  measures: Ref<MeasureResult[]>,
-  baseline: Ref<BaselineResult | null>,
-  building: Ref<BuildingInput | null>,
-  buildingId: Ref<number | null>,
-  address: Ref<string | null>,
-  projectId: Ref<number | null>,
+  measures,
+  baseline,
+  building,
+  buildingId,
+  address,
+  projectId,
 ) {
   function _selectionsUrl(suffix = '') {
     return `${API_BASE}/projects/${projectId.value}/buildings/${buildingId.value}/selections${suffix}`
   }
 
-  const selectedUpgradeIds = ref<Set<number>>(new Set())
-  const projectedEspm = ref<EnergyStarResponse | null>(null)
+  const selectedUpgradeIds = ref(new Set())
+  const projectedEspm = ref(null)
   const projectedLoading = ref(false)
-  const projectedError = ref<string | null>(null)
+  const projectedError = ref(null)
   const initialized = ref(false)
 
   // --- Package constituent map (derived from measures data) ---
-  const packageConstituentMap = computed<Map<number, number[]>>(() => {
-    const map = new Map<number, number[]>()
+  const packageConstituentMap = computed(() => {
+    const map = new Map()
     for (const m of measures.value) {
       if (m.constituent_upgrade_ids && m.constituent_upgrade_ids.length > 0) {
         map.set(m.upgrade_id, m.constituent_upgrade_ids)
@@ -40,8 +32,8 @@ export function useMeasureSelections(
   })
 
   // --- Disabled individual measure IDs (locked out by selected packages) ---
-  const disabledByPackage = computed<Map<number, string>>(() => {
-    const map = new Map<number, string>()
+  const disabledByPackage = computed(() => {
+    const map = new Map()
     for (const [pkgId, constituents] of packageConstituentMap.value) {
       if (selectedUpgradeIds.value.has(pkgId)) {
         const pkgName = measures.value.find(m => m.upgrade_id === pkgId)?.name ?? 'a package'
@@ -54,7 +46,7 @@ export function useMeasureSelections(
   })
 
   // --- Projected EUI (computed client-side) ---
-  const projectedEui = computed<ProjectedEui | null>(() => {
+  const projectedEui = computed(() => {
     if (!baseline.value || selectedUpgradeIds.value.size === 0) return null
 
     const baseByFuel = baseline.value.eui_by_fuel
@@ -94,7 +86,7 @@ export function useMeasureSelections(
   })
 
   // --- Toggle measure selection ---
-  function toggleMeasure(upgradeId: number): { action: 'selected' | 'deselected' | 'replace'; replaced?: number[] } | null {
+  function toggleMeasure(upgradeId) {
     // Don't allow selecting disabled measures
     if (disabledByPackage.value.has(upgradeId)) return null
 
@@ -199,7 +191,7 @@ export function useMeasureSelections(
       measures.value.filter(m => m.applicable).map(m => m.upgrade_id)
     )
     const current = selectedUpgradeIds.value
-    const reconciled = new Set<number>()
+    const reconciled = new Set()
     let changed = false
     for (const id of current) {
       if (validIds.has(id)) {
@@ -247,7 +239,7 @@ export function useMeasureSelections(
         )
       }
     } catch (e) {
-      projectedError.value = (e as Error).message
+      projectedError.value = e.message
     } finally {
       projectedLoading.value = false
     }

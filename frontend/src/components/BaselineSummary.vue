@@ -1,27 +1,17 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { PTypography, PTooltip } from '@partnerdevops/partner-components'
-import type { BaselineResult, FuelBreakdown } from '../types/assessment'
 
 const KWH_TO_KBTU = 3.412
 const THERM_TO_KBTU = 100
 
-const props = defineProps<{
-  baseline: BaselineResult
-  sqft: number
-  calibrated?: boolean
-}>()
+const props = defineProps({
+  baseline: { type: Object, required: true },
+  sqft: { type: Number, required: true },
+  calibrated: { type: Boolean, default: false },
+})
 
-interface FuelConfig {
-  key: keyof FuelBreakdown
-  label: string
-  color: string
-  badgeVariant: 'warning' | 'primary' | 'secondary' | 'error' | 'neutral'
-  /** Convert total kBtu to display unit. If undefined, stays as kBtu. */
-  displayUnit?: { label: string; abbr: string; convert: (kbtu: number) => number }
-}
-
-const fuelConfigs: FuelConfig[] = [
+const fuelConfigs = [
   {
     key: 'electricity', label: 'Electricity', color: '#eab308', badgeVariant: 'warning',
     displayUnit: { label: 'kWh', abbr: 'kWh', convert: (kbtu) => kbtu / KWH_TO_KBTU },
@@ -48,23 +38,23 @@ const totalAnnualEnergy = computed(() => {
 })
 
 /** Format large numbers with commas */
-function formatNumber(value: number): string {
+function formatNumber(value) {
   return Math.round(value).toLocaleString('en-US')
 }
 
 /** Percentage of total EUI for a given fuel */
-function fuelPercent(key: keyof FuelBreakdown): number {
+function fuelPercent(key) {
   if (props.baseline.total_eui_kbtu_sf === 0) return 0
   return (props.baseline.eui_by_fuel[key] / props.baseline.total_eui_kbtu_sf) * 100
 }
 
 /** Total kBtu for a given fuel */
-function fuelTotalKbtu(key: keyof FuelBreakdown): number {
+function fuelTotalKbtu(key) {
   return props.baseline.eui_by_fuel[key] * props.sqft
 }
 
 /** Get display value and unit for the right-side consumption list */
-function fuelConsumption(fuel: FuelConfig): { value: string; unit: string } {
+function fuelConsumption(fuel) {
   const totalKbtu = fuelTotalKbtu(fuel.key)
   if (fuel.displayUnit) {
     return {

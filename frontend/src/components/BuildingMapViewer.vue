@@ -1,18 +1,18 @@
-<script setup lang="ts">
+<script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
-const props = defineProps<{
-  lat: number
-  lon: number
-  targetPolygon: number[][] | null
-  nearbyBuildings: Array<{ polygon: number[][]; levels: number | null }>
-  numStories: number
-}>()
+const props = defineProps({
+  lat: { type: Number, required: true },
+  lon: { type: Number, required: true },
+  targetPolygon: { type: Array, default: null },
+  nearbyBuildings: { type: Array, required: true },
+  numStories: { type: Number, required: true },
+})
 
-const mapContainer = ref<HTMLDivElement>()
-let map: maplibregl.Map | null = null
+const mapContainer = ref()
+let map = null
 
 const FLOOR_HEIGHT_M = 3.4
 
@@ -60,13 +60,13 @@ function addBuildingLayers() {
   // Nearby buildings (flat, muted)
   if (props.nearbyBuildings.length > 0) {
     const nearbyFeatures = props.nearbyBuildings.map((b) => ({
-      type: 'Feature' as const,
+      type: 'Feature',
       properties: {
         height: (b.levels || 1) * FLOOR_HEIGHT_M,
       },
       geometry: {
-        type: 'Polygon' as const,
-        coordinates: [b.polygon.map((coord) => [coord[1], coord[0]] as [number, number])],
+        type: 'Polygon',
+        coordinates: [b.polygon.map((coord) => [coord[1], coord[0]])],
       },
     }))
 
@@ -99,7 +99,7 @@ function addBuildingLayers() {
         properties: { height: targetHeight },
         geometry: {
           type: 'Polygon',
-          coordinates: [props.targetPolygon.map((coord) => [coord[1], coord[0]] as [number, number])],
+          coordinates: [props.targetPolygon.map((coord) => [coord[1], coord[0]])],
         },
       },
     })

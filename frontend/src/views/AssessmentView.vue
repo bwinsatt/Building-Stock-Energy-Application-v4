@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from 'vue'
 import { PTypography, PIcon } from '@partnerdevops/partner-components'
 import { useAssessment } from '../composables/useAssessment'
@@ -10,22 +10,20 @@ import MeasuresTable from '../components/MeasuresTable.vue'
 import AssumptionsPanel from '../components/AssumptionsPanel.vue'
 import EnergyStarScore from '../components/EnergyStarScore.vue'
 import { useMeasureSelections } from '../composables/useMeasureSelections'
-import type { BuildingInput } from '../types/assessment'
-import type { LookupResponse } from '../types/lookup'
 
 const { loading, error, result, assess } = useAssessment()
 const { createBuilding, saveAssessment } = useProjects()
 
 const lastSqft = ref(0)
-const lastBuilding = ref<BuildingInput | null>(null)
-const selectedProjectId = ref<number | null>(null)
-const lastLookupResult = ref<LookupResponse | null>(null)
+const lastBuilding = ref(null)
+const selectedProjectId = ref(null)
+const lastLookupResult = ref(null)
 const lastAddress = ref('')
-const saveStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle')
+const saveStatus = ref('idle')
 
 const measuresRef = computed(() => result.value?.measures ?? [])
 const baselineRef = computed(() => result.value?.baseline ?? null)
-const buildingIdRef = ref<number | null>(null)
+const buildingIdRef = ref(null)
 const addressRef = computed(() => lastAddress.value || null)
 
 const {
@@ -41,10 +39,10 @@ const {
   calculateProjectedScore,
 } = useMeasureSelections(measuresRef, baselineRef, lastBuilding, buildingIdRef, addressRef, selectedProjectId)
 
-const replaceMessage = ref<string | null>(null)
-let replaceTimer: ReturnType<typeof setTimeout> | null = null
+const replaceMessage = ref(null)
+let replaceTimer = null
 
-function handleToggleMeasure(upgradeId: number) {
+function handleToggleMeasure(upgradeId) {
   const result = toggleMeasure(upgradeId)
   if (result?.action === 'replace' && result.replaced) {
     const names = result.replaced
@@ -58,12 +56,12 @@ function handleToggleMeasure(upgradeId: number) {
   }
 }
 
-function onLookupComplete(lookupResult: LookupResponse | null, address: string) {
+function onLookupComplete(lookupResult, address) {
   lastLookupResult.value = lookupResult
   lastAddress.value = address
 }
 
-function onSubmit(input: BuildingInput) {
+function onSubmit(input) {
   lastSqft.value = input.sqft
   lastBuilding.value = input
   saveStatus.value = 'idle'
@@ -75,8 +73,8 @@ watch(result, async (newResult) => {
   if (!newResult || !selectedProjectId.value || !lastBuilding.value) return
   saveStatus.value = 'saving'
   try {
-    const utilityKeys = ['annual_electricity_kwh', 'annual_natural_gas_therms', 'annual_fuel_oil_gallons', 'annual_propane_gallons', 'annual_district_heating_kbtu'] as const
-    const utilityData: Record<string, number> = {}
+    const utilityKeys = ['annual_electricity_kwh', 'annual_natural_gas_therms', 'annual_fuel_oil_gallons', 'annual_propane_gallons', 'annual_district_heating_kbtu']
+    const utilityData = {}
     for (const key of utilityKeys) {
       if (lastBuilding.value[key] != null) {
         utilityData[key] = lastBuilding.value[key]
@@ -85,14 +83,14 @@ watch(result, async (newResult) => {
     const building = await createBuilding(
       selectedProjectId.value,
       lastAddress.value || lastBuilding.value.zipcode,
-      lastBuilding.value as unknown as Record<string, unknown>,
+      lastBuilding.value,
       Object.keys(utilityData).length > 0 ? utilityData : undefined,
-      lastLookupResult.value as unknown as Record<string, unknown>,
+      lastLookupResult.value,
     )
     await saveAssessment(
       selectedProjectId.value,
       building.id,
-      newResult as unknown as Record<string, unknown>,
+      newResult,
       newResult.calibrated ?? false,
     )
     buildingIdRef.value = building.id

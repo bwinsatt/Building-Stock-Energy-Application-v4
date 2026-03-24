@@ -1,17 +1,14 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from 'vue'
 import { PTextInput, PButton } from '@partnerdevops/partner-components'
-import type { AddressSuggestion } from '../types/lookup'
 import { useAddressAutocomplete } from '../composables/useAddressAutocomplete'
 
-defineProps<{
-  loading?: boolean
-  error?: string | null
-}>()
+defineProps({
+  loading: { type: Boolean, default: false },
+  error: { type: String, default: null },
+})
 
-const emit = defineEmits<{
-  lookup: [address: string]
-}>()
+const emit = defineEmits(['lookup'])
 
 const address = ref('')
 const showDropdown = ref(false)
@@ -24,7 +21,7 @@ const hasSuggestions = computed(() => suggestions.value.length > 0 && showDropdo
 // Reset active index when suggestions change
 watch(suggestions, () => { activeIndex.value = -1 })
 
-function selectSuggestion(suggestion: AddressSuggestion) {
+function selectSuggestion(suggestion) {
   address.value = suggestion.display
   showDropdown.value = false
   suggestions.value = []
@@ -53,7 +50,7 @@ function onFocus() {
   }
 }
 
-function onKeydown(e: KeyboardEvent) {
+function onKeydown(e) {
   if (!hasSuggestions.value) return
 
   if (e.key === 'ArrowDown') {

@@ -1,8 +1,5 @@
-<script setup lang="ts">
+<script setup>
 import { reactive, ref, watch, computed } from 'vue'
-import type { BuildingInput } from '../types/assessment'
-import type { FieldResult, LookupResponse } from '../types/lookup'
-import type { BpsSearchResult } from '../types/bps'
 import {
   BUILDING_TYPES,
   HEATING_FUELS,
@@ -17,24 +14,21 @@ import BuildingMapViewer from './BuildingMapViewer.vue'
 import { useAddressLookup } from '../composables/useAddressLookup'
 import { useBpsSearch } from '../composables/useBpsSearch'
 
-defineProps<{
-  disabled?: boolean
-}>()
+defineProps({
+  disabled: { type: Boolean, default: false },
+})
 
-const emit = defineEmits<{
-  submit: [payload: BuildingInput]
-  'lookup-complete': [result: LookupResponse | null, address: string]
-}>()
+const emit = defineEmits(['submit', 'lookup-complete'])
 
-const form = reactive<BuildingInput>({
+const form = reactive({
   building_type: '',
   sqft: 0,
   num_stories: 1,
   zipcode: '',
-  year_built: undefined as unknown as number,
+  year_built: undefined,
 })
 
-const advancedFields = ref<Partial<BuildingInput>>({})
+const advancedFields = ref({})
 const hvacCategory = ref('')
 
 // Utility data section state
@@ -42,13 +36,7 @@ const showUtilityData = ref(false)
 const showExtraFuels = ref(false)
 
 // Utility data fields (kept separate to make filtering easier)
-const utilityData = reactive<{
-  annual_electricity_kwh?: number
-  annual_natural_gas_therms?: number
-  annual_fuel_oil_gallons?: number
-  annual_propane_gallons?: number
-  annual_district_heating_kbtu?: number
-}>({})
+const utilityData = reactive({})
 
 const isCommercialBuilding = computed(() => form.building_type !== 'Multi-Family')
 
@@ -78,17 +66,17 @@ const bpsSearch = useBpsSearch()
 const bpsDismissed = ref(false)
 
 // Track which fields were auto-filled and their source
-const fieldSources = ref<Record<string, FieldResult>>({})
+const fieldSources = ref({})
 
 const PUBLIC_RECORD_SOURCES = new Set(['osm', 'nyc_opendata', 'chicago_opendata'])
-function sourceLabel(source: string | null): string {
+function sourceLabel(source) {
   if (source === 'benchmarking') return 'benchmarking'
   return source && PUBLIC_RECORD_SOURCES.has(source) ? 'public records' : 'estimated'
 }
 
 const lastRawAddress = ref('')
 
-function onAddressLookup(address: string) {
+function onAddressLookup(address) {
   lastRawAddress.value = address
   lookup(address)
 }
@@ -108,7 +96,7 @@ watch(lookupResult, (result) => {
   }
 
   // Direct field mapping
-  const fieldMap: Record<string, keyof typeof form> = {
+  const fieldMap = {
     building_type: 'building_type',
     sqft: 'sqft',
     num_stories: 'num_stories',
@@ -129,14 +117,14 @@ watch(lookupResult, (result) => {
           // form.hvac_system_type will be set by the hvacCategory watcher
         }
       } else {
-        ;(form as any)[formKey] = field.value
+        ;form[formKey] = field.value
       }
       fieldSources.value[lookupKey] = field
     }
   }
 
   // Advanced fields
-  const advancedMap: Record<string, string> = {
+  const advancedMap = {
     wall_construction: 'wall_construction',
     window_type: 'window_type',
     window_to_wall_ratio: 'window_to_wall_ratio',
@@ -146,7 +134,7 @@ watch(lookupResult, (result) => {
   for (const [lookupKey, advKey] of Object.entries(advancedMap)) {
     const field = fields[lookupKey]
     if (field?.value != null) {
-      advancedFields.value[advKey as keyof typeof advancedFields.value] = field.value as any
+      advancedFields.value[advKey] = field.value
       fieldSources.value[lookupKey] = field
     }
   }
@@ -163,7 +151,7 @@ watch(() => lookupResult.value, () => {
   bpsDismissed.value = false
 })
 
-function importBpsData(bpsResult: BpsSearchResult) {
+function importBpsData(bpsResult) {
   if (bpsResult.has_per_fuel_data) {
     if (bpsResult.electricity_kwh != null) {
       utilityData.annual_electricity_kwh = bpsResult.electricity_kwh
@@ -190,7 +178,7 @@ function importBpsData(bpsResult: BpsSearchResult) {
 // Clear source badge when user manually changes a field
 const populatingFromLookup = ref(false)
 
-const formFieldKeys: Record<string, string> = {
+const formFieldKeys = {
   building_type: 'building_type',
   sqft: 'sqft',
   num_stories: 'num_stories',
@@ -200,7 +188,7 @@ const formFieldKeys: Record<string, string> = {
 }
 
 for (const [lookupKey, formKey] of Object.entries(formFieldKeys)) {
-  watch(() => (form as any)[formKey], () => {
+  watch(() => form[formKey], () => {
     if (!populatingFromLookup.value) {
       delete fieldSources.value[lookupKey]
     }
@@ -218,19 +206,19 @@ const advancedFieldKeys = ['wall_construction', 'window_type', 'window_to_wall_r
 watch(advancedFields, (newVal, oldVal) => {
   if (populatingFromLookup.value) return
   for (const key of advancedFieldKeys) {
-    const k = key as keyof typeof newVal
+    const k = key
     if (newVal[k] !== oldVal?.[k]) {
       delete fieldSources.value[key]
     }
   }
 }, { deep: true })
 
-const validationError = ref<string | null>(null)
+const validationError = ref(null)
 
 function onSubmit() {
   validationError.value = null
 
-  const requiredChecks: { field: string; label: string; value: unknown }[] = [
+  const requiredChecks = [
     { field: 'building_type', label: 'Building Type', value: form.building_type },
     { field: 'sqft', label: 'Square Footage', value: form.sqft },
     { field: 'num_stories', label: 'Number of Stories', value: form.num_stories },
@@ -261,7 +249,7 @@ function onSubmit() {
       if (src && src.source === 'imputed') return false
       return true
     }),
-  ) as unknown as BuildingInput
+  )
   emit('submit', payload)
 }
 </script>
@@ -304,7 +292,7 @@ function onSubmit() {
           <button
             type="button"
             class="bps-banner__action"
-            @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode, lookupResult!.bbl)"
+            @click="bpsSearch.search(lastRawAddress, lookupResult?.city, lookupResult?.state, lookupResult?.zipcode, lookupResult?.bbl)"
           >
             Search Records
           </button>
@@ -354,7 +342,7 @@ function onSubmit() {
           </div>
         </div>
         <div class="bps-banner__actions">
-          <button type="button" class="bps-banner__import" @click="importBpsData(bpsSearch.result.value!)">
+          <button type="button" class="bps-banner__import" @click="importBpsData(bpsSearch.result.value)">
             Import to Utility Data
           </button>
         </div>
@@ -372,7 +360,7 @@ function onSubmit() {
         <button
           type="button"
           class="bps-banner__action"
-          @click="bpsSearch.search(lastRawAddress, lookupResult!.city, lookupResult!.state, lookupResult!.zipcode, lookupResult!.bbl)"
+          @click="bpsSearch.search(lastRawAddress, lookupResult?.city, lookupResult?.state, lookupResult?.zipcode, lookupResult?.bbl)"
         >
           Retry
         </button>
@@ -544,7 +532,7 @@ function onSubmit() {
       v-model="advancedFields"
       :hvac-category="hvacCategory"
       :building-type="form.building_type"
-      @update:hvac-variant="(v: string) => form.hvac_system_type = v"
+      @update:hvac-variant="(v) => form.hvac_system_type = v"
     />
 
     <!-- Section: Utility Data (collapsible) -->

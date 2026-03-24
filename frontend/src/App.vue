@@ -32,14 +32,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import AssessmentView from './views/AssessmentView.vue'
 import ProjectsView from './components/ProjectsView.vue'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 const offloading = ref(false)
-const currentView = ref<'assessment' | 'projects'>('assessment')
+const currentView = ref('assessment')
 
 async function offloadModels() {
   offloading.value = true

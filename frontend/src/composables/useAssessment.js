@@ -1,14 +1,13 @@
 import { ref } from 'vue'
-import type { BuildingInput, BuildingResult, AssessmentResponse } from '../types/assessment'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export function useAssessment() {
   const loading = ref(false)
-  const error = ref<string | null>(null)
-  const result = ref<BuildingResult | null>(null)
+  const error = ref(null)
+  const result = ref(null)
 
-  async function assess(input: BuildingInput) {
+  async function assess(input) {
     loading.value = true
     error.value = null
     result.value = null
@@ -22,10 +21,10 @@ export function useAssessment() {
         const detail = await response.json().catch(() => null)
         throw new Error(detail?.detail || `Server error: ${response.status}`)
       }
-      const data: AssessmentResponse = await response.json()
+      const data = await response.json()
       result.value = data.results[0] ?? null
     } catch (e) {
-      error.value = (e as Error).message
+      error.value = e.message
     } finally {
       loading.value = false
     }

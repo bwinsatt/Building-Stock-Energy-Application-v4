@@ -1,15 +1,14 @@
-import { ref, watch, type Ref } from 'vue'
-import type { AddressSuggestion } from '../types/lookup'
+import { ref, watch } from 'vue'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
-export function useAddressAutocomplete(query: Ref<string>, debounceMs = 300) {
-  const suggestions = ref<AddressSuggestion[]>([])
+export function useAddressAutocomplete(query, debounceMs = 300) {
+  const suggestions = ref([])
   const loading = ref(false)
-  let timer: ReturnType<typeof setTimeout> | null = null
-  let abortController: AbortController | null = null
+  let timer = null
+  let abortController = null
 
-  async function fetchSuggestions(q: string) {
+  async function fetchSuggestions(q) {
     if (q.length < 3) {
       suggestions.value = []
       return
@@ -31,7 +30,7 @@ export function useAddressAutocomplete(query: Ref<string>, debounceMs = 300) {
         suggestions.value = await resp.json()
       }
     } catch (e) {
-      if ((e as Error).name !== 'AbortError') {
+      if (e.name !== 'AbortError') {
         suggestions.value = []
       }
     } finally {

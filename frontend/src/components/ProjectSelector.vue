@@ -1,13 +1,11 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useProjects } from '../composables/useProjects'
 
-const emit = defineEmits<{
-  'update:projectId': [id: number | null]
-}>()
+const emit = defineEmits(['update:projectId'])
 
 const { projects, fetchProjects, createProject } = useProjects()
-const selectedId = ref<number | null>(null)
+const selectedId = ref(null)
 const creatingNew = ref(false)
 const newName = ref('')
 
@@ -15,8 +13,8 @@ onMounted(() => {
   fetchProjects()
 })
 
-function onSelect(event: Event) {
-  const val = (event.target as HTMLSelectElement).value
+function onSelect(event) {
+  const val = event.target.value
   if (val === '__new__') {
     creatingNew.value = true
     selectedId.value = null

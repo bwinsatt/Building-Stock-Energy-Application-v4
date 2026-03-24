@@ -1,18 +1,13 @@
 import { ref } from 'vue'
-import type { BuildingInput, BaselineResult, EnergyStarResponse } from '../types/assessment'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
 export function useEnergyStarScore() {
   const loading = ref(false)
-  const error = ref<string | null>(null)
-  const result = ref<EnergyStarResponse | null>(null)
+  const error = ref(null)
+  const result = ref(null)
 
-  async function fetchScore(
-    building: BuildingInput,
-    baseline: BaselineResult,
-    address?: string | null,
-  ) {
+  async function fetchScore(building, baseline, address) {
     loading.value = true
     error.value = null
     result.value = null
@@ -28,7 +23,7 @@ export function useEnergyStarScore() {
       }
       result.value = await response.json()
     } catch (e) {
-      error.value = (e as Error).message
+      error.value = e.message
     } finally {
       loading.value = false
     }

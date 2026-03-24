@@ -1,14 +1,13 @@
 import { ref } from 'vue'
-import type { LookupResponse } from '../types/lookup'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
 export function useAddressLookup() {
   const loading = ref(false)
-  const error = ref<string | null>(null)
-  const lookupResult = ref<LookupResponse | null>(null)
+  const error = ref(null)
+  const lookupResult = ref(null)
 
-  async function lookup(address: string) {
+  async function lookup(address) {
     loading.value = true
     error.value = null
     lookupResult.value = null
@@ -25,7 +24,7 @@ export function useAddressLookup() {
       }
       lookupResult.value = await response.json()
     } catch (e) {
-      error.value = (e as Error).message
+      error.value = e.message
     } finally {
       loading.value = false
     }

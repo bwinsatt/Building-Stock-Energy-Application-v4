@@ -24,21 +24,7 @@ export const DHW_FUELS = [
 // HVAC two-tier category system
 // ---------------------------------------------------------------------------
 
-export interface HvacVariant {
-  value: string
-  label: string
-  dataset?: 'comstock' | 'resstock'
-}
-
-export interface HvacCategory {
-  key: string
-  label: string
-  defaultVariant: string
-  datasets: ('comstock' | 'resstock')[]
-  variants: HvacVariant[]
-}
-
-export const HVAC_CATEGORIES: HvacCategory[] = [
+export const HVAC_CATEGORIES = [
   {
     key: 'packaged_rooftop',
     label: 'Packaged Rooftop (DX)',
@@ -165,7 +151,7 @@ export const HVAC_CATEGORIES: HvacCategory[] = [
 ]
 
 /** Get categories filtered by dataset, with variants filtered too */
-export function getHvacCategoriesForDataset(buildingType: string): HvacCategory[] {
+export function getHvacCategoriesForDataset(buildingType) {
   const dataset = buildingType === 'Multi-Family' ? 'resstock' : 'comstock'
   return HVAC_CATEGORIES
     .filter(c => c.datasets.includes(dataset))
@@ -177,7 +163,7 @@ export function getHvacCategoriesForDataset(buildingType: string): HvacCategory[
 }
 
 /** Reverse-lookup: given any HVAC value (old code, variant string, or category key), return the category */
-export function getHvacCategoryForValue(value: string): HvacCategory | undefined {
+export function getHvacCategoryForValue(value) {
   // Check category keys first
   const byKey = HVAC_CATEGORIES.find(c => c.key === value)
   if (byKey) return byKey
@@ -189,7 +175,7 @@ export function getHvacCategoryForValue(value: string): HvacCategory | undefined
   }
 
   // Legacy old codes mapping
-  const legacyMap: Record<string, string> = {
+  const legacyMap = {
     'PSZ-AC': 'packaged_rooftop',
     'PSZ-HP': 'packaged_heat_pump',
     'PTAC': 'through_wall',

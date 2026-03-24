@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import { PTypography, PBadge, PTooltip } from '@partnerdevops/partner-components'
-import type { InputSummary } from '../types/assessment'
 
-const props = defineProps<{
-  summary: InputSummary
-}>()
+const props = defineProps({
+  summary: { type: Object, required: true },
+})
 
 const expanded = ref(false)
 
@@ -22,14 +21,14 @@ const derivedFields = computed(() => [
   { label: 'Vintage Bucket', value: props.summary.vintage_bucket, source: 'year_built' },
 ])
 
-function confidenceLabel(confidence: number | null): string {
+function confidenceLabel(confidence) {
   if (confidence == null) return 'default'
   if (confidence >= 0.7) return 'high'
   if (confidence >= 0.4) return 'medium'
   return 'low'
 }
 
-function confidencePercent(confidence: number | null): string {
+function confidencePercent(confidence) {
   if (confidence == null) return ''
   return `${Math.round(confidence * 100)}%`
 }

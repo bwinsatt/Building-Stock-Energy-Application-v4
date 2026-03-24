@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from 'vue'
 import { PTypography } from '@partnerdevops/partner-components'
 import BaselineSummary from './BaselineSummary.vue'
@@ -7,29 +7,27 @@ import AssumptionsPanel from './AssumptionsPanel.vue'
 import EnergyStarScore from './EnergyStarScore.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
 import { useMeasureSelections } from '../composables/useMeasureSelections'
-import type { Building, Assessment } from '../types/projects'
-import type { BuildingResult, BuildingInput, BaselineResult, MeasureResult, InputSummary } from '../types/assessment'
 
-const props = defineProps<{
-  building: Building
-  assessment: Assessment
-}>()
-
-const emit = defineEmits<{ back: [] }>()
-
-const buildingResult = computed<BuildingResult | null>(() => {
-  return (props.assessment.result as unknown as BuildingResult) ?? null
+const props = defineProps({
+  building: { type: Object, required: true },
+  assessment: { type: Object, required: true },
 })
 
-const buildingInput = computed<BuildingInput>(() => {
-  return props.building.building_input as unknown as BuildingInput
+const emit = defineEmits(['back'])
+
+const buildingResult = computed(() => {
+  return props.assessment.result ?? null
+})
+
+const buildingInput = computed(() => {
+  return props.building.building_input
 })
 
 const sqft = computed(() => buildingInput.value?.sqft ?? 0)
 
-const baseline = computed<BaselineResult | null>(() => buildingResult.value?.baseline ?? null)
-const measures = computed<MeasureResult[]>(() => buildingResult.value?.measures ?? [])
-const inputSummary = computed<InputSummary | null>(() => buildingResult.value?.input_summary ?? null)
+const baseline = computed(() => buildingResult.value?.baseline ?? null)
+const measures = computed(() => buildingResult.value?.measures ?? [])
+const inputSummary = computed(() => buildingResult.value?.input_summary ?? null)
 const calibrated = computed(() => props.assessment.calibrated)
 
 // Map data from lookup_data stored on the building
@@ -52,10 +50,10 @@ const {
   calculateProjectedScore,
 } = useMeasureSelections(measures, baseline, buildingInput, buildingIdRef, addressRef, projectIdRef)
 
-const replaceMessage = ref<string | null>(null)
-let replaceTimer: ReturnType<typeof setTimeout> | null = null
+const replaceMessage = ref(null)
+let replaceTimer = null
 
-function handleToggleMeasure(upgradeId: number) {
+function handleToggleMeasure(upgradeId) {
   const res = toggleMeasure(upgradeId)
   if (res?.action === 'replace' && res.replaced) {
     const names = res.replaced

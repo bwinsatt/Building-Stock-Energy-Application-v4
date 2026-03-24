@@ -1,23 +1,21 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useProjects } from '../composables/useProjects'
-import type { Building, Assessment } from '../types/projects'
 
-const props = defineProps<{ projectId: number }>()
-const emit = defineEmits<{
-  back: []
-  'view-assessment': [building: Building, assessment: Assessment]
-}>()
+const props = defineProps({
+  projectId: { type: Number, required: true },
+})
+const emit = defineEmits(['back', 'view-assessment'])
 
 const { currentProject, loading, error, fetchProject } = useProjects()
 
-const expandedBuildingId = ref<number | null>(null)
+const expandedBuildingId = ref(null)
 
-function toggleBuilding(building: Building) {
+function toggleBuilding(building) {
   expandedBuildingId.value = expandedBuildingId.value === building.id ? null : building.id
 }
 
-function formatDate(iso: string) {
+function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -99,7 +97,7 @@ onMounted(() => {
                   <span class="assessment-row__date">{{ formatDate(assessment.created_at) }}</span>
                   <span v-if="assessment.calibrated" class="calibrated-badge">Calibrated</span>
                   <span v-if="assessment.result?.baseline" class="assessment-row__eui">
-                    {{ (assessment.result.baseline as any)?.total_eui_kbtu_sf?.toFixed(1) }} kBtu/sf
+                    {{ assessment.result.baseline?.total_eui_kbtu_sf?.toFixed(1) }} kBtu/sf
                   </span>
                 </div>
                 <span class="assessment-row__arrow">&#x25B8;</span>

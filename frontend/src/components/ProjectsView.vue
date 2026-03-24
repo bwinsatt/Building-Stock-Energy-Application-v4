@@ -1,17 +1,16 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import { PButton, PTypography, PTextInput } from '@partnerdevops/partner-components'
 import { useProjects } from '../composables/useProjects'
 import ProjectDetail from './ProjectDetail.vue'
 import SavedAssessmentView from './SavedAssessmentView.vue'
-import type { Building, Assessment } from '../types/projects'
 
 const { projects, loading, error, fetchProjects, createProject, deleteProject } = useProjects()
 
-const selectedProjectId = ref<number | null>(null)
-const viewingAssessment = ref<{ building: Building; assessment: Assessment } | null>(null)
+const selectedProjectId = ref(null)
+const viewingAssessment = ref(null)
 
-function onViewAssessment(building: Building, assessment: Assessment) {
+function onViewAssessment(building, assessment) {
   viewingAssessment.value = { building, assessment }
 }
 
@@ -22,7 +21,7 @@ const showCreateInput = ref(false)
 const newProjectName = ref('')
 const creating = ref(false)
 
-function selectProject(id: number) {
+function selectProject(id) {
   selectedProjectId.value = id
 }
 
@@ -45,13 +44,13 @@ async function handleCreate() {
   }
 }
 
-async function handleDelete(id: number, event: MouseEvent) {
+async function handleDelete(id, event) {
   event.stopPropagation()
   if (!confirm('Delete this project? This action cannot be undone.')) return
   await deleteProject(id)
 }
 
-function formatDate(iso: string) {
+function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -59,7 +58,7 @@ function formatDate(iso: string) {
   })
 }
 
-function handleKeydown(event: KeyboardEvent) {
+function handleKeydown(event) {
   if (event.key === 'Enter') handleCreate()
   if (event.key === 'Escape') {
     showCreateInput.value = false
