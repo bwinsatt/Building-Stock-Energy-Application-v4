@@ -241,6 +241,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "energy_star_score": "energy_star_score",
         "property_name": "property_name",
         "address_1": "matched_address",
+        "property_gfa_self_reported": "reported_gross_floor_area",
     },
     "Energize Denver": {
         "Site_EUI__kBtu_sq_ft_": "site_eui_kbtu_sf",
@@ -251,6 +252,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "Energy_Star_Score": "energy_star_score",
         "Property_Name": "property_name",
         "Street": "matched_address",
+        "Master_Sq_Ft": "reported_gross_floor_area",
     },
     "Boston BERDO": {
         "Site EUI (Energy Use Intensity kBtu/ft2)": "site_eui_kbtu_sf",
@@ -262,6 +264,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "Energy Star Score": "energy_star_score",
         "Property Owner Name": "property_name",
         "Building Address": "matched_address",
+        "Reported Gross Floor Area (Sq Ft)": "reported_gross_floor_area",
     },
     "LA EBEWE": {
         "site_eui": "site_eui_kbtu_sf",
@@ -288,6 +291,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "PROPERTYNAME": "property_name",
         "ADDRESSOFRECORD": "matched_address",
         "REPORTEDADDRESS": "matched_address",
+        "REPORTEDBUILDINGGROSSFLOORAREA": "reported_gross_floor_area",
     },
     "Seattle Benchmarking": {
         "siteeui_kbtu_sf": "site_eui_kbtu_sf",
@@ -296,6 +300,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "energystarscore": "energy_star_score",
         "buildingname": "property_name",
         "address": "matched_address",
+        "propertygfabuildings": "reported_gross_floor_area",
     },
     "Cambridge BEUDO": {
         "site_eui_kbtu_ft2": "site_eui_kbtu_sf",
@@ -304,6 +309,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "district_steam_use_kbtu": "district_steam_kbtu",
         "energy_star_score": "energy_star_score",
         "address": "matched_address",
+        "property_gfa_self_reported_ft2": "reported_gross_floor_area",
     },
     "San Francisco Benchmarking": {
         "site_eui": "site_eui_kbtu_sf",
@@ -313,6 +319,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "building_name": "property_name",
         "building_address": "matched_address",
         "benchmark_year": "reporting_year",
+        "floor_area": "reported_gross_floor_area",
     },
     "Berkeley BESO": {
         "_2024_site_eui_kbtu_ft2_": "site_eui_kbtu_sf",
@@ -321,6 +328,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "_2024_energy_star_score": "energy_star_score",
         "property_building_name": "property_name",
         "building_address": "matched_address",
+        "floor_area": "reported_gross_floor_area",
     },
     "Orlando BEWES": {
         "site_energ": "site_eui_kbtu_sf",
@@ -336,12 +344,14 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "energy_star_score": "energy_star_score",
         "property_name": "property_name",
         "street_address": "matched_address",
+        "total_floor_area_bld_pk_ft2": "reported_gross_floor_area",
     },
     "Atlanta CBEEO": {
         "USER_SiteEUI": "site_eui_kbtu_sf",
         "USER_ENERGYSTAR": "energy_star_score",
         "USER_Name_1": "property_name",
         "Match_addr": "matched_address",
+        "USER_PropGFA": "reported_gross_floor_area",
     },
     "Austin ECAD": {
         "kwh_sqft": "site_eui_kwh_sf",  # kWh/sqft — needs conversion to kBtu/sqft
@@ -358,10 +368,12 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "ENERGY STAR Score": "energy_star_score",
         "Property Name": "property_name",
         "Address 1": "matched_address",
+        "Property GFA - Calculated (Buildings) (ft²)": "reported_gross_floor_area",
     },
     "CO BPS": {
         "Weather Normalized Site EUI (kBtu/ft²)": "site_eui_kbtu_sf",
         "Building Street Address": "matched_address",
+        "Gross Floor Area": "reported_gross_floor_area",
     },
     "Miami Benchmarking": {
         "Site EUI**": "site_eui_kbtu_sf",
@@ -369,6 +381,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         " Natural Gas Use (therms)** ": "natural_gas_therms",
         "Energy Star Score**": "energy_star_score",
         "Property Address Street*": "matched_address",
+        " Reported Gross Floor Area** ": "reported_gross_floor_area",
     },
     "Montgomery County Benchmarking": {
         "site_eui": "site_eui_kbtu_sf",
@@ -377,12 +390,14 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "energy_star_score": "energy_star_score",
         "building_name": "property_name",
         "address": "matched_address",
+        "reported_property_gross_floor": "reported_gross_floor_area",
     },
     "Kansas City Benchmarking": {
         "weather_normalized_site_eui": "site_eui_kbtu_sf",
         "energy_star_score": "energy_star_score",
         "building_name": "property_name",
         "building_address": "matched_address",
+        "gross_floor_area": "reported_gross_floor_area",
     },
     "San Jose BPO": {
         "SITE ENERGY USE INTENSITY (kBTU/ft^2)": "site_eui_kbtu_sf",
@@ -390,5 +405,6 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "TOTAL NATURAL GAS USE (therms)": "natural_gas_therms",
         "ENERGY STAR SCORE": "energy_star_score",
         "STREET": "matched_address",
+        "REPORTED GROSS FLOOR AREA (ft^2)": "reported_gross_floor_area",
     },
 }
