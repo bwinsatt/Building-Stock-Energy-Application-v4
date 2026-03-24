@@ -271,6 +271,8 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
     "Chicago Benchmarking": {
         "site_eui_kbtu_sq_ft": "site_eui_kbtu_sf",
         "electricity_use_kbtu": "electricity_kbtu",
+        "natural_gas_use_kbtu": "natural_gas_kbtu",
+        "district_steam_use_kbtu": "district_steam_kbtu",
         "energy_star_score": "energy_star_score",
         "property_name": "property_name",
         "address": "matched_address",
