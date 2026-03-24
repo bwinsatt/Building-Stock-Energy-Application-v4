@@ -459,6 +459,7 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
         "fuel_oil_gallons": None,
         "district_heating_kbtu": None,
         "energy_star_score": None,
+        "reported_gross_floor_area": None,
         "has_per_fuel_data": False,
     }
 
@@ -467,7 +468,7 @@ def _transform_result(record: dict, field_mapping: dict) -> dict:
         "site_eui_kbtu_sf", "site_eui_kwh_sf", "electricity_kbtu", "electricity_kwh",
         "natural_gas_kbtu", "natural_gas_therms", "fuel_oil_kbtu", "fuel_oil_gallons",
         "district_steam_kbtu", "district_hot_water_kbtu", "district_heating_kbtu",
-        "energy_star_score",
+        "energy_star_score", "reported_gross_floor_area",
     }
 
     for api_field, std_field in field_mapping.items():

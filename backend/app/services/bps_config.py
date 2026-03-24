@@ -273,6 +273,7 @@ FIELD_MAPPINGS: dict[str, dict[str, str]] = {
         "electricity_use_kbtu": "electricity_kbtu",
         "natural_gas_use_kbtu": "natural_gas_kbtu",
         "district_steam_use_kbtu": "district_steam_kbtu",
+        "gross_floor_area_buildings_sq_ft": "reported_gross_floor_area",
         "energy_star_score": "energy_star_score",
         "property_name": "property_name",
         "address": "matched_address",
