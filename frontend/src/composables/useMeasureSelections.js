@@ -59,12 +59,23 @@ export function useMeasureSelections(
 
     for (const uid of selectedUpgradeIds.value) {
       const m = measures.value.find(m => m.upgrade_id === uid)
-      if (!m?.savings_by_fuel) continue
-      elec -= m.savings_by_fuel.electricity
-      gas -= m.savings_by_fuel.natural_gas
-      oil -= m.savings_by_fuel.fuel_oil
-      propane -= m.savings_by_fuel.propane
-      district -= m.savings_by_fuel.district_heating
+      if (!m) continue
+
+      if (m.savings_by_fuel) {
+        elec     -= m.savings_by_fuel.electricity
+        gas      -= m.savings_by_fuel.natural_gas
+        oil      -= m.savings_by_fuel.fuel_oil
+        propane  -= m.savings_by_fuel.propane
+        district -= m.savings_by_fuel.district_heating
+      } else if (m.savings_kbtu_sf != null && baseline.value.total_eui_kbtu_sf > 0) {
+        // Proportional fallback for older saved assessments that predate savings_by_fuel
+        const ratio = m.savings_kbtu_sf / baseline.value.total_eui_kbtu_sf
+        elec     -= baseByFuel.electricity      * ratio
+        gas      -= baseByFuel.natural_gas      * ratio
+        oil      -= baseByFuel.fuel_oil         * ratio
+        propane  -= baseByFuel.propane          * ratio
+        district -= baseByFuel.district_heating * ratio
+      }
     }
 
     // Floor at zero
