@@ -67,14 +67,6 @@ const projectedScorePct = computed(() =>
   props.projectedEspm?.score != null ? props.projectedEspm.score + '%' : '0%'
 )
 
-// ---- Close-score: projected within 5 pts of baseline → move label below track ----
-const isCloseScore = computed(() => {
-  if (scoreState.value !== 'projected') return false
-  const base = result.value?.score ?? 0
-  const proj = props.projectedEspm?.score ?? 0
-  return Math.abs(proj - base) <= 5  // ≤5 matches spec's "~5 pts" language
-})
-
 // ---- Green gradient on left panel only when projected score ≥ 65 ----
 const isImproving = computed(() =>
   scoreState.value === 'projected' && (props.projectedEspm?.score ?? 0) >= 65
@@ -256,15 +248,8 @@ const euiStatValue = computed(() => {
         <!-- Linear gauge -->
         <div class="lg-panel">
 
-          <!-- Above-track: callout + optional baseline label (normal placement) -->
+          <!-- Above-track: callout -->
           <div class="lg-above">
-            <!-- Baseline label above track (post-retrofit, non-close-score only) -->
-            <div
-              v-if="scoreState === 'projected' && !isCloseScore"
-              class="lg-baseline-label"
-              :style="{ left: baselineScorePct }"
-            >{{ result.score }} baseline</div>
-
             <!-- Main callout (baseline score in state 1; projected score in state 2) -->
             <div
               class="lg-callout"
@@ -322,17 +307,19 @@ const euiStatValue = computed(() => {
               class="lg-baseline-dot"
               :style="{ left: baselineScorePct }"
             ></div>
+          </div>
 
-            <!-- Baseline label below track (close-score only) -->
-            <div
-              v-if="scoreState === 'projected' && isCloseScore"
-              class="lg-baseline-label--below"
-              :style="{ left: baselineScorePct }"
-            >← {{ result.score }} baseline</div>
+          <!-- Baseline callout below track (projected state only) -->
+          <div v-if="scoreState === 'projected'" class="lg-below">
+            <div class="lg-bl-callout" :style="{ left: baselineScorePct }">
+              <div class="lg-bl-ptr"></div>
+              <span class="lg-bl-score">{{ result.score }}</span>
+              <span class="lg-bl-label">Energy Star Score</span>
+            </div>
           </div>
 
           <!-- Scale ticks -->
-          <div class="lg-scale" :class="{ 'lg-scale--extra-top': isCloseScore }">
+          <div class="lg-scale">
             <div class="lg-tick" style="left:0%"><div class="lg-tick-line"></div><div class="lg-tick-num">0</div></div>
             <div class="lg-tick" style="left:30%"><div class="lg-tick-line"></div><div class="lg-tick-num">30</div></div>
             <div class="lg-tick" style="left:65%"><div class="lg-tick-line"></div><div class="lg-tick-num">65</div></div>
@@ -635,7 +622,7 @@ const euiStatValue = computed(() => {
 /* Above-track area: callout + optional baseline label */
 .lg-above {
   position: relative;
-  height: 46px;
+  height: 50px;
 }
 
 /* Callout box */
@@ -676,23 +663,12 @@ const euiStatValue = computed(() => {
   transform: translateX(-50%);
   bottom: 0;
   width: 1.5px;
-  height: 7px;
+  height: 12px;
 }
 .lg-connector--blue   { background: var(--partner-blue-7); }
 .lg-connector--amber  { background: var(--partner-yellow-7); }
 .lg-connector--green  { background: var(--partner-green-7); }
 .lg-connector--orange { background: var(--partner-orange-7); }
-
-/* Baseline label above track (non-close-score state 2) */
-.lg-baseline-label {
-  position: absolute;
-  transform: translateX(-50%);
-  top: 16px;
-  white-space: nowrap;
-  font-size: 0.625rem;
-  font-weight: 600;
-  color: var(--partner-gray-6);
-}
 
 /* Track area */
 .lg-track-wrap { position: relative; }
@@ -761,26 +737,47 @@ const euiStatValue = computed(() => {
   z-index: 8;
 }
 
-/* Baseline label below track (close-score only — avoids overlap) */
-.lg-baseline-label--below {
-  position: absolute;
-  top: 100%;
-  transform: translateX(-50%);
+/* Below-track baseline callout (projected state) */
+.lg-below {
+  position: relative;
+  height: 22px;
   margin-top: 3px;
-  white-space: nowrap;
-  font-size: 0.625rem;
-  font-weight: 600;
-  color: var(--partner-gray-6);
 }
+.lg-bl-callout {
+  position: absolute;
+  transform: translateX(-50%);
+  top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  background: var(--partner-gray-1);
+  border: 1px solid var(--partner-gray-2);
+  border-radius: var(--partner-radius-sm);
+  padding: 2px 8px;
+  font-size: 0.5625rem;
+}
+/* Upward-pointing triangle connecting pill to the blue dot */
+.lg-bl-ptr {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 5px solid var(--partner-gray-2);
+}
+.lg-bl-score { font-weight: 700; color: var(--partner-blue-7); }
+.lg-bl-label { font-weight: 500; color: var(--partner-gray-5); margin-left: 3px; }
 
 /* Scale ticks */
 .lg-scale {
   position: relative;
   height: 14px;
-  margin-top: 1px;
+  margin-top: 3px;
 }
-/* Extra top margin when below-track label needs clearance */
-.lg-scale--extra-top { margin-top: 12px; }
 
 .lg-tick {
   position: absolute;
@@ -798,7 +795,7 @@ const euiStatValue = computed(() => {
 .lg-ann-row {
   position: relative;
   height: 30px;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 .lg-ann {
   position: absolute;
