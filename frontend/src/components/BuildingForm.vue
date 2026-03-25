@@ -151,7 +151,7 @@ watch(() => lookupResult.value, () => {
   bpsDismissed.value = false
 })
 
-function importBpsData(bpsResult) {
+function importBpsData(bpsResult, includeSquareFootage = false) {
   if (bpsResult.has_per_fuel_data) {
     if (bpsResult.electricity_kwh != null) {
       utilityData.annual_electricity_kwh = bpsResult.electricity_kwh
@@ -169,6 +169,13 @@ function importBpsData(bpsResult) {
       utilityData.annual_district_heating_kbtu = bpsResult.district_heating_kbtu
       fieldSources.value['annual_district_heating_kbtu'] = { value: bpsResult.district_heating_kbtu, source: 'benchmarking', confidence: bpsResult.match_confidence }
     }
+  }
+
+  if (includeSquareFootage && bpsResult.reported_gross_floor_area != null) {
+    populatingFromLookup.value = true
+    form.sqft = Math.round(bpsResult.reported_gross_floor_area)
+    fieldSources.value['sqft'] = { value: Math.round(bpsResult.reported_gross_floor_area), source: 'benchmarking', confidence: bpsResult.match_confidence }
+    setTimeout(() => { populatingFromLookup.value = false }, 0)
   }
 
   showUtilityData.value = true
@@ -341,10 +348,38 @@ function onSubmit() {
             <span class="bps-banner__data-value">{{ bpsSearch.result.value.energy_star_score }}</span>
           </div>
         </div>
+        <!-- Square footage comparison (when benchmarking reports gross floor area) -->
+        <div v-if="bpsSearch.result.value.reported_gross_floor_area" class="bps-banner__sqft-comparison">
+          <span class="bps-banner__data-label">Square Footage Comparison</span>
+          <div class="bps-banner__sqft-values">
+            <span class="bps-banner__sqft-item">
+              <span class="bps-banner__sqft-label">Reported (Benchmarking):</span>
+              <span class="bps-banner__sqft-reported">{{ Math.round(bpsSearch.result.value.reported_gross_floor_area).toLocaleString() }} ft²</span>
+            </span>
+            <span v-if="form.sqft" class="bps-banner__sqft-vs">vs</span>
+            <span v-if="form.sqft" class="bps-banner__sqft-item">
+              <span class="bps-banner__sqft-label">Estimated ({{ fieldSources['sqft']?.source === 'benchmarking' ? 'Benchmarking' : 'OSM' }}):</span>
+              <span class="bps-banner__sqft-estimated">{{ Number(form.sqft).toLocaleString() }} ft²</span>
+            </span>
+          </div>
+        </div>
+
         <div class="bps-banner__actions">
-          <button type="button" class="bps-banner__import" @click="importBpsData(bpsSearch.result.value)">
-            Import to Utility Data
-          </button>
+          <!-- Two-button layout when sqft data is available -->
+          <template v-if="bpsSearch.result.value.reported_gross_floor_area">
+            <PButton variant="success" size="small" @click="importBpsData(bpsSearch.result.value, true)">
+              Import All Data
+            </PButton>
+            <button type="button" class="bps-banner__energy-only" @click="importBpsData(bpsSearch.result.value, false)">
+              Import Energy Data Only
+            </button>
+          </template>
+          <!-- Fallback single button when no sqft data -->
+          <template v-else>
+            <PButton variant="success" size="small" @click="importBpsData(bpsSearch.result.value, false)">
+              Import to Utility Data
+            </PButton>
+          </template>
         </div>
       </div>
 
@@ -1039,21 +1074,69 @@ function onSubmit() {
   align-items: center;
 }
 
-.bps-banner__import {
-  background: #059669;
-  color: white;
-  border: none;
-  padding: 0.375rem 0.875rem;
-  border-radius: 4px;
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s;
+.bps-banner__sqft-comparison {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--partner-gray-3, #D9DDE1);
+  border-radius: var(--partner-radius-md, 0.25rem);
+  padding: 0.625rem 0.875rem;
+  margin-bottom: 0.625rem;
 }
 
-.bps-banner__import:hover {
-  background: #047857;
+.bps-banner__sqft-values {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.375rem;
+}
+
+.bps-banner__sqft-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+}
+
+.bps-banner__sqft-label {
+  font-size: 0.75rem;
+  color: var(--partner-text-secondary, #6F7881);
+  line-height: 1.5;
+}
+
+.bps-banner__sqft-reported {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--partner-text-primary, #333E47);
+  line-height: 1.43;
+}
+
+.bps-banner__sqft-estimated {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--partner-text-secondary, #6F7881);
+  line-height: 1.43;
+}
+
+.bps-banner__sqft-vs {
+  font-size: 0.75rem;
+  color: var(--partner-text-disabled, #A6ADB4);
+}
+
+.bps-banner__energy-only {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--partner-text-secondary, #6F7881);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  letter-spacing: 0.02em;
+}
+
+.bps-banner__energy-only:hover {
+  color: var(--partner-text-primary, #333E47);
 }
 
 .bps-banner__not-found {
