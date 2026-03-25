@@ -2,6 +2,63 @@ import { ref, computed } from 'vue'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
 
+export function resolveMeasureToggle({
+  selectedUpgradeIds,
+  packageConstituentMap,
+  disabledByPackage,
+  upgradeId,
+}) {
+  if (disabledByPackage.has(upgradeId)) return null
+
+  const nextSelectedUpgradeIds = new Set(selectedUpgradeIds)
+
+  if (nextSelectedUpgradeIds.has(upgradeId)) {
+    nextSelectedUpgradeIds.delete(upgradeId)
+    return {
+      action: 'deselected',
+      nextSelectedUpgradeIds,
+    }
+  }
+
+  const constituents = packageConstituentMap.get(upgradeId)
+  if (constituents) {
+    const replacedIds = constituents.filter((cid) => nextSelectedUpgradeIds.has(cid))
+    if (replacedIds.length > 0) {
+      for (const cid of replacedIds) {
+        nextSelectedUpgradeIds.delete(cid)
+      }
+      nextSelectedUpgradeIds.add(upgradeId)
+      return {
+        action: 'replaced',
+        nextSelectedUpgradeIds,
+        packageId: upgradeId,
+        replacedIds,
+      }
+    }
+  }
+
+  nextSelectedUpgradeIds.add(upgradeId)
+  return {
+    action: 'selected',
+    nextSelectedUpgradeIds,
+  }
+}
+
+export function formatReplacementNotice({ packageName, replacedNames }) {
+  if (!packageName || !replacedNames?.length) return null
+
+  if (replacedNames.length === 1) {
+    return `${replacedNames[0]} was deselected because it is included in ${packageName}.`
+  }
+
+  const names =
+    replacedNames.length === 2
+      ? replacedNames.join(' and ')
+      : `${replacedNames.slice(0, -1).join(', ')}, and ${replacedNames.at(-1)}`
+
+  return `${names} were deselected because they are included in ${packageName}.`
+}
+
 export function useMeasureSelections(
   measures,
   baseline,
@@ -98,48 +155,26 @@ export function useMeasureSelections(
 
   // --- Toggle measure selection ---
   function toggleMeasure(upgradeId) {
-    // Don't allow selecting disabled measures
-    if (disabledByPackage.value.has(upgradeId)) return null
+    const result = resolveMeasureToggle({
+      selectedUpgradeIds: selectedUpgradeIds.value,
+      packageConstituentMap: packageConstituentMap.value,
+      disabledByPackage: disabledByPackage.value,
+      upgradeId,
+    })
 
-    const newSet = new Set(selectedUpgradeIds.value)
+    if (!result) return null
 
-    if (newSet.has(upgradeId)) {
-      // Deselect
-      newSet.delete(upgradeId)
-      selectedUpgradeIds.value = newSet
-      // Clear projected score (selections changed)
-      projectedEspm.value = null
-      _saveSelections()
-      // If deselecting empties the set, clear projected ESPM from DB too
-      if (newSet.size === 0) {
-        _clearProjectedEspm()
-      }
-      return { action: 'deselected' }
-    }
-
-    // Check if this is a package that conflicts with selected individuals
-    const constituents = packageConstituentMap.value.get(upgradeId)
-    if (constituents) {
-      const overlapping = constituents.filter(cid => newSet.has(cid))
-      if (overlapping.length > 0) {
-        // Auto-replace: remove overlapping individuals, add package
-        for (const cid of overlapping) {
-          newSet.delete(cid)
-        }
-        newSet.add(upgradeId)
-        selectedUpgradeIds.value = newSet
-        projectedEspm.value = null
-        _saveSelections()
-        return { action: 'replace', replaced: overlapping }
-      }
-    }
-
-    // Normal select
-    newSet.add(upgradeId)
-    selectedUpgradeIds.value = newSet
+    selectedUpgradeIds.value = result.nextSelectedUpgradeIds
     projectedEspm.value = null
     _saveSelections()
-    return { action: 'selected' }
+
+    // If deselecting empties the set, clear projected ESPM from DB too
+    if (result.action === 'deselected' && result.nextSelectedUpgradeIds.size === 0) {
+      _clearProjectedEspm()
+    }
+
+    const { nextSelectedUpgradeIds, ...metadata } = result
+    return metadata
   }
 
   // --- Persistence ---

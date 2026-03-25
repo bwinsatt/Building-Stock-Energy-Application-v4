@@ -6,7 +6,7 @@ import MeasuresTable from './MeasuresTable.vue'
 import AssumptionsPanel from './AssumptionsPanel.vue'
 import EnergyStarScore from './EnergyStarScore.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
-import { useMeasureSelections } from '../composables/useMeasureSelections'
+import { formatReplacementNotice, useMeasureSelections } from '../composables/useMeasureSelections'
 
 const props = defineProps({
   building: { type: Object, required: true },
@@ -55,11 +55,15 @@ let replaceTimer = null
 
 function handleToggleMeasure(upgradeId) {
   const res = toggleMeasure(upgradeId)
-  if (res?.action === 'replace' && res.replaced) {
-    const names = res.replaced
+  if (res?.action === 'replaced' && res.replacedIds) {
+    const packageName = measures.value.find(m => m.upgrade_id === res.packageId)?.name
+    const names = res.replacedIds
       .map(id => measures.value.find(m => m.upgrade_id === id)?.name)
       .filter(Boolean)
-    replaceMessage.value = `Replaced ${names.join(', ')} with package`
+    replaceMessage.value = formatReplacementNotice({
+      packageName,
+      replacedNames: names,
+    })
     if (replaceTimer) clearTimeout(replaceTimer)
     replaceTimer = setTimeout(() => { replaceMessage.value = null }, 4000)
   } else {

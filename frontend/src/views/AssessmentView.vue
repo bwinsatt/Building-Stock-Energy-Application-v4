@@ -9,7 +9,7 @@ import BaselineSummary from '../components/BaselineSummary.vue'
 import MeasuresTable from '../components/MeasuresTable.vue'
 import AssumptionsPanel from '../components/AssumptionsPanel.vue'
 import EnergyStarScore from '../components/EnergyStarScore.vue'
-import { useMeasureSelections } from '../composables/useMeasureSelections'
+import { formatReplacementNotice, useMeasureSelections } from '../composables/useMeasureSelections'
 
 const { loading, error, result, assess } = useAssessment()
 const { createBuilding, saveAssessment } = useProjects()
@@ -44,11 +44,15 @@ let replaceTimer = null
 
 function handleToggleMeasure(upgradeId) {
   const result = toggleMeasure(upgradeId)
-  if (result?.action === 'replace' && result.replaced) {
-    const names = result.replaced
+  if (result?.action === 'replaced' && result.replacedIds) {
+    const packageName = measuresRef.value.find(m => m.upgrade_id === result.packageId)?.name
+    const names = result.replacedIds
       .map(id => measuresRef.value.find(m => m.upgrade_id === id)?.name)
       .filter(Boolean)
-    replaceMessage.value = `Replaced ${names.join(', ')} with package`
+    replaceMessage.value = formatReplacementNotice({
+      packageName,
+      replacedNames: names,
+    })
     if (replaceTimer) clearTimeout(replaceTimer)
     replaceTimer = setTimeout(() => { replaceMessage.value = null }, 4000)
   } else {

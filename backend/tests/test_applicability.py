@@ -754,3 +754,15 @@ def test_package_constituents_are_valid_upgrade_ids():
             assert c not in all_package_ids, (
                 f"Package {pkg_id} references another package {c}"
             )
+
+
+def test_package_constituents_match_comstock_package_definitions():
+    assert PACKAGE_CONSTITUENTS[54] == [48, 49, 52]
+    assert PACKAGE_CONSTITUENTS[55] == [43, 1, 15]
+    assert PACKAGE_CONSTITUENTS[56] == [43, 4]
+    assert PACKAGE_CONSTITUENTS[57] == [48, 49, 52, 43, 1, 15]
+    assert PACKAGE_CONSTITUENTS[58] == [1, 15, 19, 20, 21]
+    assert PACKAGE_CONSTITUENTS[59] == [28, 29, 30]
+    assert PACKAGE_CONSTITUENTS[63] == [48, 49, 52, 28]
+    assert PACKAGE_CONSTITUENTS[64] == [48, 49, 52, 28, 43]
+    assert PACKAGE_CONSTITUENTS[65] == [46, 49]

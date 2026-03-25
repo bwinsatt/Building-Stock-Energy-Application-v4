@@ -233,7 +233,9 @@ function truncateText(text, maxLength) {
     <!-- Replace notification -->
     <div v-if="replaceMessage" class="measures-replace-msg">
       <PIcon name="information" size="small" />
-      {{ replaceMessage }}
+      <PTypography variant="body2" component="span">
+        {{ replaceMessage }}
+      </PTypography>
     </div>
 
     <!-- Individual measures collapsible (expanded by default) -->
