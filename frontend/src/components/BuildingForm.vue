@@ -70,8 +70,8 @@ const fieldSources = ref({})
 
 const PUBLIC_RECORD_SOURCES = new Set(['osm', 'nyc_opendata', 'chicago_opendata'])
 function sourceLabel(source) {
-  if (source === 'benchmarking') return 'benchmarking'
-  return source && PUBLIC_RECORD_SOURCES.has(source) ? 'public records' : 'estimated'
+  if (source === 'benchmarking') return 'Benchmarking'
+  return source && PUBLIC_RECORD_SOURCES.has(source) ? 'Public records' : 'Estimated'
 }
 
 const lastRawAddress = ref('')
@@ -812,12 +812,12 @@ function onSubmit() {
 /* Source badges for auto-filled fields */
 .field-badge {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 0.125rem 0.375rem;
-  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 0.125rem 0.4375rem;
+  border-radius: var(--partner-radius-sm, 0.125rem);
   margin-left: 0.5rem;
   vertical-align: middle;
 }
