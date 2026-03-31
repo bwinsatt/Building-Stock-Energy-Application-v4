@@ -10,6 +10,8 @@ services:
 
   frontend:
     build: ./frontend
+    environment:
+      - VITE_API_URL=http://backend:8001
     ports:
       - "3000:80"
     depends_on:
