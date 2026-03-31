@@ -33,7 +33,7 @@ from app.constants import (
     ASPECT_RATIO,
 )
 from app.services.emissions import calculate_emissions_reduction_pct
-from app.inference.applicability import PACKAGE_CONSTITUENTS
+from app.inference.applicability import PACKAGE_CONSTITUENTS, RESSTOCK_PACKAGE_CONSTITUENTS
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
 from app.services.cost_calculator import CostCalculatorService
@@ -415,8 +415,9 @@ def _assess_single(
             district_heating=round(savings_kwh.get("district_heating", 0.0) * KWH_TO_KBTU, 4),
         )
 
-        # Package constituent IDs (only for ComStock packages)
-        pkg_constituents = PACKAGE_CONSTITUENTS.get(uid)
+        # Package constituent IDs
+        pkg_map = RESSTOCK_PACKAGE_CONSTITUENTS if dataset == "resstock" else PACKAGE_CONSTITUENTS
+        pkg_constituents = pkg_map.get(uid)
 
         # Emissions reduction
         emissions_pct = calculate_emissions_reduction_pct(

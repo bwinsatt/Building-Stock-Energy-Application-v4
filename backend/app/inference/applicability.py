@@ -23,9 +23,10 @@ logger = logging.getLogger(__name__)
 # Package → Constituent mapping (for UI lockout)
 # ============================================================================
 
-# Mapping of ComStock package upgrade IDs → their constituent individual upgrade IDs.
+# Mapping of package upgrade IDs → their constituent individual upgrade IDs.
 # Used to enforce package/individual lockout in the measure selection UI.
-# ResStock does not have packages.
+#
+# ComStock packages
 PACKAGE_CONSTITUENTS: dict[int, list[int]] = {
     54: [48, 49, 52],                # Package 1: Wall Insulation + Roof Insulation + New Windows
     55: [43, 1, 15],                 # Package 2: LED + HP-RTU or HP Boilers
@@ -36,6 +37,16 @@ PACKAGE_CONSTITUENTS: dict[int, list[int]] = {
     63: [48, 49, 52, 28],            # Package 10: Package 1 + Package 6
     64: [48, 49, 52, 28, 43],        # Package 11: Package 10 + LED
     65: [46, 49],                    # Package 12: PV + Roof Insulation
+}
+
+# ResStock packages (IDs scoped to resstock dataset — no collision with ComStock)
+RESSTOCK_PACKAGE_CONSTITUENTS: dict[int, list[int]] = {
+    15: [11, 12, 13],               # Air Sealing + Attic Floor Insulation + Duct Sealing
+    16: [11, 12, 13, 14],           # Air Sealing + Attic + Duct + Drill-and-Fill Wall Insulation
+    18: [7, 11, 12, 13],            # Dual-Speed GSHP + Air Sealing + Attic + Duct
+    30: [29, 12, 13],               # General Air Sealing + Attic Floor Insulation + Duct Sealing
+    31: [7, 29, 12, 13],            # Dual-Speed GSHP + General Air Sealing + Attic + Duct
+    32: [8, 29, 12, 13],            # Variable-Speed GSHP + General Air Sealing + Attic + Duct
 }
 
 # ============================================================================
