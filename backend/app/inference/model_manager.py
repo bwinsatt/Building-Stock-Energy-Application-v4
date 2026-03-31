@@ -416,7 +416,7 @@ class ModelManager:
         cat_indices = set(model.get_cat_feature_indices())
         for i, col in enumerate(feature_cols):
             if i in cat_indices:
-                df[col] = df[col].astype(str)
+                df[col] = df[col].fillna("nan").astype(str)
             else:
                 df[col] = pd.to_numeric(df[col], errors="coerce")
 
