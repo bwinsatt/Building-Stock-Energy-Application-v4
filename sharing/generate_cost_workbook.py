@@ -272,6 +272,119 @@ def write_metadata_sheet(ws, metadata: dict, all_sources: list[dict]) -> None:
     auto_fit_columns(ws)
 
 
+def write_regional_adjustments_sheet(ws, data: dict) -> None:
+    """Build the Regional Cost Adjustments sheet from the JSON data."""
+    regional = data.get("metadata", {}).get("regional_adjustments", {})
+
+    # Note row
+    ws.cell(row=1, column=1, value=(
+        "Regional cost adjustment multipliers by state, sourced from RSMeans "
+        "city cost indices via NREL Scout. A multiplier of 1.0 = national average "
+        "(Michigan baseline). Applied to all cost estimates (low/mid/high) at "
+        "prediction time: Adjusted Cost = National Cost × Regional Factor."
+    ))
+    ws.cell(row=1, column=1).alignment = WRAP_ALIGNMENT
+    ws.cell(row=1, column=1).font = Font(italic=True)
+    ws.merge_cells("A1:F1")
+    ws.row_dimensions[1].height = 45
+
+    # Headers at row 3
+    headers = [
+        "State", "Representative City", "Residential Factor",
+        "Commercial Factor", "Residential vs National", "Commercial vs National",
+    ]
+    header_row = 3
+    for ci, header in enumerate(headers, start=1):
+        cell = ws.cell(row=header_row, column=ci, value=header)
+        cell.fill = HEADER_FILL
+        cell.font = HEADER_FONT
+        cell.border = THIN_BORDER
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    ws.freeze_panes = f"A{header_row + 1}"
+    last_col = get_column_letter(len(headers))
+    ws.auto_filter.ref = f"A{header_row}:{last_col}{header_row}"
+
+    # State data — from the JSON regional_adjustments or hardcoded from Scout
+    # The JSON stores {state_abbr: {city, residential, commercial}}
+    states = []
+    if regional:
+        for state_abbr, info in regional.items():
+            states.append({
+                "state": state_abbr,
+                "city": info.get("city", ""),
+                "residential": info.get("residential", 1.0),
+                "commercial": info.get("commercial", 1.0),
+            })
+    else:
+        # Fallback: hardcoded from Scout loc_cost_adj.csv
+        _raw = [
+            ("AL", "Huntsville", 0.83, 0.85), ("AK", "Anchorage", 1.17, 1.16),
+            ("AZ", "Phoenix", 0.84, 0.87), ("AR", "Little Rock", 0.83, 0.82),
+            ("CA", "Los Angeles", 1.15, 1.12), ("CO", "Denver", 0.91, 0.92),
+            ("CT", "Bridgeport", 1.10, 1.08), ("DE", "Wilmington", 1.01, 1.04),
+            ("DC", "Washington, D.C.", 0.92, 0.96), ("FL", "Jacksonville", 0.81, 0.84),
+            ("GA", "Atlanta", 0.90, 0.89), ("HI", "Honolulu", 1.22, 1.19),
+            ("ID", "Boise", 0.89, 0.91), ("IL", "Chicago", 1.25, 1.20),
+            ("IN", "Indianapolis", 0.92, 0.92), ("IA", "Des Moines", 0.92, 0.94),
+            ("KS", "Wichita", 0.81, 0.86), ("KY", "Louisville", 0.89, 0.88),
+            ("LA", "New Orleans", 0.85, 0.85), ("ME", "Portland", 0.94, 0.94),
+            ("MD", "Baltimore", 0.93, 0.94), ("MA", "Boston", 1.18, 1.14),
+            ("MI", "Detroit", 1.00, 1.00), ("MN", "Minneapolis", 1.09, 1.07),
+            ("MS", "Jackson", 0.84, 0.85), ("MO", "Kansas City", 0.99, 0.99),
+            ("MT", "Billings", 0.89, 0.91), ("NE", "Omaha", 0.90, 0.92),
+            ("NV", "Las Vegas", 1.03, 1.05), ("NH", "Manchester", 0.99, 0.97),
+            ("NJ", "Newark", 1.20, 1.17), ("NM", "Albuquerque", 0.86, 0.87),
+            ("NY", "New York", 1.36, 1.32), ("NC", "Charlotte", 0.99, 0.87),
+            ("ND", "Fargo", 0.87, 0.91), ("OH", "Columbus", 0.91, 0.92),
+            ("OK", "Oklahoma City", 0.84, 0.85), ("OR", "Portland", 1.02, 1.03),
+            ("PA", "Philadelphia", 1.17, 1.16), ("RI", "Providence", 1.09, 1.06),
+            ("SC", "Charleston", 0.98, 0.85), ("SD", "Sioux Falls", 0.92, 0.92),
+            ("TN", "Nashville", 0.87, 0.89), ("TX", "Houston", 0.84, 0.87),
+            ("UT", "Salt Lake City", 0.85, 0.91), ("VT", "Burlington", 1.00, 0.95),
+            ("VA", "Newport News", 0.97, 0.87), ("WA", "Seattle", 1.06, 1.07),
+            ("WV", "Charleston", 0.94, 0.94), ("WI", "Milwaukee", 1.07, 1.04),
+            ("WY", "Cheyenne", 0.86, 0.89),
+        ]
+        for s, c, r, cm in _raw:
+            states.append({"state": s, "city": c, "residential": r, "commercial": cm})
+
+    states.sort(key=lambda x: x["state"])
+
+    # Write data rows
+    row = header_row + 1
+    for entry in states:
+        res_factor = entry["residential"]
+        com_factor = entry["commercial"]
+        ws.cell(row=row, column=1, value=entry["state"])
+        ws.cell(row=row, column=2, value=entry["city"])
+        c_res = ws.cell(row=row, column=3, value=res_factor)
+        c_com = ws.cell(row=row, column=4, value=com_factor)
+        c_res.number_format = "0.00"
+        c_com.number_format = "0.00"
+
+        # % vs national (1.0 baseline)
+        res_pct = (res_factor - 1.0) * 100
+        com_pct = (com_factor - 1.0) * 100
+        c_res_pct = ws.cell(row=row, column=5, value=res_pct / 100)
+        c_com_pct = ws.cell(row=row, column=6, value=com_pct / 100)
+        c_res_pct.number_format = "+0.0%;-0.0%;0.0%"
+        c_com_pct.number_format = "+0.0%;-0.0%;0.0%"
+
+        # Alternating fill + borders
+        is_alt = (row - header_row - 1) % 2 == 1
+        fill = ALT_ROW_FILL if is_alt else WHITE_FILL
+        for ci in range(1, len(headers) + 1):
+            cell = ws.cell(row=row, column=ci)
+            cell.fill = fill
+            cell.border = THIN_BORDER
+            cell.alignment = TOP_ALIGNMENT
+
+        row += 1
+
+    auto_fit_columns(ws)
+
+
 def main() -> None:
     # Load data
     with open(JSON_PATH, "r") as f:
@@ -298,7 +411,11 @@ def main() -> None:
     ws_res = wb.create_sheet("ResStock Upgrades")
     write_upgrade_sheet(ws_res, resstock_records)
 
-    # Sheet 3: Metadata & Sources
+    # Sheet 3: Regional Cost Adjustments
+    ws_reg = wb.create_sheet("Regional Cost Adjustments")
+    write_regional_adjustments_sheet(ws_reg, data)
+
+    # Sheet 4: Metadata & Sources
     ws_meta = wb.create_sheet("Metadata & Sources")
     write_metadata_sheet(ws_meta, metadata, all_sources)
 
