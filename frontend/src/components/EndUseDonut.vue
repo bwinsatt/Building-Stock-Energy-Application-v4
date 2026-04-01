@@ -10,7 +10,7 @@ const props = defineProps({
   /** End-use breakdown: { category_name: kBtu_sf_value } */
   breakdown: { type: Object, required: true },
   /** Total EUI for center label */
-  totalEui: { type: Number, required: true },
+  totalEui: { type: Number, default: 0 },
 })
 
 // Partner design system data viz colors (1-6)

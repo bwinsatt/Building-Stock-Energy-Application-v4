@@ -263,7 +263,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   flex-shrink: 0;
 }
 
-/* ---- Two-column layout ---- */
+/* ---- Grid layout (2-col default, 3-col with donut) ---- */
 .baseline-layout {
   display: grid;
   grid-template-columns: 1fr auto;
