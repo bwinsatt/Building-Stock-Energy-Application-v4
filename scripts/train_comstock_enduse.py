@@ -159,6 +159,15 @@ def load_baseline_data(enduses_to_train):
     # Only load columns that exist in the parquet
     fname = os.path.join(RAW_DIR, 'upgrade0_agg.parquet')
     available = set(pd.read_parquet(fname, columns=[]).columns)
+
+    # Check for required HDD/CDD columns early
+    missing_hdd_cdd = [c for c in hdd_cdd_raw if c not in available]
+    if missing_hdd_cdd:
+        raise ValueError(
+            f"Expected HDD/CDD columns not found in parquet: {missing_hdd_cdd}. "
+            f"Check that upgrade0_agg.parquet contains 'out.params.*' columns."
+        )
+
     load_cols = list(dict.fromkeys(
         meta_cols + feature_load_cols + [c for c in enduse_cols + hdd_cdd_raw if c in available]
     ))
@@ -181,6 +190,13 @@ def load_baseline_data(enduses_to_train):
         'out.params.hdd65f': 'hdd65f',
         'out.params.cdd65f': 'cdd65f',
     })
+
+    # Clean weekend_operating_hours sentinel values (999 = no data → NaN)
+    if 'in.weekend_operating_hours..hr' in df.columns:
+        df['in.weekend_operating_hours..hr'] = pd.to_numeric(
+            df['in.weekend_operating_hours..hr'], errors='coerce'
+        )
+        df.loc[df['in.weekend_operating_hours..hr'] >= 999, 'in.weekend_operating_hours..hr'] = float('nan')
 
     # Derived geometry feature
     df['floor_plate_sqft'] = (
