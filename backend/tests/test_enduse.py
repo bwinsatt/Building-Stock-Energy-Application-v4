@@ -25,10 +25,11 @@ def test_grouping_covers_all_trained_enduses():
 
     for ds in ("comstock", "resstock"):
         trained = set(cfg[ds]["trained_enduses"])
-        grouped = set()
+        all_grouped = []
         for enduses in cfg[ds]["grouping"].values():
-            grouped.update(enduses)
-        assert grouped == trained, f"{ds}: grouped {grouped} != trained {trained}"
+            all_grouped.extend(enduses)
+        assert len(all_grouped) == len(set(all_grouped)), f"{ds}: duplicate end use in grouping"
+        assert set(all_grouped) == trained, f"{ds}: grouped {set(all_grouped)} != trained {trained}"
 
 
 def test_display_categories_match_grouping_keys():
