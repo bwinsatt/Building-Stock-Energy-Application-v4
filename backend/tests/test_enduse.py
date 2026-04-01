@@ -1,5 +1,11 @@
 import json
 from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import numpy as np
+
+from app.inference.model_manager import ModelManager
+from app.services.assessment import _compute_enduse_breakdown
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "app" / "data"
 
@@ -54,11 +60,6 @@ def test_display_colors_match_categories():
         assert cat in cfg["display_colors"], f"Missing color for {cat}"
 
 
-import numpy as np
-from unittest.mock import patch, MagicMock
-from app.inference.model_manager import ModelManager
-
-
 def test_model_manager_indexes_enduse_directory(tmp_path):
     """ModelManager discovers end-use model files in ComStock_EndUse/ dir."""
     # Create mock model files
@@ -102,9 +103,6 @@ def test_predict_enduse_returns_shares(tmp_path):
     assert "cooling" in result
     assert result["heating"] == 5.0
     assert result["cooling"] == 5.0
-
-
-from app.services.assessment import _compute_enduse_breakdown
 
 
 def test_compute_enduse_breakdown_sums_to_100():

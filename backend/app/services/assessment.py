@@ -246,7 +246,7 @@ def _compute_enduse_breakdown(
     for category, enduses in grouping.items():
         cat_eui = sum(max(0.0, raw_enduse_eui.get(eu, 0.0)) for eu in enduses)
         share = cat_eui / predicted_total
-        result[category] = round(share * total_baseline_kbtu, 2)
+        result[category] = share * total_baseline_kbtu
 
     # Catch any trained end uses not in the grouping → add to "Other"
     grouped_enduses = set()
@@ -257,9 +257,9 @@ def _compute_enduse_breakdown(
     )
     if ungrouped_eui > 0:
         other_share = ungrouped_eui / predicted_total
-        result["Other"] = round(result.get("Other", 0.0) + other_share * total_baseline_kbtu, 2)
+        result["Other"] = result.get("Other", 0.0) + other_share * total_baseline_kbtu
 
-    return result
+    return {k: round(v, 2) for k, v in result.items()}
 
 
 # ---------------------------------------------------------------------------
