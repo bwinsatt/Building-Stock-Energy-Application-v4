@@ -47,6 +47,8 @@ _DIR_MAP = {
     "ComStock_Rates":            ("comstock", "rates"),
     "ResStock_Sizing":           ("resstock", "sizing"),
     "ResStock_Rates":            ("resstock", "rates"),
+    "ComStock_EndUse":           ("comstock", "enduse"),
+    "ResStock_EndUse":           ("resstock", "enduse"),
 }
 
 # Regex patterns for model file naming conventions
@@ -54,6 +56,7 @@ _MODEL_PREFIXES = ('XGB', 'LGBM', 'CB')
 _RE_UPGRADE = re.compile(r"^(XGB|LGBM|CB)_upgrade(\d+)_(.+)\.pkl$")
 _RE_SIZING  = re.compile(r"^XGB_(.+)\.pkl$")
 _RE_RATE    = re.compile(r"^XGB_rate_(.+)\.pkl$")
+_RE_ENDUSE  = re.compile(r"^(XGB|LGBM|CB)_enduse_(.+)\.pkl$")
 
 # Default max upgrade bundles kept in memory per dataset
 _DEFAULT_LRU_CAP = 400
@@ -143,15 +146,15 @@ class ModelManager:
         #   baseline/sizing/rates: key = fuel_or_target_name
         #   upgrades:              key = (upgrade_id, fuel_name)
         self._index: Dict[str, Dict[str, dict]] = {
-            "comstock": {"baseline": {}, "sizing": {}, "rates": {}, "upgrades": {}},
-            "resstock": {"baseline": {}, "sizing": {}, "rates": {}, "upgrades": {}},
+            "comstock": {"baseline": {}, "sizing": {}, "rates": {}, "upgrades": {}, "enduse": {}},
+            "resstock": {"baseline": {}, "sizing": {}, "rates": {}, "upgrades": {}, "enduse": {}},
         }
 
         # --- Loaded bundles (populated lazily) ---
         # baseline/sizing/rates: same structure as old self.models
         self._loaded: Dict[str, Dict[str, dict]] = {
-            "comstock": {"baseline": {}, "sizing": {}, "rates": {}},
-            "resstock": {"baseline": {}, "sizing": {}, "rates": {}},
+            "comstock": {"baseline": {}, "sizing": {}, "rates": {}, "enduse": {}},
+            "resstock": {"baseline": {}, "sizing": {}, "rates": {}, "enduse": {}},
         }
 
         # upgrades use a per-dataset LRU cache: (upgrade_id, fuel) -> bundle
@@ -238,6 +241,17 @@ class ModelManager:
                 self._index[dataset]["rates"][m.group(1)] = pkl_path
                 indexed += 1
 
+            elif category == "enduse":
+                m = _RE_ENDUSE.match(name)
+                if not m:
+                    continue
+                prefix = m.group(1)
+                enduse_name = m.group(2)
+                if enduse_name not in self._index[dataset]["enduse"]:
+                    self._index[dataset]["enduse"][enduse_name] = {}
+                self._index[dataset]["enduse"][enduse_name][prefix] = pkl_path
+                indexed += 1
+
         return indexed
 
     # ------------------------------------------------------------------
@@ -251,7 +265,7 @@ class ModelManager:
         with self._lock:
             if self._dataset_initialised[dataset]:
                 return  # double-check after acquiring lock
-            for category in ("baseline", "sizing", "rates"):
+            for category in ("baseline", "sizing", "rates", "enduse"):
                 for key, value in self._index[dataset][category].items():
                     if category == "baseline":
                         # value is {prefix: Path} dict
@@ -262,13 +276,22 @@ class ModelManager:
                                 ensemble[prefix] = bundle
                         if ensemble:
                             self._loaded[dataset]["baseline"][key] = ensemble
+                    elif category == "enduse":
+                        # Same ensemble structure as baseline
+                        ensemble = {}
+                        for prefix, pkl_path in value.items():
+                            bundle = self._load_bundle(pkl_path)
+                            if bundle:
+                                ensemble[prefix] = bundle
+                        if ensemble:
+                            self._loaded[dataset]["enduse"][key] = ensemble
                     else:
                         # sizing/rates: value is a Path (unchanged)
                         bundle = self._load_bundle(value)
                         if bundle:
                             self._loaded[dataset][category][key] = bundle
             count = sum(
-                len(self._loaded[dataset][c]) for c in ("baseline", "sizing", "rates")
+                len(self._loaded[dataset][c]) for c in ("baseline", "sizing", "rates", "enduse")
             )
             logger.info(
                 "Loaded %d core models (baseline/sizing/rates) for %s", count, dataset
@@ -455,6 +478,31 @@ class ModelManager:
             fuel: self._predict_ensemble(ensemble, features_dict, _enc_cache)
             for fuel, ensemble in bundles.items()
         }
+
+    def predict_enduse(
+        self,
+        features_dict: dict,
+        dataset: str,
+        _enc_cache: Optional[dict] = None,
+    ) -> dict[str, float]:
+        """Predict absolute EUI (kWh/ft2) per granular end-use category.
+
+        Returns a dict mapping enduse_name -> predicted EUI.
+        Only returns end uses that have trained models for this dataset.
+        Returns empty dict if no end-use models are loaded (graceful degradation).
+        """
+        dataset = dataset.lower()
+        self._ensure_dataset_core(dataset)
+        enduse_models = self._loaded[dataset].get("enduse", {})
+        if not enduse_models:
+            return {}
+
+        result = {}
+        for enduse_name, ensemble in enduse_models.items():
+            pred = self._predict_ensemble(ensemble, features_dict, _enc_cache)
+            result[enduse_name] = max(0.0, pred)  # EUI can't be negative
+
+        return result
 
     def predict_sizing(self, features_dict: dict, dataset: str, _enc_cache: dict | None = None) -> dict:
         """Run sizing models.
