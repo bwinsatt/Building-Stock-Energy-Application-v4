@@ -294,7 +294,7 @@ class ModelManager:
                 len(self._loaded[dataset][c]) for c in ("baseline", "sizing", "rates", "enduse")
             )
             logger.info(
-                "Loaded %d core models (baseline/sizing/rates) for %s", count, dataset
+                "Loaded %d core models (baseline/sizing/rates/enduse) for %s", count, dataset
             )
             self._dataset_initialised[dataset] = True
 
@@ -483,7 +483,7 @@ class ModelManager:
         self,
         features_dict: dict,
         dataset: str,
-        _enc_cache: Optional[dict] = None,
+        _enc_cache: dict | None = None,
     ) -> dict[str, float]:
         """Predict absolute EUI (kWh/ft2) per granular end-use category.
 
