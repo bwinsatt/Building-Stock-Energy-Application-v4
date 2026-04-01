@@ -5,11 +5,20 @@ calculation, and response formatting into a single assessment pipeline.
 
 from __future__ import annotations
 
+import json as _json
 import logging
 import math
 import re
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path as _Path
 from typing import Optional
+
+# Load end-use grouping config once at module level
+_ENDUSE_CFG_PATH = _Path(__file__).resolve().parent.parent / "data" / "enduse_grouping.json"
+_ENDUSE_CFG: dict = {}
+if _ENDUSE_CFG_PATH.exists():
+    with open(_ENDUSE_CFG_PATH) as _f:
+        _ENDUSE_CFG = _json.load(_f)
 
 from app.schemas.request import BuildingInput
 from app.schemas.response import (
@@ -202,6 +211,55 @@ def convert_utility_to_eui(
 
 
 # ---------------------------------------------------------------------------
+# End-use breakdown
+# ---------------------------------------------------------------------------
+
+def _compute_enduse_breakdown(
+    raw_enduse_eui: dict[str, float],
+    total_baseline_kbtu: float,
+    dataset: str,
+) -> dict[str, float] | None:
+    """Convert raw per-end-use EUI predictions into grouped kBtu/sf breakdown.
+
+    1. Sum raw predictions → predicted total
+    2. Compute each end use's share of that total
+    3. Group by display category
+    4. Scale grouped shares to the trusted baseline total (kBtu/sf)
+
+    Returns dict of display_category -> kBtu/sf, or None if no data.
+    """
+    if not raw_enduse_eui or total_baseline_kbtu <= 0:
+        return None
+
+    predicted_total = sum(raw_enduse_eui.values())
+    if predicted_total <= 0:
+        return None
+
+    grouping = _ENDUSE_CFG.get(dataset, {}).get("grouping", {})
+    if not grouping:
+        return None
+
+    result = {}
+    for category, enduses in grouping.items():
+        cat_eui = sum(raw_enduse_eui.get(eu, 0.0) for eu in enduses)
+        share = cat_eui / predicted_total
+        result[category] = round(share * total_baseline_kbtu, 2)
+
+    # Catch any trained end uses not in the grouping → add to "Other"
+    grouped_enduses = set()
+    for enduses in grouping.values():
+        grouped_enduses.update(enduses)
+    ungrouped_eui = sum(
+        v for k, v in raw_enduse_eui.items() if k not in grouped_enduses
+    )
+    if ungrouped_eui > 0:
+        other_share = ungrouped_eui / predicted_total
+        result["Other"] = result.get("Other", 0.0) + round(other_share * total_baseline_kbtu, 2)
+
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Single-building assessment
 # ---------------------------------------------------------------------------
 
@@ -264,6 +322,12 @@ def _assess_single(
     # 5. Convert effective baseline to kBtu/sf (clamp negatives to zero)
     baseline_kbtu = {fuel: max(0.0, eui * KWH_TO_KBTU) for fuel, eui in effective_baseline.items()}
     total_baseline_kbtu = sum(baseline_kbtu.values())
+
+    # 5b. Predict end-use breakdown (graceful: returns {} if models not trained)
+    raw_enduse_eui = model_manager.predict_enduse(features, dataset, enc_cache)
+    enduse_breakdown = _compute_enduse_breakdown(
+        raw_enduse_eui, total_baseline_kbtu, dataset
+    )
 
     # 6. Check applicability and predict upgrades
     upgrade_ids = model_manager.get_available_upgrades(dataset)
@@ -469,6 +533,7 @@ def _assess_single(
             actual_total_eui_kbtu_sf=sum(
                 val * KWH_TO_KBTU for val in actual_baseline_eui.values()
             ) if calibrated else None,
+            enduse_breakdown=enduse_breakdown,
         ),
         measures=measures,
         input_summary=InputSummary(

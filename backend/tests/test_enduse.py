@@ -102,3 +102,49 @@ def test_predict_enduse_returns_shares(tmp_path):
     assert "cooling" in result
     assert result["heating"] == 5.0
     assert result["cooling"] == 5.0
+
+
+from app.services.assessment import _compute_enduse_breakdown
+
+
+def test_compute_enduse_breakdown_sums_to_100():
+    """Grouped percentages must sum to ~100%."""
+    raw_enduse_eui = {
+        "heating": 3.0,
+        "cooling": 2.0,
+        "interior_lighting": 1.5,
+        "exterior_lighting": 0.5,
+        "fans": 1.0,
+        "pumps": 0.2,
+        "interior_equipment": 2.0,
+        "water_systems": 0.8,
+        "refrigeration": 0.5,
+        "heat_recovery": 0.1,
+        "heat_rejection": 0.05,
+    }
+    total_baseline_kbtu = 40.0
+
+    result = _compute_enduse_breakdown(raw_enduse_eui, total_baseline_kbtu, "comstock")
+
+    assert result is not None
+    total_pct = sum(result.values())
+    assert abs(total_pct - total_baseline_kbtu) < 0.1, f"Sum is {total_pct}, expected ~{total_baseline_kbtu}"
+
+
+def test_compute_enduse_breakdown_returns_none_when_empty():
+    """Returns None when no end-use predictions available."""
+    result = _compute_enduse_breakdown({}, 40.0, "comstock")
+    assert result is None
+
+
+def test_compute_enduse_breakdown_scales_to_baseline():
+    """kBtu/sf values scale proportionally to baseline total."""
+    raw = {"heating": 6.0, "cooling": 4.0}
+    total_baseline_kbtu = 50.0
+    result = _compute_enduse_breakdown(raw, total_baseline_kbtu, "comstock")
+
+    # heating is 60% of raw total, so 60% of 50 = 30 kBtu/sf
+    assert result is not None
+    heating_kbtu = result.get("Heating", 0)
+    # Heating group only contains "heating" for comstock
+    assert abs(heating_kbtu - 30.0) < 0.1
