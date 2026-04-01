@@ -103,7 +103,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
     </div>
 
     <!-- Two-column layout: left stats + bar, right consumption list -->
-    <div class="baseline-layout">
+    <div :class="['baseline-layout', endUseBreakdown ? 'baseline-layout--with-donut' : '']">
       <!-- Left column -->
       <div class="baseline-layout__left">
         <!-- Hero section: Total EUI + Total Annual -->
@@ -266,9 +266,13 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 /* ---- Two-column layout ---- */
 .baseline-layout {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto;
   gap: 2rem;
   align-items: start;
+}
+
+.baseline-layout--with-donut {
+  grid-template-columns: 1fr auto auto;
 }
 
 .baseline-layout__left {
