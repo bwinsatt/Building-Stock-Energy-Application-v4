@@ -48,7 +48,8 @@ FUEL_TYPES = [
     'propane', 'district_heating', 'district_cooling',
 ]
 
-# Same 27 baseline features used by existing upgrade-0 fuel-type models
+# Same 31 baseline features used by existing upgrade-0 fuel-type models
+# (27 original + hdd65f, cdd65f, weekend_operating_hours, floor_plate_sqft)
 FEATURE_COLS = [
     'in.comstock_building_type_group',
     'in.sqft..ft2',
@@ -77,6 +78,10 @@ FEATURE_COLS = [
     'in.energy_code_followed_during_last_svc_water_htg_replacement',
     'in.tstat_clg_sp_f..f',
     'in.tstat_htg_sp_f..f',
+    'hdd65f',
+    'cdd65f',
+    'in.weekend_operating_hours..hr',
+    'floor_plate_sqft',
 ]
 
 CAT_FEATURE_NAMES = [
@@ -105,6 +110,7 @@ CAT_FEATURE_NAMES = [
     'in.energy_code_followed_during_last_svc_water_htg_replacement',
     'in.tstat_clg_sp_f..f',
     'in.tstat_htg_sp_f..f',
+    'in.weekend_operating_hours..hr',
 ]
 
 
@@ -139,19 +145,22 @@ def load_cluster_lookup():
 
 def load_baseline_data(enduses_to_train):
     """Load baseline data with all needed feature + end-use target columns."""
-    # Determine which parquet columns to load
+    # Determine which parquet columns to load (exclude derived features)
     feature_load_cols = [c for c in FEATURE_COLS
-                         if c not in ('cluster_name',)]
+                         if c not in ('cluster_name', 'hdd65f', 'cdd65f', 'floor_plate_sqft')]
     meta_cols = ['bldg_id', 'in.as_simulated_nhgis_county_gisjoin']
     enduse_cols = []
     for eu in enduses_to_train:
         enduse_cols.extend(get_enduse_columns(eu))
 
+    # Load HDD/CDD from parquet under their raw column names
+    hdd_cdd_raw = ['out.params.hdd65f', 'out.params.cdd65f']
+
     # Only load columns that exist in the parquet
     fname = os.path.join(RAW_DIR, 'upgrade0_agg.parquet')
     available = set(pd.read_parquet(fname, columns=[]).columns)
     load_cols = list(dict.fromkeys(
-        meta_cols + feature_load_cols + [c for c in enduse_cols if c in available]
+        meta_cols + feature_load_cols + [c for c in enduse_cols + hdd_cdd_raw if c in available]
     ))
 
     df = pd.read_parquet(fname, columns=load_cols)
@@ -166,6 +175,18 @@ def load_baseline_data(enduses_to_train):
         how='left',
     )
     df['cluster_name'] = df['cluster_name'].fillna('Unknown')
+
+    # Rename HDD/CDD to match feature names
+    df = df.rename(columns={
+        'out.params.hdd65f': 'hdd65f',
+        'out.params.cdd65f': 'cdd65f',
+    })
+
+    # Derived geometry feature
+    df['floor_plate_sqft'] = (
+        pd.to_numeric(df['in.sqft..ft2'], errors='coerce') /
+        pd.to_numeric(df['in.number_stories'], errors='coerce').clip(lower=1)
+    )
 
     # Compute summed end-use targets (across all fuels)
     for eu in enduses_to_train:
