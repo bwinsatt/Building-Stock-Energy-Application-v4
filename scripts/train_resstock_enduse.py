@@ -226,9 +226,16 @@ def train_all(enduses_to_train, skip_tuning=False):
             json.dump(best_params, f, indent=2)
         print(f"Saved hyperparameters to {hp_path}")
     else:
-        with open(hp_path) as f:
-            best_params = json.load(f)
-        print(f"Loaded hyperparameters from {hp_path}")
+        if os.path.exists(hp_path):
+            with open(hp_path) as f:
+                best_params = json.load(f)
+            print(f"Loaded hyperparameters from {hp_path}")
+        else:
+            best_params = {
+                'n_estimators': 300, 'max_depth': 6, 'learning_rate': 0.1,
+                'subsample': 0.8, 'colsample_bytree': 0.8, 'min_child_weight': 5,
+            }
+            print("No saved hyperparameters found — using defaults.")
 
     # --- Phase 2: Train each end use ---
     print("\n=== Phase 2: Training End-Use Models ===")
