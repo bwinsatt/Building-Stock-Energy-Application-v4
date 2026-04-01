@@ -158,7 +158,8 @@ def load_baseline_data(enduses_to_train):
 
     # Only load columns that exist in the parquet
     fname = os.path.join(RAW_DIR, 'upgrade0_agg.parquet')
-    available = set(pd.read_parquet(fname, columns=[]).columns)
+    import pyarrow.parquet as pq
+    available = set(pq.read_schema(fname).names)
 
     # Check for required HDD/CDD columns early
     missing_hdd_cdd = [c for c in hdd_cdd_raw if c not in available]

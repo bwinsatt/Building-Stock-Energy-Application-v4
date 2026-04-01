@@ -154,7 +154,8 @@ def load_baseline_data(enduses_to_train):
         enduse_cols.extend(get_enduse_columns(eu))
 
     fname = os.path.join(RAW_DIR, 'upgrade0.parquet')
-    available = set(pd.read_parquet(fname, columns=[]).columns)
+    import pyarrow.parquet as pq
+    available = set(pq.read_schema(fname).names)
     load_cols = list(dict.fromkeys(
         meta_cols + feature_load_cols + [c for c in enduse_cols if c in available]
     ))
