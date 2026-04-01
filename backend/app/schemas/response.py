@@ -16,6 +16,7 @@ class BaselineResult(BaseModel):
     emissions_kg_co2e_per_sf: Optional[float] = None
     actual_eui_by_fuel: Optional[FuelBreakdown] = None
     actual_total_eui_kbtu_sf: Optional[float] = None
+    enduse_breakdown: Optional[dict[str, float]] = None  # category -> kBtu/sf
 
 
 class CostEstimate(BaseModel):

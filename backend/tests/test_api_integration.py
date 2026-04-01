@@ -70,6 +70,9 @@ class MockModelManager:
         baseline = self.predict_baseline(features_dict, dataset)
         return {fuel: eui * 0.1 for fuel, eui in baseline.items()}
 
+    def predict_enduse(self, features_dict, dataset, _enc_cache=None):
+        return {}
+
 
 # ---------------------------------------------------------------------------
 # Fixtures

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { PTypography, PTooltip } from '@partnerdevops/partner-components'
+import EndUseDonut from './EndUseDonut.vue'
 
 const KWH_TO_KBTU = 3.412
 const THERM_TO_KBTU = 100
@@ -86,6 +87,9 @@ const barSegments = computed(() => {
     visualWidth: ((boosted[i] ?? 0) / boostedTotal) * 100,
   }))
 })
+
+/** End-use breakdown data from API (null if models not yet trained) */
+const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 </script>
 
 <template>
@@ -99,7 +103,7 @@ const barSegments = computed(() => {
     </div>
 
     <!-- Two-column layout: left stats + bar, right consumption list -->
-    <div class="baseline-layout">
+    <div :class="['baseline-layout', endUseBreakdown ? 'baseline-layout--with-donut' : '']">
       <!-- Left column -->
       <div class="baseline-layout__left">
         <!-- Hero section: Total EUI + Total Annual -->
@@ -179,6 +183,14 @@ const barSegments = computed(() => {
         </div>
       </div>
 
+      <!-- Center column: end-use donut (only when data available) -->
+      <div v-if="endUseBreakdown" class="baseline-layout__center">
+        <EndUseDonut
+          :breakdown="endUseBreakdown"
+          :total-eui="baseline.total_eui_kbtu_sf"
+        />
+      </div>
+
       <!-- Right column: consumption list -->
       <div class="baseline-layout__right">
         <PTypography variant="subhead" class="consumption-list__heading">
@@ -251,7 +263,7 @@ const barSegments = computed(() => {
   flex-shrink: 0;
 }
 
-/* ---- Two-column layout ---- */
+/* ---- Grid layout (2-col default, 3-col with donut) ---- */
 .baseline-layout {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -259,8 +271,17 @@ const barSegments = computed(() => {
   align-items: start;
 }
 
+.baseline-layout--with-donut {
+  grid-template-columns: 1fr auto auto;
+}
+
 .baseline-layout__left {
   min-width: 0;
+}
+
+.baseline-layout__center {
+  min-width: 200px;
+  max-width: 280px;
 }
 
 .baseline-layout__right {
@@ -469,6 +490,10 @@ const barSegments = computed(() => {
 @media (max-width: 768px) {
   .baseline-layout {
     grid-template-columns: 1fr;
+  }
+
+  .baseline-layout__center {
+    max-width: none;
   }
 
   .baseline-layout__right {

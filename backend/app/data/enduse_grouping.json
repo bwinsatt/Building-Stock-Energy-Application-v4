@@ -1,0 +1,52 @@
+{
+  "display_categories": [
+    "Heating",
+    "Cooling",
+    "Water Heating",
+    "Lighting",
+    "Equipment & Appliances",
+    "Other"
+  ],
+  "display_colors": {
+    "Heating": "#005199",
+    "Cooling": "#2FB7C4",
+    "Water Heating": "#A04A7A",
+    "Lighting": "#6B778C",
+    "Equipment & Appliances": "#8A9A3A",
+    "Other": "#8FB9E5"
+  },
+  "comstock": {
+    "trained_enduses": [
+      "heating", "cooling", "fans", "pumps",
+      "interior_lighting", "exterior_lighting",
+      "interior_equipment", "water_systems",
+      "refrigeration", "heat_recovery", "heat_rejection"
+    ],
+    "grouping": {
+      "Heating": ["heating"],
+      "Cooling": ["cooling"],
+      "Water Heating": ["water_systems"],
+      "Lighting": ["interior_lighting", "exterior_lighting"],
+      "Equipment & Appliances": ["interior_equipment", "refrigeration"],
+      "Other": ["fans", "pumps", "heat_recovery", "heat_rejection"]
+    }
+  },
+  "resstock": {
+    "trained_enduses": [
+      "heating", "heating_fans_pumps", "heating_hp_bkup",
+      "cooling", "cooling_fans_pumps",
+      "hot_water",
+      "lighting_interior", "lighting_exterior",
+      "equipment_and_appliances",
+      "mech_vent"
+    ],
+    "grouping": {
+      "Heating": ["heating", "heating_fans_pumps", "heating_hp_bkup"],
+      "Cooling": ["cooling", "cooling_fans_pumps"],
+      "Water Heating": ["hot_water"],
+      "Lighting": ["lighting_interior", "lighting_exterior"],
+      "Equipment & Appliances": ["equipment_and_appliances"],
+      "Other": ["mech_vent"]
+    }
+  }
+}

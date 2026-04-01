@@ -127,6 +127,12 @@ BuildingInput → Preprocessor (validate, impute, map features, determine datase
 ## Docker
 - Backend: port 8001, Frontend: port 80 (mapped from 3000)
 - Models volume-mounted via `MODEL_DIR` env var
+- Railway startup runs `backend/download_models.py` before Uvicorn starts
+- Optional Railway env var `MODEL_BUNDLE_VERSION` controls manual model cache invalidation:
+  bump the value after uploading new blobs to force a full re-download on next startup
+- Versioned downloads compare `MODEL_BUNDLE_VERSION` against local volume file
+  `.models_version`; matching values skip download, changed values clear the cached
+  model files and download the bucket contents again
 
 ## SiteLynx Integration Notes
 
