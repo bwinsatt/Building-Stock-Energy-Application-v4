@@ -1,6 +1,5 @@
 <script setup>
-import { computed } from 'vue'
-import { Chart } from 'highcharts-vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import Highcharts from 'highcharts'
 import Accessibility from 'highcharts/modules/accessibility'
 
@@ -13,7 +12,6 @@ const props = defineProps({
   totalEui: { type: Number, default: 0 },
 })
 
-// Partner design system data viz colors (1-6)
 const CATEGORY_COLORS = {
   'Heating': '#005199',
   'Cooling': '#2FB7C4',
@@ -23,7 +21,6 @@ const CATEGORY_COLORS = {
   'Other': '#8FB9E5',
 }
 
-// Fallback colors from partner palette (7-15) for unexpected categories
 const FALLBACK_COLORS = [
   '#C9A227', '#1C6ED5', '#E0C9A6', '#003660',
   '#7FCFC3', '#7A5EA8', '#B58B2E', '#3F4E9E', '#D07328',
@@ -48,55 +45,64 @@ const chartData = computed(() => {
   }))
 })
 
-const chartOptions = computed(() => ({
-  chart: {
-    type: 'pie',
-    height: 220,
-    backgroundColor: 'transparent',
-    style: { fontFamily: 'inherit' },
-  },
-  title: null,
-  credits: { enabled: false },
-  tooltip: {
-    pointFormat:
-      '<b>{point.percentage:.1f}%</b><br/>{point.kbtuSf:.1f} kBtu/sf',
-    style: { fontSize: '12px' },
-  },
-  plotOptions: {
-    pie: {
-      innerSize: '55%',
-      borderWidth: 2,
-      borderColor: null,
-      dataLabels: { enabled: false },
-      showInLegend: false,
-      cursor: 'pointer',
-      states: {
-        hover: { brightness: 0.1 },
+const chartContainer = ref(null)
+let chartInstance = null
+
+function buildOptions() {
+  return {
+    chart: {
+      type: 'pie',
+      height: 220,
+      backgroundColor: 'transparent',
+      style: { fontFamily: 'inherit' },
+    },
+    title: null,
+    credits: { enabled: false },
+    tooltip: {
+      pointFormat: '<b>{point.percentage:.1f}%</b><br/>{point.kbtuSf:.1f} kBtu/sf',
+      style: { fontSize: '12px' },
+    },
+    plotOptions: {
+      pie: {
+        innerSize: '55%',
+        borderWidth: 2,
+        borderColor: null,
+        dataLabels: { enabled: false },
+        showInLegend: false,
+        cursor: 'pointer',
+        states: { hover: { brightness: 0.1 } },
       },
     },
-  },
-  series: [
-    {
-      name: 'End Use',
-      data: chartData.value,
-    },
-  ],
-}))
+    series: [{ name: 'End Use', data: chartData.value }],
+  }
+}
+
+function renderChart() {
+  if (chartInstance) {
+    chartInstance.destroy()
+    chartInstance = null
+  }
+  if (chartContainer.value) {
+    chartInstance = Highcharts.chart(chartContainer.value, buildOptions())
+  }
+}
+
+onMounted(() => renderChart())
+
+watch(() => props.breakdown, () => renderChart(), { deep: true })
+
+onBeforeUnmount(() => {
+  if (chartInstance) {
+    chartInstance.destroy()
+    chartInstance = null
+  }
+})
 </script>
 
 <template>
   <div class="enduse-donut">
     <div class="enduse-donut__heading">End-Use Breakdown</div>
-
-    <div class="enduse-donut__chart-wrap">
-      <Chart
-        :key="JSON.stringify(breakdown)"
-        constructor-type="chart"
-        :options="chartOptions"
-      />
-    </div>
-
-    <!-- Legend -->
+    <div class="enduse-donut__chart-wrap" ref="chartContainer"></div>
     <div class="enduse-donut__legend">
       <div
         v-for="item in chartData"
