@@ -27,3 +27,5 @@ tqdm==4.67.1
 tzdata==2025.2
 urllib3==2.5.0
 xgboost==3.2.0
+lightgbm>=4.0
+catboost>=1.2

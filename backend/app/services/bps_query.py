@@ -262,7 +262,7 @@ async def _query_socrata(
                         if data:
                             return data
                 except (httpx.TimeoutException, httpx.HTTPError) as e:
-                    logger.warning("BPS Socrata query failed for %s %s: %s", year, dataset_name, e)
+                    logger.warning("BPS Socrata query failed for %s %s: [%s] %r", year, dataset_name, type(e).__name__, e)
                     continue
 
         return []
