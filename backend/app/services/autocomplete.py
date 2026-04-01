@@ -38,7 +38,7 @@ class PhotonProvider:
 
         try:
             async with httpx.AsyncClient(
-                timeout=5.0,
+                timeout=10.0,
                 headers={"User-Agent": "BuildingStockEnergyEstimation/1.0"},
             ) as client:
                 resp = await client.get(
@@ -56,6 +56,9 @@ class PhotonProvider:
                 return []
 
             return self._parse_response(resp.json(), limit)
+        except httpx.TimeoutException:
+            logger.warning("Photon request timed out")
+            return []
         except httpx.HTTPError:
             logger.exception("Photon request failed")
             return []
