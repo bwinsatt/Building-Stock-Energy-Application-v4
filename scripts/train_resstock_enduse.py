@@ -45,6 +45,16 @@ GROUPING_PATH = os.path.join(
 # ResStock fuel types whose per-end-use columns we sum
 FUEL_TYPES = ['electricity', 'natural_gas', 'fuel_oil', 'propane']
 
+# Granular end uses that are pre-aggregated into a single training target
+# before model training (avoids training weak models on noisy sub-categories)
+AGGREGATE_ENDUSES = {
+    'equipment_and_appliances': [
+        'plug_loads', 'refrigerator', 'freezer',
+        'clothes_dryer', 'clothes_washer', 'dishwasher',
+        'range_oven', 'television', 'ceiling_fan',
+    ]
+}
+
 # 28 baseline features: 25 base ResStock features + hdd65f, cdd65f, floor_plate_sqft
 FEATURE_COLS = [
     'in.geometry_building_type_recs',
@@ -149,9 +159,15 @@ def load_baseline_data(enduses_to_train):
                          if c not in ('cluster_name', 'hdd65f', 'cdd65f', 'floor_plate_sqft')]
     meta_cols = ['bldg_id', 'in.county',
                  'in.geometry_building_number_units_mf', 'in.vacancy_status']
+    # For aggregate end uses, load the component parquet columns instead
     enduse_cols = []
     for eu in enduses_to_train:
-        enduse_cols.extend(get_enduse_columns(eu))
+        components = AGGREGATE_ENDUSES.get(eu)
+        if components:
+            for component in components:
+                enduse_cols.extend(get_enduse_columns(component))
+        else:
+            enduse_cols.extend(get_enduse_columns(eu))
 
     fname = os.path.join(RAW_DIR, 'upgrade0.parquet')
     import pyarrow.parquet as pq
@@ -182,14 +198,16 @@ def load_baseline_data(enduses_to_train):
         pd.to_numeric(df['in.geometry_stories'], errors='coerce').clip(lower=1)
     )
 
-    # Compute summed end-use targets (across all fuels)
+    # Compute summed end-use targets (across all fuels, expanding aggregates)
     for eu in enduses_to_train:
         target_col = f'enduse_{eu}'
         df[target_col] = 0.0
-        for fuel in FUEL_TYPES:
-            src = f'out.{fuel}.{eu}.energy_consumption_intensity..kwh_per_ft2'
-            if src in df.columns:
-                df[target_col] += df[src].fillna(0)
+        components = AGGREGATE_ENDUSES.get(eu, [eu])
+        for component in components:
+            for fuel in FUEL_TYPES:
+                src = f'out.{fuel}.{component}.energy_consumption_intensity..kwh_per_ft2'
+                if src in df.columns:
+                    df[target_col] += df[src].fillna(0)
 
     print(f"Loaded {len(df):,} baseline buildings")
     return df
