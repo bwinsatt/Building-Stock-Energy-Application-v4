@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@partnerdevops/partner-components": "file:./partner-components",
+    "highcharts": "^12.5.0",
+    "highcharts-vue": "^2.0.1",
     "maplibre-gl": "^5.19.0",
     "vue": "^3.5.25"
   },
