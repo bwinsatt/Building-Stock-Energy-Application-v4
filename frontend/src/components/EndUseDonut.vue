@@ -1,9 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import Highcharts from 'highcharts'
-import Accessibility from 'highcharts/modules/accessibility'
-
-Accessibility(Highcharts)
+import 'highcharts/modules/accessibility'
 
 const props = defineProps({
   /** End-use breakdown: { category_name: kBtu_sf_value } */
