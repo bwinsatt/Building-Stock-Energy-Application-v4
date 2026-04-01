@@ -20,6 +20,7 @@ import argparse
 import numpy as np
 import pandas as pd
 from datetime import timedelta
+from sklearn.model_selection import train_test_split
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
@@ -164,6 +165,7 @@ def load_baseline_data(enduses_to_train):
         right_on='nhgis_county_gisjoin',
         how='left',
     )
+    df['cluster_name'] = df['cluster_name'].fillna('Unknown')
 
     # Compute summed end-use targets (across all fuels)
     for eu in enduses_to_train:
@@ -202,7 +204,7 @@ def train_all(enduses_to_train, skip_tuning=False):
         mask = y.notna()
         X, y = X[mask], y[mask]
 
-        X_enc, _ = encode_features(X, FEATURE_COLS, cat_feature_names=CAT_FEATURE_NAMES)
+        X_enc, _ = encode_features(X, FEATURE_COLS)
         best_params = tune_hyperparameters(X_enc, y, n_trials=50)
 
         with open(hp_path, 'w') as f:
@@ -232,7 +234,6 @@ def train_all(enduses_to_train, skip_tuning=False):
         X = df.loc[mask, FEATURE_COLS].copy()
         y = y[mask]
 
-        from sklearn.model_selection import train_test_split
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=42
         )
@@ -240,19 +241,13 @@ def train_all(enduses_to_train, skip_tuning=False):
         print(f"\n  Training: {eu} (n={len(X_train):,} train, {len(X_test):,} test)")
         eu_start = time.time()
 
-        # Encode
-        X_train_enc, encoders = encode_features(
-            X_train, FEATURE_COLS, cat_feature_names=CAT_FEATURE_NAMES
-        )
-        X_test_enc, _ = encode_features(
-            X_test, FEATURE_COLS, encoders=encoders, cat_feature_names=CAT_FEATURE_NAMES
-        )
+        # Encode for XGBoost/LightGBM
+        X_train_enc, encoders = encode_features(X_train, FEATURE_COLS)
+        X_test_enc, _ = encode_features(X_test, FEATURE_COLS, encoders=encoders)
 
         # XGBoost
         cat_indices = [i for i, c in enumerate(FEATURE_COLS) if c in CAT_FEATURE_NAMES]
-        xgb_model = train_single_model(
-            X_train_enc, y_train, best_params, cat_indices=cat_indices
-        )
+        xgb_model = train_single_model(X_train_enc, y_train, best_params)
         xgb_metrics = evaluate_model(xgb_model, X_test_enc, y_test)
         save_model_artifacts(
             xgb_model, encoders, FEATURE_COLS, xgb_metrics,
@@ -260,39 +255,44 @@ def train_all(enduses_to_train, skip_tuning=False):
         )
 
         # LightGBM
-        lgbm_model = train_lightgbm_model(
-            X_train_enc, y_train, best_params, cat_indices=cat_indices
-        )
-        lgbm_metrics = evaluate_model(lgbm_model, X_test_enc, y_test)
-        save_model_artifacts(
-            lgbm_model, encoders, FEATURE_COLS, lgbm_metrics,
-            OUTPUT_DIR, f'LGBM_enduse_{eu}'
-        )
+        lgbm_metrics = None
+        try:
+            lgbm_model = train_lightgbm_model(X_train_enc, y_train, best_params, cat_indices)
+            lgbm_metrics = evaluate_model(lgbm_model, X_test_enc, y_test)
+            save_model_artifacts(
+                lgbm_model, encoders, FEATURE_COLS, lgbm_metrics,
+                OUTPUT_DIR, f'LGBM_enduse_{eu}'
+            )
+        except Exception as e:
+            print(f"    LGBM skipped ({e})")
 
         # CatBoost
-        X_train_cb, X_test_cb = prepare_catboost_data(
-            X_train, X_test, FEATURE_COLS, CAT_FEATURE_NAMES
-        )
-        cb_model = train_catboost_model(
-            X_train_cb, y_train, best_params, cat_indices=cat_indices
-        )
-        cb_metrics = evaluate_model(cb_model, X_test_cb, y_test)
-        save_model_artifacts(
-            cb_model, encoders, FEATURE_COLS, cb_metrics,
-            OUTPUT_DIR, f'CB_enduse_{eu}'
-        )
+        cb_metrics = None
+        try:
+            X_train_cb = prepare_catboost_data(X_train, FEATURE_COLS, CAT_FEATURE_NAMES)
+            X_test_cb = prepare_catboost_data(X_test, FEATURE_COLS, CAT_FEATURE_NAMES)
+            cb_model = train_catboost_model(X_train_cb, y_train, best_params, cat_indices)
+            cb_metrics = evaluate_model(cb_model, X_test_cb, y_test)
+            save_model_artifacts(
+                cb_model, encoders, FEATURE_COLS, cb_metrics,
+                OUTPUT_DIR, f'CB_enduse_{eu}'
+            )
+        except Exception as e:
+            print(f"    CB skipped ({e})")
 
         elapsed = time.time() - eu_start
         results[eu] = {
             'xgb_r2': xgb_metrics['r2'],
-            'lgbm_r2': lgbm_metrics['r2'],
-            'cb_r2': cb_metrics['r2'],
+            'lgbm_r2': lgbm_metrics['r2'] if lgbm_metrics else None,
+            'cb_r2': cb_metrics['r2'] if cb_metrics else None,
             'xgb_mae_kbtu': xgb_metrics['mae_kbtu_sf'],
             'n_samples': len(X_train) + len(X_test),
             'elapsed_s': round(elapsed, 1),
         }
-        print(f"    XGB R²={xgb_metrics['r2']:.3f}  LGBM R²={lgbm_metrics['r2']:.3f}  "
-              f"CB R²={cb_metrics['r2']:.3f}  MAE={xgb_metrics['mae_kbtu_sf']:.2f} kBtu/sf  "
+        lgbm_r2_str = f"{lgbm_metrics['r2']:.3f}" if lgbm_metrics else 'N/A'
+        cb_r2_str = f"{cb_metrics['r2']:.3f}" if cb_metrics else 'N/A'
+        print(f"    XGB R²={xgb_metrics['r2']:.3f}  LGBM R²={lgbm_r2_str}  "
+              f"CB R²={cb_r2_str}  MAE={xgb_metrics['mae_kbtu_sf']:.2f} kBtu/sf  "
               f"({elapsed:.0f}s)")
 
     total_elapsed = time.time() - total_start
