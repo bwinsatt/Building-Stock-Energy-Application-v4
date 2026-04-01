@@ -8,6 +8,7 @@ Ported from AutoBEM project: OSM_footprint_search.py
 from __future__ import annotations
 
 import logging
+import random
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -300,10 +301,17 @@ def geocode_address(address: str) -> dict | None:
 
 
 # ---------------------------------------------------------------------------
-# Overpass API
+# Overpass API – multiple public endpoints with failover
 # ---------------------------------------------------------------------------
 
-OVERPASS_URL = "http://overpass-api.de/api/interpreter"
+OVERPASS_ENDPOINTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://lz4.overpass-api.de/api/interpreter",
+    "https://z.overpass-api.de/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
+]
+
+OVERPASS_HEADERS = {"User-Agent": "BuildingStockEnergyEstimation/1.0"}
 
 
 def fetch_building_footprints(
@@ -311,7 +319,7 @@ def fetch_building_footprints(
 ) -> dict | None:
     """Fetch building footprints from OSM Overpass API within radius (meters)."""
     query = f"""
-    [out:json];
+    [out:json][timeout:15];
     (
       way["building"](around:{radius},{lat},{lon});
       relation["building"](around:{radius},{lat},{lon});
@@ -320,20 +328,32 @@ def fetch_building_footprints(
     >;
     out skel qt;
     """
-    for attempt in range(3):
+    max_attempts = len(OVERPASS_ENDPOINTS)
+    for attempt in range(max_attempts):
+        url = OVERPASS_ENDPOINTS[attempt % len(OVERPASS_ENDPOINTS)]
         try:
-            resp = requests.post(OVERPASS_URL, data={"data": query}, timeout=30)
+            resp = requests.post(
+                url, data={"data": query}, headers=OVERPASS_HEADERS, timeout=30
+            )
             if resp.status_code == 200:
                 return resp.json()
-            if resp.status_code == 429 or resp.status_code == 504:
-                logger.warning("Overpass %d, retry %d/3", resp.status_code, attempt + 1)
-                time.sleep(2)
+            if resp.status_code in (429, 504):
+                backoff = (2 ** attempt) + random.uniform(0, 1)
+                logger.warning(
+                    "Overpass %d from %s, retry %d/%d in %.1fs",
+                    resp.status_code, url, attempt + 1, max_attempts, backoff,
+                )
+                time.sleep(backoff)
                 continue
-            logger.error("Overpass error: %d", resp.status_code)
+            logger.error("Overpass error %d from %s", resp.status_code, url)
             return None
         except requests.RequestException:
-            logger.exception("Overpass request failed, attempt %d/3", attempt + 1)
-            time.sleep(2)
+            backoff = (2 ** attempt) + random.uniform(0, 1)
+            logger.exception(
+                "Overpass request to %s failed, retry %d/%d in %.1fs",
+                url, attempt + 1, max_attempts, backoff,
+            )
+            time.sleep(backoff)
     return None
 
 
