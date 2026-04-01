@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { PTypography, PTooltip } from '@partnerdevops/partner-components'
+import EndUseDonut from './EndUseDonut.vue'
 
 const KWH_TO_KBTU = 3.412
 const THERM_TO_KBTU = 100
@@ -86,6 +87,9 @@ const barSegments = computed(() => {
     visualWidth: ((boosted[i] ?? 0) / boostedTotal) * 100,
   }))
 })
+
+/** End-use breakdown data from API (null if models not yet trained) */
+const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 </script>
 
 <template>
@@ -179,6 +183,14 @@ const barSegments = computed(() => {
         </div>
       </div>
 
+      <!-- Center column: end-use donut (only when data available) -->
+      <div v-if="endUseBreakdown" class="baseline-layout__center">
+        <EndUseDonut
+          :breakdown="endUseBreakdown"
+          :total-eui="baseline.total_eui_kbtu_sf"
+        />
+      </div>
+
       <!-- Right column: consumption list -->
       <div class="baseline-layout__right">
         <PTypography variant="subhead" class="consumption-list__heading">
@@ -254,13 +266,18 @@ const barSegments = computed(() => {
 /* ---- Two-column layout ---- */
 .baseline-layout {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto auto;
   gap: 2rem;
   align-items: start;
 }
 
 .baseline-layout__left {
   min-width: 0;
+}
+
+.baseline-layout__center {
+  min-width: 200px;
+  max-width: 280px;
 }
 
 .baseline-layout__right {
@@ -469,6 +486,10 @@ const barSegments = computed(() => {
 @media (max-width: 768px) {
   .baseline-layout {
     grid-template-columns: 1fr;
+  }
+
+  .baseline-layout__center {
+    max-width: none;
   }
 
   .baseline-layout__right {
