@@ -108,7 +108,7 @@ from app.services.assessment import _compute_enduse_breakdown
 
 
 def test_compute_enduse_breakdown_sums_to_100():
-    """Grouped percentages must sum to ~100%."""
+    """Grouped kBtu/sf values must sum to approximately the baseline total."""
     raw_enduse_eui = {
         "heating": 3.0,
         "cooling": 2.0,

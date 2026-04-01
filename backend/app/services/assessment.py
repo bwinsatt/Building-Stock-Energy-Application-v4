@@ -13,12 +13,18 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path as _Path
 from typing import Optional
 
+logger = logging.getLogger(__name__)
+
 # Load end-use grouping config once at module level
 _ENDUSE_CFG_PATH = _Path(__file__).resolve().parent.parent / "data" / "enduse_grouping.json"
 _ENDUSE_CFG: dict = {}
 if _ENDUSE_CFG_PATH.exists():
     with open(_ENDUSE_CFG_PATH) as _f:
         _ENDUSE_CFG = _json.load(_f)
+else:
+    logger.warning(
+        "enduse_grouping.json not found at %s; enduse_breakdown will be null", _ENDUSE_CFG_PATH
+    )
 
 from app.schemas.request import BuildingInput
 from app.schemas.response import (
@@ -46,9 +52,6 @@ from app.inference.applicability import PACKAGE_CONSTITUENTS, RESSTOCK_PACKAGE_C
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
 from app.services.cost_calculator import CostCalculatorService
-
-logger = logging.getLogger(__name__)
-
 
 
 # ---------------------------------------------------------------------------
@@ -231,7 +234,7 @@ def _compute_enduse_breakdown(
     if not raw_enduse_eui or total_baseline_kbtu <= 0:
         return None
 
-    predicted_total = sum(raw_enduse_eui.values())
+    predicted_total = sum(max(0.0, v) for v in raw_enduse_eui.values())
     if predicted_total <= 0:
         return None
 
@@ -241,7 +244,7 @@ def _compute_enduse_breakdown(
 
     result = {}
     for category, enduses in grouping.items():
-        cat_eui = sum(raw_enduse_eui.get(eu, 0.0) for eu in enduses)
+        cat_eui = sum(max(0.0, raw_enduse_eui.get(eu, 0.0)) for eu in enduses)
         share = cat_eui / predicted_total
         result[category] = round(share * total_baseline_kbtu, 2)
 
@@ -254,7 +257,7 @@ def _compute_enduse_breakdown(
     )
     if ungrouped_eui > 0:
         other_share = ungrouped_eui / predicted_total
-        result["Other"] = result.get("Other", 0.0) + round(other_share * total_baseline_kbtu, 2)
+        result["Other"] = round(result.get("Other", 0.0) + other_share * total_baseline_kbtu, 2)
 
     return result
 
