@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { PTypography, PBadge, PTooltip } from '@partnerdevops/partner-components'
+import { PTypography, PBadge, PTooltip, PIcon } from '@partnerdevops/partner-components'
 
 const props = defineProps({
   summary: { type: Object, required: true },
@@ -41,9 +41,11 @@ function confidencePercent(confidence) {
       type="button"
       @click="expanded = !expanded"
     >
-      <span class="assumptions-toggle__icon" :class="{ 'assumptions-toggle__icon--open': expanded }">
-        &#9662;
-      </span>
+      <PIcon
+        name="chevron-down"
+        size="small"
+        :class="['assumptions-toggle__icon', { 'assumptions-toggle__icon--open': expanded }]"
+      />
       <PTypography variant="subhead" component="span" class="assumptions-toggle__label">
         Assumptions Used
       </PTypography>
@@ -118,8 +120,8 @@ function confidencePercent(confidence) {
 <style scoped>
 .assumptions-panel {
   background: var(--app-surface-raised);
-  border: 1px solid var(--partner-gray-2, #E8EBEE);
-  border-radius: 0.5rem;
+  border: 1px solid var(--partner-gray-2);
+  border-radius: var(--partner-radius-lg);
   overflow: hidden;
 }
 
@@ -136,13 +138,12 @@ function confidencePercent(confidence) {
 }
 
 .assumptions-toggle:hover {
-  background: rgba(0, 0, 0, 0.02);
+  background: var(--partner-fill-hovered);
 }
 
 .assumptions-toggle__icon {
-  display: inline-block;
-  font-size: 0.625rem;
-  color: var(--partner-gray-6, #6F7881);
+  display: inline-flex;
+  color: var(--partner-gray-6);
   transition: transform 0.2s ease;
 }
 
@@ -154,14 +155,14 @@ function confidencePercent(confidence) {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
-  color: var(--partner-text-secondary, #6F7881);
+  color: var(--partner-text-secondary);
 }
 
 .assumptions-toggle__count {
   font-family: 'Roboto', sans-serif;
   font-size: 0.6875rem;
   font-weight: 400;
-  color: var(--partner-gray-5, #94a3b8);
+  color: var(--partner-gray-5);
   margin-left: auto;
 }
 
@@ -176,7 +177,7 @@ function confidencePercent(confidence) {
 .assumptions-section + .assumptions-section {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--partner-gray-2, #E8EBEE);
+  border-top: 1px solid var(--partner-gray-2);
 }
 
 .assumptions-section__title {
@@ -185,7 +186,7 @@ function confidencePercent(confidence) {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--partner-gray-6, #6F7881);
+  color: var(--partner-gray-6);
   margin-bottom: 0.5rem;
 }
 
@@ -193,7 +194,7 @@ function confidencePercent(confidence) {
   font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
   font-weight: 400;
-  color: var(--partner-gray-5, #A6ADB4);
+  color: var(--partner-gray-5);
   margin: 0 0 0.75rem;
 }
 
@@ -215,7 +216,7 @@ function confidencePercent(confidence) {
   gap: 0.5rem;
   padding: 0.375rem 0.5rem;
   background: var(--app-surface);
-  border-radius: 4px;
+  border-radius: var(--partner-radius-md);
 }
 
 .assumptions-item__label {
@@ -223,7 +224,7 @@ function confidencePercent(confidence) {
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.026rem;
-  color: var(--partner-text-secondary, #6F7881);
+  color: var(--partner-text-secondary);
   min-width: 0;
   flex-shrink: 0;
 }
@@ -233,7 +234,7 @@ function confidencePercent(confidence) {
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.25rem;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   flex: 1;
   text-align: right;
 }

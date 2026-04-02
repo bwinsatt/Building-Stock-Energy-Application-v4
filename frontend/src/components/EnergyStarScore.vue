@@ -114,7 +114,7 @@ const euiStatValue = computed(() => {
       class="es-trigger"
       @click="handleClick"
     >
-      <span class="es-trigger__icon">&#11088;</span>
+      <PIcon name="star-filled" size="medium" class="es-trigger__icon" />
       <span class="es-trigger__text">
         <span class="es-trigger__title">Calculate ENERGY STAR Score</span>
         <span class="es-trigger__subtitle">Compare against similar buildings nationwide</span>
@@ -178,12 +178,12 @@ const euiStatValue = computed(() => {
                   x="50" y="45"
                   text-anchor="middle" dominant-baseline="middle"
                   font-size="24" font-weight="700"
-                  :fill="result.eligible && result.score != null ? zoneColor(result.score) : '#A6ADB4'"
+                  :fill="result.eligible && result.score != null ? zoneColor(result.score) : 'var(--partner-gray-5)'"
                 >{{ result.eligible && result.score != null ? result.score : '—' }}</text>
                 <text
                   x="50" y="62"
                   text-anchor="middle" dominant-baseline="middle"
-                  font-size="7" fill="#A6ADB4"
+                  font-size="7" fill="var(--partner-gray-5)"
                 >out of 100</text>
               </svg>
               <div class="donut-caption">Baseline Score</div>
@@ -203,8 +203,8 @@ const euiStatValue = computed(() => {
                 class="donut-arrow__badge"
                 :style="(() => {
                   const s = props.projectedEspm?.score
-                  if (s == null || s < 30) return { background: 'var(--partner-orange-1, #FFF1EE)', color: 'var(--partner-orange-7)', border: '1px solid var(--partner-orange-3)' }
-                  if (s < 65)             return { background: 'var(--partner-yellow-1)', color: 'var(--partner-yellow-8, #C46F00)', border: '1px solid var(--partner-yellow-2)' }
+                  if (s == null || s < 30) return { background: 'var(--partner-orange-1)', color: 'var(--partner-orange-7)', border: '1px solid var(--partner-orange-3)' }
+                  if (s < 65)             return { background: 'var(--partner-yellow-1)', color: 'var(--partner-yellow-8)', border: '1px solid var(--partner-yellow-2)' }
                   return                         { background: 'var(--partner-green-1)', color: 'var(--partner-green-7)', border: '1px solid var(--partner-green-3)' }
                 })()"
               >{{ scoreDelta > 0 ? '▲' : '▼' }} {{ scoreDelta > 0 ? '+' : '' }}{{ scoreDelta }} pt{{ Math.abs(scoreDelta) === 1 ? '' : 's' }}</div>
@@ -231,7 +231,7 @@ const euiStatValue = computed(() => {
                   <text
                     x="50" y="62"
                     text-anchor="middle" dominant-baseline="middle"
-                    font-size="7" fill="#A6ADB4"
+                    font-size="7" fill="var(--partner-gray-5)"
                   >out of 100</text>
                 </svg>
                 <div class="donut-caption" :style="{ color: zoneColor(props.projectedEspm.score) }">Projected Score</div>
@@ -383,18 +383,18 @@ const euiStatValue = computed(() => {
             <div class="side-stat__val">{{ props.projectedEui?.total_eui_kbtu_sf?.toFixed(1) }} kBtu/sf</div>
             <div class="side-stat__lbl">projected EUI</div>
           </div>
-          <button class="es-btn es-btn--sm-outline" @click="emit('calculate-projected')">&#8635; Recalculate</button>
+          <button class="es-btn es-btn--sm-outline" @click="emit('calculate-projected')"><PIcon name="restart" size="small" /> Recalculate</button>
         </template>
 
         <!-- State 1 / no projected score: Calculate prompt -->
         <template v-else>
-          <div class="side-icon">&#11088;</div>
+          <PIcon name="star-filled" size="medium" class="side-icon" />
           <div class="side-hint">Select upgrades below, then calculate your projected score</div>
           <button
             class="es-btn"
             :disabled="selectedCount === 0"
             @click="emit('calculate-projected')"
-          >&#11088; Calculate</button>
+          ><PIcon name="star-filled" size="small" /> Calculate</button>
         </template>
 
       </div><!-- /es-side -->
@@ -404,13 +404,6 @@ const euiStatValue = computed(() => {
 </template>
 
 <style scoped>
-/* ---- Token fallbacks for tokens not yet in partner-components ---- */
-/* Remove once --partner-yellow-8 and --partner-orange-1 are published */
-:root {
-  --partner-yellow-8: #C46F00;
-  --partner-orange-1: #FFF1EE;
-}
-
 /* Root wrapper — no visual styles, structural hook only */
 .es-section { display: block; }
 
@@ -421,7 +414,7 @@ const euiStatValue = computed(() => {
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.25rem;
-  background: var(--partner-white, #fff);
+  background: var(--partner-white);
   border: 1px solid var(--partner-gray-2);
   border-radius: var(--partner-radius-lg);
   cursor: pointer;
@@ -432,7 +425,7 @@ const euiStatValue = computed(() => {
   border-color: var(--partner-blue-7);
   box-shadow: 0 0 0 1px var(--partner-blue-6);
 }
-.es-trigger__icon { font-size: 1.5rem; }
+.es-trigger__icon { color: var(--partner-yellow-5); }
 .es-trigger__text { flex: 1; display: flex; flex-direction: column; }
 .es-trigger__title {
   font-weight: 600;
@@ -448,7 +441,7 @@ const euiStatValue = computed(() => {
 
 /* ---- Card container ---- */
 .es-card {
-  background: var(--partner-white, #fff);
+  background: var(--partner-white);
   border: 1px solid var(--partner-gray-2);
   border-radius: var(--partner-radius-lg);
 }
@@ -647,13 +640,13 @@ const euiStatValue = computed(() => {
 
 .lg-callout--amber  { background: var(--partner-yellow-1); border: 1px solid var(--partner-yellow-7); }
 .lg-callout--amber  .lg-c-score,
-.lg-callout--amber  .lg-c-eui   { color: var(--partner-yellow-8, #C46F00); }
+.lg-callout--amber  .lg-c-eui   { color: var(--partner-yellow-8); }
 
 .lg-callout--green  { background: var(--partner-green-1);  border: 1px solid var(--partner-green-7); }
 .lg-callout--green  .lg-c-score,
 .lg-callout--green  .lg-c-eui   { color: var(--partner-green-7); }
 
-.lg-callout--orange { background: var(--partner-orange-1, #FFF1EE); border: 1px solid var(--partner-orange-7); }
+.lg-callout--orange { background: var(--partner-orange-1); border: 1px solid var(--partner-orange-7); }
 .lg-callout--orange .lg-c-score,
 .lg-callout--orange .lg-c-eui   { color: var(--partner-orange-7); }
 
@@ -826,7 +819,7 @@ const euiStatValue = computed(() => {
 /* ──────────────────────────
    RIGHT PANEL (es-side)
 ────────────────────────── */
-.side-icon  { font-size: 1.125rem; opacity: 0.2; }
+.side-icon  { opacity: 0.2; color: var(--partner-yellow-5); }
 .side-hint  { font-size: 0.6875rem; font-weight: 500; color: var(--partner-gray-6); line-height: 1.45; max-width: 130px; }
 .side-stat  { display: flex; flex-direction: column; align-items: center; gap: 1px; }
 .side-stat__val { font-size: 1.25rem; font-weight: 700; line-height: 1; }
@@ -844,7 +837,7 @@ const euiStatValue = computed(() => {
   width: 100%;
   max-width: 150px;
   background: var(--partner-blue-7);
-  color: var(--partner-white, #fff);
+  color: var(--partner-white);
   border: none;
   border-radius: var(--partner-radius-sm);
   height: 32px;

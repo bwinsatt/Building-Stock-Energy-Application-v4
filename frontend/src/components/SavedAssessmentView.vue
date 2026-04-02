@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { PTypography } from '@partnerdevops/partner-components'
+import { PTypography, PButton, PIcon } from '@partnerdevops/partner-components'
 import BaselineSummary from './BaselineSummary.vue'
 import MeasuresTable from './MeasuresTable.vue'
 import AssumptionsPanel from './AssumptionsPanel.vue'
@@ -77,7 +77,10 @@ loadSelections().then(() => reconcileSelections())
 
 <template>
   <div class="saved-assessment">
-    <button class="back-btn" @click="emit('back')">&larr; Back to Project</button>
+    <PButton variant="primary" appearance="text" size="small" class="back-btn" @click="emit('back')">
+      <PIcon name="arrow-left" size="small" />
+      Back to Project
+    </PButton>
 
     <div class="saved-assessment__header">
       <PTypography variant="h4">{{ building.address }}</PTypography>
@@ -136,15 +139,7 @@ loadSelections().then(() => reconcileSelections())
 }
 .back-btn {
   align-self: flex-start;
-  background: transparent;
-  border: none;
-  color: #005199;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0;
 }
-.back-btn:hover { opacity: 0.75; }
 .saved-assessment__header {
   display: flex;
   flex-direction: column;
@@ -152,16 +147,16 @@ loadSelections().then(() => reconcileSelections())
 }
 .saved-assessment__date {
   font-size: 0.8125rem;
-  color: #64748b;
+  color: var(--partner-gray-6);
 }
 .section-separator {
   height: 1px;
-  background: #e2e8f0;
+  background: var(--partner-border-light);
   margin: 0.25rem 0;
 }
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #94a3b8;
+  color: var(--partner-gray-5);
 }
 </style>

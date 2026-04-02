@@ -10,22 +10,28 @@ const props = defineProps({
   totalEui: { type: Number, default: 0 },
 })
 
-const CATEGORY_COLORS = {
-  'Heating': '#005199',
-  'Cooling': '#2FB7C4',
-  'Water Heating': '#A04A7A',
-  'Lighting': '#6B778C',
-  'Equipment & Appliances': '#8A9A3A',
-  'Other': '#8FB9E5',
+/* Map end-use categories to partner design token colors */
+const tokenColorMap = {
+  'Heating': '--partner-blue-7',
+  'Cooling': '--partner-blue-4',
+  'Water Heating': '--partner-orange-8',
+  'Lighting': '--partner-gray-6',
+  'Equipment & Appliances': '--partner-green-6',
+  'Other': '--partner-blue-3',
 }
 
-const FALLBACK_COLORS = [
-  '#C9A227', '#1C6ED5', '#E0C9A6', '#003660',
-  '#7FCFC3', '#7A5EA8', '#B58B2E', '#3F4E9E', '#D07328',
+const FALLBACK_TOKENS = [
+  '--partner-yellow-7', '--partner-blue-6', '--partner-orange-4', '--partner-blue-9',
+  '--partner-green-3', '--partner-orange-6', '--partner-yellow-9', '--partner-blue-5', '--partner-orange-7',
 ]
 
+function resolveTokenColor(token) {
+  return getComputedStyle(document.documentElement).getPropertyValue(token).trim() || token
+}
+
 function getColor(category, index) {
-  return CATEGORY_COLORS[category] || FALLBACK_COLORS[index % FALLBACK_COLORS.length]
+  const token = tokenColorMap[category] || FALLBACK_TOKENS[index % FALLBACK_TOKENS.length]
+  return resolveTokenColor(token)
 }
 
 const chartData = computed(() => {
@@ -121,7 +127,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .enduse-donut__heading {
   margin-bottom: 0.5rem;
-  color: #475569;
+  color: var(--partner-gray-6);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
@@ -156,13 +162,13 @@ onBeforeUnmount(() => {
 }
 
 .enduse-donut__legend-label {
-  color: #64748b;
+  color: var(--partner-gray-6);
   flex: 1;
 }
 
 .enduse-donut__legend-pct {
   font-family: var(--font-mono);
-  color: #475569;
+  color: var(--partner-gray-7);
   font-weight: 500;
 }
 </style>

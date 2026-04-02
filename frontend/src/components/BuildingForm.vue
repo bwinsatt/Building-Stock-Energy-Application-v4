@@ -7,7 +7,7 @@ import {
   getHvacCategoriesForDataset,
   getHvacCategoryForValue,
 } from '../config/dropdowns'
-import { PTextInput, PNumericInput, PButton, PTypography } from '@partnerdevops/partner-components'
+import { PTextInput, PNumericInput, PButton, PTypography, PIcon } from '@partnerdevops/partner-components'
 import AdvancedDetails from './AdvancedDetails.vue'
 import AddressLookup from './AddressLookup.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
@@ -580,9 +580,7 @@ function onSubmit() {
       >
         <span class="utility-toggle__label">Have utility bills? <span class="utility-toggle__optional">(Optional)</span></span>
         <span class="utility-toggle__icon" :class="{ 'utility-toggle__icon--open': showUtilityData }">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <PIcon name="chevron-down" size="small" />
         </span>
       </button>
 
@@ -699,8 +697,8 @@ function onSubmit() {
 <style scoped>
 .form-card {
   background-color: var(--app-surface-raised);
-  border: 1px solid #e2e6ea;
-  border-radius: 6px;
+  border: 1px solid var(--partner-gray-2);
+  border-radius: var(--partner-radius-lg);
   padding: 2rem;
 }
 
@@ -718,12 +716,12 @@ function onSubmit() {
 .form-section--optional {
   margin-top: 2.5rem;
   padding-top: 2rem;
-  border-top: 1px solid #e2e6ea;
+  border-top: 1px solid var(--partner-gray-2);
 }
 
 .form-section__title {
   font-family: var(--font-display);
-  color: var(--app-header-bg);
+  color: var(--partner-gray-7);
   letter-spacing: -0.01em;
   margin: 0;
 }
@@ -731,7 +729,7 @@ function onSubmit() {
 .form-section__desc {
   font-family: var(--font-display);
   font-size: 0.75rem;
-  color: #6b7a8a;
+  color: var(--partner-text-secondary);
   letter-spacing: 0.01em;
   margin: 0.25rem 0 0;
 }
@@ -761,52 +759,50 @@ function onSubmit() {
   font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--partner-text-secondary, #5f6d79);
+  color: var(--partner-text-secondary);
   line-height: 1.25rem;
 }
 
 .form-label__required {
-  color: var(--partner-error-main, #dc2626);
+  color: var(--partner-error-main);
 }
 
 /* Native select styled to match Partner input styling */
 .form-select {
   display: flex;
   width: 100%;
-  height: 2rem; /* matches medium size h-8 */
-  border-radius: 2px; /* rounded-sm */
-  border: 1px solid var(--partner-border-default, #c4cdd5);
+  height: 2rem;
+  border-radius: var(--partner-radius-sm);
+  border: 1px solid var(--partner-border-default);
   background-color: transparent;
   padding: 0 2rem 0 0.75rem;
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   transition: border-color 0.15s, box-shadow 0.15s;
   cursor: pointer;
-
-  /* Custom dropdown arrow */
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6d79' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236F7881' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.625rem center;
   background-size: 12px;
 }
 
 .form-select:hover {
-  border-color: var(--partner-border-hovered, #919eab);
+  border-color: var(--partner-border-hovered);
 }
 
 .form-select:focus {
-  border-color: var(--partner-border-active, var(--app-accent));
+  border-color: var(--partner-border-active);
   outline: none;
-  box-shadow: 0 0 0 1px var(--partner-border-active, var(--app-accent));
+  box-shadow: 0 0 0 1px var(--partner-border-active);
 }
 
 .form-select:disabled {
   cursor: not-allowed;
   opacity: 0.5;
-  border-color: var(--partner-border-disabled, #dfe3e8);
+  border-color: var(--partner-border-disabled);
 }
 
 /* Source badges for auto-filled fields */
@@ -817,7 +813,7 @@ function onSubmit() {
   font-weight: 500;
   letter-spacing: 0.01em;
   padding: 0.125rem 0.4375rem;
-  border-radius: var(--partner-radius-sm, 0.125rem);
+  border-radius: var(--partner-radius-sm);
   margin-left: 0.5rem;
   vertical-align: middle;
 }
@@ -825,28 +821,28 @@ function onSubmit() {
 .field-badge--osm,
 .field-badge--nyc_opendata,
 .field-badge--chicago_opendata {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: var(--partner-blue-2);
+  color: var(--partner-blue-8);
 }
 
 .field-badge--computed {
-  background-color: #e0e7ff;
-  color: #3730a3;
+  background-color: var(--partner-blue-1);
+  color: var(--partner-blue-9);
 }
 
 .field-badge--imputed {
-  background-color: #fef3c7;
-  color: #92400e;
+  background-color: var(--partner-yellow-1);
+  color: var(--partner-yellow-9);
 }
 
 /* Validation error */
 .form-validation-error {
   font-family: var(--font-display);
   font-size: 0.875rem;
-  color: var(--partner-error-main, #dc2626);
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 4px;
+  color: var(--partner-error-main);
+  background-color: var(--partner-red-1);
+  border: 1px solid var(--partner-red-2);
+  border-radius: var(--partner-radius-md);
   padding: 0.625rem 0.875rem;
   margin: 0 0 1rem;
 }
@@ -855,14 +851,14 @@ function onSubmit() {
 .form-actions {
   margin-top: 2.5rem;
   padding-top: 2rem;
-  border-top: 1px solid #e2e6ea;
+  border-top: 1px solid var(--partner-gray-2);
 }
 
 /* Utility data collapsible section */
 .utility-section {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid #e2e6ea;
+  border-top: 1px solid var(--partner-gray-2);
 }
 
 .utility-toggle {
@@ -881,18 +877,18 @@ function onSubmit() {
   font-family: var(--font-display);
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--app-header-bg);
+  color: var(--partner-gray-7);
 }
 
 .utility-toggle__optional {
   font-weight: 400;
-  color: #6b7a8a;
+  color: var(--partner-text-secondary);
 }
 
 .utility-toggle__icon {
   display: flex;
   align-items: center;
-  color: #6b7a8a;
+  color: var(--partner-text-secondary);
   transition: transform 0.2s ease;
 }
 
@@ -907,7 +903,7 @@ function onSubmit() {
 .utility-fields__desc {
   font-family: var(--font-display);
   font-size: 0.75rem;
-  color: #6b7a8a;
+  color: var(--partner-text-secondary);
   margin: 0 0 1rem;
 }
 
@@ -918,14 +914,14 @@ function onSubmit() {
   cursor: pointer;
   font-family: var(--font-display);
   font-size: 0.8125rem;
-  color: var(--app-accent, #2563eb);
+  color: var(--partner-primary-main);
   margin-top: 0.75rem;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .utility-more-link:hover {
-  color: var(--app-accent-dark, #1d4ed8);
+  color: var(--partner-primary-dark);
 }
 
 .utility-extra-fuels {
@@ -935,7 +931,7 @@ function onSubmit() {
 /* BPS Benchmarking Banner */
 .bps-banner {
   margin-bottom: 1.5rem;
-  border-radius: 6px;
+  border-radius: var(--partner-radius-lg);
   font-family: var(--font-display);
   font-size: 0.8125rem;
 }
@@ -945,14 +941,14 @@ function onSubmit() {
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
-  border: 1px solid #99f6e4;
-  border-radius: 6px;
+  background: linear-gradient(135deg, var(--partner-green-1), var(--partner-green-1));
+  border: 1px solid var(--partner-green-3);
+  border-radius: var(--partner-radius-lg);
 }
 
 .bps-banner__icon {
   flex-shrink: 0;
-  color: #0d9488;
+  color: var(--partner-green-6);
 }
 
 .bps-banner__content {
@@ -964,7 +960,7 @@ function onSubmit() {
 }
 
 .bps-banner__text {
-  color: #134e4a;
+  color: var(--partner-green-10);
   line-height: 1.4;
 }
 
@@ -976,14 +972,14 @@ function onSubmit() {
   font-family: var(--font-display);
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #0d9488;
+  color: var(--partner-green-6);
   text-decoration: underline;
   text-underline-offset: 2px;
   white-space: nowrap;
 }
 
 .bps-banner__action:hover {
-  color: #0f766e;
+  color: var(--partner-green-7);
 }
 
 .bps-banner__dismiss {
@@ -994,7 +990,7 @@ function onSubmit() {
   cursor: pointer;
   font-size: 1.125rem;
   line-height: 1;
-  color: #6b7280;
+  color: var(--partner-gray-6);
   opacity: 0.6;
 }
 
@@ -1007,17 +1003,17 @@ function onSubmit() {
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  background: #f0fdfa;
-  border: 1px solid #99f6e4;
-  border-radius: 6px;
-  color: #134e4a;
+  background: var(--partner-green-1);
+  border: 1px solid var(--partner-green-3);
+  border-radius: var(--partner-radius-lg);
+  color: var(--partner-green-10);
 }
 
 .bps-banner__spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid #99f6e4;
-  border-top-color: #0d9488;
+  border: 2px solid var(--partner-green-3);
+  border-top-color: var(--partner-green-6);
   border-radius: 50%;
   animation: bps-spin 0.6s linear infinite;
 }
@@ -1028,16 +1024,16 @@ function onSubmit() {
 
 .bps-banner__found {
   padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
-  border: 1px solid #86efac;
-  border-radius: 6px;
+  background: linear-gradient(135deg, var(--partner-green-1), var(--partner-green-1));
+  border: 1px solid var(--partner-green-3);
+  border-radius: var(--partner-radius-lg);
 }
 
 .bps-banner__found-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #166534;
+  color: var(--partner-green-8);
   font-weight: 500;
   margin-bottom: 0.625rem;
 }
@@ -1059,13 +1055,13 @@ function onSubmit() {
   font-size: 0.625rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #6b7280;
+  color: var(--partner-gray-6);
 }
 
 .bps-banner__data-value {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--partner-gray-7);
 }
 
 .bps-banner__actions {
@@ -1076,8 +1072,8 @@ function onSubmit() {
 
 .bps-banner__sqft-comparison {
   background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--partner-gray-3, #D9DDE1);
-  border-radius: var(--partner-radius-md, 0.25rem);
+  border: 1px solid var(--partner-gray-3);
+  border-radius: var(--partner-radius-md);
   padding: 0.625rem 0.875rem;
   margin-bottom: 0.625rem;
 }
@@ -1098,27 +1094,27 @@ function onSubmit() {
 
 .bps-banner__sqft-label {
   font-size: 0.75rem;
-  color: var(--partner-text-secondary, #6F7881);
+  color: var(--partner-text-secondary);
   line-height: 1.5;
 }
 
 .bps-banner__sqft-reported {
   font-size: 0.875rem;
   font-weight: 700;
-  color: var(--partner-text-primary, #333E47);
+  color: var(--partner-text-primary);
   line-height: 1.43;
 }
 
 .bps-banner__sqft-estimated {
   font-size: 0.875rem;
   font-weight: 400;
-  color: var(--partner-text-secondary, #6F7881);
+  color: var(--partner-text-secondary);
   line-height: 1.43;
 }
 
 .bps-banner__sqft-vs {
   font-size: 0.75rem;
-  color: var(--partner-text-disabled, #A6ADB4);
+  color: var(--partner-text-disabled);
 }
 
 .bps-banner__energy-only {
@@ -1129,14 +1125,14 @@ function onSubmit() {
   font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--partner-text-secondary, #6F7881);
+  color: var(--partner-text-secondary);
   text-decoration: underline;
   text-underline-offset: 2px;
   letter-spacing: 0.02em;
 }
 
 .bps-banner__energy-only:hover {
-  color: var(--partner-text-primary, #333E47);
+  color: var(--partner-text-primary);
 }
 
 .bps-banner__not-found {
@@ -1144,10 +1140,10 @@ function onSubmit() {
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  background: #fefce8;
-  border: 1px solid #fde68a;
-  border-radius: 6px;
-  color: #713f12;
+  background: var(--partner-yellow-1);
+  border: 1px solid var(--partner-yellow-3);
+  border-radius: var(--partner-radius-lg);
+  color: var(--partner-yellow-10);
 }
 
 .bps-banner__error {
@@ -1155,14 +1151,14 @@ function onSubmit() {
   align-items: center;
   gap: 0.625rem;
   padding: 0.75rem 1rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 6px;
-  color: #991b1b;
+  background: var(--partner-red-1);
+  border: 1px solid var(--partner-red-2);
+  border-radius: var(--partner-radius-lg);
+  color: var(--partner-red-7);
 }
 
 .field-badge--benchmarking {
-  background: #d1fae5;
-  color: #065f46;
+  background: var(--partner-green-1);
+  color: var(--partner-green-9);
 }
 </style>

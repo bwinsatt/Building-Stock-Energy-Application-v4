@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { PButton, PTypography, PIcon, PBadge } from '@partnerdevops/partner-components'
 import { useProjects } from '../composables/useProjects'
 
 const props = defineProps({
@@ -32,10 +33,17 @@ onMounted(() => {
   <div class="project-detail">
     <!-- Header -->
     <div class="detail-header">
-      <button class="back-btn" @click="emit('back')">
-        &larr; Back to Projects
-      </button>
-      <h2 class="detail-title">{{ currentProject?.name ?? 'Loading...' }}</h2>
+      <PButton
+        variant="primary"
+        appearance="text"
+        size="small"
+        class="back-btn"
+        @click="emit('back')"
+      >
+        <PIcon name="arrow-left" size="small" />
+        Back to Projects
+      </PButton>
+      <PTypography variant="h4" class="detail-title">{{ currentProject?.name ?? 'Loading...' }}</PTypography>
       <span v-if="currentProject" class="detail-meta">
         Created {{ formatDate(currentProject.created_at) }}
       </span>
@@ -79,9 +87,11 @@ onMounted(() => {
               <span class="building-address">{{ building.address }}</span>
               <span class="building-date">Added {{ formatDate(building.created_at) }}</span>
             </div>
-            <span class="chevron" :class="{ 'chevron--open': expandedBuildingId === building.id }">
-              &#x25BE;
-            </span>
+            <PIcon
+              :name="expandedBuildingId === building.id ? 'chevron-down' : 'chevron-right'"
+              size="small"
+              class="chevron-icon"
+            />
           </button>
 
           <!-- Expanded: assessment history -->
@@ -95,12 +105,12 @@ onMounted(() => {
               >
                 <div class="assessment-row__info">
                   <span class="assessment-row__date">{{ formatDate(assessment.created_at) }}</span>
-                  <span v-if="assessment.calibrated" class="calibrated-badge">Calibrated</span>
+                  <PBadge v-if="assessment.calibrated" variant="success" appearance="standard">Calibrated</PBadge>
                   <span v-if="assessment.result?.baseline" class="assessment-row__eui">
                     {{ assessment.result.baseline?.total_eui_kbtu_sf?.toFixed(1) }} kBtu/sf
                   </span>
                 </div>
-                <span class="assessment-row__arrow">&#x25B8;</span>
+                <PIcon name="chevron-right" size="small" class="arrow-icon" />
               </div>
             </template>
             <p v-else class="assessment-empty">No assessments saved for this building yet.</p>
@@ -127,31 +137,17 @@ onMounted(() => {
 
 .back-btn {
   align-self: flex-start;
-  background: transparent;
-  border: none;
-  color: #005199;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0;
   margin-bottom: 0.5rem;
-  transition: opacity 0.15s;
-}
-
-.back-btn:hover {
-  opacity: 0.75;
 }
 
 .detail-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333e47;
+  color: var(--partner-gray-7);
   margin: 0;
 }
 
 .detail-meta {
   font-size: 0.75rem;
-  color: #6f7881;
+  color: var(--partner-gray-6);
 }
 
 /* Section label */
@@ -160,45 +156,45 @@ onMounted(() => {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #64748b;
+  color: var(--partner-gray-6);
 }
 
 /* State boxes */
 .state-box,
 .empty-box {
-  background: var(--app-surface-raised, #ffffff);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  background: var(--partner-background-white);
+  border: 1px solid var(--partner-border-light);
+  border-radius: var(--partner-radius-lg);
   padding: 2.5rem 1.5rem;
   text-align: center;
 }
 
 .state-text {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--partner-gray-5);
 }
 
 .error-box {
-  background: #fef2f2;
-  border: 1px solid #fca5a5;
-  border-radius: 0.5rem;
+  background: var(--partner-red-1);
+  border: 1px solid var(--partner-red-3);
+  border-radius: var(--partner-radius-lg);
   padding: 1rem 1.25rem;
 }
 
 .error-text {
   font-size: 0.875rem;
-  color: #dc2626;
+  color: var(--partner-error-main);
 }
 
 .empty-text {
   font-size: 0.9375rem;
-  color: #64748b;
+  color: var(--partner-gray-6);
   margin-bottom: 0.25rem;
 }
 
 .empty-subtext {
   font-size: 0.8125rem;
-  color: #94a3b8;
+  color: var(--partner-gray-5);
 }
 
 /* Building list */
@@ -209,9 +205,9 @@ onMounted(() => {
 }
 
 .building-card {
-  background: var(--app-surface-raised, #ffffff);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  background: var(--partner-background-white);
+  border: 1px solid var(--partner-border-light);
+  border-radius: var(--partner-radius-lg);
   overflow: hidden;
 }
 
@@ -229,7 +225,7 @@ onMounted(() => {
 }
 
 .building-row:hover {
-  background: #f8fafc;
+  background: var(--partner-gray-1);
 }
 
 .building-info {
@@ -241,35 +237,28 @@ onMounted(() => {
 .building-address {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: #333e47;
+  color: var(--partner-gray-7);
 }
 
 .building-date {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--partner-gray-5);
 }
 
-.chevron {
-  font-size: 0.875rem;
-  color: #94a3b8;
-  transition: transform 0.2s;
-  display: inline-block;
-}
-
-.chevron--open {
-  transform: rotate(180deg);
+.chevron-icon {
+  color: var(--partner-gray-5);
 }
 
 /* Assessment section */
 .assessment-section {
   padding: 0.75rem 1rem;
-  border-top: 1px solid #e2e8f0;
-  background: #f8fafc;
+  border-top: 1px solid var(--partner-border-light);
+  background: var(--partner-gray-1);
 }
 
 .assessment-empty {
   font-size: 0.8125rem;
-  color: #94a3b8;
+  color: var(--partner-gray-5);
   text-align: center;
   padding: 0.5rem 0;
 }
@@ -280,10 +269,10 @@ onMounted(() => {
   justify-content: space-between;
   padding: 0.5rem 0.75rem;
   cursor: pointer;
-  border-radius: 0.375rem;
+  border-radius: var(--partner-radius-md);
   transition: background 0.1s;
 }
-.assessment-row:hover { background: #e2e8f0; }
+.assessment-row:hover { background: var(--partner-gray-2); }
 .assessment-row__info {
   display: flex;
   align-items: center;
@@ -291,26 +280,15 @@ onMounted(() => {
 }
 .assessment-row__date {
   font-size: 0.8125rem;
-  color: #333e47;
+  color: var(--partner-gray-7);
   font-weight: 500;
 }
 .assessment-row__eui {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  color: #64748b;
+  color: var(--partner-gray-6);
 }
-.calibrated-badge {
-  display: inline-flex;
-  align-items: center;
-  background: #dcfce7;
-  color: #166534;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  padding: 0.0625rem 0.375rem;
-  border-radius: 9999px;
-}
-.assessment-row__arrow {
-  color: #94a3b8;
-  font-size: 0.75rem;
+.arrow-icon {
+  color: var(--partner-gray-5);
 }
 </style>

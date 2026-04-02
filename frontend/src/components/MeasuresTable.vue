@@ -164,10 +164,10 @@ function formatNumber(val, decimals = 1) {
 // ---- Payback color ----
 
 function paybackColor(val) {
-  if (val == null) return '#94a3b8'
-  if (val < 5) return '#22c55e'
-  if (val <= 15) return '#eab308'
-  return '#ef4444'
+  if (val == null) return 'var(--partner-gray-5)'
+  if (val < 5) return 'var(--partner-green-5)'
+  if (val <= 15) return 'var(--partner-yellow-5)'
+  return 'var(--partner-red-5)'
 }
 
 // ---- Description expand/collapse ----
@@ -658,20 +658,20 @@ function truncateText(text, maxLength) {
 /* ---- Card container ---- */
 .measures-card {
   background: var(--app-surface-raised);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  border: 1px solid var(--partner-border-light);
+  border-radius: var(--partner-radius-lg);
   overflow: hidden;
 }
 
 /* ---- Header ---- */
 .measures-header {
   padding: 1.25rem 1.5rem 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--partner-border-light);
 }
 
 .measures-header__title {
   margin-bottom: 0.5rem;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
 }
 
 /* ---- Summary stats ---- */
@@ -682,11 +682,11 @@ function truncateText(text, maxLength) {
   gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  color: #64748b;
+  color: var(--partner-gray-6);
 }
 
 .measures-summary__divider {
-  color: #cbd5e1;
+  color: var(--partner-gray-3);
 }
 
 .measures-summary__highlight {
@@ -747,7 +747,7 @@ function truncateText(text, maxLength) {
 
 /* Row separators on <td> (tr borders don't render with border-collapse: separate) */
 .measures-table-wrapper :deep(tbody td) {
-  border-bottom: 1px solid var(--partner-border-divider, #e2e8f0);
+  border-bottom: 1px solid var(--partner-border-divider);
 }
 
 /* ---- Header cells ---- */
@@ -757,7 +757,7 @@ function truncateText(text, maxLength) {
   top: 0;
   z-index: 2;
   background-color: var(--partner-background-gray);
-  border-bottom: 1px solid var(--partner-border-disabled, #e2e8f0);
+  border-bottom: 1px solid var(--partner-border-disabled);
 }
 
 /* ---- Checkbox column ---- */
@@ -806,7 +806,7 @@ function truncateText(text, maxLength) {
 
 .measures-cell--name {
   font-weight: 500;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   min-width: 220px;
   position: sticky;
   left: 40px;
@@ -856,7 +856,7 @@ function truncateText(text, maxLength) {
   top: 0 !important;
   height: 100% !important;
   width: 1px !important;
-  background-color: var(--partner-border-divider, #e2e8f0) !important;
+  background-color: var(--partner-border-divider) !important;
   transform: none !important;
   pointer-events: none;
 }
@@ -871,7 +871,7 @@ function truncateText(text, maxLength) {
 }
 
 .measures-desc-toggle:hover {
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
 }
 
 .measures-desc-toggle__icon {
@@ -893,7 +893,7 @@ function truncateText(text, maxLength) {
 }
 
 .measures-desc-row-icon:hover {
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
 }
 
 /* ---- Cost tooltip trigger ---- */
@@ -916,7 +916,7 @@ function truncateText(text, maxLength) {
 /* ---- Collapsible section toggle ---- */
 .measures-section {
   padding: 0.75rem 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--partner-border-light);
 }
 
 .measures-packages__table {
@@ -926,7 +926,7 @@ function truncateText(text, maxLength) {
 /* ---- Non-applicable section ---- */
 .measures-nonapplicable {
   padding: 0.75rem 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--partner-border-light);
 }
 
 .measures-nonapplicable__table {

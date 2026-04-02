@@ -118,8 +118,8 @@ function onKeydown(e) {
 <style scoped>
 .address-lookup {
   background-color: var(--app-surface-raised);
-  border: 1px solid #e2e6ea;
-  border-radius: 6px;
+  border: 1px solid var(--partner-gray-2);
+  border-radius: var(--partner-radius-lg);
   padding: 1.5rem 2rem;
   margin-bottom: 1.5rem;
 }
@@ -132,14 +132,14 @@ function onKeydown(e) {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
-  color: var(--app-header-bg);
+  color: var(--partner-gray-7);
   margin: 0;
 }
 
 .address-lookup__desc {
   font-family: var(--font-display);
   font-size: 0.75rem;
-  color: #6b7a8a;
+  color: var(--partner-text-secondary);
   letter-spacing: 0.01em;
   margin: 0.25rem 0 0;
 }
@@ -164,11 +164,11 @@ function onKeydown(e) {
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--app-surface-raised, #fff);
-  border: 1px solid #e2e6ea;
+  background: var(--partner-background-white);
+  border: 1px solid var(--partner-gray-2);
   border-top: none;
-  border-radius: 0 0 4px 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 var(--partner-radius-md) var(--partner-radius-md);
+  box-shadow: var(--partner-shadow-lg);
   max-height: 220px;
   overflow-y: auto;
 }
@@ -176,9 +176,9 @@ function onKeydown(e) {
 .address-lookup__suggestion {
   padding: 0.5rem 0.75rem;
   font-size: 0.8125rem;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   cursor: pointer;
-  border-bottom: 1px solid #f0f2f4;
+  border-bottom: 1px solid var(--partner-gray-1);
 }
 
 .address-lookup__suggestion:last-child {
@@ -187,7 +187,7 @@ function onKeydown(e) {
 
 .address-lookup__suggestion:hover,
 .address-lookup__suggestion--active {
-  background-color: var(--partner-surface-hovered, #f4f6f8);
+  background-color: var(--partner-fill-hovered);
 }
 
 .address-lookup__loading {
@@ -197,15 +197,15 @@ function onKeydown(e) {
   right: 0;
   padding: 0.375rem 0.75rem;
   font-size: 0.75rem;
-  color: #6b7a8a;
-  background: var(--app-surface-raised, #fff);
-  border: 1px solid #e2e6ea;
+  color: var(--partner-text-secondary);
+  background: var(--partner-background-white);
+  border: 1px solid var(--partner-gray-2);
   border-top: none;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--partner-radius-md) var(--partner-radius-md);
 }
 
 .address-lookup__error {
-  color: var(--partner-error-main, #dc2626);
+  color: var(--partner-error-main);
   font-size: 0.8125rem;
   margin: 0.5rem 0 0;
 }

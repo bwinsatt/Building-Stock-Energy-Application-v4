@@ -12,7 +12,7 @@ import {
   WALL_INSULATIONS_RESSTOCK,
   INFILTRATION_RATES_RESSTOCK,
 } from '../config/dropdowns'
-import { PNumericInput, PButton, PTypography } from '@partnerdevops/partner-components'
+import { PNumericInput, PButton, PTypography, PIcon } from '@partnerdevops/partner-components'
 
 const CENTRAL_SYSTEM_VARIANTS = ['Fan Coil Units', 'Baseboards / Radiators']
 
@@ -84,9 +84,11 @@ function update(field, value) {
       @click="expanded = !expanded"
     >
       <span class="advanced-toggle">
-        <span class="advanced-toggle__icon" :class="{ 'advanced-toggle__icon--open': expanded }">
-          &#9662;
-        </span>
+        <PIcon
+          name="chevron-down"
+          size="small"
+          :class="['advanced-toggle__icon', { 'advanced-toggle__icon--open': expanded }]"
+        />
         {{ expanded ? 'Hide Advanced Details' : 'Show Advanced Details' }}
       </span>
     </PButton>
@@ -263,7 +265,7 @@ function update(field, value) {
 .advanced-section {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e2e6ea;
+  border-top: 1px solid var(--partner-gray-2);
 }
 
 .advanced-toggle {
@@ -277,8 +279,7 @@ function update(field, value) {
 }
 
 .advanced-toggle__icon {
-  display: inline-block;
-  font-size: 0.625rem;
+  display: inline-flex;
   transition: transform 0.2s ease;
 }
 
@@ -303,14 +304,14 @@ function update(field, value) {
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #8b95a1;
+  color: var(--partner-gray-5);
   margin: 0;
 }
 
 .advanced-header__line {
   flex: 1;
   height: 1px;
-  background-color: #e2e6ea;
+  background-color: var(--partner-gray-2);
 }
 
 .advanced-grid {
@@ -325,7 +326,6 @@ function update(field, value) {
   }
 }
 
-/* Field wrapper for native selects — mirrors BuildingForm */
 .form-field {
   display: flex;
   flex-direction: column;
@@ -336,39 +336,38 @@ function update(field, value) {
   font-family: var(--font-display);
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--partner-text-secondary, #5f6d79);
+  color: var(--partner-text-secondary);
   line-height: 1.25rem;
 }
 
-/* Native select — matches Partner input styling */
 .form-select {
   display: flex;
   width: 100%;
   height: 2rem;
-  border-radius: 2px;
-  border: 1px solid var(--partner-border-default, #c4cdd5);
+  border-radius: var(--partner-radius-sm);
+  border: 1px solid var(--partner-border-default);
   background-color: transparent;
   padding: 0 2rem 0 0.75rem;
   font-family: inherit;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   transition: border-color 0.15s, box-shadow 0.15s;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6d79' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236F7881' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.625rem center;
   background-size: 12px;
 }
 
 .form-select:hover {
-  border-color: var(--partner-border-hovered, #919eab);
+  border-color: var(--partner-border-hovered);
 }
 
 .form-select:focus {
-  border-color: var(--partner-border-active, var(--app-accent));
+  border-color: var(--partner-border-active);
   outline: none;
-  box-shadow: 0 0 0 1px var(--partner-border-active, var(--app-accent));
+  box-shadow: 0 0 0 1px var(--partner-border-active);
 }
 </style>

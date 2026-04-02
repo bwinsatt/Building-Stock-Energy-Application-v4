@@ -14,16 +14,16 @@ const props = defineProps({
 
 const fuelConfigs = [
   {
-    key: 'electricity', label: 'Electricity', color: '#eab308', badgeVariant: 'warning',
+    key: 'electricity', label: 'Electricity', color: 'var(--partner-yellow-5)', badgeVariant: 'warning',
     displayUnit: { label: 'kWh', abbr: 'kWh', convert: (kbtu) => kbtu / KWH_TO_KBTU },
   },
   {
-    key: 'natural_gas', label: 'Natural Gas', color: '#3b82f6', badgeVariant: 'primary',
+    key: 'natural_gas', label: 'Natural Gas', color: 'var(--partner-blue-5)', badgeVariant: 'primary',
     displayUnit: { label: 'therms', abbr: 'therms', convert: (kbtu) => kbtu / THERM_TO_KBTU },
   },
-  { key: 'fuel_oil', label: 'Fuel Oil', color: '#f97316', badgeVariant: 'secondary' },
-  { key: 'propane', label: 'Propane', color: '#ef4444', badgeVariant: 'error' },
-  { key: 'district_heating', label: 'District Heating', color: '#8b5cf6', badgeVariant: 'neutral' },
+  { key: 'fuel_oil', label: 'Fuel Oil', color: 'var(--partner-orange-6)', badgeVariant: 'secondary' },
+  { key: 'propane', label: 'Propane', color: 'var(--partner-red-5)', badgeVariant: 'error' },
+  { key: 'district_heating', label: 'District Heating', color: 'var(--partner-blue-9)', badgeVariant: 'neutral' },
 ]
 
 /** Only show fuels contributing more than 0.1 kBtu/sf */
@@ -231,8 +231,8 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 /* ---- Card container ---- */
 .baseline-card {
   background: var(--app-surface-raised);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
+  border: 1px solid var(--partner-border-light);
+  border-radius: var(--partner-radius-lg);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
 }
@@ -245,19 +245,19 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 }
 
 .baseline-card__title {
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
 }
 
 /* ---- Calibrated badge ---- */
 .calibrated-badge {
   display: inline-flex;
   align-items: center;
-  background: #dcfce7;
-  color: #166534;
+  background: var(--partner-green-1);
+  color: var(--partner-green-8);
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.125rem 0.5rem;
-  border-radius: 9999px;
+  border-radius: var(--partner-radius-full);
   line-height: 1.4;
   white-space: nowrap;
   flex-shrink: 0;
@@ -316,13 +316,13 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 
 .baseline-hero__unit {
   margin-top: 0.25rem;
-  color: #64748b;
+  color: var(--partner-gray-6);
 }
 
 .baseline-hero__divider {
   width: 1px;
   height: 3.5rem;
-  background: #e2e8f0;
+  background: var(--partner-border-light);
   flex-shrink: 0;
 }
 
@@ -336,13 +336,13 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 
 .baseline-hero__annual-unit {
   margin-top: 0.25rem;
-  color: #64748b;
+  color: var(--partner-gray-6);
 }
 
 /* ---- Stacked fuel bar ---- */
 .fuel-bar__heading {
   margin-bottom: 0.75rem;
-  color: #475569;
+  color: var(--partner-gray-6);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
@@ -354,7 +354,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   height: 20px;
   border-radius: 5px;
   overflow: hidden;
-  background: #e2e8f0;
+  background: var(--partner-gray-2);
 }
 
 .fuel-bar__segment {
@@ -417,14 +417,14 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 }
 
 .fuel-bar__legend-text {
-  color: #64748b;
+  color: var(--partner-gray-6);
   font-size: 0.7rem;
 }
 
 /* ---- Consumption list (right column) ---- */
 .consumption-list__heading {
   margin-bottom: 0.75rem;
-  color: #475569;
+  color: var(--partner-gray-6);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
@@ -442,8 +442,8 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   justify-content: space-between;
   padding: 0.5rem 1rem;
   background: var(--app-surface);
-  border: 1px solid #e2e8f0;
-  border-radius: 0.375rem;
+  border: 1px solid var(--partner-border-light);
+  border-radius: var(--partner-radius-md);
   gap: 1rem;
 }
 
@@ -461,7 +461,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 }
 
 .consumption-item__label {
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   font-size: 0.8rem;
 }
 
@@ -477,13 +477,13 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   font-family: var(--font-mono);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
 }
 
 .consumption-item__unit {
   font-size: 0.7rem;
   font-weight: 400;
-  color: #94a3b8;
+  color: var(--partner-gray-5);
 }
 
 /* ---- Responsive ---- */

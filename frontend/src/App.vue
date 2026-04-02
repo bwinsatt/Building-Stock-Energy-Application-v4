@@ -16,11 +16,11 @@
         <a class="p-header-nav-link" :class="{ active: currentView === 'assessment' }" @click="currentView = 'assessment'">Energy Audit Lite</a>
       </div>
       <div class="p-header-right">
-        <button class="p-offload-btn" title="Free model memory" @click="offloadModels" :disabled="offloading">
+        <PButton variant="neutral" appearance="outlined" size="small" :disabled="offloading" @click="offloadModels">
           {{ offloading ? 'Freeing...' : 'Free Memory' }}
-        </button>
+        </PButton>
         <span class="p-header-role">DB Admin</span>
-        <div class="p-avatar">BW</div>
+        <PAvatar initials="BW" size="small" />
       </div>
     </div>
 
@@ -34,6 +34,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { PButton, PAvatar } from '@partnerdevops/partner-components'
 import AssessmentView from './views/AssessmentView.vue'
 import ProjectsView from './components/ProjectsView.vue'
 
@@ -54,8 +55,8 @@ async function offloadModels() {
 <style scoped>
 .p-header {
   height: 53px;
-  background: var(--partner-white, #ffffff);
-  border-bottom: 1px solid var(--partner-gray-5, #a6adb4);
+  background: var(--partner-white);
+  border-bottom: 1px solid var(--partner-gray-5);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -85,20 +86,20 @@ async function offloadModels() {
 .p-logo-text {
   font-weight: 700;
   font-size: 1.125rem;
-  color: var(--partner-blue-7, #005199);
+  color: var(--partner-blue-7);
   letter-spacing: 0.5px;
 }
 
 .p-logo-sub {
   font-size: 0.625rem;
-  color: var(--partner-gray-6, #6f7881);
+  color: var(--partner-gray-6);
   letter-spacing: 0.026rem;
   text-transform: uppercase;
 }
 
 .p-header-nav-link {
   text-decoration: none;
-  color: var(--partner-gray-6, #6f7881);
+  color: var(--partner-gray-6);
   font-weight: 500;
   font-size: 0.875rem;
   padding: 0.375rem 0;
@@ -108,52 +109,17 @@ async function offloadModels() {
 }
 
 .p-header-nav-link:hover {
-  color: var(--partner-blue-7, #005199);
+  color: var(--partner-blue-7);
 }
 
 .p-header-nav-link.active {
-  color: var(--partner-blue-7, #005199);
-  border-bottom-color: var(--partner-blue-7, #005199);
+  color: var(--partner-blue-7);
+  border-bottom-color: var(--partner-blue-7);
 }
 
 .p-header-role {
   font-weight: 400;
   font-size: 0.75rem;
-  color: var(--partner-gray-6, #6f7881);
-}
-
-.p-offload-btn {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6875rem;
-  color: #6f7881;
-  background: transparent;
-  border: 1px solid #c4cdd5;
-  border-radius: 3px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.p-offload-btn:hover:not(:disabled) {
-  color: #005199;
-  border-color: #005199;
-}
-
-.p-offload-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.p-avatar {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 9999px;
-  background: var(--partner-blue-7, #005199);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 0.75rem;
+  color: var(--partner-gray-6);
 }
 </style>
