@@ -5,20 +5,20 @@
    Complement Partner tokens with app-specific values
    ============================================== */
 :root {
-  /* App shell colors — dark charcoal header palette */
-  --app-header-bg: #1a1f25;
-  --app-header-bg-subtle: #242a32;
-  --app-header-border: #2e363f;
-  --app-header-text: #f0f2f4;
-  --app-header-text-muted: #8b95a1;
+  /* App shell colors — mapped to partner gray scale */
+  --app-header-bg: var(--partner-gray-10);
+  --app-header-bg-subtle: var(--partner-gray-9);
+  --app-header-border: var(--partner-gray-8);
+  --app-header-text: var(--partner-gray-1);
+  --app-header-text-muted: var(--partner-gray-5);
 
   /* Accent — Partner blue */
-  --app-accent: var(--partner-blue-6, #1c7acc);
-  --app-accent-muted: var(--partner-blue-7, #005199);
+  --app-accent: var(--partner-blue-6);
+  --app-accent-muted: var(--partner-blue-7);
 
   /* Surface colors */
-  --app-surface: #f5f7f8;
-  --app-surface-raised: #ffffff;
+  --app-surface: var(--partner-gray-1);
+  --app-surface-raised: var(--partner-white);
 
   /* Typography — Roboto (Partner standard) */
   --font-display: 'Roboto', sans-serif;
@@ -34,7 +34,7 @@ body {
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
   background-color: var(--app-surface);
-  color: var(--partner-text-primary, #333e47);
+  color: var(--partner-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
