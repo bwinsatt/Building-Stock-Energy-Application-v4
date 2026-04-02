@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { PTypography } from '@partnerdevops/partner-components'
 import Highcharts from 'highcharts'
 import 'highcharts/modules/accessibility'
 
@@ -56,7 +57,7 @@ function buildOptions() {
   return {
     chart: {
       type: 'pie',
-      height: 220,
+      height: 320,
       backgroundColor: 'transparent',
       style: { fontFamily: 'inherit' },
     },
@@ -68,10 +69,18 @@ function buildOptions() {
     },
     plotOptions: {
       pie: {
-        innerSize: '55%',
-        borderWidth: 2,
-        borderColor: null,
-        dataLabels: { enabled: false },
+        innerSize: '0%',
+        borderWidth: 0,
+        borderRadius: 0,
+        dataLabels: {
+          enabled: true,
+          format: '{point.name} {point.percentage:.0f}%',
+          distance: 15,
+          connectorWidth: 1,
+          connectorColor: '#aaa',
+          style: { fontSize: '12px', fontWeight: '600', fontFamily: 'Roboto, sans-serif', color: 'var(--partner-gray-7)', textOutline: 'none' },
+          filter: { property: 'percentage', operator: '>', value: 5 },
+        },
         showInLegend: false,
         cursor: 'pointer',
         states: { hover: { brightness: 0.1 } },
@@ -105,22 +114,8 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="enduse-donut">
-    <div class="enduse-donut__heading">End-Use Breakdown</div>
+    <PTypography variant="headline2" class="enduse-donut__heading">End-Use Breakdown</PTypography>
     <div class="enduse-donut__chart-wrap" ref="chartContainer"></div>
-    <div class="enduse-donut__legend">
-      <div
-        v-for="item in chartData"
-        :key="item.name"
-        class="enduse-donut__legend-item"
-      >
-        <span
-          class="enduse-donut__legend-dot"
-          :style="{ backgroundColor: item.color }"
-        ></span>
-        <span class="enduse-donut__legend-label">{{ item.name }}</span>
-        <span class="enduse-donut__legend-pct">{{ item.y.toFixed(0) }}%</span>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -129,15 +124,10 @@ onBeforeUnmount(() => {
   margin-bottom: 0.5rem;
   color: var(--partner-gray-6);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  font-weight: 600;
 }
 
 .enduse-donut__chart-wrap {
   width: 100%;
-  max-width: 240px;
-  margin: 0 auto;
 }
 
 .enduse-donut__legend {

@@ -162,7 +162,7 @@ const emissionsBarSegments = computed(() => {
     <div :class="['baseline-layout', endUseBreakdown ? 'baseline-layout--with-donut' : '']">
       <!-- Left column -->
       <div class="baseline-layout__left">
-        <PTypography variant="subhead" class="baseline-layout__section-title">
+        <PTypography variant="headline2" class="baseline-layout__section-title">
           Energy &amp; Carbon Profile
         </PTypography>
 
@@ -204,7 +204,7 @@ const emissionsBarSegments = computed(() => {
 
         <!-- Stacked horizontal bar -->
         <div class="fuel-bar">
-          <PTypography variant="subhead" class="fuel-bar__heading">
+          <PTypography variant="headline2" class="fuel-bar__heading">
             Fuel Breakdown
           </PTypography>
 
@@ -257,7 +257,7 @@ const emissionsBarSegments = computed(() => {
 
         <!-- Annual consumption (below fuel bar) -->
         <div class="consumption-section">
-          <PTypography variant="subhead" class="consumption-list__heading">
+          <PTypography variant="headline2" class="consumption-list__heading">
             Annual Consumption
           </PTypography>
 
@@ -289,7 +289,7 @@ const emissionsBarSegments = computed(() => {
         </div>
         <!-- Carbon Emissions bar -->
         <div v-if="emissionsBarSegments.length" class="emissions-bar">
-          <PTypography variant="subhead" class="emissions-bar__heading">
+          <PTypography variant="headline2" class="emissions-bar__heading">
             Carbon Emissions
           </PTypography>
 
@@ -397,7 +397,7 @@ const emissionsBarSegments = computed(() => {
 }
 
 .baseline-layout--with-donut {
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .baseline-layout__left {
@@ -407,14 +407,11 @@ const emissionsBarSegments = computed(() => {
 .baseline-layout__section-title {
   color: var(--partner-gray-6);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
   margin-bottom: 0.25rem;
 }
 
 .baseline-layout__right {
-  min-width: 240px;
-  max-width: 320px;
+  min-width: 0;
 }
 
 /* ---- Hero section ---- */
@@ -472,8 +469,6 @@ const emissionsBarSegments = computed(() => {
   margin-bottom: 0.75rem;
   color: var(--partner-gray-6);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
 }
 
 .fuel-bar__track {
@@ -546,7 +541,6 @@ const emissionsBarSegments = computed(() => {
 
 .fuel-bar__legend-text {
   color: var(--partner-gray-6);
-  font-size: 0.7rem;
 }
 
 /* ---- Consumption section (below fuel bar) ---- */
@@ -558,8 +552,6 @@ const emissionsBarSegments = computed(() => {
   margin-bottom: 0.75rem;
   color: var(--partner-gray-6);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
 }
 
 .consumption-list {
@@ -594,7 +586,6 @@ const emissionsBarSegments = computed(() => {
 
 .consumption-item__label {
   color: var(--partner-text-primary);
-  font-size: 0.8rem;
 }
 
 .consumption-item__right {
@@ -613,7 +604,6 @@ const emissionsBarSegments = computed(() => {
 }
 
 .consumption-item__unit {
-  font-size: 0.7rem;
   font-weight: 400;
   color: var(--partner-gray-5);
 }
@@ -626,9 +616,7 @@ const emissionsBarSegments = computed(() => {
 .emissions-bar__heading {
   margin-bottom: 0.75rem;
   color: var(--partner-gray-6);
-  font-size: 0.8rem;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
 .emissions-bar__track {
@@ -693,7 +681,6 @@ const emissionsBarSegments = computed(() => {
 
 .emissions-bar__legend-text {
   color: var(--partner-gray-6);
-  font-size: 0.7rem;
 }
 
 /* ---- Responsive ---- */
