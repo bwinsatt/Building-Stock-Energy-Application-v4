@@ -66,7 +66,7 @@ function confidencePercent(confidence) {
           >
             <span class="assumptions-item__label">{{ field.label }}</span>
             <span class="assumptions-item__value">{{ field.value }}</span>
-            <PChip variant="primary" appearance="soft" size="small">
+            <PChip variant="primary" appearance="outlined" size="small">
               {{ field.source }}
             </PChip>
           </div>
@@ -87,10 +87,10 @@ function confidencePercent(confidence) {
           >
             <span class="assumptions-item__label">{{ field.label }}</span>
             <span class="assumptions-item__value">{{ field.value }}</span>
-            <PChip v-if="field.source === 'user'" variant="primary" appearance="soft" size="small">
+            <PChip v-if="field.source === 'user'" variant="primary" appearance="outlined" size="small">
               user
             </PChip>
-            <PChip v-else-if="field.source === 'derived'" variant="primary" appearance="soft" size="small">
+            <PChip v-else-if="field.source === 'derived'" variant="primary" appearance="outlined" size="small">
               derived
             </PChip>
             <PTooltip v-else-if="field.confidence != null" direction="top">
