@@ -147,7 +147,7 @@ function onKeydown(e) {
 .address-lookup__form {
   display: flex;
   gap: 0.75rem;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .address-lookup__input-wrap {

@@ -469,14 +469,19 @@ function onSubmit() {
       </div>
 
       <!-- Zip Code -->
-      <PTextInput
-        v-model="form.zipcode"
-        label="Zip Code"
-        placeholder="e.g. 10001"
-        required
-        size="medium"
-        maxlength="5"
-      />
+      <div class="form-field">
+        <label class="form-label" for="zipcode">
+          Zip Code <span class="form-label__required">*</span>
+        </label>
+        <PTextInput
+          id="zipcode"
+          v-model="form.zipcode"
+          placeholder="e.g. 10001"
+          required
+          size="medium"
+          maxlength="5"
+        />
+      </div>
 
       <!-- Year Built -->
       <div class="form-field">
