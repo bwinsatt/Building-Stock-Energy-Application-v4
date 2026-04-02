@@ -102,7 +102,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
       <span v-if="calibrated" class="calibrated-badge">Calibrated</span>
     </div>
 
-    <!-- Two-column layout: left stats + bar, right consumption list -->
+    <!-- Two-column layout: left stats + bar + consumption, right donut -->
     <div :class="['baseline-layout', endUseBreakdown ? 'baseline-layout--with-donut' : '']">
       <!-- Left column -->
       <div class="baseline-layout__left">
@@ -181,47 +181,47 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
             </div>
           </div>
         </div>
+
+        <!-- Annual consumption (below fuel bar) -->
+        <div class="consumption-section">
+          <PTypography variant="subhead" class="consumption-list__heading">
+            Annual Consumption
+          </PTypography>
+
+          <div class="consumption-list">
+            <div
+              v-for="fuel in activeFuels"
+              :key="fuel.key"
+              class="consumption-item"
+            >
+              <div class="consumption-item__left">
+                <span
+                  class="consumption-item__dot"
+                  :style="{ backgroundColor: fuel.color }"
+                ></span>
+                <PTypography variant="body2" class="consumption-item__label">
+                  {{ fuel.label }}
+                </PTypography>
+              </div>
+              <div class="consumption-item__right">
+                <span class="consumption-item__value">
+                  {{ fuelConsumption(fuel).value }}
+                </span>
+                <span class="consumption-item__unit">
+                  {{ fuelConsumption(fuel).unit }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Center column: end-use donut (only when data available) -->
-      <div v-if="endUseBreakdown" class="baseline-layout__center">
+      <!-- Right column: end-use donut (only when data available) -->
+      <div v-if="endUseBreakdown" class="baseline-layout__right">
         <EndUseDonut
           :breakdown="endUseBreakdown"
           :total-eui="baseline.total_eui_kbtu_sf"
         />
-      </div>
-
-      <!-- Right column: consumption list -->
-      <div class="baseline-layout__right">
-        <PTypography variant="subhead" class="consumption-list__heading">
-          Annual Consumption
-        </PTypography>
-
-        <div class="consumption-list">
-          <div
-            v-for="fuel in activeFuels"
-            :key="fuel.key"
-            class="consumption-item"
-          >
-            <div class="consumption-item__left">
-              <span
-                class="consumption-item__dot"
-                :style="{ backgroundColor: fuel.color }"
-              ></span>
-              <PTypography variant="body2" class="consumption-item__label">
-                {{ fuel.label }}
-              </PTypography>
-            </div>
-            <div class="consumption-item__right">
-              <span class="consumption-item__value">
-                {{ fuelConsumption(fuel).value }}
-              </span>
-              <span class="consumption-item__unit">
-                {{ fuelConsumption(fuel).unit }}
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -263,30 +263,25 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   flex-shrink: 0;
 }
 
-/* ---- Grid layout (2-col default, 3-col with donut) ---- */
+/* ---- Grid layout (1-col default, 2-col with donut) ---- */
 .baseline-layout {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   gap: 2rem;
-  align-items: start;
+  align-items: center;
 }
 
 .baseline-layout--with-donut {
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 3fr 2fr;
 }
 
 .baseline-layout__left {
   min-width: 0;
 }
 
-.baseline-layout__center {
-  min-width: 200px;
-  max-width: 280px;
-}
-
 .baseline-layout__right {
-  min-width: 200px;
-  max-width: 260px;
+  min-width: 240px;
+  max-width: 320px;
 }
 
 /* ---- Hero section ---- */
@@ -421,7 +416,11 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   font-size: 0.7rem;
 }
 
-/* ---- Consumption list (right column) ---- */
+/* ---- Consumption section (below fuel bar) ---- */
+.consumption-section {
+  margin-top: 1.5rem;
+}
+
 .consumption-list__heading {
   margin-bottom: 0.75rem;
   color: var(--partner-gray-6);
@@ -432,7 +431,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 
 .consumption-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 0.625rem;
 }
 
@@ -488,12 +487,9 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
 
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
-  .baseline-layout {
+  .baseline-layout,
+  .baseline-layout--with-donut {
     grid-template-columns: 1fr;
-  }
-
-  .baseline-layout__center {
-    max-width: none;
   }
 
   .baseline-layout__right {
