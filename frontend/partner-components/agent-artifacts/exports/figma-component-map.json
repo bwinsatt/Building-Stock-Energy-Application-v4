@@ -1,0 +1,1397 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-17T17:30:00.000Z",
+  "masterFile": {
+    "fileKey": "1IqfGdn5XxqnBm3CZ5rFH1",
+    "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?m=dev"
+  },
+  "components": [
+    {
+      "componentName": "PButton",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the canonical button matrix and link-specific documentation page. This is the current source of truth for button size, style, type, state, and icon-only naming.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:118",
+          "nodeName": "    Button🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-118&m=dev",
+          "notes": "Top-level button page that contains the main matrix and link treatment."
+        },
+        {
+          "nodeId": "11:622",
+          "nodeName": "Buttons/Main",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=11-622&m=dev",
+          "notes": "Canonical variant matrix for contained, outlined, and text buttons, including icon-only variants."
+        },
+        {
+          "nodeId": "11:1147",
+          "nodeName": "Button/Link",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=11-1147&m=dev",
+          "notes": "Link-style treatment used when `PButton` is rendered with link-like emphasis."
+        },
+        {
+          "nodeId": "578:8757",
+          "nodeName": "Button/Main Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-8757&m=dev",
+          "notes": "Usage guidance and anatomy for main buttons."
+        },
+        {
+          "nodeId": "578:9001",
+          "nodeName": "Button/Link Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-9001&m=dev",
+          "notes": "Usage guidance for link-style button behavior."
+        }
+      ]
+    },
+    {
+      "componentName": "PIcon",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the icons page and its documentation. This page is the current source for available icon names and usage constraints.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:120",
+          "nodeName": "    Icon🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-120&m=dev",
+          "notes": "Top-level icon page."
+        },
+        {
+          "nodeId": "9:5113",
+          "nodeName": "Icons",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=9-5113&m=dev",
+          "notes": "Canonical icon catalog, including names such as `Search`, `Menu`, `Chevron--down`, and Partner-specific icons."
+        },
+        {
+          "nodeId": "578:9615",
+          "nodeName": "Icons Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-9615&m=dev",
+          "notes": "Usage guidance states icons are not standalone interactive elements and should remain within fixed sizing constraints."
+        }
+      ]
+    },
+    {
+      "componentName": "PLogo",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the logo page and logo matrix for brand variants, favicon variants, and brand-specific lockups.",
+      "figmaNodes": [
+        {
+          "nodeId": "127:21",
+          "nodeName": "    Logo🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=127-21&m=dev",
+          "notes": "Top-level logo page."
+        },
+        {
+          "nodeId": "127:315",
+          "nodeName": "Partner Logo",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=127-315&m=dev",
+          "notes": "Canonical logo matrix covering Partner, SiteLynx, BlueLynx, Plink-Live, and favicon variants."
+        }
+      ]
+    },
+    {
+      "componentName": "PTypography",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the typography table. This is the current source of truth for typography variant names that map to `PTypography`.",
+      "figmaNodes": [
+        {
+          "nodeId": "10:8314",
+          "nodeName": "Typography",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=10-8314&m=dev",
+          "notes": "Canonical typography table confirming names such as `h1`, `headline 1`, `body 1`, `inputLabel`, and `tooltip`."
+        }
+      ]
+    },
+    {
+      "componentName": "PLayoutGrid",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the layout grid page. This is the current source of truth for breakpoint, gutter, margin, and alignment rules that back the layout grid primitives in the repo.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:122",
+          "nodeName": "    Layout Grid🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-122&m=dev",
+          "notes": "Top-level layout grid page."
+        },
+        {
+          "nodeId": "125:21",
+          "nodeName": "Layout Grid",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=125-21&m=dev",
+          "notes": "Canonical breakpoint table for `xl`, `lg`, `md`, and `sm`, plus example body container layouts."
+        },
+        {
+          "nodeId": "578:9715",
+          "nodeName": "Body Container Layout Grid Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-9715&m=dev",
+          "notes": "Documentation describing how body content aligns below the main navigation bar and responds across breakpoints."
+        }
+      ]
+    },
+    {
+      "componentName": "PLayoutGridItem",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Mapped to the same grid system source as `PLayoutGrid`. The Figma page defines the column structure and container behavior that individual grid items should honor.",
+      "figmaNodes": [
+        {
+          "nodeId": "125:21",
+          "nodeName": "Layout Grid",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=125-21&m=dev",
+          "notes": "Canonical column and breakpoint system used by grid items."
+        }
+      ]
+    },
+    {
+      "componentName": "PMainNavBar",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "The Figma main navigation bar exists, but there is no public Partner component in this repo yet. Keep this mapping so the implementation can be attached once the component is built.",
+      "figmaNodes": [
+        {
+          "nodeId": "128:24",
+          "nodeName": "    Main Nav Bar 🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=128-24&m=dev",
+          "notes": "Top-level main navigation page."
+        },
+        {
+          "nodeId": "561:8400",
+          "nodeName": "Main Navigation Bar",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=561-8400&m=dev",
+          "notes": "Canonical main navigation bar with left and center alignment variants."
+        },
+        {
+          "nodeId": "282:69171",
+          "nodeName": "Main Navigation Bar Item",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=282-69171&m=dev",
+          "notes": "Reference frame for nav items, nav groups, icon groups, and page labels."
+        },
+        {
+          "nodeId": "578:7636",
+          "nodeName": "Main Navigation Bar Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-7636&m=dev",
+          "notes": "Documentation describing anatomy, variants, responsiveness, and token usage. Attach this to the component once implementation begins."
+        }
+      ]
+    },
+    {
+      "componentName": "PSideNavPanel",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "The side navigation panel exists in Figma, but there is no public Partner component in this repo yet. Keep this mapping for future implementation sync.",
+      "figmaNodes": [
+        {
+          "nodeId": "282:69198",
+          "nodeName": "    Side Nav Panel 🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=282-69198&m=dev",
+          "notes": "Top-level side nav page."
+        },
+        {
+          "nodeId": "282:69175",
+          "nodeName": "Side Nav Item_Default",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=282-69175&m=dev",
+          "notes": "Default side nav item variants across extra large, large, medium, and small sizes."
+        },
+        {
+          "nodeId": "3137:2476",
+          "nodeName": "Side Nav Item_Secondary",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3137-2476&m=dev",
+          "notes": "Secondary side nav item treatment for nested or lower-emphasis navigation."
+        }
+      ]
+    },
+    {
+      "componentName": "PBreadcrumb",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "Breadcrumb exists in Figma but there is no public breadcrumb component in this repo yet. Preserve the grounded nodes so implementation can pick up the correct overflow behavior later.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:127",
+          "nodeName": "    Breadcrumb🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-127&m=dev",
+          "notes": "Top-level breadcrumb page."
+        },
+        {
+          "nodeId": "273:50663",
+          "nodeName": "Breadcrumb",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=273-50663&m=dev",
+          "notes": "Canonical breadcrumb states including current page treatment and overflow behavior."
+        }
+      ]
+    },
+    {
+      "componentName": "PPagination",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the pagination page and documentation. This is the current source of truth for pagination items, small variants, and truncation behavior.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:129",
+          "nodeName": "    Pagination🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-129&m=dev",
+          "notes": "Top-level pagination page."
+        },
+        {
+          "nodeId": "144:1612",
+          "nodeName": "Pagination",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=144-1612&m=dev",
+          "notes": "Canonical pagination frame covering pagination nav, item states, and truncation examples."
+        },
+        {
+          "nodeId": "578:9960",
+          "nodeName": "Pagination Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-9960&m=dev",
+          "notes": "Documentation covering truncation, placement, and small-mode usage."
+        }
+      ]
+    },
+    {
+      "componentName": "PCheckbox",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the checkbox page and documentation. This is the current source of truth for checkbox sizes, disabled states, and checked vs unchecked treatment.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:131",
+          "nodeName": "    Checkbox🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-131&m=dev",
+          "notes": "Top-level checkbox page."
+        },
+        {
+          "nodeId": "179:27963",
+          "nodeName": "Checkbox",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=179-27963&m=dev",
+          "notes": "Canonical checkbox field variants across large, medium, and small sizes."
+        },
+        {
+          "nodeId": "530:41666",
+          "nodeName": "Checkbox Item",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=530-41666&m=dev",
+          "notes": "Reference item states including indeterminate and hover behavior."
+        },
+        {
+          "nodeId": "1677:5006",
+          "nodeName": "Checkbox Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1677-5006&m=dev",
+          "notes": "Documentation covering group usage, indeterminate behavior, and validation guidance."
+        }
+      ]
+    },
+    {
+      "componentName": "PCheckboxGroup",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Mapped to the same checkbox page because the canonical group patterns live there and document horizontal, vertical, and error-state behavior.",
+      "figmaNodes": [
+        {
+          "nodeId": "179:27963",
+          "nodeName": "Checkbox",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=179-27963&m=dev",
+          "notes": "Contains `Checkbox Group` variants and error-state examples."
+        }
+      ]
+    },
+    {
+      "componentName": "PSelect",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the select page. This is the current source of truth for single-select field states, multi-select treatment, and size variants.",
+      "figmaNodes": [
+        {
+          "nodeId": "179:338",
+          "nodeName": "    Select🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=179-338&m=dev",
+          "notes": "Top-level select page."
+        },
+        {
+          "nodeId": "179:743",
+          "nodeName": "Dropdown",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=179-743&m=dev",
+          "notes": "Canonical single-select dropdown states plus multi-select examples with chips and overflow counts."
+        }
+      ]
+    },
+    {
+      "componentName": "PSelectMenu",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the menu system plus the user-provided select-menu reference frame. This mapping covers trigger-driven selection overlays with search, checkbox items, Select All, and footer actions like Clear and Apply.",
+      "figmaNodes": [
+        {
+          "nodeId": "188:9044",
+          "nodeName": "    Menu🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=188-9044&m=dev",
+          "notes": "Top-level menu page containing the select-menu patterns."
+        },
+        {
+          "nodeId": "3701:1516",
+          "nodeName": "Menu Variations Examples",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3701-1516&m=dev",
+          "notes": "Reference frame for `PSelectMenu` variants, including searchable multi-select states, Select All behavior, secondary text options, and Clear/Apply footer actions."
+        }
+      ]
+    },
+    {
+      "componentName": "PPageHeader",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "A Page Header page exists in Figma, but the supplied node currently resolves only to the top-level canvas. Keep this placeholder and refine it later with a deeper frame URL once the design is further along or implementation begins.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:128",
+          "nodeName": "    PageHeader",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-128&m=dev",
+          "notes": "Top-level page header canvas. Needs a deeper frame mapping once the source page is expanded."
+        }
+      ]
+    },
+    {
+      "componentName": "PTab",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "The tab system exists in Figma, but there is no public Partner tab component in this repo yet. Preserve this mapping so a future implementation can inherit the correct orientation, active-state, and count behavior.",
+      "figmaNodes": [
+        {
+          "nodeId": "2:4",
+          "nodeName": "    Tab🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2-4&m=dev",
+          "notes": "Top-level tab page."
+        },
+        {
+          "nodeId": "129:2160",
+          "nodeName": "Tab",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=129-2160&m=dev",
+          "notes": "Canonical tab-item states for horizontal and vertical tabs, plus small and default sizes."
+        },
+        {
+          "nodeId": "606:8411",
+          "nodeName": "Tab Item",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=606-8411&m=dev",
+          "notes": "Reference for number count styling and tab-item subparts."
+        },
+        {
+          "nodeId": "606:8668",
+          "nodeName": "Pagination Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=606-8668&m=dev",
+          "notes": "Despite the frame name, this is the tab documentation page. It documents tab anatomy, orientation, counts, and active-state behavior."
+        }
+      ]
+    },
+    {
+      "componentName": "PDateInput",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "Date input exists in Figma, but there is no public Partner date input component in this repo yet. Preserve this mapping for a future implementation.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:132",
+          "nodeName": "    Date Input / Date Picker🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-132&m=dev",
+          "notes": "Top-level date input and picker page."
+        },
+        {
+          "nodeId": "2363:23204",
+          "nodeName": "Date Input",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2363-23204&m=dev",
+          "notes": "Canonical date input states for large, medium, and small sizes with and without values."
+        },
+        {
+          "nodeId": "3577:3478",
+          "nodeName": "Pagination Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3577-3478&m=dev",
+          "notes": "Despite the frame name, this is the date input documentation page. It documents format, validation, and input rules."
+        }
+      ]
+    },
+    {
+      "componentName": "PDatePicker",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "Calendar picker exists in Figma, but there is no public Partner date picker component in this repo yet. Preserve the grounded nodes for future implementation.",
+      "figmaNodes": [
+        {
+          "nodeId": "185:1795",
+          "nodeName": "Calendar Picker",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=185-1795&m=dev",
+          "notes": "Canonical calendar picker with year-select variants."
+        },
+        {
+          "nodeId": "2363:23177",
+          "nodeName": "Date Picker Custom Items",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2363-23177&m=dev",
+          "notes": "Reference states for individual calendar buttons including selected, today, disabled, and unavailable."
+        },
+        {
+          "nodeId": "3602:4108",
+          "nodeName": "Pagination Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3602-4108&m=dev",
+          "notes": "Despite the frame name, this is the date picker documentation page. It documents anatomy, open-close behavior, and date selection behavior."
+        }
+      ]
+    },
+    {
+      "componentName": "PDialog",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the dialog page and the user-provided canonical dialog frame. The canonical node is shared with the confirmation modal patterns currently represented in Figma.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:148",
+          "nodeName": "    Dialog🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-148&m=dev",
+          "notes": "Top-level dialog page."
+        },
+        {
+          "nodeId": "116:1062",
+          "nodeName": "Dialog",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=116-1062&m=dev",
+          "notes": "User-provided canonical dialog node used for the implemented `PDialog` component."
+        }
+      ]
+    },
+    {
+      "componentName": "PMenu",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the menu page plus user-provided canonical and documentation nodes. In Figma, `Menu` is a shared primitive page that also contains select-menu patterns. Map to `PMenu` only for generic action menus and flexible dropdown content; use `PSelectMenu` for searchable or selection-oriented overlays with checkbox items, Select All, or Clear/Apply footer actions.",
+      "figmaNodes": [
+        {
+          "nodeId": "188:9044",
+          "nodeName": "    Menu🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=188-9044&m=dev",
+          "notes": "Top-level menu page."
+        },
+        {
+          "nodeId": "188:7827",
+          "nodeName": "Menu",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=188-7827&m=dev",
+          "notes": "User-provided canonical menu node."
+        },
+        {
+          "nodeId": "578:10197",
+          "nodeName": "Menu Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-10197&m=dev",
+          "notes": "User-provided menu documentation node."
+        }
+      ]
+    },
+    {
+      "componentName": "PMenuItem",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the menu page plus user-provided menu-item canonical and documentation nodes. Do not use this mapping for full menu example frames that represent selectable overlay patterns; those should map to `PSelectMenu`.",
+      "figmaNodes": [
+        {
+          "nodeId": "188:9044",
+          "nodeName": "    Menu🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=188-9044&m=dev",
+          "notes": "Top-level menu page containing the menu item system."
+        },
+        {
+          "nodeId": "179:14983",
+          "nodeName": "Menu Item",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=179-14983&m=dev",
+          "notes": "User-provided canonical menu item node."
+        },
+        {
+          "nodeId": "578:10125",
+          "nodeName": "Menu Item Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=578-10125&m=dev",
+          "notes": "User-provided menu item documentation node."
+        }
+      ]
+    },
+    {
+      "componentName": "PNumericInput",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the numeric input page plus user-provided canonical and supporting nodes.",
+      "figmaNodes": [
+        {
+          "nodeId": "3611:473",
+          "nodeName": "    Numeric Input🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3611-473&m=dev",
+          "notes": "Top-level numeric input page."
+        },
+        {
+          "nodeId": "3611:510",
+          "nodeName": "Numeric Input",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3611-510&m=dev",
+          "notes": "User-provided canonical numeric input node."
+        },
+        {
+          "nodeId": "3816:18299",
+          "nodeName": "Numeric Field Custom Items",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=3816-18299&m=dev",
+          "notes": "User-provided supporting numeric input node."
+        }
+      ]
+    },
+    {
+      "componentName": "PSearchBar",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the search page plus the user-provided canonical search node.",
+      "figmaNodes": [
+        {
+          "nodeId": "2:3",
+          "nodeName": "    Search🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2-3&m=dev",
+          "notes": "Top-level search page."
+        },
+        {
+          "nodeId": "538:11053",
+          "nodeName": "Search bar",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=538-11053&m=dev",
+          "notes": "User-provided canonical search node."
+        }
+      ]
+    },
+    {
+      "componentName": "PTextInput",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the shared text input / text area page plus user-provided canonical and documentation nodes.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:133",
+          "nodeName": "    Text Input / Text Area🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-133&m=dev",
+          "notes": "Top-level text input and text area page."
+        },
+        {
+          "nodeId": "159:1953",
+          "nodeName": "Text Input",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=159-1953&m=dev",
+          "notes": "User-provided canonical text input node."
+        },
+        {
+          "nodeId": "1323:3131",
+          "nodeName": "Text Input/ Text Area Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1323-3131&m=dev",
+          "notes": "User-provided shared documentation node for text input and text area."
+        }
+      ]
+    },
+    {
+      "componentName": "PTextArea",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the shared text input / text area page plus user-provided canonical and documentation nodes.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:133",
+          "nodeName": "    Text Input / Text Area🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-133&m=dev",
+          "notes": "Top-level text input and text area page."
+        },
+        {
+          "nodeId": "2:5",
+          "nodeName": "Text Area",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2-5&m=dev",
+          "notes": "User-provided canonical text area node."
+        },
+        {
+          "nodeId": "1323:3131",
+          "nodeName": "Text Input/ Text Area Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1323-3131&m=dev",
+          "notes": "User-provided shared documentation node for text input and text area."
+        }
+      ]
+    },
+    {
+      "componentName": "PToast",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the toast page plus user-provided canonical, documentation, and example nodes.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:147",
+          "nodeName": "    Toast 🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-147&m=dev",
+          "notes": "Top-level toast page."
+        },
+        {
+          "nodeId": "4500:22387",
+          "nodeName": "Toast",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=4500-22387&m=dev",
+          "notes": "User-provided canonical toast node."
+        },
+        {
+          "nodeId": "4520:2181",
+          "nodeName": "Examples",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=4520-2181&m=dev",
+          "notes": "User-provided example toast states and scenarios."
+        },
+        {
+          "nodeId": "4520:1998",
+          "nodeName": "Toast Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=4520-1998&m=dev",
+          "notes": "User-provided toast documentation node."
+        }
+      ]
+    },
+    {
+      "componentName": "PSwitch",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "A switch component exists in Figma, but there is no public Partner switch component in this repo yet. Preserve this mapping so future implementation can attach to the correct size and toggle-state system.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:134",
+          "nodeName": "    Switch🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-134&m=dev",
+          "notes": "Top-level switch page."
+        },
+        {
+          "nodeId": "839:8773",
+          "nodeName": "Toggle",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=839-8773&m=dev",
+          "notes": "Canonical switch variants across default and small sizes, toggled and disabled states."
+        }
+      ]
+    },
+    {
+      "componentName": "PAvatar",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the avatar page. This is the current source of truth for avatar size, shape, and content-type variants.",
+      "figmaNodes": [
+        {
+          "nodeId": "2099:60364",
+          "nodeName": "    Avatar🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2099-60364&m=dev",
+          "notes": "Top-level avatar page."
+        },
+        {
+          "nodeId": "2099:60488",
+          "nodeName": "Avatar",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2099-60488&m=dev",
+          "notes": "Canonical avatar variants across extra large, large, medium, and small sizes; circular and square shapes; text, icon, and image content."
+        }
+      ]
+    },
+    {
+      "componentName": "PAvatarGroup",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the avatar page because the canonical avatar-group system lives there and defines count and spacing behavior.",
+      "figmaNodes": [
+        {
+          "nodeId": "2103:61640",
+          "nodeName": "Avatar Group",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2103-61640&m=dev",
+          "notes": "Canonical avatar group variants across sizes, counts, and spacing modes."
+        }
+      ]
+    },
+    {
+      "componentName": "PBadge",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the badge page. This is the current source of truth for standard and dot badge treatments across semantic color roles.",
+      "figmaNodes": [
+        {
+          "nodeId": "2099:60790",
+          "nodeName": "    Badge🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2099-60790&m=dev",
+          "notes": "Top-level badge page. Marked in-progress in Figma, but already useful for grounding current badge variants."
+        },
+        {
+          "nodeId": "2099:60791",
+          "nodeName": "Badge",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2099-60791&m=dev",
+          "notes": "Canonical badge variants for `Type=Standard` and `Type=Dot` across primary, secondary, error, warning, success, and neutral."
+        }
+      ]
+    },
+    {
+      "componentName": "PChip",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the chip page and documentation. This is the current source of truth for removable, selectable, and status chip variants.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:142",
+          "nodeName": "    Chip🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-142&m=dev",
+          "notes": "Top-level chip page."
+        },
+        {
+          "nodeId": "371:59",
+          "nodeName": "Chip",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=371-59&m=dev",
+          "notes": "Canonical chip system covering read-only, removable, and selectable chip treatments across sizes, colors, and types."
+        },
+        {
+          "nodeId": "1913:443",
+          "nodeName": "Chip Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1913-443&m=dev",
+          "notes": "Documentation covering chip types, truncation, and interaction rules."
+        }
+      ]
+    },
+    {
+      "componentName": "PTable",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the table page. This is the current source of truth for small vs default table density, optional checkbox selection, row-count examples, and related custom table subcomponents.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:141",
+          "nodeName": "    Table🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-141&m=dev",
+          "notes": "Top-level table page. Marked in-progress in Figma, but already useful for grounding table structure and subcomponents."
+        },
+        {
+          "nodeId": "224:44283",
+          "nodeName": "Table",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=224-44283&m=dev",
+          "notes": "Canonical table examples covering density, checkbox selection, and row-count variants."
+        },
+        {
+          "nodeId": "258:34716",
+          "nodeName": "Table Custom Components",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=258-34716&m=dev",
+          "notes": "Reference frame for floating bulk action bar, filter, drag button, expand-collapse controls, and nested row/table patterns."
+        }
+      ]
+    },
+    {
+      "componentName": "PTooltip",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the tooltip page and documentation. This is the current source of truth for directional tooltip behavior and default anatomy.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:143",
+          "nodeName": "    Tooltip🟢",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-143&m=dev",
+          "notes": "Top-level tooltip page."
+        },
+        {
+          "nodeId": "54:6988",
+          "nodeName": "Tooltip",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=54-6988&m=dev",
+          "notes": "Canonical tooltip variants across default placement and directional treatments."
+        },
+        {
+          "nodeId": "1871:129",
+          "nodeName": "Tooltip Documentation",
+          "nodeType": "FRAME",
+          "role": "documentation",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1871-129&m=dev",
+          "notes": "Documentation for tooltip anatomy, direction, and usage guidance."
+        }
+      ]
+    },
+    {
+      "componentName": "PAlert",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "Alert patterns exist in Figma, but there is no public Partner alert component in this repo yet. Preserve both inline and global alert frames so implementation can map to the correct scope later.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:145",
+          "nodeName": "    Alert 🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-145&m=dev",
+          "notes": "Top-level alert page. Marked in-progress in Figma."
+        },
+        {
+          "nodeId": "52:4692",
+          "nodeName": "Inline Alerts",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=52-4692&m=dev",
+          "notes": "Primary inline alert system covering semantic states and inline placement."
+        },
+        {
+          "nodeId": "1808:13010",
+          "nodeName": "Global Alerts",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1808-13010&m=dev",
+          "notes": "Reference set for global alert treatments that may warrant a separate future component or variant model."
+        }
+      ]
+    },
+    {
+      "componentName": "PModal",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "Modal patterns exist in Figma, but there is no public Partner modal component in this repo yet. Preserve confirmation, input, and size-variant references for future implementation.",
+      "figmaNodes": [
+        {
+          "nodeId": "1:148",
+          "nodeName": "    Modal🟡",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-148&m=dev",
+          "notes": "Top-level modal page. Marked in-progress in Figma."
+        },
+        {
+          "nodeId": "660:12542",
+          "nodeName": "Modal",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=660-12542&m=dev",
+          "notes": "Canonical modal size system covering small, medium, large, and extra-large treatments."
+        },
+        {
+          "nodeId": "116:1062",
+          "nodeName": "Confirmation Modals",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=116-1062&m=dev",
+          "notes": "Reference patterns for confirmation-driven modal content."
+        },
+        {
+          "nodeId": "116:1068",
+          "nodeName": "Input Modals",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=116-1068&m=dev",
+          "notes": "Reference patterns for form and input-driven modal content."
+        }
+      ]
+    },
+    {
+      "componentName": "PPopover",
+      "repoStatus": "implemented",
+      "status": "matched",
+      "notes": "Grounded from the popover page. This is the current source of truth for popover body treatment, positioning, and optional arrow behavior.",
+      "figmaNodes": [
+        {
+          "nodeId": "422:393",
+          "nodeName": "Popover",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=422-393&m=dev",
+          "notes": "Top-level popover page."
+        },
+        {
+          "nodeId": "422:1131",
+          "nodeName": "Popover",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=422-1131&m=dev",
+          "notes": "Canonical popover treatment for standard content containers."
+        },
+        {
+          "nodeId": "422:5826",
+          "nodeName": "Popover",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=422-5826&m=dev",
+          "notes": "Reference frame covering position and arrow variations."
+        }
+      ]
+    },
+    {
+      "componentName": "PProgress",
+      "repoStatus": "planned",
+      "status": "unmapped",
+      "notes": "Progress patterns exist in Figma, but there is no public Partner progress component in this repo yet. Preserve the rounded and compact variants so future implementation can match the established states.",
+      "figmaNodes": [
+        {
+          "nodeId": "358:38",
+          "nodeName": "Progress",
+          "nodeType": "CANVAS",
+          "role": "page",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=358-38&m=dev",
+          "notes": "Top-level progress page."
+        },
+        {
+          "nodeId": "358:39",
+          "nodeName": "Progress",
+          "nodeType": "FRAME",
+          "role": "canonical",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=358-39&m=dev",
+          "notes": "Canonical progress system covering rounded and compact variants across partial and complete states."
+        },
+        {
+          "nodeId": "481:10233",
+          "nodeName": "Progress Bar",
+          "nodeType": "FRAME",
+          "role": "reference",
+          "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=481-10233&m=dev",
+          "notes": "Reference frame for the core progress bar anatomy."
+        }
+      ]
+    }
+  ],
+  "supportingNodes": [
+    {
+      "domain": "brand",
+      "nodeId": "127:21",
+      "nodeName": "    Logo🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=127-21&m=dev",
+      "notes": "Brand identity source of truth for lockups and favicons."
+    },
+    {
+      "domain": "color",
+      "nodeId": "1:117",
+      "nodeName": "    Colors🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-117&m=dev",
+      "notes": "Top-level color token page."
+    },
+    {
+      "domain": "color",
+      "nodeId": "7:1191",
+      "nodeName": "System Colors",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=7-1191&m=dev",
+      "notes": "Canonical token table for semantic color variables such as `--partner-primary-main`."
+    },
+    {
+      "domain": "typography",
+      "nodeId": "10:8314",
+      "nodeName": "Typography",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=10-8314&m=dev",
+      "notes": "Canonical typography table used by `PTypography` and referenced by form and button text styling."
+    },
+    {
+      "domain": "layout",
+      "nodeId": "1:128",
+      "nodeName": "    PageHeader",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-128&m=dev",
+      "notes": "Top-level page header canvas. Needs deeper frame grounding later."
+    },
+    {
+      "domain": "layout",
+      "nodeId": "1:122",
+      "nodeName": "    Layout Grid🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-122&m=dev",
+      "notes": "Top-level layout grid page."
+    },
+    {
+      "domain": "layout",
+      "nodeId": "125:21",
+      "nodeName": "Layout Grid",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=125-21&m=dev",
+      "notes": "Canonical layout grid and breakpoint table for page body composition."
+    },
+    {
+      "domain": "radius",
+      "nodeId": "12:861",
+      "nodeName": "    Radius🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=12-861&m=dev",
+      "notes": "Top-level radius token page."
+    },
+    {
+      "domain": "radius",
+      "nodeId": "12:869",
+      "nodeName": "Radius",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=12-869&m=dev",
+      "notes": "Canonical token table for `radius-none`, `radius-sm`, `radius-md`, `radius-lg`, and `radius-full`."
+    },
+    {
+      "domain": "spacing",
+      "nodeId": "1:156",
+      "nodeName": "    Spacing🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-156&m=dev",
+      "notes": "Top-level spacing token page."
+    },
+    {
+      "domain": "spacing",
+      "nodeId": "136:1299",
+      "nodeName": "Spacing",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=136-1299&m=dev",
+      "notes": "Canonical spacing token table from `spacing-0` through `spacing-14` plus `spacing-half`."
+    },
+    {
+      "domain": "shadow",
+      "nodeId": "1:157",
+      "nodeName": "    Shadow effects🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-157&m=dev",
+      "notes": "Top-level shadow token page."
+    },
+    {
+      "domain": "shadow",
+      "nodeId": "13:1001",
+      "nodeName": "Shadow Effects",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=13-1001&m=dev",
+      "notes": "Canonical shadow token table for `shadow-none`, `shadow-sm`, `shadow-md`, and `shadow-lg`."
+    },
+    {
+      "domain": "iconography",
+      "nodeId": "1:120",
+      "nodeName": "    Icon🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-120&m=dev",
+      "notes": "Top-level iconography page."
+    },
+    {
+      "domain": "iconography",
+      "nodeId": "9:5113",
+      "nodeName": "Icons",
+      "nodeType": "FRAME",
+      "role": "canonical",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=9-5113&m=dev",
+      "notes": "Canonical icon catalog and naming reference."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:134",
+      "nodeName": "    Switch🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-134&m=dev",
+      "notes": "Top-level switch page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "2099:60364",
+      "nodeName": "    Avatar🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2099-60364&m=dev",
+      "notes": "Top-level avatar page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "2099:60790",
+      "nodeName": "    Badge🟡",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2099-60790&m=dev",
+      "notes": "Top-level badge page. Marked in-progress in Figma."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:142",
+      "nodeName": "    Chip🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-142&m=dev",
+      "notes": "Top-level chip page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:141",
+      "nodeName": "    Table🟡",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-141&m=dev",
+      "notes": "Top-level table page. Marked in-progress in Figma."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:129",
+      "nodeName": "    Pagination🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-129&m=dev",
+      "notes": "Top-level pagination page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "2:4",
+      "nodeName": "    Tab🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=2-4&m=dev",
+      "notes": "Top-level tab page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "128:24",
+      "nodeName": "    Main Nav Bar 🟡",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=128-24&m=dev",
+      "notes": "Top-level main navigation page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "282:69198",
+      "nodeName": "    Side Nav Panel 🟡",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=282-69198&m=dev",
+      "notes": "Top-level side navigation page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:127",
+      "nodeName": "    Breadcrumb🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-127&m=dev",
+      "notes": "Top-level breadcrumb page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:131",
+      "nodeName": "    Checkbox🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-131&m=dev",
+      "notes": "Top-level checkbox page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:132",
+      "nodeName": "    Date Input / Date Picker🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-132&m=dev",
+      "notes": "Top-level date input and date picker page. No matching public date component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "179:338",
+      "nodeName": "    Select🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=179-338&m=dev",
+      "notes": "Top-level select page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:143",
+      "nodeName": "    Tooltip🟢",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-143&m=dev",
+      "notes": "Top-level tooltip page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:145",
+      "nodeName": "    Alert 🟡",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-145&m=dev",
+      "notes": "Top-level alert page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "1:148",
+      "nodeName": "    Modal🟡",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=1-148&m=dev",
+      "notes": "Top-level modal page. No matching public component is implemented in the repo yet."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "422:393",
+      "nodeName": "Popover",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=422-393&m=dev",
+      "notes": "Top-level popover page."
+    },
+    {
+      "domain": "navigation",
+      "nodeId": "358:38",
+      "nodeName": "Progress",
+      "nodeType": "CANVAS",
+      "role": "page",
+      "url": "https://www.figma.com/design/1IqfGdn5XxqnBm3CZ5rFH1/Partner_Master-Design-System_V2_10162025?node-id=358-38&m=dev",
+      "notes": "Top-level progress page. No matching public component is implemented in the repo yet."
+    }
+  ]
+}

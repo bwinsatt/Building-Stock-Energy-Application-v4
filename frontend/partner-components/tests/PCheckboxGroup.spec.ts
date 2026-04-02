@@ -25,22 +25,24 @@ test.each([
     onChange,
     orientation: propsToTest.orientation as 'horizontal' | 'vertical',
   }
-  const { getByTestId, getByRole } = render(PCheckboxGroup, {
+  const { getByTestId, getByRole, getByText } = render(PCheckboxGroup, {
     props: checkboxGroupProps,
   })
 
-  const testId = generateTestId('PCheckboxGroup', propsToTest.label)
-  const checkboxGroup = getByTestId(testId)
+  const checkboxGroup = getByTestId('checkbox-group')
   expect(checkboxGroup).toBeInTheDocument()
 
-  if (propsToTest.required) {
-    expect(checkboxGroup).toHaveTextContent(`${propsToTest.label}*`)
+  if (propsToTest.label && propsToTest.required) {
+    expect(getByText(propsToTest.label)).toBeInTheDocument()
+    expect(getByText('*')).toBeInTheDocument()
+  } else if (propsToTest.label) {
+    expect(getByText(propsToTest.label)).toBeInTheDocument()
   }
 
   if (propsToTest.errorText && propsToTest.error) {
-    expect(checkboxGroup).toHaveTextContent(propsToTest.errorText)
+    expect(getByText(propsToTest.errorText)).toBeInTheDocument()
   } else if (propsToTest.helperText) {
-    expect(checkboxGroup).toHaveTextContent(propsToTest.helperText)
+    expect(getByText(propsToTest.helperText)).toBeInTheDocument()
   }
 
   if (propsToTest.class) {
@@ -48,7 +50,7 @@ test.each([
   }
 
   if (propsToTest.orientation) {
-    expect(checkboxGroup.getByTestId('checkbox-group')).toHaveClass(propsToTest.orientation === 'horizontal' ? 'flex flex-row' : 'flex flex-col')
+    expect(checkboxGroup).toHaveClass(propsToTest.orientation === 'horizontal' ? 'flex flex-row' : 'flex flex-col')
   }
 
   if (propsToTest.size) {
@@ -92,4 +94,28 @@ test.each([
       checked: !checkbox.checked,
     }))))
   }
+})
+
+test('modelValue updates when checkboxes are clicked', async () => {
+  const onUpdateModelValue = vi.fn()
+
+  const { getByRole } = render({
+    components: { PCheckboxGroup },
+    template: `<PCheckboxGroup :checkboxes="checkboxes" :modelValue="[]" @update:modelValue="onUpdateModelValue" />`,
+    setup: () => ({
+      checkboxes: [
+        { label: 'Checkbox 1', checked: false },
+        { label: 'Checkbox 2', checked: false },
+        { label: 'Checkbox 3', checked: false },
+      ],
+      onUpdateModelValue,
+    }),
+  })
+
+  const checkboxButtons = getByRole('checkbox')
+  await checkboxButtons.nth(0).click()
+
+  await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith(
+    expect.arrayContaining(['Checkbox 1'])
+  )
 })

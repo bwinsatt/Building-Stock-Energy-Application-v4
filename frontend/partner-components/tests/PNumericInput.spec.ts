@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest'
 import { render } from 'vitest-browser-vue'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import { PNumericInput, type PNumericInputProps } from '@/components/PNumericInput'
 import { generateTestId } from '@/utils/testId'
 
@@ -129,6 +129,33 @@ test('currency format displays correctly', async () => {
   await input.fill('99.01')
   await userEvent.tab()
   await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith(99.01)
+})
+
+test('clearable button clears input value', async () => {
+  const { container, input, onUpdateModelValue } = renderNumericInput({
+    label: 'Clearable', defaultValue: 42, clearable: true,
+  })
+
+  const clearBtn = container.getByRole('button', { name: 'Clear' })
+  await clearBtn.click()
+
+  await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith(null)
+  await expect.poll(() => (input.element() as HTMLInputElement).value).toBe('')
+})
+
+test('clearable button clears currency formatted value', async () => {
+  const { container, input, onUpdateModelValue } = renderNumericInput({
+    label: 'Price',
+    defaultValue: 99.99,
+    clearable: true,
+    formatOptions: { style: 'currency', currency: 'USD', minimumFractionDigits: 2 },
+  })
+
+  const clearBtn = container.getByRole('button', { name: 'Clear' })
+  await clearBtn.click()
+
+  await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith(null)
+  await expect.poll(() => (input.element() as HTMLInputElement).value).toBe('')
 })
 
 test('percent format displays correctly', async () => {

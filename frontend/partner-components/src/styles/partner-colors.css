@@ -174,6 +174,8 @@
 
   /* Inherit - Black (for use with current color) */
   --partner-inherit-black-main: var(--partner-black);
+  --partner-inherit-black-light: rgba(30, 37, 43, 0.75);
+  --partner-inherit-black-dark: rgba(30, 37, 43, 0.90);
   --partner-inherit-black-border: rgba(30, 37, 43, 0.50);
   --partner-inherit-black-hovered: rgba(30, 37, 43, 0.05);
   --partner-inherit-black-hover-pressed: rgba(30, 37, 43, 0.10);
@@ -181,6 +183,8 @@
 
   /* Inherit - White (for use with current color) */
   --partner-inherit-white-main: var(--partner-white);
+  --partner-inherit-white-light: rgba(255, 255, 255, 0.90);
+  --partner-inherit-white-dark: rgba(255, 255, 255, 0.75);
   --partner-inherit-white-border: rgba(255, 255, 255, 0.50);
   --partner-inherit-white-hovered: rgba(255, 255, 255, 0.05);
   --partner-inherit-white-hover-pressed: rgba(255, 255, 255, 0.15);
@@ -208,17 +212,18 @@
   --partner-border-divider: var(--partner-gray-5);
 
   /* Fill (backgrounds with opacity - use fill-opacity in components) */
-  --partner-fill-hover: var(--partner-gray-1);
-  --partner-fill-pressed: var(--partner-gray-2);
-  --partner-fill-selected: var(--partner-blue-1);
-  --partner-fill-disabled: var(--partner-gray-1);
-  --partner-fill-tooltip: rgba(51, 62, 71, 0.9);
+  --partner-fill-hovered: rgba(30, 37, 43, 0.05); /* partner-gray-10 @ 5% opacity */
+  --partner-fill-pressed: rgba(30, 37, 43, 0.10); /* partner-gray-10 @ 10% opacity */
+  --partner-fill-selected: var(--partner-blue-1); /* partner-blue-1 */
+  --partner-fill-disabled: rgba(30, 37, 43, 0.08); /* partner-gray-10 @ 8% opacity */
+  --partner-fill-tooltip: rgba(51, 62, 71, 0.9); /* partner-gray-7 @ 90% opacity */
 
   /* Background */
   --partner-background-white: var(--partner-white);
   --partner-background-gray: var(--partner-gray-1);
+  --partner-background-gray2: var(--partner-gray-2);
+  --partner-background-dark: #1F2224;
   --partner-background-overlay: rgba(51, 62, 71, 0.45);
-  --partner-background-popover: var(--partner-white);
 
   /* ============================================
      PowerBI Color Palette
@@ -279,7 +284,112 @@
 
   --partner-border-hovered: var(--partner-gray-2);
 
-  --partner-background-popover: var(--partner-gray-8);
+  /* ============================================
+     System Colors (Semantic)
+     These are semantic colors mapped to specific use cases
+     ============================================ */
+
+  /* Primary */
+  --partner-primary-main: var(--partner-blue-5);
+  --partner-primary-dark: var(--partner-blue-6);
+  --partner-primary-light: var(--partner-blue-4);
+  /* --partner-primary-contrast: var(--partner-white); */
+  --partner-primary-outlined-border: var(--partner-blue-5);
+  --partner-primary-outlined-hovered: rgba(86, 159, 217, 0.15); /* partner-blue-5 @ 15% opacity */
+  --partner-primary-outlined-hover-pressed: rgba(86, 159, 217, 0.25); /* partner-blue-5 @ 25% opacity */
+  --partner-primary-content: var(--partner-blue-4);
+
+  /* Secondary */
+  /* --partner-secondary-main: var(--partner-orange-7); */
+  /* --partner-secondary-dark: var(--partner-orange-8); */
+  /* --partner-secondary-light: var(--partner-orange-6); */
+  /* --partner-secondary-contrast: var(--partner-white); */
+  /* --partner-secondary-outlined-border: var(--partner-orange-7); */
+  --partner-secondary-outlined-hovered: rgba(240, 76, 37, 0.15); /* partner-orange-7 @ 15% opacity */
+  --partner-secondary-outlined-hover-pressed: rgba(240, 76, 37, 0.25); /* partner-orange-7 @ 25% opacity */
+  --partner-secondary-content: var(--partner-orange-4);
+
+  /* Success */
+  --partner-success-main: var(--partner-green-5);
+  --partner-success-dark: var(--partner-green-6);
+  --partner-success-light: var(--partner-green-4);
+  /* --partner-success-contrast: var(--partner-white); */
+  --partner-success-outlined-border: var(--partner-green-5);
+  --partner-success-outlined-hovered: rgba(71, 182, 83, 0.15); /* partner-green-5 @ 15% opacity */
+  --partner-success-outlined-hover-pressed: rgba(71, 182, 83, 0.25); /* partner-green-5 @ 25% opacity */
+  --partner-success-content: var(--partner-green-4);
+
+  /* Warning */
+  /* --partner-warning-main: var(--partner-yellow-7); */
+  /* --partner-warning-dark: var(--partner-yellow-8); */
+  /* --partner-warning-light: var(--partner-yellow-6); */
+  /* --partner-warning-contrast: var(--partner-white); */
+  /* --partner-warning-outlined-border: var(--partner-yellow-7); */
+  --partner-warning-outlined-hovered: rgba(241, 141, 0, 0.15); /* partner-yellow-7 @ 15% opacity */
+  --partner-warning-outlined-hover-pressed: rgba(241, 141, 0, 0.25); /* partner-yellow-7 @ 25% opacity */
+  --partner-warning-content: var(--partner-yellow-4);
+
+  /* Error */
+  --partner-error-main: var(--partner-red-5);
+  --partner-error-dark: var(--partner-red-6);
+  --partner-error-light: var(--partner-red-4);
+  /* --partner-error-contrast: var(--partner-white); */
+  --partner-error-outlined-border: var(--partner-red-5);
+  --partner-error-outlined-hovered: rgba(244, 76, 76, 0.15); /* partner-red-5 @ 15% opacity */
+  --partner-error-outlined-hover-pressed: rgba(244, 76, 76, 0.25); /* partner-red-5 @ 25% opacity */
+  --partner-error-content: var(--partner-red-4);
+
+  /* Inherit - Black (for use with current color) */
+  --partner-inherit-black-main: var(--partner-gray-1);
+  --partner-inherit-black-light: rgba(255, 255, 255, 0.90); /* partner-white @90% opacity */
+  --partner-inherit-black-dark: rgba(255, 255, 255, 0.75); /* partner-white @75% opacity */
+  --partner-inherit-black-border: rgba(255, 255, 255, 0.50); /* partner-white @50% opacity */
+  --partner-inherit-black-hovered: rgba(255, 255, 255, 0.05); /* partner-white @5% opacity */
+  --partner-inherit-black-hover-pressed: rgba(255, 255, 255, 0.10); /* partner-white @10% opacity */
+  --partner-inherit-black-disabled: rgba(255, 255, 255, 0.25); /* partner-white @25% opacity */
+
+  /* Inherit - White (for use with current color) */
+  --partner-inherit-white-main: var(--partner-white);
+  --partner-inherit-white-light: rgba(255, 255, 255, 0.90); /* partner-white @90% opacity */
+  --partner-inherit-white-dark: rgba(255, 255, 255, 0.75); /* partner-white @75% opacity */
+  --partner-inherit-white-border: rgba(255, 255, 255, 0.50); /* partner-white @50% opacity */
+  --partner-inherit-white-hovered: rgba(255, 255, 255, 0.05); /* partner-white @5% opacity */
+  --partner-inherit-white-hover-pressed: rgba(255, 255, 255, 0.15); /* partner-white @15% opacity */
+  --partner-inherit-white-disabled: rgba(255, 255, 255, 0.25); /* partner-white @25% opacity */
+
+  /* Text */
+  --partner-text-primary: var(--partner-gray-1);
+  --partner-text-secondary: var(--partner-gray-5);
+  --partner-text-disabled: var(--partner-gray-6);
+  --partner-text-placeholder: var(--partner-gray-6);
+  --partner-text-white: var(--partner-gray-10);
+
+  /* Action */
+  --partner-action-enabled: var(--partner-gray-1);
+  --partner-action-active: var(--partner-blue-5);
+  --partner-action-disabled: var(--partner-gray-6);
+
+  /* Border */
+  --partner-border-default: var(--partner-gray-6);
+  --partner-border-light: var(--partner-gray-7);
+  --partner-border-hovered: var(--partner-gray-4);
+  --partner-border-active: var(--partner-blue-5);
+  --partner-border-disabled: var(--partner-gray-7);
+  --partner-border-divider: var(--partner-gray-6);
+
+  /* Fill (backgrounds with opacity - use fill-opacity in components) */
+  --partner-fill-hovered: rgba(255, 255, 255, 0.05); /* partner-white @5% opacity */
+  --partner-fill-pressed: rgba(255, 255, 255, 0.10); /* partner-white @10% opacity */
+  --partner-fill-selected: rgba(86, 159, 217, 0.15); /* partner-blue-5 @15% opacity */
+  --partner-fill-disabled: rgba(255, 255, 255, 0.08); /* partner-white @8% opacity */
+  --partner-fill-tooltip: rgba(51, 62, 71, 0.90); /* partner-gray-7 @90% opacity */
+
+  /* Background */
+  --partner-background-white: #1F2224;
+  --partner-background-gray: var(--partner-gray-9);
+  --partner-background-gray2: var(--partner-gray-8);
+  /* --partner-background-dark: #1F2224; */
+  --partner-background-overlay: rgba(30, 37, 43, 0.75); /* partner-gray-10 @45% opacity */
 }
 
 /* ============================================

@@ -1,0 +1,56 @@
+Partner Design System
+Data Visualization Color Palette
+This palette is used exclusively for charts and data visualizations. Colors are non-semantic and optimized for distinction, accessibility, and scalability. Some data visualization colors reference existing brand tokens where visual equivalence exists.
+Colors 1-6 (most used)
+partnerblue-7-main
+Cyan
+Magenta
+Slate
+Olive
+Soft Blue
+#005199
+#2FB7C4
+#A04A7A
+#6B778C
+#8A9A3A
+#8FB9E5
+Colors 7-15
+Mustard Yellow
+partnerblue-6
+Warm Sand
+partnerblue-9
+Cool Mint
+Purple
+Gold
+Indigo
+Orange
+#C9A227
+#1C6ED5
+##E0C9A6
+#003660
+#7FCFC3
+#7A5EA8
+#B58B2E
+#3F4E9E
+#D07328
+Colors 16-25
+Forest Green
+Dusty Lavender
+Deep Teal Blue
+Muted Sage
+Ocean Blue
+Plum Gray
+Steel Blue
+Muted Coral
+Blue-Green Gray
+Teal
+#2E6F68
+#9A8BC2
+#1E5D73
+#7F9E90
+#2F6FB0
+#6E5A6E
+#6B87A0
+ #B85A6B
+#6F8F8C
+#1F9E8A

@@ -1,0 +1,1 @@
+export { default as PInputWrapper, type PInputWrapperProps } from './PInputWrapper.vue'

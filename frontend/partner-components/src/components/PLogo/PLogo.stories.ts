@@ -80,6 +80,12 @@ const meta: Meta<typeof PLogo> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PLogo
+  logoName="Partner"
+  name="Main Logo"
+  alt="Partner logo"
+/>`
+
 export const Default: Story = {
   args: {
     logoName: 'Partner',
@@ -88,6 +94,7 @@ export const Default: Story = {
     alt: 'Partner Logo',
   },
   parameters: {
+    exportableCode: defaultExportableCode,
     docs: {
       description: {
         story: 'The calculated `data-testid` will be: `plogo-main-logo-partner`',
@@ -95,4 +102,3 @@ export const Default: Story = {
     },
   },
 }
-

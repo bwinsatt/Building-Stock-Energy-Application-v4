@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://partnerdevops/schemas/design-tokens.schema.json",
+  "title": "Partner Design Tokens",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "tokens"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/token"
+      }
+    }
+  },
+  "$defs": {
+    "token": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "category", "value", "sourceFile"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["color", "spacing", "radius", "shadow", "typography", "breakpoint", "other"]
+        },
+        "value": {
+          "type": "string"
+        },
+        "cssVariable": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "sourceFile": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

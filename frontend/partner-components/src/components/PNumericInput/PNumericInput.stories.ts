@@ -32,6 +32,10 @@ const meta: Meta<StoryArgs> = {
       options: sizeOptions,
       description: 'The size of the numeric input',
     },
+    placeholder: {
+      control: 'text',
+      description: 'The placeholder text for the input',
+    },
     defaultValue: {
       control: 'number',
       description: 'The default value for the numeric input',
@@ -239,13 +243,26 @@ const commonRender = (args: StoryArgs) => {
           @blur="onBlur" 
         />
         <details class="mt-4" open>
-          <summary class="cursor-pointer text-gray-500">formatOptions</summary>
-          <pre class="bg-gray-100 p-3 rounded text-sm">{{ formatOptionsJson }}</pre>
+          <summary class="cursor-pointer text-muted-foreground">formatOptions</summary>
+          <pre class="bg-muted p-3 rounded text-sm">{{ formatOptionsJson }}</pre>
         </details>
       </div>
     `,
   }
 }
+
+const defaultExportableCode = `<PNumericInput
+  label="Amount"
+  :default-value="1500"
+  helperText="Enter the approved budget"
+  :format-options="{
+    style: 'currency',
+    currency: 'USD',
+    currencyDisplay: 'symbol',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }"
+/>`
 
 export const Default: Story = {
   args: {
@@ -265,6 +282,9 @@ export const Default: Story = {
     unitDisplay: 'long',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
   render: commonRender,
 }

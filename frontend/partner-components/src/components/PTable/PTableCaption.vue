@@ -24,7 +24,7 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <TableCaption
-    :class="cn(locationClass, props.class)"
+    :class="cn('partner-preflight', locationClass, props.class)"
     v-bind="testIdAttrs"
   >
     <slot />

@@ -81,6 +81,14 @@ const meta: Meta<typeof PButton> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PButton
+  variant="primary"
+  appearance="contained"
+  size="medium"
+>
+  Click Me
+</PButton>`
+
 export const Default: Story = {
   args: {
     variant: 'primary',
@@ -89,6 +97,9 @@ export const Default: Story = {
     icon: undefined,
     disabled: false,
     default: 'Button',
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
   render: (args) => ({
     components: { PButton },
@@ -116,12 +127,7 @@ const appearancesTable = `
   <TableHeader>
     <TableRow>
       <TableHead v-for="buttonAppearance in buttonAppearances">
-        <template v-if="(buttonVariant === 'neutral' || buttonVariant === 'white') && buttonAppearance === 'contained'">  
-          <span class="line-through">{{ buttonAppearance }}</span>
-        </template>
-        <template v-else>
           {{ buttonAppearance }}
-        </template>
       </TableHead>
     </TableRow>
   </TableHeader>

@@ -33,7 +33,7 @@ const { testIdAttrs } = useTestId()
 <template>
   <!-- Grid Container with breakpoint-aware margins -->
   <div 
-    class="flex-1 min-h-0 min-w-0 overflow-x-hidden
+    class="partner-preflight flex-1 min-h-0 min-w-0 overflow-x-hidden
            mx-[var(--breakpoint-sm-margin-lr)] md:mx-[var(--breakpoint-md-margin-lr)] lg:mx-[var(--breakpoint-lg-margin-lr)] xl:mx-[var(--breakpoint-xl-margin-lr)]"
     v-bind="testIdAttrs"
   >

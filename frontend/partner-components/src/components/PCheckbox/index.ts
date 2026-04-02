@@ -25,6 +25,7 @@ export interface PCheckboxGroupItemProps {
   label?: string
   id?: string
   checked?: boolean
+  disabled?: boolean
 }
 
 export interface PCheckboxGroupProps {

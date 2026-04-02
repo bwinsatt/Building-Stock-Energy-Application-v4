@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import type { HTMLAttributes, ComputedRef } from 'vue'
 import { PIcon } from '@/components/PIcon'
 import { PTypography } from '@/components/PTypography'
-import type { TypographyVariant } from '@/components/PTypography/types'
+import type { PTypographyVariant } from '@/components/PTypography/types'
 import type { Size } from '@/types/size'
 import { useTestId } from '@/composables/useTestId'
 
@@ -51,7 +51,7 @@ const sizeMap = {
   small: 'buttonSmall',
   medium: 'buttonMedium',
   large: 'buttonLarge',
-} as Record<Size, TypographyVariant>
+} as Record<Size, PTypographyVariant>
 
 const typographyVariant = computed(() => {
   return sizeMap[props.size || 'medium']

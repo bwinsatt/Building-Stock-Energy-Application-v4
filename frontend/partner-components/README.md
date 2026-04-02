@@ -48,22 +48,52 @@ The components import styles themselves, so you don't need to import anything el
 
 ```vue
 <template>
-  <div>
-    <PButton @click="showModal = true"> Open Modal </PButton>
+  <div class="space-y-4">
+    <PSearchBar
+      v-model="query"
+      placeholder="Search users"
+      @search="runSearch"
+    />
 
-    <PModal v-model:open="showModal" title="Welcome">
-      <p>This is a P Modal component!</p>
-    </PModal>
+    <PButton @click="refresh">Refresh</PButton>
   </div>
 </template>
 
-<script setup>
-  import { ref } from 'vue'
-  import { PButton, PIcon } from '@partnerdevops/partner-components'
+<script setup lang="ts">
+import { ref } from 'vue'
+import { PButton, PSearchBar } from '@partnerdevops/partner-components'
 
-  const showModal = ref(false)
+const query = ref('')
+
+function runSearch(value: string) {
+  query.value = value
+}
+
+function refresh() {
+  runSearch(query.value)
+}
 </script>
 ```
+
+## Usage Guidance
+
+- Prefer exported `P*` components before building custom UI.
+- Compose existing components before introducing wrappers.
+- Use library tokens and token-backed utility classes instead of hard-coded visual values.
+- Validate behavior, emits, and accessibility states with focused Vitest browser tests.
+
+For machine-readable AI integration guidance, see [docs/ai-artifacts.md](docs/ai-artifacts.md).
+
+Installed-package consumers should resolve artifacts from the published package surface:
+
+- `@partnerdevops/partner-components/agent-artifacts/exports/component-catalog.json`
+- `@partnerdevops/partner-components/agent-artifacts/exports/component-examples.json`
+- `@partnerdevops/partner-components/agent-artifacts/exports/design-tokens.json`
+- `@partnerdevops/partner-components/agent-artifacts/exports/figma-component-map.json`
+- `@partnerdevops/partner-components/agent-artifacts/exports/figma-mapping-hints.json`
+- `@partnerdevops/partner-components/agent-artifacts/exports/ai-artifacts.md`
+
+Published schemas live under `@partnerdevops/partner-components/agent-artifacts/schemas/*`.
 
 ## Development
 
@@ -84,17 +114,31 @@ This will start Storybook on `http://localhost:6006` where you can:
 
 The following components are available:
 
+- PAlert
 - PAvatar, PAvatarGroup
 - PBadge
 - PButton
+- PCalendar, PDateInput *(uses Luxon `DateTime` for v-model)*
 - PCheckbox, PCheckboxGroup
 - PChip
+- PDialog, PDialogClose
 - PIcon
 - PLabel
 - PLayout, PLayoutGrid, PLayoutGridItem
 - PLogo
+- PMenu, PMenuItem, PSelectMenu
+- PNumericInput
+- POverflowGroup
 - PPagination, PPaginationContent, PPaginationEllipsis, PPaginationFirst, PPaginationItem, PPaginationLast, PPaginationNext, PPaginationPrevious, PPaginationRoot
+- PPopover
+- PRadioGroup
+- PSearchBar
+- PSelect
+- PSwitch
 - PTable, PTableBody, PTableCaption, PTableCell, PTableEmpty, PTableFooter, PTableHead, PTableHeader, PTableRow
+- PTextArea
+- PTextInput
+- PToast *(uses `showToast()` utility for triggering)*
 - PTooltip
 - PTypography
 
@@ -129,22 +173,13 @@ npm run test
 
 ```
 src/
-├── components/          # Vue components
-│   ├── PButton.vue
-│   ├── PCard.vue
-│   ├── PInput.vue
-│   ├── PModal.vue
-│   └── PTable.vue
-├── types/              # TypeScript definitions
-│   ├── button.ts
-│   ├── card.ts
-│   ├── input.ts
-│   ├── modal.ts
-│   └── table.ts
-├── utils/              # Utility functions
-│   ├── theme.ts
-│   └── validation.ts
-└── index.ts           # Main entry point
+├── components/         # Vue components and Storybook stories
+├── composables/        # Shared Vue composition helpers
+├── lib/                # Library utilities
+├── styles/             # Global styles and token mappings
+├── types/              # Shared TypeScript types
+├── utils/              # Shared utilities
+└── index.ts            # Main entry point
 ```
 
 ## Publishing
@@ -166,6 +201,8 @@ This package is published to GitHub Packages. To publish a new version:
    ```bash
    npm publish
    ```
+
+`npm publish` runs `prepack`, which regenerates the deterministic AI artifacts and then builds the package so the published contents stay aligned with source.
 
 ### Automated Publishing via GitHub Actions
 

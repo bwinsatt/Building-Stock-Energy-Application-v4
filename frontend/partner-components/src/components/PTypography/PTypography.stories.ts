@@ -37,7 +37,14 @@ const meta: Meta<typeof PTypography> = {
 
 export default meta
 
+const defaultExportableCode = `<PTypography variant="body1">
+  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+</PTypography>`
+
 export const Default: StoryObj<typeof PTypography> = {
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: (args) => ({
     components: { PTypography },
     template: `

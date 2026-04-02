@@ -109,10 +109,13 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+  .partner-preflight {
+    &, * {
+      @apply border-border outline-ring/50;
+    }
+    &:is(body),
+    body {
+      @apply bg-background text-foreground;
+    }
   }
 }

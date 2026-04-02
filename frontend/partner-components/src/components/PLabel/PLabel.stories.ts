@@ -40,7 +40,14 @@ const meta: Meta<typeof PLabel> = {
 
 export default meta
 
+const defaultExportableCode = `<PLabel for="email" variant="inputLabel">
+  Email address
+</PLabel>`
+
 export const Default: StoryObj<typeof PLabel> = {
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: (args) => ({
     components: { PLabel },
     setup: () => ({ args }),

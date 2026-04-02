@@ -13,16 +13,18 @@ test.each([
   { placeholder: 'Search...', defaultValue: 'prefilled' },
   { placeholder: 'Search...', defaultValue: 'prefilled', size: 'small' },
   { placeholder: 'Search...', defaultValue: 'prefilled', size: 'large' },
+  { placeholder: 'Search...', defaultValue: 'prefilled', size: 'large', debounce: 100 },
 ])('PSearchBar with props: %o', async (propsToTest) => {
   const testProps = propsToTest as PSearchBarProps
   const onUpdateModelValue = vi.fn()
+  const onUpdateDebouncedValue = vi.fn()
   const onSearch = vi.fn()
 
   const { getByTestId } = render({
     components: { PSearchBar },
-    template: `<PSearchBar v-bind="testProps" @update:modelValue="onUpdateModelValue" @search="onSearch" />`,
+    template: `<PSearchBar v-bind="testProps" @update:modelValue="onUpdateModelValue" @update:debouncedValue="onUpdateDebouncedValue" @search="onSearch" />`,
     setup() {
-      return { testProps, onUpdateModelValue, onSearch }
+      return { testProps, onUpdateModelValue, onUpdateDebouncedValue, onSearch }
     },
   })
 
@@ -95,5 +97,13 @@ test.each([
       await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith('')
       await expect.poll(() => input.value).toBe('')
     }
+  }
+
+  // --- Debounce, only test if debounce is provided to avoid lengthy test times ---
+  if(!testProps.disabled && testProps.debounce) {
+    onUpdateDebouncedValue.mockClear()
+    const debouncedValue = "debounced value"
+    await container.getByRole('textbox').fill(debouncedValue)
+    await expect.poll(() => onUpdateDebouncedValue, { timeout: testProps.debounce + 500 }).toHaveBeenCalledWith(debouncedValue)
   }
 })

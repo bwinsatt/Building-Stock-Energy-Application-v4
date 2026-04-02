@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import PIcon from './PIcon.vue'
 import { ref, watch, nextTick, computed } from 'vue'
+import type { PIconProps } from './types'
 import { customIcons, iconOptions, isCustomIcon, normalizeIconName } from './iconNames'
 import { sizeOptions } from '@/types/size'
+
+interface PIconStoryArgs extends PIconProps {
+  notes?: string[]
+}
 
 const meta: Meta<typeof PIcon> = {
   component: PIcon,
@@ -38,16 +43,16 @@ const meta: Meta<typeof PIcon> = {
     notes: {
       table: { disable: true },
     },
-  } as any,
+  } as Meta<typeof PIcon>['argTypes'] & Record<'notes', unknown>,
 }
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-const renderWithDescription = (args: any) => ({
+const renderWithDescription = (args: PIconStoryArgs) => ({
   components: { PIcon },
   setup() {
-    const iconRef = ref<any>(null)
+    const iconRef = ref<InstanceType<typeof PIcon> | null>(null)
     const isCustom = ref(false)
     
     // Normalize icon name (handle dividers)
@@ -117,6 +122,11 @@ export const CustomIcons: Story = {
   },
 }
 
+const defaultExportableCode = `<PIcon
+  name="r-drive"
+  size="medium"
+/>`
+
 export const Default: Story = {
   args: {
     name: 'r-drive',
@@ -124,7 +134,10 @@ export const Default: Story = {
     notes: ['Default icon size is medium (24px), do not resize icons above large (32px).',
       '<code class="text-xs bg-muted px-2 py-1 rounded w-fit whitespace-nowrap">data-customiconfound</code> attribute is set to "true" if the icon is a custom Partner Components icon, otherwise "false" and Carbon icon from Iconify is used as fallback.',
     ],
-  } as any,
+  } as PIconStoryArgs,
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: renderWithDescription,
 }
 
@@ -142,6 +155,6 @@ export const Color: Story = {
     size: 'large',
     color: 'var(--partner-blue-7)',
     notes: ['Do not recolor icons with random hex values, use the color palette instead. IE: Use <code class="text-xs bg-muted px-2 py-1 rounded w-fit whitespace-nowrap">var(--partner-blue-7)</code> instead of <code class="text-xs bg-muted px-2 py-1 rounded w-fit whitespace-nowrap">#005199</code>.'],
-  } as any,
+  } as PIconStoryArgs,
   render: renderWithDescription,
 }

@@ -64,7 +64,33 @@ const meta: Meta<typeof PPopover> = {
 export default meta
 export type Story = StoryObj<typeof PPopover>
 
+const defaultExportableCode = `<PPopover :default-open="true" direction="bottom" :offset="6" :show-arrow="true">
+  <template #trigger>
+    <PButton variant="primary" appearance="contained">
+      Open popover
+    </PButton>
+  </template>
+
+  <template #content>
+    <div class="flex flex-col gap-2">
+      <PTypography variant="h3">Popover title</PTypography>
+      <PTypography variant="body1">Popover content</PTypography>
+      <PTextInput
+        id="popover-name"
+        label="Name"
+        placeholder="Enter your name"
+      />
+      <PButton variant="primary" appearance="contained">
+        Submit
+      </PButton>
+    </div>
+  </template>
+</PPopover>`
+
 export const Default: Story = {
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: (args) => ({
     components: { PPopover, ...meta.subcomponents},
     setup() {

@@ -6,7 +6,7 @@ import type { ChipVariants } from "."
 import { cn } from "@/lib/utils"
 import { chipVariants } from "."
 import { PIcon } from "@/components/PIcon"
-import { PTypography } from "@/components/PTypography"
+import { PTypography, type PTypographyProps } from "@/components/PTypography"
 import { useTestId } from "@/composables/useTestId"
 
 export interface PChipProps {
@@ -21,6 +21,8 @@ export interface PChipProps {
 
   selectable?: boolean
   selected?: boolean
+
+  typographyProps?: PTypographyProps
 }
 
 const props = withDefaults(defineProps<PChipProps>(), {
@@ -105,6 +107,7 @@ const handleRemove = () => {
     <PTypography
       variant="inputLabel"
       component="span"
+      v-bind="props.typographyProps"
     >
       <slot />
     </PTypography>

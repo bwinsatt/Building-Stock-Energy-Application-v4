@@ -1,0 +1,1 @@
+export { default as POverflowGroup, type POverflowGroupProps } from './POverflowGroup.vue'

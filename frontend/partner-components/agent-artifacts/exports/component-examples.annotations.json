@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-03-17T17:05:00.000Z",
+  "examples": {
+    "components-pavatar--withbadge": {
+      "description": "Avatar example with presence or status badge treatment.",
+      "tags": [
+        "identity",
+        "status",
+        "avatar"
+      ]
+    },
+    "components-pavatar--withimage": {
+      "description": "Standard avatar example using image plus person name fallback context.",
+      "tags": [
+        "identity",
+        "avatar"
+      ]
+    },
+    "components-pavatargroup--default": {
+      "description": "Grouped avatar stack showing compact participant presentation with overflow.",
+      "tags": [
+        "identity",
+        "group",
+        "avatar",
+        "collaboration"
+      ]
+    },
+    "components-pbadge--allvariants": {
+      "description": "Status and count badge gallery covering supported variant and appearance combinations.",
+      "tags": [
+        "status",
+        "badge",
+        "feedback"
+      ]
+    },
+    "components-pbadge--default": {
+      "description": "Default inline badge example for a short semantic indicator or count.",
+      "tags": [
+        "status",
+        "badge"
+      ]
+    },
+    "components-pbutton--allbuttonvariants": {
+      "description": "Variant matrix for comparing action emphasis, appearance, size, and icon treatment.",
+      "tags": [
+        "action",
+        "button",
+        "toolbar"
+      ]
+    },
+    "components-pbutton--default": {
+      "description": "Baseline primary button example suitable for standard submit or confirm actions.",
+      "tags": [
+        "action",
+        "button",
+        "form"
+      ]
+    },
+    "components-pcheckbox--allstates": {
+      "description": "State matrix showing checked, unchecked, indeterminate, disabled, and required checkbox behavior.",
+      "tags": [
+        "selection",
+        "checkbox",
+        "form"
+      ]
+    },
+    "components-pcheckbox--default": {
+      "description": "Single labeled checkbox example for a basic boolean field.",
+      "tags": [
+        "selection",
+        "checkbox",
+        "form"
+      ]
+    },
+    "components-pcheckboxgroup--default": {
+      "description": "Grouped checkbox field with shared label, helper text, and validation messaging.",
+      "tags": [
+        "selection",
+        "checkbox",
+        "group",
+        "form"
+      ]
+    },
+    "components-playout--default": {
+      "description": "Standard Partner page shell with header, side panels, and grid-aligned body content.",
+      "tags": [
+        "layout",
+        "page-shell",
+        "dashboard"
+      ]
+    },
+    "components-playout--withgridvisualization": {
+      "description": "Page-shell example with responsive grid visualization for layout debugging and design alignment.",
+      "tags": [
+        "layout",
+        "grid",
+        "dashboard"
+      ]
+    },
+    "components-pmenu--default": {
+      "description": "Searchable dropdown menu example for action or option-list overlays.",
+      "tags": [
+        "menu",
+        "overlay",
+        "navigation"
+      ]
+    },
+    "components-ppopover--default": {
+      "description": "Contextual popover example for richer overlay content than a tooltip.",
+      "tags": [
+        "overlay",
+        "popover",
+        "contextual"
+      ]
+    },
+    "components-psearchbar--default": {
+      "description": "Default search-bar example for list, table, or toolbar filtering.",
+      "tags": [
+        "search",
+        "input",
+        "toolbar",
+        "filter"
+      ]
+    },
+    "components-pselect--default": {
+      "description": "Single-select form field with label, helper text, and standard field chrome.",
+      "tags": [
+        "form",
+        "selection",
+        "select",
+        "data-entry"
+      ]
+    },
+    "components-pselect--multi": {
+      "description": "Multi-select field example where several items belong in form state.",
+      "tags": [
+        "form",
+        "selection",
+        "multi-select"
+      ]
+    },
+    "components-pselect--multiwithoverflow": {
+      "description": "Multi-select field example showing selected-value overflow handling.",
+      "tags": [
+        "form",
+        "selection",
+        "multi-select",
+        "overflow"
+      ]
+    },
+    "components-pselectmenu--dynamicitems": {
+      "description": "Trigger-based multi-select menu with dynamically changing item set.",
+      "tags": [
+        "selection",
+        "menu",
+        "overlay",
+        "filter"
+      ]
+    },
+    "components-pselectmenu--multiselect": {
+      "description": "Compact multi-select menu for toolbar or filter-panel trigger patterns.",
+      "tags": [
+        "selection",
+        "menu",
+        "overlay",
+        "filter"
+      ]
+    },
+    "components-pselectmenu--singleselect": {
+      "description": "Single-select trigger menu for compact filter or chooser interactions.",
+      "tags": [
+        "selection",
+        "menu",
+        "overlay"
+      ]
+    },
+    "components-pselectmenu--singleselectnofooter": {
+      "description": "Single-select trigger menu variant without footer actions for lighter-weight flows.",
+      "tags": [
+        "selection",
+        "menu",
+        "overlay"
+      ]
+    },
+    "components-ptable--default": {
+      "description": "Baseline semantic data table example for standard row and column display.",
+      "tags": [
+        "table",
+        "data-display"
+      ]
+    },
+    "components-ptable--empty": {
+      "description": "Table empty-state example showing the pattern for no-row conditions.",
+      "tags": [
+        "table",
+        "empty-state",
+        "data-display"
+      ]
+    },
+    "components-ptable--singlesort": {
+      "description": "Sortable table example for single-column sort interactions.",
+      "tags": [
+        "table",
+        "sorting",
+        "data-display"
+      ]
+    },
+    "components-ptable--variants": {
+      "description": "Table style gallery comparing supported visual table treatments.",
+      "tags": [
+        "table",
+        "data-display",
+        "variant"
+      ]
+    },
+    "components-ptextarea--default": {
+      "description": "Default labeled textarea field with helper text, error text, and max-length support.",
+      "tags": [
+        "form",
+        "textarea",
+        "data-entry"
+      ]
+    },
+    "components-ptextinput--default": {
+      "description": "Default labeled text-input field with helper text and validation messaging.",
+      "tags": [
+        "form",
+        "input",
+        "text-field",
+        "data-entry"
+      ]
+    },
+    "components-ptooltip--default": {
+      "description": "Default tooltip example for short contextual help attached to a trigger.",
+      "tags": [
+        "overlay",
+        "tooltip",
+        "help"
+      ]
+    },
+    "components-ptooltip--examples": {
+      "description": "Tooltip placement and usage gallery for common help and annotation patterns.",
+      "tags": [
+        "overlay",
+        "tooltip",
+        "help"
+      ]
+    }
+  }
+}

@@ -155,7 +155,7 @@
   --color-muted-foreground: var(--partner-text-secondary);
   
   /* Accent colors (for hover states) */
-  --color-accent: var(--partner-background-gray);
+  --color-accent: var(--partner-fill-hovered);
   --color-accent-foreground: var(--partner-text-primary);
   
   /* Destructive colors (for errors/delete actions) */
@@ -163,31 +163,13 @@
   --color-destructive-foreground: var(--partner-error-contrast);
   
   /* Border and input colors */
-  --color-border: var(--partner-border-default);
+  --color-border: var(--partner-border-light);
   --color-input: var(--partner-border-default);
-  --color-ring: var(--partner-primary-main);
+  --color-ring: var(--partner-primary-light);
 }
 
 /* Dark Mode Theme Overrides */
-.dark, [data-mode="dark"] {
-  --color-background: var(--partner-gray-10);
-  --color-foreground: var(--partner-gray-1);
-  
-  --color-card: var(--partner-gray-9);
-  --color-card-foreground: var(--partner-gray-1);
-  
-  --color-popover: var(--partner-gray-9);
-  --color-popover-foreground: var(--partner-gray-1);
-  
-  --color-muted: var(--partner-gray-8);
-  --color-muted-foreground: var(--partner-gray-4);
-  
-  --color-accent: var(--partner-gray-8);
-  --color-accent-foreground: var(--partner-gray-1);
-  
-  --color-border: var(--partner-gray-7);
-  --color-input: var(--partner-gray-7);
-}
+/* Dark mode overrides are not needed as they are handled by the dark mode color variants */
 
 /*  ============================================
     Shadcn/UI Semantic Colors
@@ -202,64 +184,32 @@
   --popover: var(--partner-background-white);
   --popover-foreground: var(--partner-text-primary);
   --primary: var(--partner-primary-main);
-  --partner-primary-foreground: var(--partner-primary-contrast);
-  --secondary: var(--partner-gray-2);
-  --partner-secondary-foreground: var(--partner-text-primary);
-  --muted: var(--partner-gray-1);
+  --primary-foreground: var(--partner-primary-contrast);
+  --secondary: var(--partner-secondary-main);
+  --secondary-foreground: var(--partner-secondary-contrast);
+  --muted: var(--partner-background-gray);
   --muted-foreground: var(--partner-text-secondary);
-  --accent: var(--partner-gray-2);
+  --accent: var(--partner-fill-hovered);
   --accent-foreground: var(--partner-text-primary);
   --destructive: var(--partner-error-main);
   --destructive-foreground: var(--partner-error-contrast);
   --border: var(--partner-border-light);
   --input: var(--partner-border-default);
-  --ring: var(--partner-blue-6);
-  --chart-1: var(--partner-blue-7);
-  --chart-2: var(--partner-orange-7);
-  --chart-3: var(--partner-green-7);
-  --chart-4: var(--partner-yellow-7);
-  --chart-5: var(--partner-red-7);
+  --ring: var(--partner-primary-light);
+  --chart-1: var(--partner-primary-main);
+  --chart-2: var(--partner-secondary-main);
+  --chart-3: var(--partner-success-main);
+  --chart-4: var(--partner-warning-main);
+  --chart-5: var(--partner-error-main);
   --sidebar: var(--partner-background-white);
   --sidebar-foreground: var(--partner-text-primary);
   --sidebar-primary: var(--partner-primary-main);
   --sidebar-primary-foreground: var(--partner-text-white);
-  --sidebar-accent: var(--partner-gray-2);
+  --sidebar-accent: var(--partner-fill-hovered);
   --sidebar-accent-foreground: var(--partner-text-primary);
   --sidebar-border: var(--partner-border-light);
-  --sidebar-ring: var(--partner-blue-6);
+  --sidebar-ring: var(--partner-primary-light);
 }
 
-.dark, [data-mode="dark"] {
-  --background: var(--partner-gray-10);
-  --foreground: var(--partner-text-white);
-  --card: var(--partner-gray-9);
-  --card-foreground: var(--partner-text-white);
-  --popover: var(--partner-gray-9);
-  --popover-foreground: var(--partner-text-white);
-  --primary: var(--partner-primary-main);
-  --partner-primary-foreground: var(--partner-text-white);
-  --secondary: var(--partner-gray-8);
-  --partner-secondary-foreground: var(--partner-text-white);
-  --muted: var(--partner-gray-9);
-  --muted-foreground: var(--partner-text-secondary);
-  --accent: var(--partner-gray-8);
-  --accent-foreground: var(--partner-text-white);
-  --destructive: var(--partner-red-6);
-  --border: rgba(255, 255, 255, 0.10);
-  --input: rgba(255, 255, 255, 0.15);
-  --ring: var(--partner-blue-4);
-  --chart-1: var(--partner-blue-5);
-  --chart-2: var(--partner-orange-5);
-  --chart-3: var(--partner-green-5);
-  --chart-4: var(--partner-yellow-5);
-  --chart-5: var(--partner-red-5);
-  --sidebar: var(--partner-gray-9);
-  --sidebar-foreground: var(--partner-text-white);
-  --sidebar-primary: var(--partner-blue-6);
-  --sidebar-primary-foreground: var(--partner-text-white);
-  --sidebar-accent: var(--partner-gray-8);
-  --sidebar-accent-foreground: var(--partner-text-white);
-  --sidebar-border: rgba(255, 255, 255, 0.10);
-  --sidebar-ring: var(--partner-blue-4);
-}
-  
+/* Dark Mode Theme Overrides */
+/* Dark mode overrides are not needed as they are handled by the dark mode color variants */

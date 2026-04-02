@@ -71,7 +71,7 @@ Defines the raw color values as CSS custom properties under `:root`. These are t
 --partner-border-active: var(--partner-blue-7);
 
 /* Fill */
---partner-fill-hover: var(--partner-gray-1);
+--partner-fill-hovered: var(--partner-gray-1);
 --partner-fill-selected: var(--partner-blue-1);
 
 /* Background */

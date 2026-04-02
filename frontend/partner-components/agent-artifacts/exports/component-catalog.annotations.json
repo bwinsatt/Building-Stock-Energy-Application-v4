@@ -1,0 +1,567 @@
+{
+  "schemaVersion": "1.0.0",
+  "updatedAt": "2026-03-17T17:05:00.000Z",
+  "components": {
+    "PAvatar": {
+      "purpose": "Avatar primitive for representing a person, assignee, or participant with image, initials, name, and optional status badge.",
+      "useWhen": [
+        "Use for single-person identity surfaces such as assignees, owners, or comment authors.",
+        "Use when the UI needs a compact identity marker that can degrade from image to initials."
+      ],
+      "avoidWhen": [
+        "Avoid as a generic decorative icon; use `PIcon` instead.",
+        "Avoid for stacked or overflowed participant sets; use `PAvatarGroup` instead."
+      ],
+      "accessibilityNotes": [
+        "Provide a meaningful `name` when the avatar communicates identity so tooltip or fallback text is useful.",
+        "Do not rely on badge color alone to communicate status; pair with surrounding text when status meaning matters."
+      ],
+      "layoutConstraints": [
+        "Best used as an inline or compact identity element, not as a large profile card.",
+        "Status badge and tooltip direction become more important in dense layouts."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PTooltip"
+      ],
+      "tags": [
+        "identity",
+        "avatar",
+        "status"
+      ]
+    },
+    "PAvatarGroup": {
+      "purpose": "Grouped avatar display for teams, participants, or shared ownership with overflow handling.",
+      "useWhen": [
+        "Use for collaborator lists or participant stacks where multiple people need to be represented compactly.",
+        "Use when you need a capped visible count with overflow rather than rendering every avatar at full width."
+      ],
+      "avoidWhen": [
+        "Avoid when each person needs separate labels or actions inline; render individual `PAvatar` rows instead.",
+        "Avoid for non-person entities or arbitrary chips."
+      ],
+      "accessibilityNotes": [
+        "Do not assume the overlap alone communicates all identities; pair with nearby text when the participant list is critical.",
+        "Preserve tooltip or visible names for discoverability in dense group displays."
+      ],
+      "layoutConstraints": [
+        "Designed for compact horizontal presentation and overflow rather than tall lists.",
+        "Works best where a summary of participants is enough and full details live elsewhere."
+      ],
+      "compositionWith": [
+        "PAvatar",
+        "PTypography"
+      ],
+      "tags": [
+        "identity",
+        "avatar",
+        "group",
+        "collaboration"
+      ]
+    },
+    "PBadge": {
+      "purpose": "Compact status or count indicator for inline emphasis, state labeling, or small metric display.",
+      "useWhen": [
+        "Use for short status labels, counts, or state chips that should remain visually lightweight.",
+        "Use when you need semantic color treatment without the interaction weight of a button."
+      ],
+      "avoidWhen": [
+        "Avoid for primary actions; use `PButton` instead.",
+        "Avoid for long-form content or multi-select token displays; use `PChip` or text instead."
+      ],
+      "accessibilityNotes": [
+        "Do not rely on badge color alone to communicate meaning when status is important.",
+        "Keep badge text short so the semantic label remains scannable."
+      ],
+      "layoutConstraints": [
+        "Best for short inline content such as one-word statuses or small counts.",
+        "Not intended to serve as a full-width container or large interactive surface."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PTable"
+      ],
+      "tags": [
+        "status",
+        "badge",
+        "count",
+        "feedback"
+      ]
+    },
+    "PButton": {
+      "purpose": "Primary action trigger for standard flows, including form submit, toolbar actions, inline actions, and link-styled actions.",
+      "useWhen": [
+        "Use for the highest-priority action in a section, form, or dialog.",
+        "Use the variant and appearance props to encode emphasis rather than creating custom button styles."
+      ],
+      "avoidWhen": [
+        "Avoid for passive status display; use `PBadge` or `PTypography` instead.",
+        "Avoid for navigation containers or selection menus; use `PMenu`, `PSelectMenu`, or `PSelect` depending on the pattern."
+      ],
+      "accessibilityNotes": [
+        "Icon-only usage should still expose an accessible name from surrounding context or explicit labeling.",
+        "Disabled state should not be the only cue for blocked workflows; pair with explanatory text when needed."
+      ],
+      "layoutConstraints": [
+        "Intended for discrete action affordances, not for full-row interactive list items.",
+        "Neutral and white variants are more context-sensitive and should be used where surrounding surfaces support them."
+      ],
+      "compositionWith": [
+        "PIcon",
+        "PTypography",
+        "PTooltip"
+      ],
+      "tags": [
+        "action",
+        "button",
+        "form",
+        "toolbar"
+      ]
+    },
+    "PCheckbox": {
+      "purpose": "Single boolean or tri-state selection control with label support.",
+      "useWhen": [
+        "Use for independent yes or no options, row selection, or optional settings.",
+        "Use when the user may select zero, one, or many independent items."
+      ],
+      "avoidWhen": [
+        "Avoid for mutually exclusive choices; use radio-group style selection instead.",
+        "Avoid for long lists that need grouped validation or helper messaging; use `PCheckboxGroup`."
+      ],
+      "accessibilityNotes": [
+        "Always provide a visible or programmatic label for the checkbox meaning.",
+        "Treat indeterminate as a summary state, not a hidden third meaning without explanation."
+      ],
+      "layoutConstraints": [
+        "Best for individual options or row-level selection patterns.",
+        "Should remain compact and aligned with adjacent label text."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PTable"
+      ],
+      "tags": [
+        "selection",
+        "form",
+        "checkbox",
+        "boolean"
+      ]
+    },
+    "PCheckboxGroup": {
+      "purpose": "Grouped checkbox field with shared label, helper text, and error handling for related multi-select options.",
+      "useWhen": [
+        "Use when several related checkbox options belong to one logical form field.",
+        "Use when helper text or error text should apply to the entire option set."
+      ],
+      "avoidWhen": [
+        "Avoid when options are independent and do not need grouped messaging.",
+        "Avoid for dropdown-style multi-select behavior; use `PSelect` or `PSelectMenu` instead."
+      ],
+      "accessibilityNotes": [
+        "Group labeling and helper or error messaging should communicate the purpose of the whole set.",
+        "Orientation changes layout only; ensure the reading and tab order still makes sense."
+      ],
+      "layoutConstraints": [
+        "Intended for compact vertical or horizontal option sets rather than extremely long filter panels.",
+        "Works best when all options are visible at once."
+      ],
+      "compositionWith": [
+        "PCheckbox",
+        "PTypography"
+      ],
+      "tags": [
+        "selection",
+        "form",
+        "checkbox",
+        "group"
+      ]
+    },
+    "PLayout": {
+      "purpose": "Page-shell layout primitive for Partner-style pages with optional header, side panels, footer, and grid-based body content.",
+      "useWhen": [
+        "Use for full-page or workspace-level screens that need consistent header and side-panel structure.",
+        "Use when the body content should align to the Partner responsive grid tokens."
+      ],
+      "avoidWhen": [
+        "Avoid inside cards, popovers, or modal-scale content.",
+        "Avoid when you only need a small local two-column section rather than a full page shell."
+      ],
+      "accessibilityNotes": [
+        "Ensure the content placed in header and panel slots still provides a coherent heading and landmark structure.",
+        "Hidden and shown side-panel states should remain discoverable if they affect key functionality."
+      ],
+      "layoutConstraints": [
+        "Designed as a top-level page shell, not a nested layout primitive.",
+        "Side panels consume fixed structural space and are best suited to desktop-oriented page composition."
+      ],
+      "compositionWith": [
+        "PLayoutGrid",
+        "PLayoutGridItem",
+        "PTypography"
+      ],
+      "tags": [
+        "layout",
+        "page-shell",
+        "dashboard",
+        "grid"
+      ]
+    },
+    "PIcon": {
+      "purpose": "System icon primitive for rendering Partner icons first and falling back to the Carbon icon set when a Partner-specific icon does not exist.",
+      "useWhen": [
+        "Use inside existing interactive components such as buttons, menus, search fields, table actions, and navigation items.",
+        "Use decorative or supportive icons to improve scanning when the surrounding component already carries the interaction semantics."
+      ],
+      "avoidWhen": [
+        "Avoid making bare icons the only affordance for important or ambiguous actions.",
+        "Avoid recoloring or resizing icons arbitrarily outside the design-token and supported size system."
+      ],
+      "accessibilityNotes": [
+        "Icons should not be the only accessible label for a critical action unless the parent control provides a clear name.",
+        "Treat icons as presentational unless the surrounding component intentionally exposes accessible meaning."
+      ],
+      "layoutConstraints": [
+        "The Figma icon system is based on a fixed 16px icon size, with component-level sizing only where the host component supports it.",
+        "Icons are intended to live inside components rather than act as standalone clickable elements."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PMenu",
+        "PSearchBar",
+        "PTooltip"
+      ],
+      "tags": [
+        "icon",
+        "system",
+        "navigation",
+        "action"
+      ]
+    },
+    "PMenu": {
+      "purpose": "Generic dropdown menu container for action lists, searchable menu content, and custom trigger plus content composition.",
+      "useWhen": [
+        "Use for action menus or compact dropdown content that is not a form field.",
+        "Use when you need a custom trigger and flexible content regions such as header, footer, and searchable items."
+      ],
+      "avoidWhen": [
+        "Avoid for standard form-field selection; use `PSelect`.",
+        "Avoid when you need the opinionated selectable menu behavior of `PSelectMenu`."
+      ],
+      "accessibilityNotes": [
+        "The trigger should expose a clear accessible name that explains what menu will open.",
+        "Searchable menus should still preserve keyboard access to items and clear focus movement."
+      ],
+      "layoutConstraints": [
+        "Best for compact overlay content anchored to a trigger.",
+        "Not intended to replace full-page filter or navigation panels."
+      ],
+      "compositionWith": [
+        "PMenuItem",
+        "PButton",
+        "PSearchBar"
+      ],
+      "tags": [
+        "menu",
+        "overlay",
+        "action",
+        "navigation"
+      ]
+    },
+    "PPopover": {
+      "purpose": "Popover surface for contextual content, help text, or small interactive content anchored to a trigger.",
+      "useWhen": [
+        "Use for richer contextual content than a tooltip, especially when the content may include actions or structured sections.",
+        "Use when the trigger should reveal supplementary content without navigating away."
+      ],
+      "avoidWhen": [
+        "Avoid for simple hover or focus descriptions; use `PTooltip` instead.",
+        "Avoid for full dialog or workflow content that deserves modal treatment."
+      ],
+      "accessibilityNotes": [
+        "The trigger should clearly indicate that additional contextual content will open.",
+        "Interactive content inside the popover should remain keyboard reachable and closable."
+      ],
+      "layoutConstraints": [
+        "Sized for contextual overlay content, not page-scale containers.",
+        "Direction and offset should be chosen with surrounding layout density in mind."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTypography"
+      ],
+      "tags": [
+        "overlay",
+        "popover",
+        "contextual"
+      ]
+    },
+    "PLogo": {
+      "purpose": "Brand-logo primitive for rendering Partner, SiteLynx, BlueLynx, Plink, and related branded logo assets, including favicon treatments.",
+      "useWhen": [
+        "Use when the UI needs an approved brand mark rather than a text label or generic graphic.",
+        "Use for product switching, brand attribution, shell headers, or favicon-like display where the design system defines the specific logo variant."
+      ],
+      "avoidWhen": [
+        "Avoid using logos as a substitute for navigation text or accessible labels.",
+        "Avoid creating custom brand mark variations when the design system already defines the logo and favicon variants."
+      ],
+      "accessibilityNotes": [
+        "Provide an appropriate `alt` value when the logo conveys brand identity or serves as a linked home or product marker.",
+        "If the logo is purely decorative, the consuming surface should avoid duplicating the brand name excessively."
+      ],
+      "layoutConstraints": [
+        "The master Figma file distinguishes full logos from favicon variants, so choose the intended form factor explicitly.",
+        "Brand-specific variants should stay consistent with the approved asset list rather than being improvised from text."
+      ],
+      "compositionWith": [
+        "PLayout",
+        "PTypography"
+      ],
+      "tags": [
+        "brand",
+        "logo",
+        "identity"
+      ]
+    },
+    "PSearchBar": {
+      "purpose": "Search input primitive with debounced value updates and explicit search and clear events.",
+      "useWhen": [
+        "Use for page-level or panel-level search entry where the user searches a collection or list.",
+        "Use when both immediate debounced updates and explicit search submission are useful."
+      ],
+      "avoidWhen": [
+        "Avoid for generic labeled text input fields; use `PTextInput` instead.",
+        "Avoid when the pattern is selection from known options rather than free-text querying."
+      ],
+      "accessibilityNotes": [
+        "Placeholder text alone should not be the only explanation of search scope when context is ambiguous.",
+        "If the search button is hidden, surrounding context should still make the field purpose obvious."
+      ],
+      "layoutConstraints": [
+        "Works best as a horizontal control in toolbars, filter bars, or list headers.",
+        "Debounce behavior should match the data-fetching or filtering expectations of the surrounding UI."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTable",
+        "PMenu"
+      ],
+      "tags": [
+        "search",
+        "input",
+        "toolbar",
+        "filter"
+      ]
+    },
+    "PSelect": {
+      "purpose": "Form-field select control for single or multi-selection with label, helper text, error states, and optional searchable menu behavior.",
+      "useWhen": [
+        "Use as a labeled form input when the selected value belongs in form state.",
+        "Use for single or multi-select fields that need helper text, validation, or chip-style selected-value display."
+      ],
+      "avoidWhen": [
+        "Avoid for lightweight action menus; use `PMenu`.",
+        "Avoid when the trigger-driven filter menu pattern is primary and form-field chrome is unnecessary; use `PSelectMenu`."
+      ],
+      "accessibilityNotes": [
+        "Use the `label`, `helperText`, and `errorText` props to provide a complete accessible field description.",
+        "Searchable and multi-select states should still preserve understandable trigger text and selection feedback."
+      ],
+      "layoutConstraints": [
+        "Designed as a form control, so it fits best in forms, filter bars, and settings panels rather than generic tool menus.",
+        "Chip variant is useful when selected items need to stay visible after selection."
+      ],
+      "compositionWith": [
+        "PMenuItem",
+        "PChip",
+        "PTypography"
+      ],
+      "tags": [
+        "form",
+        "selection",
+        "select",
+        "data-entry"
+      ]
+    },
+    "PSelectMenu": {
+      "purpose": "Trigger-based selectable menu for single or multi-select overlay interactions with apply, clear, and search behaviors.",
+      "useWhen": [
+        "Use for filter menus and compact trigger-driven selection workflows.",
+        "Use when selection should happen from a menu surface rather than a full form field."
+      ],
+      "avoidWhen": [
+        "Avoid when the control needs a standard field label, helper text, or error text; use `PSelect`.",
+        "Avoid for generic action menus without selectable state; use `PMenu`."
+      ],
+      "accessibilityNotes": [
+        "The trigger should describe the menu purpose, not just display a generic icon or ambiguous label.",
+        "Multi-select behavior should keep selected-state feedback understandable for keyboard users."
+      ],
+      "layoutConstraints": [
+        "Best for toolbar and filter contexts where the trigger owns the overlay.",
+        "The consumer typically controls trigger width, so avoid assuming field-like full-width layout."
+      ],
+      "compositionWith": [
+        "PMenu",
+        "PButton",
+        "PChip"
+      ],
+      "tags": [
+        "selection",
+        "menu",
+        "overlay",
+        "filter"
+      ]
+    },
+    "PTable": {
+      "purpose": "Semantic table container and companion subcomponents for tabular data, sortable headers, captions, footers, and empty states.",
+      "useWhen": [
+        "Use for structured row and column data where headers, cells, and scanning alignment matter.",
+        "Use when the table needs empty, caption, footer, or sortable-header states."
+      ],
+      "avoidWhen": [
+        "Avoid for card-based lists or highly responsive stacked mobile layouts that no longer behave like tables.",
+        "Avoid when the content is mostly form controls and not tabular data."
+      ],
+      "accessibilityNotes": [
+        "Keep header and cell relationships semantically correct so assistive technology can interpret the grid.",
+        "Sortable states should remain visible and understandable beyond icon treatment alone."
+      ],
+      "layoutConstraints": [
+        "Use the table subcomponents within semantic table structure rather than mixing them into arbitrary div layouts.",
+        "Wide content should be handled intentionally with truncation, scrolling, or supporting layout decisions."
+      ],
+      "compositionWith": [
+        "PTableHeader",
+        "PTableHead",
+        "PTableRow",
+        "PTableCell",
+        "PBadge"
+      ],
+      "tags": [
+        "table",
+        "data-display",
+        "sorting",
+        "empty-state"
+      ]
+    },
+    "PTextArea": {
+      "purpose": "Multi-line text field with label, helper text, error messaging, and optional character or sizing constraints.",
+      "useWhen": [
+        "Use for longer freeform text such as notes, descriptions, or comments.",
+        "Use when a field needs the same form-field affordances as `PTextInput` but with multi-line entry."
+      ],
+      "avoidWhen": [
+        "Avoid for short single-line inputs such as names, email, or compact filters; use `PTextInput`.",
+        "Avoid when the content is a fixed selection rather than authored text."
+      ],
+      "accessibilityNotes": [
+        "Use label and helper or error text to explain expected content and constraints.",
+        "If max length matters, expose that information visibly and not only in validation after input."
+      ],
+      "layoutConstraints": [
+        "Best for form sections with enough vertical space to support multiple lines.",
+        "Textarea growth and resize behavior should align with surrounding form density."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PButton"
+      ],
+      "tags": [
+        "form",
+        "input",
+        "textarea",
+        "data-entry"
+      ]
+    },
+    "PTextInput": {
+      "purpose": "Single-line text field with built-in label, helper text, error text, and typed input variants such as email or password.",
+      "useWhen": [
+        "Use for standard form entry such as names, emails, URLs, passwords, and short freeform values.",
+        "Use when the field needs built-in validation messaging or helper text."
+      ],
+      "avoidWhen": [
+        "Avoid for search interactions; use `PSearchBar`.",
+        "Avoid for multi-line authored text; use `PTextArea`."
+      ],
+      "accessibilityNotes": [
+        "Prefer the built-in `label`, `helperText`, and `errorText` props over relying only on placeholder text.",
+        "Use the typed variants only when they reflect actual input semantics."
+      ],
+      "layoutConstraints": [
+        "Intended as a form control and usually works best at field or panel width rather than as bare inline text.",
+        "Short helper or error text fits best directly below the field."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTypography"
+      ],
+      "tags": [
+        "form",
+        "input",
+        "text-field",
+        "data-entry"
+      ]
+    },
+    "PTooltip": {
+      "purpose": "Lightweight tooltip for brief contextual help or short explanatory text attached to a trigger.",
+      "useWhen": [
+        "Use for short non-essential clarification on hover or focus.",
+        "Use when an inline label would add too much visual noise but the user still benefits from a concise explanation."
+      ],
+      "avoidWhen": [
+        "Avoid for interactive or multi-section content; use `PPopover`.",
+        "Avoid as the only way to expose critical instructions."
+      ],
+      "accessibilityNotes": [
+        "Tooltip content should be supplemental rather than the sole source of required information.",
+        "Triggers still need meaningful labels even if a tooltip is present."
+      ],
+      "layoutConstraints": [
+        "Designed for short text content and compact spatial footprint.",
+        "Direction should be chosen to avoid clipping in dense interfaces."
+      ],
+      "compositionWith": [
+        "PIcon",
+        "PButton",
+        "PTypography"
+      ],
+      "tags": [
+        "overlay",
+        "tooltip",
+        "help"
+      ]
+    },
+    "PTypography": {
+      "purpose": "Typography primitive that maps Partner type-scale variants to semantic HTML elements and alignment options.",
+      "useWhen": [
+        "Use when Partner type-scale consistency matters across headings, body text, labels, helper text, and button-like text.",
+        "Use to express text hierarchy without inventing one-off class stacks."
+      ],
+      "avoidWhen": [
+        "Avoid wrapping text only to recreate semantics already provided by another component's built-in label or message props.",
+        "Avoid using typography variants as a substitute for interactive components."
+      ],
+      "accessibilityNotes": [
+        "Choose the `component` prop to preserve semantic heading and text structure, not just visual appearance.",
+        "Heading hierarchy should remain logical across the page regardless of visual size choices."
+      ],
+      "layoutConstraints": [
+        "Designed as a text primitive and should usually remain inside broader layout or form components.",
+        "Variant and semantic element can differ, but that should be intentional."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTextInput",
+        "PTextArea",
+        "PLayout"
+      ],
+      "tags": [
+        "typography",
+        "text",
+        "heading",
+        "label"
+      ]
+    }
+  }
+}

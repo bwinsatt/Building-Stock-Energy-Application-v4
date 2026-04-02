@@ -45,6 +45,12 @@ test.each([
     expect(checkboxButton).toHaveAttribute('id', checkboxProps.id)
   }
 
+  if (checkboxProps.disabled) {
+    expect(checkboxButton).toHaveClass('disabled:cursor-not-allowed')
+  } else {
+    expect(checkboxButton).toHaveClass('cursor-pointer')
+  }
+
   expect(checkboxButton).toHaveAttribute('checked', checkboxProps.checked ? 'true' : 'false')
   if (checkboxProps.indeterminate && !checkboxProps.checked) {
     expect(checkboxButton).toHaveAttribute('data-state', 'indeterminate')
@@ -58,8 +64,17 @@ test.each([
   } else {
     expect(checkboxButton).not.toHaveAttribute('disabled')
 
+    if (checkboxProps.label) {
+      expect(getByTestId('plabel')).toHaveClass('cursor-pointer')
+    }
+
     await checkboxButton.click()
     expect(onChange).toHaveBeenCalledWith(checkboxProps.checked ? false : true)
     console.log(`onChange was called with ${onChange.mock.calls[0][0]}`)
+    expect(checkboxButton).toHaveAttribute('checked', checkboxProps.checked ? 'true' : 'false')
+  }
+
+  if (checkboxProps.disabled && checkboxProps.label) {
+    expect(getByTestId('plabel')).not.toHaveClass('cursor-pointer')
   }
 })

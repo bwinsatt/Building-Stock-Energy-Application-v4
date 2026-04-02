@@ -90,7 +90,7 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <div
-    class="border border-charcoal-5 flex flex-col h-full w-full"
+    class="partner-preflight border border-charcoal-5 flex flex-col h-full w-full"
     v-bind="testIdAttrs"
   >
     <!-- Header -->

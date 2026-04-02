@@ -33,7 +33,7 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <div 
-    :class="cn('flex flex-col gap-6', props.class)"
+    :class="cn('partner-preflight flex flex-col gap-6', props.class)"
     v-bind="testIdAttrs"
   >
     <PPaginationRoot 

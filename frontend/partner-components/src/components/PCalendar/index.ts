@@ -1,0 +1,1 @@
+export { default as PCalendar, type PCalendarProps, type PCalendarEmits } from './PCalendar.vue'

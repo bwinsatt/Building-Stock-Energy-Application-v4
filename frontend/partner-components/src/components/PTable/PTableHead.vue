@@ -85,6 +85,16 @@ const buttonProps: PButtonProps = {
   size: 'small',
 }
 
+const filterButtonProps = computed(() => {
+  return {
+    ...buttonProps,
+    icon: props.filtered ? 'filter-applied' : 'filter',
+    'data-testid': 'filter-icon',
+    class: '[&_path#dot]:fill-(--partner-primary-light)',
+    onClick: (e: MouseEvent) => { e.stopPropagation(); handleFilterClick() },
+  }
+}) as ComputedRef<PButtonProps>
+
 const sortDirection = ref<SortDirection>(props.sortDirection)
 
 watch(() => props.sortDirection, (newVal) => {
@@ -152,7 +162,7 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <TableHead
-    :class="cn('relative px-3', clickableClass, sizeClass, dividerClass, widthClass, props.class)"
+    :class="cn('partner-preflight relative px-3', clickableClass, sizeClass, dividerClass, widthClass, props.class)"
     v-bind="testIdAttrs"
     :data-sort-direction="props.sortable ? sortDirection : undefined"
     :data-expanded="props.expandable ? expanded : undefined"
@@ -183,7 +193,8 @@ const { testIdAttrs } = useTestId()
       <PTypography
         variant="buttonMedium"
         component="span"
-        class="truncate !text-(--partner-text-primary) dark:!text-(--partner-text-white)"
+        truncate
+        class="!text-(--partner-text-primary)"
       >
         <slot />
       </PTypography>
@@ -208,14 +219,15 @@ const { testIdAttrs } = useTestId()
         v-if="filterable"
         class="flex items-center flex-shrink-0 ml-auto pl-1 select-none"
       >
-        <PButton 
-          ref="filterButtonRef"
-          v-bind="buttonProps"
-          :icon="filtered ? 'filter-applied' : 'filter'"
-          data-testid="filter-icon" 
-          class="[&_path#dot]:fill-(--partner-primary-light)"
-          @click.stop="handleFilterClick"
-        />
+        <slot
+          name="filterButton"
+          v-bind="filterButtonProps"
+        >
+          <PButton 
+            ref="filterButtonRef"
+            v-bind="filterButtonProps"
+          />
+        </slot>
       </div>
     </div>
   </TableHead>

@@ -60,7 +60,7 @@ const systemColorGroups = [
       { token: 'partner-warning-main', description: 'Used for alert components, including icons, button text, etc', value: '--partner-yellow-7' },
       { token: 'partner-warning-dark', description: 'Darker shade, typically used for pressed or active states.', value: '--partner-yellow-8' },
       { token: 'partner-warning-light', description: 'Lighter shade, commonly used for hover states or subtle emphasis.', value: '--partner-yellow-6' },
-      { token: 'partner-warning-contrast', description: 'Foreground color that maintains AA contrast when warning-main is used as a background.', value: '--partner-black' },
+      { token: 'partner-warning-contrast', description: 'Foreground color that maintains AA contrast when warning-main is used as a background.', value: '--partner-white' },
       { token: 'partner-warning-outlined-bordered', description: 'Border color for outlined & text variant components (Button, etc)', value: '--partner-yellow-5' },
       { token: 'partner-warning-outlined-hover', description: 'Fill background color for outlined & text variant components in hover state (Button, etc)', value: '--partner-yellow-1' },
       { token: 'partner-warning-outlined-hover-pressed', description: 'Fill background color for outlined & text variant components in pressed state (Button, etc)', value: '--partner-yellow-2' },

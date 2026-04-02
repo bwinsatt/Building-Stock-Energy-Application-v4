@@ -60,6 +60,18 @@ const meta: Meta<typeof PTextInput> = {
       control: 'text',
       description: 'The error text for the input',
     },
+    iconLeft: {
+      control: 'object',
+      description: 'The icon for the left of the input',
+    },
+    iconRight: {
+      control: 'object',
+      description: 'The icon for the right of the input',
+    },
+    clearable: {
+      control: 'boolean',
+      description: 'Whether the input is clearable',
+    },
     'onUpdate:modelValue': {
       type: 'function',
       args: 'value: string | number',
@@ -70,6 +82,13 @@ const meta: Meta<typeof PTextInput> = {
 
 export default meta
 type Story = StoryObj<typeof PTextInput>
+
+const defaultExportableCode = `<PTextInput
+  id="name"
+  label="Full name"
+  placeholder="Enter your name"
+  helperText="Use your legal name"
+/>`
 
 export const Default: Story = {
   args: {
@@ -83,5 +102,22 @@ export const Default: Story = {
     size: 'medium',
     helperText: 'Helper text',
     errorText: 'Error text',
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
+}
+
+export const WithIconLeft: Story = {
+  args: {
+    ...Default.args,
+    iconLeft: { name: 'star-filled' },
+  },
+}
+
+export const WithIconRight: Story = {
+  args: {
+    ...Default.args,
+    iconRight: { name: 'star-filled' },
   },
 }

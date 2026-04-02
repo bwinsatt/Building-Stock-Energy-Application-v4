@@ -1,0 +1,1156 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-30T19:11:56.184Z",
+  "examples": [
+    {
+      "id": "components-palert--default",
+      "storyId": "components-palert--default",
+      "storyName": "Default",
+      "componentName": "PAlert",
+      "sourceFile": "src/components/PAlert/PAlert.stories.ts",
+      "args": {
+        "variant": "default",
+        "appearance": "contained",
+        "size": "medium",
+        "title": "Alert Title",
+        "description": "Alert Description"
+      },
+      "codeSnippet": "<PAlert\n  variant=\"default\"\n  appearance=\"contained\"\n  size=\"medium\"\n  title=\"Alert title\"\n  description=\"Alert description\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--default",
+      "storyId": "components-pavatar--default",
+      "storyName": "Default",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle"
+      },
+      "codeSnippet": "<PAvatar\n  size=\"medium\"\n  shape=\"circle\"\n  name=\"Jane Doe\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--icononly",
+      "storyId": "components-pavatar--icononly",
+      "storyName": "IconOnly",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--stresstest",
+      "storyId": "components-pavatar--stresstest",
+      "storyName": "StressTest",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "name": "Jane Doe"
+      },
+      "codeSnippet": "<div class=\"flex flex-col items-center gap-4 w-fit\">\n        <div class=\"grid grid-cols-40 gap-4 w-fit\">\n          <div v-for=\"i in 1000\" :key=\"i\" class=\"flex flex-col items-center gap-2\">\n            <PAvatar v-bind=\"args\" :image=\"Math.random() > 0.5 ? avatarExamplePhoto : noExistImage\" />\n          </div>\n        </div>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--withbadge",
+      "storyId": "components-pavatar--withbadge",
+      "storyName": "WithBadge",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "badge": "online",
+        "name": "Jane Doe"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--withimage",
+      "storyId": "components-pavatar--withimage",
+      "storyName": "WithImage",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "name": "Jane Doe"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--withinitials",
+      "storyId": "components-pavatar--withinitials",
+      "storyName": "WithInitials",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "initials": "JD",
+        "name": "Different Name"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--withmissingimage",
+      "storyId": "components-pavatar--withmissingimage",
+      "storyName": "WithMissingImage",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "image": "/src/assets/images/does_not_exist.jpg",
+        "name": "Jane Doe"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pavatar--withname",
+      "storyId": "components-pavatar--withname",
+      "storyName": "WithName",
+      "componentName": "PAvatar",
+      "sourceFile": "src/components/PAvatar/PAvatar.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "name": "Jane Doe"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pavatargroup--default",
+      "storyId": "components-pavatargroup--default",
+      "storyName": "Default",
+      "componentName": "PAvatarGroup",
+      "sourceFile": "src/components/PAvatar/PAvatarGroup.stories.ts",
+      "args": {
+        "size": "medium",
+        "shape": "circle",
+        "maxVisible": 4,
+        "avatars": [
+          {
+            "size": "medium",
+            "shape": "circle",
+            "badge": "online",
+            "name": "Jane Doe"
+          },
+          {
+            "size": "medium",
+            "shape": "circle",
+            "badge": "busy",
+            "name": "John Doe"
+          },
+          {
+            "size": "medium",
+            "shape": "circle",
+            "badge": "away",
+            "name": "Bob Doe"
+          },
+          {
+            "size": "medium",
+            "shape": "circle",
+            "badge": "offline",
+            "name": "Alice Doe"
+          },
+          {
+            "size": "medium",
+            "shape": "circle",
+            "name": "Charlie Doe"
+          }
+        ]
+      },
+      "codeSnippet": "<PAvatarGroup\n  size=\"medium\"\n  shape=\"circle\"\n  :max-visible=\"4\"\n  :avatars=\"[\n    { name: 'Jane Doe', badge: 'online' },\n    { name: 'John Doe', badge: 'busy' },\n    { name: 'Bob Doe', badge: 'away' },\n    { name: 'Alice Doe', badge: 'offline' },\n    { name: 'Charlie Doe' },\n  ]\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pbadge--allvariants",
+      "storyId": "components-pbadge--allvariants",
+      "storyName": "AllVariants",
+      "componentName": "PBadge",
+      "sourceFile": "src/components/PBadge/PBadge.stories.ts",
+      "args": {},
+      "codeSnippet": "<div v-for=\"variant in badgeOptions.variants\" :key=\"variant\" class=\"flex flex-wrap gap-2\">\n        <h2 class=\"text-lg font-semibold capitalize\">{{ variant }}</h2>\n        <div class=\"flex flex-wrap gap-2\">\n          <h3 class=\"text-md font-semibold capitalize\">{{ appearance }}</h3>\n          <PBadge v-for=\"appearance in badgeOptions.appearances\" :key=\"appearance\" :variant=\"variant\" :appearance=\"appearance\">\n            1\n          </PBadge>\n        </div>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pbadge--default",
+      "storyId": "components-pbadge--default",
+      "storyName": "Default",
+      "componentName": "PBadge",
+      "sourceFile": "src/components/PBadge/PBadge.stories.ts",
+      "args": {
+        "default": "1",
+        "variant": "primary",
+        "appearance": "standard"
+      },
+      "codeSnippet": "<PBadge variant=\"primary\" appearance=\"standard\">\n  1\n</PBadge>",
+      "tags": []
+    },
+    {
+      "id": "components-pbutton--allbuttonvariants",
+      "storyId": "components-pbutton--allbuttonvariants",
+      "storyName": "AllButtonVariants",
+      "componentName": "PButton",
+      "sourceFile": "src/components/PButton/PButton.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-pbutton--default",
+      "storyId": "components-pbutton--default",
+      "storyName": "Default",
+      "componentName": "PButton",
+      "sourceFile": "src/components/PButton/PButton.stories.ts",
+      "args": {
+        "variant": "primary",
+        "appearance": "contained",
+        "size": "medium",
+        "disabled": false,
+        "default": "Button"
+      },
+      "codeSnippet": "<PButton\n  variant=\"primary\"\n  appearance=\"contained\"\n  size=\"medium\"\n>\n  Click Me\n</PButton>",
+      "tags": []
+    },
+    {
+      "id": "components-pcalendar--clearable",
+      "storyId": "components-pcalendar--clearable",
+      "storyName": "Clearable",
+      "componentName": "PCalendar",
+      "sourceFile": "src/components/PCalendar/PCalendar.stories.ts",
+      "args": {
+        "clearable": true
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pcalendar--default",
+      "storyId": "components-pcalendar--default",
+      "storyName": "Default",
+      "componentName": "PCalendar",
+      "sourceFile": "src/components/PCalendar/PCalendar.stories.ts",
+      "args": {},
+      "codeSnippet": "<script setup lang=\"ts\">\nimport { DateTime } from 'luxon'\n\nconst unavailableDates = [DateTime.now().minus({ days: 1 })]\n\nfunction isDateUnavailable(date: DateTime) {\n  return unavailableDates.some((unavailableDate) => unavailableDate.hasSame(date, 'day'))\n}\n</script>\n\n<template>\n  <PCalendar\n    :default-value=\"DateTime.now()\"\n    :unavailable-dates=\"unavailableDates\"\n    :is-date-unavailable=\"isDateUnavailable\"\n  />\n</template>",
+      "tags": []
+    },
+    {
+      "id": "components-pcalendar--withlocale",
+      "storyId": "components-pcalendar--withlocale",
+      "storyName": "WithLocale",
+      "componentName": "PCalendar",
+      "sourceFile": "src/components/PCalendar/PCalendar.stories.ts",
+      "args": {
+        "locale": "ja-JP"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pcalendar--withminmax",
+      "storyId": "components-pcalendar--withminmax",
+      "storyName": "WithMinMax",
+      "componentName": "PCalendar",
+      "sourceFile": "src/components/PCalendar/PCalendar.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-pcalendar--withyearrange",
+      "storyId": "components-pcalendar--withyearrange",
+      "storyName": "WithYearRange",
+      "componentName": "PCalendar",
+      "sourceFile": "src/components/PCalendar/PCalendar.stories.ts",
+      "args": {
+        "yearRange": 3
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pcalendar--withyears",
+      "storyId": "components-pcalendar--withyears",
+      "storyName": "WithYears",
+      "componentName": "PCalendar",
+      "sourceFile": "src/components/PCalendar/PCalendar.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-pcheckbox--allstates",
+      "storyId": "components-pcheckbox--allstates",
+      "storyName": "AllStates",
+      "componentName": "PCheckbox",
+      "sourceFile": "src/components/PCheckbox/PCheckbox.stories.ts",
+      "args": {},
+      "codeSnippet": "<div class=\"grid grid-cols-3 gap-4\">\n        <div class=\"grid-item\">\n          <p class=\"text-sm text-muted-foreground\">Default</p>\n          <PCheckbox v-for=\"state in states\" :checked=\"state.checked\" :indeterminate=\"state.indeterminate\" :label=\"state.label\" />\n        </div>\n        <div class=\"grid-item\">\n          <p class=\"text-sm text-muted-foreground\">Disabled</p>\n          <PCheckbox v-for=\"state in states\" :checked=\"state.checked\" :indeterminate=\"state.indeterminate\" :label=\"state.label\" :disabled=\"true\" />\n        </div>\n        <div class=\"grid-item\">\n          <p class=\"text-sm text-muted-foreground\">Required</p>\n          <PCheckbox v-for=\"state in states\" :checked=\"state.checked\" :indeterminate=\"state.indeterminate\" :label=\"state.label\" :required=\"true\" />\n        </div>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pcheckbox--default",
+      "storyId": "components-pcheckbox--default",
+      "storyName": "Default",
+      "componentName": "PCheckbox",
+      "sourceFile": "src/components/PCheckbox/PCheckbox.stories.ts",
+      "args": {
+        "id": "checkbox",
+        "class": "",
+        "size": "medium",
+        "label": "Checkbox label",
+        "checked": false,
+        "disabled": false,
+        "indeterminate": false,
+        "required": false
+      },
+      "codeSnippet": "<PCheckbox\n  id=\"terms\"\n  label=\"Accept terms and conditions\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pcheckboxgroup--default",
+      "storyId": "components-pcheckboxgroup--default",
+      "storyName": "Default",
+      "componentName": "PCheckboxGroup",
+      "sourceFile": "src/components/PCheckbox/PCheckboxGroup.stories.ts",
+      "args": {
+        "label": "Checkbox group label",
+        "orientation": "vertical",
+        "disabled": false,
+        "required": false,
+        "size": "medium",
+        "helperText": "Helper text",
+        "errorText": "Error text",
+        "error": false,
+        "checkboxes": [
+          {
+            "label": "Checkbox 1",
+            "checked": false
+          },
+          {
+            "label": "Checkbox 2",
+            "checked": true
+          },
+          {
+            "label": "Checkbox 3",
+            "checked": true
+          }
+        ]
+      },
+      "codeSnippet": "<PCheckboxGroup\n  label=\"Notification preferences\"\n  helperText=\"Choose the updates you want to receive\"\n  :checkboxes=\"[\n    { label: 'Product updates', checked: true },\n    { label: 'Security alerts', checked: true },\n    { label: 'Marketing emails', checked: false },\n  ]\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pcheckboxgroup--singledisabledcheckbox",
+      "storyId": "components-pcheckboxgroup--singledisabledcheckbox",
+      "storyName": "SingleDisabledCheckbox",
+      "componentName": "PCheckboxGroup",
+      "sourceFile": "src/components/PCheckbox/PCheckboxGroup.stories.ts",
+      "args": {
+        "label": "Checkbox group label",
+        "orientation": "vertical",
+        "disabled": false,
+        "required": false,
+        "size": "medium",
+        "helperText": "Helper text",
+        "errorText": "Error text",
+        "error": false,
+        "checkboxes": [
+          {
+            "label": "Checkbox 1",
+            "checked": false,
+            "disabled": false
+          },
+          {
+            "label": "Checkbox 2",
+            "checked": false,
+            "disabled": true
+          },
+          {
+            "label": "Checkbox 3",
+            "checked": false,
+            "disabled": false
+          }
+        ]
+      },
+      "codeSnippet": "<PCheckboxGroup v-bind=\"args\" />",
+      "tags": []
+    },
+    {
+      "id": "components-pchip--customizedslots",
+      "storyId": "components-pchip--customizedslots",
+      "storyName": "CustomizedSlots",
+      "componentName": "PChip",
+      "sourceFile": "src/components/PChip/PChip.stories.ts",
+      "args": {
+        "selectable": true,
+        "removable": true
+      },
+      "codeSnippet": "<div class=\"flex flex-col items-center gap-1\">\n        <div class=\"flex w-full flex-wrap gap-1\">\n          <PChip v-bind=\"args\">\n            <template #left>\n              <PIcon name=\"globe\" size=\"small\" />\n            </template>\n            Chip\n            <template #right>\n              <PIcon name=\"go-to\" size=\"small\" />\n            </template>\n          </PChip>\n        </div>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pchip--default",
+      "storyId": "components-pchip--default",
+      "storyName": "Default",
+      "componentName": "PChip",
+      "sourceFile": "src/components/PChip/PChip.stories.ts",
+      "args": {
+        "variant": "primary",
+        "appearance": "contained",
+        "size": "medium",
+        "disabled": false
+      },
+      "codeSnippet": "<PChip\n  variant=\"primary\"\n  appearance=\"contained\"\n  size=\"medium\"\n>\n  Example Chip\n</PChip>",
+      "tags": []
+    },
+    {
+      "id": "components-pchip--readonly",
+      "storyId": "components-pchip--readonly",
+      "storyName": "ReadOnly",
+      "componentName": "PChip",
+      "sourceFile": "src/components/PChip/PChip.stories.ts",
+      "args": {},
+      "codeSnippet": "<div class=\"grid grid-cols-2 gap-4 w-full\">\n    <div v-for=\"disabled in [false, true]\" :key=\"disabled\" class=\"grid-item\">\n      <h2 class=\"text-center text-xl font-semibold capitalize\">{{ disabled ? 'Disabled' : 'Enabled' }}</h2>\n      <div class=\"flex flex-col gap-4\">\n        <!-- Group by Appearance -->\n        <div v-for=\"appearance in chipAppearances\" :key=\"appearance\" class=\"flex flex-col gap-2\">\n          <h3 class=\"text-lg font-semibold capitalize\">{{ appearance }}</h3>\n          \n          <!-- Group by Size within each Appearance -->\n          <div v-for=\"size in chipSizes\" :key=\"size\" class=\"flex flex-col gap-1\">\n            <p class=\"text-sm text-gray-600 capitalize\">{{ size }}</p>\n            \n            <!-- All Variants for this Appearance + Size combination -->\n            <div class=\"flex flex-wrap gap-1\">\n              <PChip \n                v-bind=\"args\"\n                v-for=\"variant in chipVariants\" \n                :key=\"variant\"\n                :variant=\"variant\" \n                :appearance=\"appearance\" \n                :size=\"size\"\n                :disabled=\"disabled\"\n              >\n                {{ variant }}\n              </PChip>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pchip--removable",
+      "storyId": "components-pchip--removable",
+      "storyName": "Removable",
+      "componentName": "PChip",
+      "sourceFile": "src/components/PChip/PChip.stories.ts",
+      "args": {
+        "removable": true
+      },
+      "codeSnippet": "<div class=\"grid grid-cols-2 gap-4 w-full\">\n    <div v-for=\"disabled in [false, true]\" :key=\"disabled\" class=\"grid-item\">\n      <h2 class=\"text-center text-xl font-semibold capitalize\">{{ disabled ? 'Disabled' : 'Enabled' }}</h2>\n      <div class=\"flex flex-col gap-4\">\n        <!-- Group by Appearance -->\n        <div v-for=\"appearance in chipAppearances\" :key=\"appearance\" class=\"flex flex-col gap-2\">\n          <h3 class=\"text-lg font-semibold capitalize\">{{ appearance }}</h3>\n          \n          <!-- Group by Size within each Appearance -->\n          <div v-for=\"size in chipSizes\" :key=\"size\" class=\"flex flex-col gap-1\">\n            <p class=\"text-sm text-gray-600 capitalize\">{{ size }}</p>\n            \n            <!-- All Variants for this Appearance + Size combination -->\n            <div class=\"flex flex-wrap gap-1\">\n              <PChip \n                v-bind=\"args\"\n                v-for=\"variant in chipVariants\" \n                :key=\"variant\"\n                :variant=\"variant\" \n                :appearance=\"appearance\" \n                :size=\"size\"\n                :disabled=\"disabled\"\n              >\n                {{ variant }}\n              </PChip>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pchip--selectable",
+      "storyId": "components-pchip--selectable",
+      "storyName": "Selectable",
+      "componentName": "PChip",
+      "sourceFile": "src/components/PChip/PChip.stories.ts",
+      "args": {
+        "selectable": true
+      },
+      "codeSnippet": "<div class=\"grid grid-cols-2 gap-4 w-full\">\n    <div v-for=\"disabled in [false, true]\" :key=\"disabled\" class=\"grid-item\">\n      <h2 class=\"text-center text-xl font-semibold capitalize\">{{ disabled ? 'Disabled' : 'Enabled' }}</h2>\n      <div class=\"flex flex-col gap-4\">\n        <!-- Group by Appearance -->\n        <div v-for=\"appearance in chipAppearances\" :key=\"appearance\" class=\"flex flex-col gap-2\">\n          <h3 class=\"text-lg font-semibold capitalize\">{{ appearance }}</h3>\n          \n          <!-- Group by Size within each Appearance -->\n          <div v-for=\"size in chipSizes\" :key=\"size\" class=\"flex flex-col gap-1\">\n            <p class=\"text-sm text-gray-600 capitalize\">{{ size }}</p>\n            \n            <!-- All Variants for this Appearance + Size combination -->\n            <div class=\"flex flex-wrap gap-1\">\n              <PChip \n                v-bind=\"args\"\n                v-for=\"variant in chipVariants\" \n                :key=\"variant\"\n                :variant=\"variant\" \n                :appearance=\"appearance\" \n                :size=\"size\"\n                :disabled=\"disabled\"\n              >\n                {{ variant }}\n              </PChip>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pdateinput--default",
+      "storyId": "components-pdateinput--default",
+      "storyName": "Default",
+      "componentName": "PDateInput",
+      "sourceFile": "src/components/PDateInput/PDateInput.stories.ts",
+      "args": {
+        "label": "Date input label",
+        "disabled": false,
+        "required": false,
+        "size": "medium",
+        "helperText": "Helper text",
+        "errorText": "Error text",
+        "error": false,
+        "locale": "en-US",
+        "calendarProps": {
+          "monthFormat": "short",
+          "yearRange": 3,
+          "unavailableDates": []
+        }
+      },
+      "codeSnippet": "<script setup lang=\"ts\">\nimport { DateTime } from 'luxon'\n</script>\n\n<template>\n  <PDateInput\n    id=\"due-date\"\n    label=\"Due date\"\n    helperText=\"Select a target completion date\"\n    locale=\"en-US\"\n    :calendar-props=\"{\n      monthFormat: 'short',\n      yearRange: 3,\n      unavailableDates: [DateTime.now().minus({ days: 1 })],\n    }\"\n  />\n</template>",
+      "tags": []
+    },
+    {
+      "id": "components-pdateinput--maxvalue",
+      "storyId": "components-pdateinput--maxvalue",
+      "storyName": "MaxValue",
+      "componentName": "PDateInput",
+      "sourceFile": "src/components/PDateInput/PDateInput.stories.ts",
+      "args": {
+        "calendarProps": {}
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pdateinput--minvalue",
+      "storyId": "components-pdateinput--minvalue",
+      "storyName": "MinValue",
+      "componentName": "PDateInput",
+      "sourceFile": "src/components/PDateInput/PDateInput.stories.ts",
+      "args": {
+        "calendarProps": {}
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pdialog--default",
+      "storyId": "components-pdialog--default",
+      "storyName": "Default",
+      "componentName": "PDialog",
+      "sourceFile": "src/components/PDialog/PDialog.stories.ts",
+      "args": {
+        "defaultOpen": true,
+        "title": "Dialog Title",
+        "description": "Dialog Description"
+      },
+      "codeSnippet": "<PDialog title=\"Dialog title\" description=\"Dialog description\">\n  <template #trigger>\n    <PButton variant=\"primary\" appearance=\"contained\">\n      Open dialog\n    </PButton>\n  </template>\n\n  <template #content>\n    <p>Dialog content goes here.</p>\n  </template>\n\n  <template #footer>\n    <PButton variant=\"primary\" appearance=\"contained\">\n      Save\n    </PButton>\n  </template>\n</PDialog>",
+      "tags": []
+    },
+    {
+      "id": "components-pdialog--notrigger",
+      "storyId": "components-pdialog--notrigger",
+      "storyName": "NoTrigger",
+      "componentName": "PDialog",
+      "sourceFile": "src/components/PDialog/PDialog.stories.ts",
+      "args": {
+        "defaultOpen": true,
+        "modal": false
+      },
+      "codeSnippet": "<PDialog v-bind=\"args\" @update:open=\"updateOpen\">\n  <template #content>\n    This dialog has no trigger, is open by default, is not modal, and without title, footer, or description.\n  </template>\n</PDialog>",
+      "tags": []
+    },
+    {
+      "id": "components-picon--color",
+      "storyId": "components-picon--color",
+      "storyName": "Color",
+      "componentName": "PIcon",
+      "sourceFile": "src/components/PIcon/PIcon.stories.ts",
+      "args": {
+        "name": "color-palette",
+        "size": "large",
+        "color": "var(--partner-blue-7)",
+        "notes": [
+          "Do not recolor icons with random hex values, use the color palette instead. IE: Use <code class=\"text-xs bg-muted px-2 py-1 rounded w-fit whitespace-nowrap\">var(--partner-blue-7)</code> instead of <code class=\"text-xs bg-muted px-2 py-1 rounded w-fit whitespace-nowrap\">#005199</code>."
+        ]
+      },
+      "codeSnippet": "<div class=\"flex flex-col items-center\">\n      <PIcon v-bind=\"args\" ref=\"iconRef\" />\n      <p class=\"mt-4 text-xs text-center text-muted-foreground max-w-[300px]\">\n        <template v-if=\"isCustom\">\n          Icon <code class=\"text-xs bg-muted px-2 py-1 rounded w-fit\">{{ args.name }}</code> was found in the Partner Components icon registry.\n        </template>\n        <template v-else>\n          Icon <code class=\"text-xs bg-muted px-2 py-1 rounded w-fit\">{{ args.name }}</code> doesn't exist in the Partner Components icon registry, so it automatically falls back to the Iconify Carbon icon library.\n        </template>\n        <template v-for=\"note in args.notes\">\n          <p class=\"text-xs text-muted-foreground mt-2\" v-html=\"note\"></p>\n        </template>\n      </p>\n    </div>",
+      "tags": []
+    },
+    {
+      "id": "components-picon--customicons",
+      "storyId": "components-picon--customicons",
+      "storyName": "CustomIcons",
+      "componentName": "PIcon",
+      "sourceFile": "src/components/PIcon/PIcon.stories.ts",
+      "args": {},
+      "codeSnippet": "<div class=\"p-8\">\n        <h2 class=\"text-lg font-semibold mb-4\">Partner Components Custom Icons</h2>\n        <p class=\"text-sm text-muted-foreground mb-6\">\n          All custom icons available in the Partner Components icon registry.\n        </p>\n        <div class=\"grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4\">\n          <div\n            v-for=\"iconName in customIcons\"\n            :key=\"iconName\"\n            class=\"flex flex-col items-center gap-2 p-3 rounded border hover:bg-muted/50 transition-colors\"\n          >\n            <PIcon :name=\"iconName\" size=\"large\" />\n            <span class=\"text-xs text-center text-muted-foreground break-all\">{{ iconName }}</span>\n          </div>\n        </div>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-picon--default",
+      "storyId": "components-picon--default",
+      "storyName": "Default",
+      "componentName": "PIcon",
+      "sourceFile": "src/components/PIcon/PIcon.stories.ts",
+      "args": {
+        "name": "r-drive",
+        "size": "medium",
+        "notes": [
+          "Default icon size is medium (24px), do not resize icons above large (32px).",
+          "<code class=\"text-xs bg-muted px-2 py-1 rounded w-fit whitespace-nowrap\">data-customiconfound</code> attribute is set to \"true\" if the icon is a custom Partner Components icon, otherwise \"false\" and Carbon icon from Iconify is used as fallback."
+        ]
+      },
+      "codeSnippet": "<PIcon\n  name=\"r-drive\"\n  size=\"medium\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-picon--iconifycarbonfallback",
+      "storyId": "components-picon--iconifycarbonfallback",
+      "storyName": "IconifyCarbonFallback",
+      "componentName": "PIcon",
+      "sourceFile": "src/components/PIcon/PIcon.stories.ts",
+      "args": {
+        "name": "bee",
+        "size": "large"
+      },
+      "codeSnippet": "<div class=\"flex flex-col items-center\">\n      <PIcon v-bind=\"args\" ref=\"iconRef\" />\n      <p class=\"mt-4 text-xs text-center text-muted-foreground max-w-[300px]\">\n        <template v-if=\"isCustom\">\n          Icon <code class=\"text-xs bg-muted px-2 py-1 rounded w-fit\">{{ args.name }}</code> was found in the Partner Components icon registry.\n        </template>\n        <template v-else>\n          Icon <code class=\"text-xs bg-muted px-2 py-1 rounded w-fit\">{{ args.name }}</code> doesn't exist in the Partner Components icon registry, so it automatically falls back to the Iconify Carbon icon library.\n        </template>\n        <template v-for=\"note in args.notes\">\n          <p class=\"text-xs text-muted-foreground mt-2\" v-html=\"note\"></p>\n        </template>\n      </p>\n    </div>",
+      "tags": []
+    },
+    {
+      "id": "components-plabel--default",
+      "storyId": "components-plabel--default",
+      "storyName": "Default",
+      "componentName": "PLabel",
+      "sourceFile": "src/components/PLabel/PLabel.stories.ts",
+      "args": {},
+      "codeSnippet": "<PLabel for=\"email\" variant=\"inputLabel\">\n  Email address\n</PLabel>",
+      "tags": []
+    },
+    {
+      "id": "components-playout--default",
+      "storyId": "components-playout--default",
+      "storyName": "Default",
+      "componentName": "PLayout",
+      "sourceFile": "src/components/PLayout/PLayout.stories.ts",
+      "args": {
+        "header": true,
+        "leftPanel": true,
+        "rightPanel": true,
+        "footer": false
+      },
+      "codeSnippet": "<PLayout :header=\"true\" :left-panel=\"true\" :right-panel=\"true\">\n  <template #header>\n    <div class=\"p-4\">Header</div>\n  </template>\n\n  <template #left-panel>\n    <div class=\"p-4\">Filters</div>\n  </template>\n\n  <template #body>\n    <PLayoutGridItem>\n      <div class=\"rounded border p-4\">Main content</div>\n    </PLayoutGridItem>\n    <PLayoutGridItem class=\"md:col-span-4\">\n      <div class=\"rounded border p-4\">Secondary content</div>\n    </PLayoutGridItem>\n  </template>\n\n  <template #right-panel>\n    <div class=\"p-4\">Details</div>\n  </template>\n</PLayout>",
+      "tags": []
+    },
+    {
+      "id": "components-playout--withgridvisualization",
+      "storyId": "components-playout--withgridvisualization",
+      "storyName": "WithGridVisualization",
+      "componentName": "PLayout",
+      "sourceFile": "src/components/PLayout/PLayout.stories.ts",
+      "args": {
+        "header": true,
+        "leftPanel": true,
+        "rightPanel": true,
+        "footer": false
+      },
+      "tags": []
+    },
+    {
+      "id": "components-playoutgrid--default",
+      "storyId": "components-playoutgrid--default",
+      "storyName": "Default",
+      "componentName": "PLayoutGrid",
+      "sourceFile": "src/components/PLayout/PLayoutGrid.stories.ts",
+      "args": {},
+      "codeSnippet": "<PLayoutGrid>\n  <PLayoutGridItem>\n    <div class=\"rounded border p-4\">Primary content</div>\n  </PLayoutGridItem>\n\n  <PLayoutGridItem class=\"md:col-span-6\">\n    <div class=\"rounded border p-4\">Left column</div>\n  </PLayoutGridItem>\n\n  <PLayoutGridItem class=\"md:col-span-6\">\n    <div class=\"rounded border p-4\">Right column</div>\n  </PLayoutGridItem>\n</PLayoutGrid>",
+      "tags": []
+    },
+    {
+      "id": "components-plogo--default",
+      "storyId": "components-plogo--default",
+      "storyName": "Default",
+      "componentName": "PLogo",
+      "sourceFile": "src/components/PLogo/PLogo.stories.ts",
+      "args": {
+        "logoName": "Partner",
+        "name": "Main Logo",
+        "alt": "Partner Logo"
+      },
+      "codeSnippet": "<PLogo\n  logoName=\"Partner\"\n  name=\"Main Logo\"\n  alt=\"Partner logo\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pmenu--default",
+      "storyId": "components-pmenu--default",
+      "storyName": "Default",
+      "componentName": "PMenu",
+      "sourceFile": "src/components/PMenu/PMenu.stories.ts",
+      "args": {
+        "searchable": true,
+        "defaultOpen": true
+      },
+      "codeSnippet": "<PMenu searchable>\n  <template #trigger>\n    <PButton variant=\"primary\" appearance=\"contained\">\n      Open menu\n    </PButton>\n  </template>\n\n  <template #content>\n    <PMenuItem type=\"item\" label=\"Edit profile\" />\n    <PMenuItem type=\"item\" label=\"Account settings\" />\n    <PMenuItem type=\"separator\" />\n    <PMenuItem type=\"item\" label=\"Sign out\" />\n  </template>\n\n  <template #footer>\n    <PButton variant=\"primary\" appearance=\"text\">\n      Manage account\n    </PButton>\n  </template>\n</PMenu>",
+      "tags": []
+    },
+    {
+      "id": "components-pnumericinput--currency",
+      "storyId": "components-pnumericinput--currency",
+      "storyName": "Currency",
+      "componentName": "PNumericInput",
+      "sourceFile": "src/components/PNumericInput/PNumericInput.stories.ts",
+      "args": {
+        "label": "Cost",
+        "defaultValue": 2500,
+        "style": "currency",
+        "currency": "GBP",
+        "currencyDisplay": "symbol",
+        "currencySign": "standard",
+        "minimumFractionDigits": 2,
+        "maximumFractionDigits": 2,
+        "disabled": false,
+        "required": false,
+        "error": false,
+        "errorText": "Error text",
+        "helperText": "Helper text"
+      },
+      "codeSnippet": "<div>\n        <PNumericInput \n          v-bind=\"componentProps\" \n          :format-options=\"formatOptions\" \n          @update:model-value=\"onUpdateModelValue\" \n          @focus=\"onFocus\" \n          @blur=\"onBlur\" \n        />\n        <details class=\"mt-4\" open>\n          <summary class=\"cursor-pointer text-muted-foreground\">formatOptions</summary>\n          <pre class=\"bg-muted p-3 rounded text-sm\">{{ formatOptionsJson }}</pre>\n        </details>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pnumericinput--default",
+      "storyId": "components-pnumericinput--default",
+      "storyName": "Default",
+      "componentName": "PNumericInput",
+      "sourceFile": "src/components/PNumericInput/PNumericInput.stories.ts",
+      "args": {
+        "label": "Label",
+        "defaultValue": 1500,
+        "disabled": false,
+        "required": false,
+        "error": false,
+        "errorText": "Error text",
+        "helperText": "Helper text",
+        "style": "currency",
+        "currency": "USD",
+        "currencyDisplay": "symbol",
+        "currencySign": "standard",
+        "unit": "mile",
+        "unitDisplay": "long",
+        "minimumFractionDigits": 2,
+        "maximumFractionDigits": 2
+      },
+      "codeSnippet": "<PNumericInput\n  label=\"Amount\"\n  :default-value=\"1500\"\n  helperText=\"Enter the approved budget\"\n  :format-options=\"{\n    style: 'currency',\n    currency: 'USD',\n    currencyDisplay: 'symbol',\n    minimumFractionDigits: 2,\n    maximumFractionDigits: 2,\n  }\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-pnumericinput--percent",
+      "storyId": "components-pnumericinput--percent",
+      "storyName": "Percent",
+      "componentName": "PNumericInput",
+      "sourceFile": "src/components/PNumericInput/PNumericInput.stories.ts",
+      "args": {
+        "label": "Percentage",
+        "defaultValue": 0.5,
+        "step": 0.05,
+        "stepSnapping": true,
+        "focusOnChange": true,
+        "style": "percent",
+        "disabled": false,
+        "required": false,
+        "error": false,
+        "errorText": "Error text",
+        "helperText": "Helper text"
+      },
+      "codeSnippet": "<div>\n        <PNumericInput \n          v-bind=\"componentProps\" \n          :format-options=\"formatOptions\" \n          @update:model-value=\"onUpdateModelValue\" \n          @focus=\"onFocus\" \n          @blur=\"onBlur\" \n        />\n        <details class=\"mt-4\" open>\n          <summary class=\"cursor-pointer text-muted-foreground\">formatOptions</summary>\n          <pre class=\"bg-muted p-3 rounded text-sm\">{{ formatOptionsJson }}</pre>\n        </details>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pnumericinput--unit",
+      "storyId": "components-pnumericinput--unit",
+      "storyName": "Unit",
+      "componentName": "PNumericInput",
+      "sourceFile": "src/components/PNumericInput/PNumericInput.stories.ts",
+      "args": {
+        "label": "Distance",
+        "defaultValue": 160,
+        "style": "unit",
+        "unit": "mile",
+        "unitDisplay": "long",
+        "minimumFractionDigits": 0,
+        "maximumFractionDigits": 0,
+        "disabled": false,
+        "required": false,
+        "error": false,
+        "errorText": "Error text",
+        "helperText": "Helper text"
+      },
+      "codeSnippet": "<div>\n        <PNumericInput \n          v-bind=\"componentProps\" \n          :format-options=\"formatOptions\" \n          @update:model-value=\"onUpdateModelValue\" \n          @focus=\"onFocus\" \n          @blur=\"onBlur\" \n        />\n        <details class=\"mt-4\" open>\n          <summary class=\"cursor-pointer text-muted-foreground\">formatOptions</summary>\n          <pre class=\"bg-muted p-3 rounded text-sm\">{{ formatOptionsJson }}</pre>\n        </details>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-poverflowgroup--default",
+      "storyId": "components-poverflowgroup--default",
+      "storyName": "Default",
+      "componentName": "POverflowGroup",
+      "sourceFile": "src/components/POverflowGroup/POverflowGroup.stories.ts",
+      "args": {
+        "truncate": true
+      },
+      "codeSnippet": "<POverflowGroup :truncate=\"true\">\n  <PChip variant=\"primary\" appearance=\"contained\" size=\"medium\">Item 1</PChip>\n  <PChip variant=\"primary\" appearance=\"contained\" size=\"medium\">Item 2</PChip>\n  <PChip variant=\"primary\" appearance=\"contained\" size=\"medium\">Item 3</PChip>\n  <PChip variant=\"primary\" appearance=\"contained\" size=\"medium\">Item 4</PChip>\n</POverflowGroup>",
+      "tags": []
+    },
+    {
+      "id": "components-ppagination--default",
+      "storyId": "components-ppagination--default",
+      "storyName": "Default",
+      "componentName": "PPagination",
+      "sourceFile": "src/components/PPagination/PPagination.stories.ts",
+      "args": {},
+      "codeSnippet": "<PPagination\n  :items-per-page=\"1\"\n  :total-pages=\"12\"\n  :current-page=\"1\"\n  size=\"medium\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-ppopover--default",
+      "storyId": "components-ppopover--default",
+      "storyName": "Default",
+      "componentName": "PPopover",
+      "sourceFile": "src/components/PPopover/PPopover.stories.ts",
+      "args": {},
+      "codeSnippet": "<PPopover :default-open=\"true\" direction=\"bottom\" :offset=\"6\" :show-arrow=\"true\">\n  <template #trigger>\n    <PButton variant=\"primary\" appearance=\"contained\">\n      Open popover\n    </PButton>\n  </template>\n\n  <template #content>\n    <div class=\"flex flex-col gap-2\">\n      <PTypography variant=\"h3\">Popover title</PTypography>\n      <PTypography variant=\"body1\">Popover content</PTypography>\n      <PTextInput\n        id=\"popover-name\"\n        label=\"Name\"\n        placeholder=\"Enter your name\"\n      />\n      <PButton variant=\"primary\" appearance=\"contained\">\n        Submit\n      </PButton>\n    </div>\n  </template>\n</PPopover>",
+      "tags": []
+    },
+    {
+      "id": "components-psearchbar--default",
+      "storyId": "components-psearchbar--default",
+      "storyName": "Default",
+      "componentName": "PSearchBar",
+      "sourceFile": "src/components/PSearchBar/PSearchBar.stories.ts",
+      "args": {
+        "defaultValue": "",
+        "placeholder": "Search...",
+        "disabled": false,
+        "size": "medium"
+      },
+      "codeSnippet": "<script setup lang=\"ts\">\nimport { ref } from 'vue'\n\nconst query = ref('')\n</script>\n\n<template>\n  <PSearchBar\n    v-model=\"query\"\n    placeholder=\"Search users\"\n    size=\"medium\"\n  />\n</template>",
+      "tags": []
+    },
+    {
+      "id": "components-pselect--default",
+      "storyId": "components-pselect--default",
+      "storyName": "Default",
+      "componentName": "PSelect",
+      "sourceFile": "src/components/PSelect/PSelect.stories.ts",
+      "args": {
+        "items": [
+          {
+            "id": "1",
+            "label": "Item 1"
+          },
+          {
+            "id": "2",
+            "label": "Item 2"
+          },
+          {
+            "id": "3",
+            "label": "Item 3"
+          },
+          {
+            "id": "4",
+            "label": "Item 4"
+          },
+          {
+            "id": "5",
+            "label": "Item 5"
+          },
+          {
+            "id": "6",
+            "label": "Item 6"
+          },
+          {
+            "id": "7",
+            "label": "Item 7"
+          },
+          {
+            "id": "8",
+            "label": "Item 8"
+          },
+          {
+            "id": "9",
+            "label": "Item 9"
+          },
+          {
+            "id": "10",
+            "label": "Item 10"
+          }
+        ],
+        "placeholder": "Select an item",
+        "label": "Select label",
+        "id": "select",
+        "type": "single",
+        "variant": "text",
+        "chipVariant": "neutral",
+        "chipAppearance": "contained",
+        "helperText": "Helper text",
+        "errorText": "Error text",
+        "error": false,
+        "disabled": false,
+        "required": false,
+        "size": "medium",
+        "searchable": false,
+        "clearable": false,
+        "clearableMenu": false
+      },
+      "codeSnippet": "<script setup lang=\"ts\">\nconst items = [\n  { id: '1', label: 'Item 1' },\n  { id: '2', label: 'Item 2' },\n  { id: '3', label: 'Item 3' },\n]\n</script>\n\n<template>\n  <PSelect\n    id=\"status\"\n    label=\"Status\"\n    placeholder=\"Select a status\"\n    helperText=\"Choose one option\"\n    :items=\"items\"\n    type=\"single\"\n    variant=\"text\"\n    size=\"medium\"\n  />\n</template>",
+      "tags": []
+    },
+    {
+      "id": "components-pselect--multi",
+      "storyId": "components-pselect--multi",
+      "storyName": "Multi",
+      "componentName": "PSelect",
+      "sourceFile": "src/components/PSelect/PSelect.stories.ts",
+      "args": {
+        "type": "multi"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pselect--multiwithoverflow",
+      "storyId": "components-pselect--multiwithoverflow",
+      "storyName": "MultiWithOverflow",
+      "componentName": "PSelect",
+      "sourceFile": "src/components/PSelect/PSelect.stories.ts",
+      "args": {
+        "type": "multi"
+      },
+      "tags": []
+    },
+    {
+      "id": "components-pselectmenu--dynamicitems",
+      "storyId": "components-pselectmenu--dynamicitems",
+      "storyName": "DynamicItems",
+      "componentName": "PSelectMenu",
+      "sourceFile": "src/components/PMenu/PSelectMenu.stories.ts",
+      "args": {
+        "type": "multi",
+        "class": "w-60"
+      },
+      "codeSnippet": "<div class=\"flex gap-2\">\n        <PSelectMenu v-bind=\"args\" :open=\"open\" @update:open=\"open = $event\" :items=\"items\" @apply=\"apply\" @clear=\"clear\" @select=\"select\">\n          <template #trigger>\n            <PButton variant=\"primary\" appearance=\"contained\">Open menu</PButton>\n          </template>\n          <template #content-prepend>\n            <PButton variant=\"primary\" appearance=\"outlined\" @click=\"swapItems\">Swap Items</PButton>\n          </template>\n        </PSelectMenu>\n      </div>",
+      "tags": []
+    },
+    {
+      "id": "components-pselectmenu--multiselect",
+      "storyId": "components-pselectmenu--multiselect",
+      "storyName": "MultiSelect",
+      "componentName": "PSelectMenu",
+      "sourceFile": "src/components/PMenu/PSelectMenu.stories.ts",
+      "args": {
+        "type": "multi",
+        "class": "w-60"
+      },
+      "codeSnippet": "<PSelectMenu v-bind=\"args\" default-open :items=\"items\" @apply=\"apply\" @clear=\"clear\" @select=\"select\" @update:debouncedSearch=\"updateDebouncedSearch\" @search=\"search\" :class=\"args.class\">\n    <template #trigger>\n      <PButton variant=\"primary\" appearance=\"contained\">Open {{args.type}}-select menu</PButton>\n    </template>\n  </PSelectMenu>",
+      "tags": []
+    },
+    {
+      "id": "components-pselectmenu--singleselect",
+      "storyId": "components-pselectmenu--singleselect",
+      "storyName": "SingleSelect",
+      "componentName": "PSelectMenu",
+      "sourceFile": "src/components/PMenu/PSelectMenu.stories.ts",
+      "args": {
+        "type": "single",
+        "class": "w-60"
+      },
+      "codeSnippet": "<PSelectMenu v-bind=\"args\" default-open :items=\"items\" @apply=\"apply\" @clear=\"clear\" @select=\"select\" @update:debouncedSearch=\"updateDebouncedSearch\" @search=\"search\" :class=\"args.class\">\n    <template #trigger>\n      <PButton variant=\"primary\" appearance=\"contained\">Open {{args.type}}-select menu</PButton>\n    </template>\n  </PSelectMenu>",
+      "tags": []
+    },
+    {
+      "id": "components-pselectmenu--singleselectnofooter",
+      "storyId": "components-pselectmenu--singleselectnofooter",
+      "storyName": "SingleSelectNoFooter",
+      "componentName": "PSelectMenu",
+      "sourceFile": "src/components/PMenu/PSelectMenu.stories.ts",
+      "args": {
+        "type": "single",
+        "hideFooter": true,
+        "class": "w-60"
+      },
+      "codeSnippet": "<PSelectMenu v-bind=\"args\" default-open :items=\"items\" @apply=\"apply\" @clear=\"clear\" @select=\"select\" @update:debouncedSearch=\"updateDebouncedSearch\" @search=\"search\" :class=\"args.class\">\n    <template #trigger>\n      <PButton variant=\"primary\" appearance=\"contained\">Open {{args.type}}-select menu</PButton>\n    </template>\n  </PSelectMenu>",
+      "tags": []
+    },
+    {
+      "id": "components-pswitch--default",
+      "storyId": "components-pswitch--default",
+      "storyName": "Default",
+      "componentName": "PSwitch",
+      "sourceFile": "src/components/PSwitch/PSwitch.stories.ts",
+      "args": {
+        "label": "Switch label",
+        "id": "switch"
+      },
+      "codeSnippet": "<PSwitch\n  id=\"notifications\"\n  label=\"Enable notifications\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-ptable--captions",
+      "storyId": "components-ptable--captions",
+      "storyName": "Captions",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {},
+      "codeSnippet": "<Card>\n    <CardHeader>\n      <CardTitle>Table Caption</CardTitle>\n      <CardDescription>Table caption can be placed at the top or bottom of the table.</CardDescription>\n    </CardHeader>\n    <CardContent>\n      <PTable>\n        <PTableHeader>\n          <PTableRow>\n            <PTableHead>Name</PTableHead>\n            <PTableHead>Email</PTableHead>\n            <PTableHead>Phone</PTableHead>\n          </PTableRow>\n        </PTableHeader>\n        <PTableBody>\n          <PTableRow>\n            <PTableCell><PTypography>John Doe</PTypography></PTableCell>\n            <PTableCell><PTypography>john.doe@example.com</PTypography></PTableCell>\n            <PTableCell><PTypography>1234567890</PTypography></PTableCell>\n          </PTableRow>\n        </PTableBody>        \n        <PTableCaption><PTypography>Caption Bottom (Default)</PTypography></PTableCaption>\n      </PTable>\n      <br />\n      <PTable>\n        <PTableHeader>\n          <PTableRow>\n            <PTableHead>Name</PTableHead>\n            <PTableHead>Email</PTableHead>\n            <PTableHead>Phone</PTableHead>\n          </PTableRow>\n        </PTableHeader>\n        <PTableBody>\n          <PTableRow>\n            <PTableCell><PTypography>John Doe</PTypography></PTableCell>\n            <PTableCell><PTypography>john.doe@example.com</PTypography></PTableCell>\n            <PTableCell><PTypography>1234567890</PTypography></PTableCell>\n          </PTableRow>\n        </PTableBody>        \n        <PTableCaption location=\"top\"><PTypography>Caption Top</PTypography></PTableCaption>\n      </PTable>\n    </CardContent>\n  </Card>",
+      "tags": []
+    },
+    {
+      "id": "components-ptable--default",
+      "storyId": "components-ptable--default",
+      "storyName": "Default",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {},
+      "codeSnippet": "<PTable>\n  <PTableHeader variant=\"gray-fill\" size=\"medium\">\n    <PTableRow>\n      <PTableHead>Name</PTableHead>\n      <PTableHead>Email</PTableHead>\n      <PTableHead>Phone</PTableHead>\n    </PTableRow>\n  </PTableHeader>\n\n  <PTableBody>\n    <PTableRow>\n      <PTableCell><PTypography>John Doe</PTypography></PTableCell>\n      <PTableCell><PTypography>john.doe@example.com</PTypography></PTableCell>\n      <PTableCell><PTypography>1234567890</PTypography></PTableCell>\n    </PTableRow>\n    <PTableRow>\n      <PTableCell><PTypography>Jane Doe</PTypography></PTableCell>\n      <PTableCell><PTypography>jane.doe@example.com</PTypography></PTableCell>\n      <PTableCell><PTypography>0987654321</PTypography></PTableCell>\n    </PTableRow>\n  </PTableBody>\n</PTable>",
+      "tags": []
+    },
+    {
+      "id": "components-ptable--empty",
+      "storyId": "components-ptable--empty",
+      "storyName": "Empty",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-ptable--footers",
+      "storyId": "components-ptable--footers",
+      "storyName": "Footers",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-ptable--singlesort",
+      "storyId": "components-ptable--singlesort",
+      "storyName": "SingleSort",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {
+        "singleSort": true
+      },
+      "tags": []
+    },
+    {
+      "id": "components-ptable--truncate",
+      "storyId": "components-ptable--truncate",
+      "storyName": "Truncate",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-ptable--variants",
+      "storyId": "components-ptable--variants",
+      "storyName": "Variants",
+      "componentName": "PTable",
+      "sourceFile": "src/components/PTable/PTable.stories.ts",
+      "args": {},
+      "codeSnippet": "<Card>\n      <CardHeader>\n        <CardTitle>Table Variants</CardTitle>\n        <CardDescription>Table variants can be used to change header appearance. The controls below can be used to modify the table header size.</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <PTypography variant=\"h2\">Gray Fill (Fixed Width) - {{ args.size || 'Default Size' }}</PTypography>\n        <PTable class=\"w-full table-fixed\">\n          <PTableHeader variant=\"gray-fill\" :size=\"args.size\">\n            <PTableRow>\n              <PTableHead @expand-clicked=\"args.onExpandClicked('Gray Fill > Expand')\" expandable></PTableHead>\n              <PTableHead @select-changed=\"(value) => args.onSelectChanged('Gray Fill > Select', value)\" selectable></PTableHead>\n              <PTableHead @sort-changed=\"(direction) => args.onSortChanged('Gray Fill > Name', direction)\" @filter-clicked=\"(rect) => args.onFilterClicked('Gray Fill > Name', rect)\" sortable filterable>Name lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</PTableHead>\n              <PTableHead @sort-changed=\"(direction) => args.onSortChanged('Gray Fill > Email', direction)\" sortable>Email</PTableHead>\n              <PTableHead @filter-clicked=\"(rect) => args.onFilterClicked('Gray Fill > Phone', rect)\" filterable filtered>Phone</PTableHead>\n            </PTableRow>\n          </PTableHeader>\n          <PTableBody>\n            <PTableRow>\n              <PTableCell><PButton v-bind=\"buttonProps\" icon=\"chevron-right\"></PButton></PTableCell>\n              <PTableCell><PCheckbox /></PTableCell>\n              <PTableCell><PTypography>John Doe</PTypography></PTableCell>\n              <PTableCell><PTypography>john.doe@example.com</PTypography></PTableCell>\n              <PTableCell><PTypography>1234567890</PTypography></PTableCell>\n            </PTableRow>\n            <PTableRow>\n              <PTableCell><PButton v-bind=\"buttonProps\" icon=\"chevron-right\"></PButton></PTableCell>\n              <PTableCell><PCheckbox /></PTableCell>\n              <PTableCell><PTypography>Jane Doe</PTypography></PTableCell>\n              <PTableCell><PTypography>jane.doe@example.com</PTypography></PTableCell>\n              <PTableCell><PTypography>0987654321</PTypography></PTableCell>\n            </PTableRow>\n          </PTableBody>\n        </PTable>\n        <br />\n        <PTypography variant=\"h2\">Blue Border - {{ args.size || 'Default Size' }}</PTypography>\n        <PTable>\n          <PTableHeader variant=\"blue-border\" :size=\"args.size\">\n            <PTableRow>\n              <PTableHead></PTableHead>\n              <PTableHead @sort-changed=\"(direction) => args.onSortChanged('Blue Border > Name', direction)\" @filter-clicked=\"(rect) => args.onFilterClicked('Blue Border > Name', rect)\" sortable filterable>Name</PTableHead>\n              <PTableHead @sort-changed=\"(direction) => args.onSortChanged('Blue Border > Email', direction)\" sortable>Email</PTableHead>\n              <PTableHead @filter-clicked=\"(rect) => args.onFilterClicked('Blue Border > Phone', rect)\" filterable filtered>Phone</PTableHead>\n              <PTableHead></PTableHead>\n            </PTableRow>\n          </PTableHeader>\n          <PTableBody>\n            <PTableRow>\n              <PTableCell><PButton v-bind=\"buttonProps\" icon=\"draggable\"></PButton></PTableCell>\n              <PTableCell><PTypography>John Doe</PTypography></PTableCell>\n              <PTableCell><div class=\"flex items-center gap-1\"><PTypography>john.doe@example.com</PTypography> <PIcon name=\"email\" size=\"small\" class=\"ml-auto\"/></div></PTableCell>\n              <PTableCell @click=\"args.onCellClick('1234567890')\"><div class=\"flex items-center gap-1\"><PIcon name=\"phone\" size=\"small\" /><PTypography component=\"span\">1234567890</PTypography></div></PTableCell>\n              <PTableCell><PButton v-for=\"action in actions\" :key=\"action.label\" v-bind=\"buttonProps\" :icon=\"action.icon\" @click=\"action.onClick\"></PButton></PTableCell>\n            </PTableRow>\n            <PTableRow>\n              <PTableCell><PButton v-bind=\"buttonProps\" icon=\"draggable\"></PButton></PTableCell>\n              <PTableCell><PTypography>Jane Doe</PTypography></PTableCell>\n              <PTableCell><PTypography>jane.doe@example.com</PTypography></PTableCell>\n              <PTableCell><PTypography>0987654321</PTypography></PTableCell>\n              <PTableCell><PButton v-bind=\"buttonProps\" icon=\"overflow-menu-vertical\" @click=\"args.onOverflowMenuClick(actionsBig)\"></PButton></PTableCell>\n            </PTableRow>\n          </PTableBody>\n        </PTable>\n      </CardContent>\n    </Card>",
+      "tags": []
+    },
+    {
+      "id": "components-ptextarea--default",
+      "storyId": "components-ptextarea--default",
+      "storyName": "Default",
+      "componentName": "PTextArea",
+      "sourceFile": "src/components/PTextArea/PTextArea.stories.ts",
+      "args": {
+        "defaultValue": "Hello, world!",
+        "placeholder": "Enter your name",
+        "label": "Text area label",
+        "id": "text-area",
+        "required": false,
+        "disabled": false,
+        "error": false,
+        "size": "medium",
+        "maxLength": 100,
+        "helperText": "Helper text",
+        "errorText": "Error text"
+      },
+      "codeSnippet": "<PTextArea\n  id=\"notes\"\n  label=\"Notes\"\n  placeholder=\"Add any extra details\"\n  helperText=\"You can include up to 100 characters\"\n  :max-length=\"100\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-ptextinput--default",
+      "storyId": "components-ptextinput--default",
+      "storyName": "Default",
+      "componentName": "PTextInput",
+      "sourceFile": "src/components/PTextInput/PTextInput.stories.ts",
+      "args": {
+        "defaultValue": "Hello, world!",
+        "placeholder": "Enter your name",
+        "label": "Input label",
+        "id": "input",
+        "required": false,
+        "disabled": false,
+        "error": false,
+        "size": "medium",
+        "helperText": "Helper text",
+        "errorText": "Error text"
+      },
+      "codeSnippet": "<PTextInput\n  id=\"name\"\n  label=\"Full name\"\n  placeholder=\"Enter your name\"\n  helperText=\"Use your legal name\"\n/>",
+      "tags": []
+    },
+    {
+      "id": "components-ptextinput--withiconleft",
+      "storyId": "components-ptextinput--withiconleft",
+      "storyName": "WithIconLeft",
+      "componentName": "PTextInput",
+      "sourceFile": "src/components/PTextInput/PTextInput.stories.ts",
+      "args": {
+        "iconLeft": {
+          "name": "star-filled"
+        }
+      },
+      "tags": []
+    },
+    {
+      "id": "components-ptextinput--withiconright",
+      "storyId": "components-ptextinput--withiconright",
+      "storyName": "WithIconRight",
+      "componentName": "PTextInput",
+      "sourceFile": "src/components/PTextInput/PTextInput.stories.ts",
+      "args": {
+        "iconRight": {
+          "name": "star-filled"
+        }
+      },
+      "tags": []
+    },
+    {
+      "id": "components-ptoast--allvariants",
+      "storyId": "components-ptoast--allvariants",
+      "storyName": "AllVariants",
+      "componentName": "PToast",
+      "sourceFile": "src/components/PToast/PToast.stories.ts",
+      "args": {},
+      "codeSnippet": "<div class=\"flex h-[calc(100vh-2rem)]\" :class=\"positionClass\">\n    <div class=\"flex gap-2\">\n      <PButton @click=\"triggerSuccess\" variant=\"success\">Success Toast</PButton>\n      <PButton @click=\"triggerError\" variant=\"error\">Error Toast</PButton>\n      <PButton @click=\"triggerInfo\" variant=\"primary\">Info Toast</PButton>\n      <PButton @click=\"triggerWarning\" variant=\"warning\">Warning Toast</PButton>\n      <PButton @click=\"triggerNeutral\" variant=\"neutral\">Neutral Toast</PButton>\n    </div>\n  </div>\n  <PToast v-bind=\"args\" />",
+      "tags": []
+    },
+    {
+      "id": "components-ptoast--default",
+      "storyId": "components-ptoast--default",
+      "storyName": "Default",
+      "componentName": "PToast",
+      "sourceFile": "src/components/PToast/PToast.stories.ts",
+      "args": {
+        "title": "Toast Title",
+        "description": "Toast Description",
+        "variant": "info",
+        "appearance": "contained",
+        "hideIcon": false
+      },
+      "codeSnippet": "<script setup lang=\"ts\">\nfunction triggerToast() {\n  showToast({\n    title: 'Toast title',\n    description: 'Toast description',\n    variant: 'info',\n    appearance: 'contained',\n    hideIcon: false,\n    dismissible: false,\n  })\n}\n</script>\n\n<template>\n  <PButton @click=\"triggerToast\">Show toast</PButton>\n  <PToast position=\"bottom-center\" :expand=\"false\" :visible-toasts=\"3\" />\n</template>",
+      "tags": []
+    },
+    {
+      "id": "components-ptoast--withactionbutton",
+      "storyId": "components-ptoast--withactionbutton",
+      "storyName": "WithActionButton",
+      "componentName": "PToast",
+      "sourceFile": "src/components/PToast/PToast.stories.ts",
+      "args": {},
+      "codeSnippet": "<div class=\"flex h-[calc(100vh-2rem)]\" :class=\"positionClass\">\n    <div class=\"flex gap-2\">\n      <PButton @click=\"triggerSuccess\" variant=\"success\">Success Toast</PButton>\n      <PButton @click=\"triggerError\" variant=\"error\">Error Toast</PButton>\n      <PButton @click=\"triggerInfo\" variant=\"primary\">Info Toast</PButton>\n      <PButton @click=\"triggerWarning\" variant=\"warning\">Warning Toast</PButton>\n      <PButton @click=\"triggerNeutral\" variant=\"neutral\">Neutral Toast</PButton>\n    </div>\n  </div>\n  <PToast v-bind=\"args\" />",
+      "tags": []
+    },
+    {
+      "id": "components-ptooltip--default",
+      "storyId": "components-ptooltip--default",
+      "storyName": "Default",
+      "componentName": "PTooltip",
+      "sourceFile": "src/components/PTooltip/PTooltip.stories.ts",
+      "args": {
+        "open": true,
+        "direction": "none",
+        "disabled": true,
+        "disableClosingTrigger": true
+      },
+      "codeSnippet": "<PTooltip direction=\"top\">\n  <template #tooltip-trigger>\n    <PButton variant=\"primary\" appearance=\"contained\">\n      Hover me\n    </PButton>\n  </template>\n\n  <template #tooltip-content>\n    <div class=\"flex items-center gap-1\">\n      <PIcon name=\"information-filled\" size=\"small\" />\n      <p>Tooltip</p>\n    </div>\n  </template>\n</PTooltip>",
+      "tags": []
+    },
+    {
+      "id": "components-ptooltip--examples",
+      "storyId": "components-ptooltip--examples",
+      "storyName": "Examples",
+      "componentName": "PTooltip",
+      "sourceFile": "src/components/PTooltip/PTooltip.stories.ts",
+      "args": {},
+      "tags": []
+    },
+    {
+      "id": "components-ptypography--default",
+      "storyId": "components-ptypography--default",
+      "storyName": "Default",
+      "componentName": "PTypography",
+      "sourceFile": "src/components/PTypography/PTypography.stories.ts",
+      "args": {},
+      "codeSnippet": "<PTypography variant=\"body1\">\n  Lorem ipsum dolor sit amet consectetur adipisicing elit.\n</PTypography>",
+      "tags": []
+    }
+  ]
+}

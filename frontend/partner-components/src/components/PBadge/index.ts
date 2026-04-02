@@ -7,7 +7,7 @@ const variants = {
   error: 'bg-partner-red-7',
   warning: 'bg-partner-yellow-7',
   success: 'bg-partner-green-7',
-  neutral: 'bg-partner-gray-7',
+  neutral: 'bg-partner-gray-7 text-partner-white',
 } as const
 
 const appearances = {
@@ -16,7 +16,7 @@ const appearances = {
 } as const
 
 export const badgeVariants = cva(
-  'rounded-full flex items-center justify-center text-partner-white bg-partner-gray-5 select-none',
+  'partner-preflight rounded-full flex items-center justify-center text-(--partner-primary-contrast) bg-partner-gray-5 select-none',
   {
     variants: {
       variant: variants,

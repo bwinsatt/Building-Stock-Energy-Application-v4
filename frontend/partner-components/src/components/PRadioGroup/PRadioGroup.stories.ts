@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { action } from 'storybook/actions'
+import { radioGroupVariantOptions } from './index'
 import PRadioGroup from './PRadioGroup.vue'
-import PRadioGroupItem from './PRadioGroupItem.vue'
 import { sizeOptions } from '@/types/size'
 
 const meta: Meta<typeof PRadioGroup> = {
@@ -32,6 +32,11 @@ const meta: Meta<typeof PRadioGroup> = {
     modelValue: {
       control: 'text',
       description: 'The model value for the radio group',
+    },
+    variant: {
+      control: 'select',
+      options: radioGroupVariantOptions,
+      description: 'RadioGroup variant',
     },
     size: {
       control: 'select',
@@ -76,13 +81,70 @@ export default meta
 
 export const Default: StoryObj<typeof PRadioGroup> = {
   render: (args) => ({
-    components: { PRadioGroup, PRadioGroupItem },
+    components: { PRadioGroup },
     setup() {
       const updateModelValue = action('update:modelValue')
       return { args, updateModelValue }
     },
     template: `
-      <PRadioGroup v-bind="args" @update:modelValue="updateModelValue">
+      <PRadioGroup
+        v-bind="args"
+        @update:modelValue="updateModelValue"
+      />
+    `,
+  }),
+}
+
+export const RatingVariantLabel: StoryObj<typeof PRadioGroup> = {
+  name: 'Rating variant (with labels)',
+  args: {
+    variant: 'rating',
+    options: [
+      { id: '1', value: '1', label: 'Poor' },
+      { id: '2', value: '2', label: 'Average', disabled: true },
+      { id: '3', value: '3', label: 'Excellent' },
+    ],
+    selected: '3',
+    orientation: 'horizontal',
+  },
+  render: (args) => ({
+    components: { PRadioGroup },
+    setup() {
+      const updateModelValue = action('update:modelValue')
+      return { args, updateModelValue }
+    },
+    template: `
+      <PRadioGroup
+        v-bind="args"
+        @update:modelValue="updateModelValue"
+      />
+    `,
+  }),
+}
+
+export const RatingVariantNoLabel: StoryObj<typeof PRadioGroup> = {
+  name: 'Rating variant (no labels)',
+  args: {
+    variant: 'rating',
+    options: [
+      { id: '1', value: '1' },
+      { id: '2', value: '2', disabled: true },
+      { id: '3', value: '3' },
+    ],
+    selected: '3',
+    orientation: 'horizontal',
+  },
+  render: (args) => ({
+    components: { PRadioGroup },
+    setup() {
+      const updateModelValue = action('update:modelValue')
+      return { args, updateModelValue }
+    },
+    template: `
+      <PRadioGroup
+        v-bind="args"
+        @update:modelValue="updateModelValue"
+      />
     `,
   }),
 }

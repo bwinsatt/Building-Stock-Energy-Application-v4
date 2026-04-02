@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import '@/styles/global.css'
 import { computed, type HTMLAttributes, type ComputedRef } from 'vue'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/shadcn/ui/popover'
-import { PopoverArrow, PopoverClose } from 'reka-ui'
+import { Popover, PopoverTrigger } from '@/components/shadcn/ui/popover'
+import { PopoverArrow, PopoverClose, PopoverContent, PopoverPortal } from 'reka-ui'
 import { useTestId } from '@/composables/useTestId'
 import { PButton } from '@/components/PButton'
 import { cn } from '@/lib/utils'
@@ -49,45 +49,50 @@ const direction = computed(() => {
   <Popover
     :default-open="props.defaultOpen"
     :open="props.open"
+    class="partner-preflight"
     @update:open="emits('update:open', $event)"
   >
     <PopoverTrigger as-child>
       <slot name="trigger" />
     </PopoverTrigger>
-    <PopoverContent
-      v-bind="testIdAttrs"
-      :side="direction || 'bottom'"
-      :side-offset="props.offset"
-      :style="{
-        '--popover-open-duration': `${props.openDuration}ms`,
-        '--popover-close-duration': `${props.closeDuration}ms`,
-      }"
-      :class="cn('p-2 border-none shadow-md rounded-md bg-(--partner-background-popover)', 
-                 `data-[state=open]:duration-(--popover-open-duration) data-[state=closed]:duration-(--popover-close-duration)`,
-                 props.class)"
-    >
-      <PopoverClose
-        v-if="props.showClose"
-        as-child
-        :class="cn('absolute top-2 right-2')"
+    <PopoverPortal>
+      <PopoverContent
+        v-bind="testIdAttrs"
+        :side="direction || 'bottom'"
+        :side-offset="props.offset"
+        :style="{
+          '--popover-open-duration': `${props.openDuration}ms`,
+          '--popover-close-duration': `${props.closeDuration}ms`,
+        }"
+        :class="cn(
+          'partner-preflight',
+          'z-(--partner-z-overlay-100) p-2 border-1 border-(--partner-background-white) dark:border-(--partner-border-light) shadow-md rounded-md bg-(--partner-background-white)',
+          `data-[state=open]:duration-(--popover-open-duration) data-[state=closed]:duration-(--popover-close-duration)`,
+          props.class)"
       >
-        <slot name="close">
-          <PButton
-            name="close"
-            variant="neutral"
-            appearance="text"
-            icon="close"
-            :icon-button="true"
-          />
-        </slot>
-      </PopoverClose>
-      <PopoverArrow 
-        v-if="props.showArrow"
-        :width="10"
-        :height="5"
-        class="fill-(--partner-background-popover) drop-shadow-md"
-      />
-      <slot name="content" />
-    </PopoverContent>
+        <PopoverClose
+          v-if="props.showClose"
+          as-child
+          :class="cn('absolute top-2 right-2')"
+        >
+          <slot name="close">
+            <PButton
+              name="close"
+              variant="neutral"
+              appearance="text"
+              icon="close"
+              :icon-button="true"
+            />
+          </slot>
+        </PopoverClose>
+        <PopoverArrow 
+          v-if="props.showArrow"
+          :width="10"
+          :height="5"
+          class="fill-(--partner-background-white) dark:fill-(--partner-border-light) drop-shadow-md"
+        />
+        <slot name="content" />
+      </PopoverContent>
+    </PopoverPortal>
   </Popover>
 </template>

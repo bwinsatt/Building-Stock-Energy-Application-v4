@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { action } from 'storybook/actions'
 import { PSearchBar } from './index'
 import { sizeOptions } from '@/types/size'
 
@@ -27,15 +28,13 @@ const meta: Meta<typeof PSearchBar> = {
       options: sizeOptions,
       description: 'The size of the search bar',
     },
-    'onSearch': {
-      type: 'function',
-      args: 'payload: string | number',
-      description: 'The function to call when the search is performed',
+    maxLength: {
+      control: 'number',
+      description: 'The maximum length for the search bar input',
     },
-    'onUpdate:modelValue': {
-      type: 'function',
-      args: 'payload: string | number',
-      description: 'The function to call when the model value is updated',
+    debounce: {
+      control: 'number',
+      description: 'The delay for debouncing the search bar input value',
     },
   },
 }
@@ -44,6 +43,20 @@ export default meta
 
 type Story = StoryObj<typeof PSearchBar>
 
+const defaultExportableCode = `<script setup lang="ts">
+import { ref } from 'vue'
+
+const query = ref('')
+</script>
+
+<template>
+  <PSearchBar
+    v-model="query"
+    placeholder="Search users"
+    size="medium"
+  />
+</template>`
+
 export const Default: Story = {
   args: {
     defaultValue: '',
@@ -51,4 +64,18 @@ export const Default: Story = {
     disabled: false,
     size: 'medium',
   },
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
+  render: (args) => ({
+    components: { PSearchBar },
+    setup() {
+      const onClear = action('clear')
+      const onUpdateModelValue = action('update:modelValue')
+      const onUpdateDebouncedValue = action('update:debouncedValue')
+      const onSearch = action('search')
+      return { args, onClear, onUpdateModelValue, onUpdateDebouncedValue, onSearch }
+    },
+    template: `<PSearchBar v-bind="args" @clear="onClear" @update:modelValue="onUpdateModelValue" @update:debouncedValue="onUpdateDebouncedValue" @search="onSearch" />`,
+  }),
 }

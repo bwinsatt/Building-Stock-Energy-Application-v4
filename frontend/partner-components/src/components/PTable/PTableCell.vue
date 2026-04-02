@@ -45,7 +45,7 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <TableCell
-    :class="cn('p-3 partner-body1', componentSpecificClasses, clickableClass, truncateClass, props.class)"
+    :class="cn('partner-preflight p-3 partner-body1', componentSpecificClasses, clickableClass, truncateClass, props.class)"
     v-bind="testIdAttrs"
     @click.stop="emits('click', $event)"
   >

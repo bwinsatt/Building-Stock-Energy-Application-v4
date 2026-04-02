@@ -52,7 +52,7 @@ provide('resetOtherSorts', props.singleSort ? resetOtherSorts : undefined)
 
 <template>
   <TableHeader
-    :class="cn(variantClass, props.class)"
+    :class="cn('partner-preflight', variantClass, props.class)"
     v-bind="testIdAttrs"
   >
     <slot />

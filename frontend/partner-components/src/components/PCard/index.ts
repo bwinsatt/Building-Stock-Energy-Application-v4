@@ -1,0 +1,1 @@
+export { default as PCard, type PCardProps } from './PCard.vue'

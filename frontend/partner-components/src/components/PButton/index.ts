@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority"
 export { default as PButton, type PButtonProps, type PButtonEmits } from "./PButton.vue"
 
 export const buttonVariants = cva(
-  "cursor-pointer w-fit inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-100 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "partner-preflight cursor-pointer w-fit inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-100 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -18,10 +18,10 @@ export const buttonVariants = cva(
         white: "",
       },
       appearance: {
-        contained: "",
-        outlined: "bg-transparent border",
+        contained: "disabled:text-(--partner-text-white)",
+        outlined: "bg-transparent border bg-(--partner-background-white)",
         text: "bg-transparent border-transparent shadow-none",
-        link: "bg-transparent border-transparent shadow-none hover:bg-transparent active:bg-transparent",
+        link: "rounded-none bg-transparent border-transparent shadow-none hover:bg-transparent active:bg-transparent !size-fit !p-0 hover:shadow-[0_1px_0_0_currentColor]",
       },
       size: {
         "small": "button-small h-6 gap-1 px-2 py-0 has-[>svg]:p-0",
@@ -60,7 +60,7 @@ export const buttonVariants = cva(
       {
         variant: ["default", "primary"],
         appearance: "outlined",
-        class: "text-(--partner-primary-main) disabled:text-(--partner-action-disabled) border-(--partner-primary-outlined-border) bg-(--partner-primary-contrast) hover:bg-(--partner-primary-outlined-hovered) active:bg-(--partner-primary-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
+        class: "text-(--partner-primary-main) disabled:text-(--partner-action-disabled) border-(--partner-primary-outlined-border) hover:bg-(--partner-primary-outlined-hovered) active:bg-(--partner-primary-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
       },
       {
         variant: ["default", "primary"],
@@ -83,7 +83,7 @@ export const buttonVariants = cva(
       {
         variant: "secondary",
         appearance: "outlined",
-        class: "text-(--partner-secondary-main) disabled:text-(--partner-action-disabled) border-(--partner-secondary-outlined-border) bg-(--partner-secondary-contrast) hover:bg-(--partner-secondary-outlined-hovered) active:bg-(--partner-secondary-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
+        class: "text-(--partner-secondary-main) disabled:text-(--partner-action-disabled) border-(--partner-secondary-outlined-border) hover:bg-(--partner-secondary-outlined-hovered) active:bg-(--partner-secondary-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
       },
       {
         variant: "secondary",
@@ -106,7 +106,7 @@ export const buttonVariants = cva(
       {
         variant: "error",
         appearance: "outlined",
-        class: "text-(--partner-error-main) disabled:text-(--partner-action-disabled) border-(--partner-error-outlined-border) bg-(--partner-error-contrast) hover:bg-(--partner-error-outlined-hovered) active:bg-(--partner-error-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
+        class: "text-(--partner-error-main) disabled:text-(--partner-action-disabled) border-(--partner-error-outlined-border) hover:bg-(--partner-error-outlined-hovered) active:bg-(--partner-error-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
       },
       {
         variant: "error",
@@ -129,7 +129,7 @@ export const buttonVariants = cva(
       {
         variant: "warning",
         appearance: "outlined",
-        class: "text-(--partner-warning-main) disabled:text-(--partner-action-disabled) border-(--partner-warning-outlined-border) bg-(--partner-warning-contrast) hover:bg-(--partner-warning-outlined-hovered) active:bg-(--partner-warning-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
+        class: "text-(--partner-warning-main) disabled:text-(--partner-action-disabled) border-(--partner-warning-outlined-border) hover:bg-(--partner-warning-outlined-hovered) active:bg-(--partner-warning-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
       },
       {
         variant: "warning",
@@ -152,7 +152,7 @@ export const buttonVariants = cva(
       {
         variant: "success",
         appearance: "outlined",
-        class: "text-(--partner-success-main) disabled:text-(--partner-action-disabled) border-(--partner-success-outlined-border) bg-(--partner-success-contrast) hover:bg-(--partner-success-outlined-hovered) active:bg-(--partner-success-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
+        class: "text-(--partner-success-main) disabled:text-(--partner-action-disabled) border-(--partner-success-outlined-border) hover:bg-(--partner-success-outlined-hovered) active:bg-(--partner-success-outlined-hover-pressed) disabled:border-(--partner-action-disabled)",
       },
       {
         variant: "success",
@@ -166,8 +166,12 @@ export const buttonVariants = cva(
       },
       /**
        * Neutral
-       * Does not have a defined contained appearance in the design system
        */
+      {
+        variant: "neutral",
+        appearance: "contained",
+        class: "text-(--partner-text-white) bg-(--partner-inherit-black-main) hover:bg-(--partner-inherit-black-light) active:bg-(--partner-inherit-black-dark) disabled:bg-(--partner-inherit-black-disabled)",
+      },
       {
         variant: "neutral",
         appearance: "outlined",
@@ -181,12 +185,16 @@ export const buttonVariants = cva(
       {
         variant: "neutral",
         appearance: "link",
-        class: "text-partner dark:disabled:opacity-50 disabled:text-(--partner-inherit-disabled) hover:text-(--partner-inherit-border) active:text-(--partner-inherit-main)",
+        class: "text-partner dark:disabled:opacity-50 disabled:text-(--partner-inherit-disabled) hover:text-(--partner-text-secondary) active:text-(--partner-inherit-main)",
       },
       /**
        * White
-       * Does not have a defined contained appearance in the design system
        */
+      {
+        variant: "white",
+        appearance: "contained",
+        class: "text-(--partner-black) bg-(--partner-inherit-white-main) hover:bg-(--partner-inherit-white-light) active:bg-(--partner-inherit-white-dark) disabled:bg-(--partner-inherit-white-disabled)",
+      },
       {
         variant: "white",
         appearance: "outlined",

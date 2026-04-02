@@ -26,7 +26,7 @@ const maxVisible = computed(() => Math.min(Math.abs(props.maxVisible), 4)) as Co
 
 const { testIdAttrs } = useTestId()
 
-const zClasses = ['z-50','z-40','z-30','z-20','z-10','z-0'] as const
+const zClasses = ['z-5','z-4','z-3','z-2','z-1','z-0'] as const
 const stackClass = (index: number) => zClasses.slice(props.avatars.length - maxVisible.value, props.avatars.length)[index] ?? 'z-0'
 
 const titleOverflowText = computed(() => `${props.avatars.slice(maxVisible.value).map(avatar => avatar.name).join('\n')}`) as ComputedRef<string>
@@ -45,7 +45,7 @@ const spacingClass = computed(() => {
 <template>
   <div
     v-bind="testIdAttrs"
-    :class="cn('flex flex-row', spacingClass, props.class)"
+    :class="cn('partner-preflight flex flex-row', spacingClass, props.class)"
   >
     <slot
       v-for="(avatar, index) in props.avatars.slice(0, maxVisible)"

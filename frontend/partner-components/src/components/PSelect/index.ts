@@ -1,0 +1,1 @@
+export { default as PSelect, type PSelectProps, type PSelectEmits } from './PSelect.vue'

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import '@/styles/global.css'
-import type { TypographyProps, TypographyComponent } from './types'
+import type { PTypographyProps, PTypographyComponent } from './types'
 import { computed, inject, onMounted, ref, type ComputedRef } from 'vue'
 import { useTestId } from '@/composables/useTestId'
 import { cn } from '@/lib/utils'
+import { PTooltip } from '@/components/PTooltip'
 
 // This is a map of typography variants to the corresponding HTML tags, when component is not provided
 const VariantMap = {
@@ -14,7 +15,7 @@ const VariantMap = {
 }
 const AlignMap = {inherit: '', center: 'text-center', justify: 'text-justify', left: 'text-left', right: 'text-right'}
 
-const props = withDefaults(defineProps<TypographyProps>(), {
+const props = withDefaults(defineProps<PTypographyProps>(), {
   variant: 'body1',
   align: 'inherit',
   component: undefined,
@@ -29,8 +30,17 @@ const parentTruncate = inject<boolean>('truncate', props.truncate)
 const elementRef = ref<HTMLElement>()
 const textContent = ref('')
 
-// Read text content after mount
+// Truncation observer logic
+const isTruncated = ref(false)
+
+function updateTruncation() {
+  if (!shouldTruncate.value || !elementRef.value) return
+  textContent.value = elementRef.value.textContent || ''
+  isTruncated.value = elementRef.value.scrollWidth > elementRef.value.clientWidth
+}
+
 onMounted(() => {
+  // Read text content after mount
   if (elementRef.value) {
     textContent.value = elementRef.value.textContent || ''
   }
@@ -38,7 +48,7 @@ onMounted(() => {
 
 const componentTag = computed(() => {
   return props.component ? props.component : VariantMap[props.variant]
-}) as ComputedRef<TypographyComponent>
+}) as ComputedRef<PTypographyComponent>
 
 const variantClass = computed(() => {
   return `partner-${props.variant}`
@@ -69,14 +79,22 @@ const { testIdAttrs } = useTestId()
 </script>
 
 <template>
-  <component
-    :is="componentTag"
-    ref="elementRef"
-    :class="cn(variantClass, alignClass, noWrapClass, truncateClass, props.class)"
-    :aria-label="truncatedText"
-    :title="truncatedText"
-    v-bind="testIdAttrs"
-  >
-    <slot />
-  </component>
+  <PTooltip :disabled="!isTruncated">
+    <template #tooltip-trigger>
+      <component
+        :is="componentTag"
+        ref="elementRef"
+        :class="cn('partner-preflight', variantClass, alignClass, noWrapClass, truncateClass, props.class)"
+        :aria-label="truncatedText"
+        v-bind="testIdAttrs"
+        @mouseenter="updateTruncation"
+        @focusin="updateTruncation"
+      >
+        <slot />
+      </component>
+    </template>
+    <template #tooltip-content>
+      {{ truncatedText }}
+    </template>
+  </PTooltip>
 </template>

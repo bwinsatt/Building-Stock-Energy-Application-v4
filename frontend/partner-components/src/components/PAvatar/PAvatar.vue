@@ -3,7 +3,7 @@ import '@/styles/global.css'
 import { computed, ref, watch, type HTMLAttributes, type ComputedRef } from "vue"
 import { cn } from "@/lib/utils"
 import { PIcon, type PIconProps } from "@/components/PIcon"
-import { PTypography, type TypographyVariant } from "@/components/PTypography"
+import { PTypography, type PTypographyVariant } from "@/components/PTypography"
 import { useTestId } from '@/composables/useTestId'
 import { PTooltip, type TooltipDirections } from '@/components/PTooltip'
 import { PBadge, type BadgeVariants } from '@/components/PBadge'
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<PAvatarProps>(), {
 
 const { testIdAttrs } = useTestId()
 
-const borderClass = 'border-2 border-(--partner-white)'
+const borderClass = 'ring-2 ring-(--partner-background-white)'
 
 const roundedClass = computed(() => {
   return props.shape === 'square' ? 'rounded-sm' : 'rounded-full'
@@ -133,7 +133,7 @@ const typographyVariant = computed(() => {
     default:
       return 'body1'
   }
-}) as ComputedRef<TypographyVariant>
+}) as ComputedRef<PTypographyVariant>
 
 const initials = computed(() => {
   if (props.initials) return props.initials.toUpperCase()
@@ -162,7 +162,7 @@ watch(() => props.image, (url) => {
       <div 
         v-bind="{ ...testIdAttrs, ...$attrs }"
         :style="imageLoaded ? { backgroundImage: `url(${props.image})` } : undefined"
-        :class="cn('relative bg-partner-gray-5 select-none text-partner-white flex items-center justify-center bg-cover bg-center', 
+        :class="cn('partner-preflight relative bg-partner-gray-5 select-none text-partner-white flex items-center justify-center bg-cover bg-center', 
                    roundedClass, sizeClass, borderClass, props.class)"
       >
         <slot v-if="!imageLoaded">

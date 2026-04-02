@@ -57,7 +57,7 @@ const carbonIcon = computed(() => `carbon:${props.name}`)
   <div
     v-bind="testIdAttrs"
     :data-customiconfound="CustomIcon ? 'true' : 'false'"
-    :class="cn('inline-block align-middle', props.class)"
+    :class="cn('partner-preflight inline-block align-middle', props.class)"
   >
     <component
       :is="CustomIcon"

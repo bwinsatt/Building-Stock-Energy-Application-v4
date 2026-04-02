@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-17T17:05:00.000Z",
+  "mappings": [
+    {
+      "pattern": "Primary Button",
+      "mapsTo": {
+        "component": "PButton",
+        "variant": "primary",
+        "props": {
+          "appearance": "contained"
+        }
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Buttons/Main` page (`1:118` -> `11:622`), which names button variants with `Style=Primary` and `Type=Contained`. Use as the default mapping for the most prominent action in a section, form, or dialog.",
+      "ambiguityRules": [
+        "If the design reads as text-only emphasis rather than filled emphasis, map to `appearance=text` or `appearance=link` instead."
+      ],
+      "fallbackRules": [
+        "If no explicit color role is shown, prefer `variant=primary`."
+      ]
+    },
+    {
+      "pattern": "Secondary Button",
+      "mapsTo": {
+        "component": "PButton",
+        "variant": "secondary",
+        "props": {
+          "appearance": "contained"
+        }
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Buttons/Main` page, which names the second emphasis tier as `Style=Secondary`. Use when the design shows a branded secondary action rather than the primary blue action."
+    },
+    {
+      "pattern": "Text Button",
+      "mapsTo": {
+        "component": "PButton",
+        "variant": "primary",
+        "props": {
+          "appearance": "text"
+        }
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Buttons/Main` page, which uses `Type=Text` for low-emphasis button styling."
+    },
+    {
+      "pattern": "Link Button",
+      "mapsTo": {
+        "component": "PButton",
+        "variant": "primary",
+        "props": {
+          "appearance": "link"
+        }
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Button/Link` page, which separates true link patterns from button variants. Use when the design intention is link-like action styling rather than filled or outlined button chrome."
+    },
+    {
+      "pattern": "Style=Neutral, Type=Outlined|Text",
+      "mapsTo": {
+        "component": "PButton",
+        "variant": "neutral"
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Buttons/Main` page, which models the low-emphasis dark-surface-neutral variant as `Style=Neutral`."
+    },
+    {
+      "pattern": "Style=White, Type=Outlined|Text",
+      "mapsTo": {
+        "component": "PButton",
+        "variant": "white"
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Buttons/Main` page, which models white-on-dark button treatments as `Style=White`."
+    },
+    {
+      "pattern": "Icon Button=True",
+      "mapsTo": {
+        "component": "PButton",
+        "props": {
+          "iconButton": true
+        }
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Buttons/Main` page, which uses the boolean property `Icon Button=True` for icon-only button variants.",
+      "ambiguityRules": [
+        "Use only when the Figma variant explicitly indicates icon-only treatment.",
+        "If the icon appears alongside text, keep `iconButton=false` and use regular left or right icon placement."
+      ],
+      "fallbackRules": [
+        "Pair icon-only buttons with tooltip or accessible labeling when the action meaning is not obvious."
+      ]
+    },
+    {
+      "pattern": "Status Badge",
+      "mapsTo": {
+        "component": "PBadge"
+      },
+      "confidence": "high",
+      "notes": "Preferred mapping for compact status, count, or semantic label treatment.",
+      "ambiguityRules": [
+        "If the chip appears dismissible or selection-oriented rather than purely informative, consider `PChip` instead."
+      ]
+    },
+    {
+      "pattern": "Text Field",
+      "mapsTo": {
+        "component": "PTextInput"
+      },
+      "confidence": "high",
+      "notes": "Preferred single-line form-field mapping when the design includes label, helper text, or validation messaging.",
+      "ambiguityRules": [
+        "If the field is clearly a search surface, prefer `PSearchBar`.",
+        "If the field is multi-line, prefer `PTextArea`."
+      ]
+    },
+    {
+      "pattern": "Input + label + helper",
+      "mapsTo": {
+        "component": "PTextInput"
+      },
+      "confidence": "high",
+      "notes": "Use built-in `label`, `helperText`, and `errorText` props before composing a separate field wrapper."
+    },
+    {
+      "pattern": "Textarea",
+      "mapsTo": {
+        "component": "PTextArea"
+      },
+      "confidence": "high",
+      "notes": "Use for notes, descriptions, comments, and other multi-line authored text."
+    },
+    {
+      "pattern": "Search Field",
+      "mapsTo": {
+        "component": "PSearchBar"
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma icon and component system, which includes a dedicated `Search` icon and search-field usage separate from generic input entry."
+    },
+    {
+      "pattern": "Dropdown / Select Field",
+      "mapsTo": {
+        "component": "PSelect"
+      },
+      "confidence": "high",
+      "notes": "Preferred mapping for labeled form-field selection with single or multi-select behavior.",
+      "ambiguityRules": [
+        "If the design looks like a compact trigger-driven filter menu rather than a form field, prefer `PSelectMenu`.",
+        "If the design includes search, checkbox items, `Select All`, or Clear/Apply actions inside an overlay, do not map it to `PSelect`; prefer `PSelectMenu`."
+      ]
+    },
+    {
+      "pattern": "Filter Menu / Select Menu",
+      "mapsTo": {
+        "component": "PSelectMenu"
+      },
+      "confidence": "high",
+      "notes": "Preferred mapping for toolbar or filter-trigger overlays with single or multi-selection. This includes Figma nodes that may still be named generically as `Menu` when the behavior is selection-oriented rather than action-oriented.",
+      "ambiguityRules": [
+        "If the node lives on the shared Figma `Menu` page, choose `PSelectMenu` when the content shows search, checkbox rows, `Select All`, secondary text for options, or footer actions like Clear and Apply.",
+        "Do not collapse these patterns into `PMenu` just because the surrounding Figma page or frame uses the word `Menu`."
+      ]
+    },
+    {
+      "pattern": "Action Menu / Dropdown Menu",
+      "mapsTo": {
+        "component": "PMenu"
+      },
+      "confidence": "high",
+      "notes": "Use for action lists and flexible dropdown content, especially when the content is not a form field.",
+      "ambiguityRules": [
+        "If the design is primarily about choosing one or more options rather than triggering actions, prefer `PSelectMenu` even if the Figma node is named `Menu`.",
+        "Reserve `PMenu` for generic actions, nested action menus, or arbitrary dropdown content without select-menu affordances."
+      ]
+    },
+    {
+      "pattern": "Checkbox",
+      "mapsTo": {
+        "component": "PCheckbox"
+      },
+      "confidence": "high",
+      "notes": "Preferred mapping for single boolean or tri-state selection controls."
+    },
+    {
+      "pattern": "Checkbox Group",
+      "mapsTo": {
+        "component": "PCheckboxGroup"
+      },
+      "confidence": "high",
+      "notes": "Use when the design shows several related checkbox options under one label or validation message."
+    },
+    {
+      "pattern": "Tooltip / Hover Help",
+      "mapsTo": {
+        "component": "PTooltip"
+      },
+      "confidence": "high",
+      "notes": "Use for short explanatory content only."
+    },
+    {
+      "pattern": "Popover / Info Panel",
+      "mapsTo": {
+        "component": "PPopover"
+      },
+      "confidence": "high",
+      "notes": "Use when the overlay content is richer than tooltip copy and may include sections or actions."
+    },
+    {
+      "pattern": "Avatar",
+      "mapsTo": {
+        "component": "PAvatar"
+      },
+      "confidence": "high",
+      "notes": "Use for single-person identity markers with image, initials, or status badge support."
+    },
+    {
+      "pattern": "Avatar Stack / Participant Group",
+      "mapsTo": {
+        "component": "PAvatarGroup"
+      },
+      "confidence": "high",
+      "notes": "Use when several identities need to be shown compactly with overflow handling."
+    },
+    {
+      "pattern": "Page Shell / Workspace Layout",
+      "mapsTo": {
+        "component": "PLayout",
+        "composition": [
+          "PLayoutGrid",
+          "PLayoutGridItem"
+        ]
+      },
+      "confidence": "medium",
+      "notes": "Preferred mapping for full-page Partner layouts with header, side panels, and grid-aligned body content.",
+      "ambiguityRules": [
+        "If the design is only a local section or card layout, do not force `PLayout`."
+      ]
+    },
+    {
+      "pattern": "Data Table",
+      "mapsTo": {
+        "component": "PTable",
+        "composition": [
+          "PTableHeader",
+          "PTableHead",
+          "PTableRow",
+          "PTableCell"
+        ]
+      },
+      "confidence": "high",
+      "notes": "Use for semantic tabular data with optional empty, caption, footer, and sorting states."
+    },
+    {
+      "pattern": "Text / Label / Small",
+      "mapsTo": {
+        "component": "PTypography",
+        "variant": "inputLabel"
+      },
+      "confidence": "medium",
+      "notes": "Use `PTypography` when the Figma layer clearly reflects Partner typography tokens rather than a full interactive component.",
+      "ambiguityRules": [
+        "If the text is helper or validation copy, prefer `variant=helperText`.",
+        "If the label belongs to a `PTextInput` or `PTextArea`, use the built-in label prop instead of composing a separate visible label unless the layout demands it."
+      ]
+    },
+    {
+      "pattern": "h1|h2|h3|h4|h5|headline 1|headline 2|headline 3|body 1|body 2|Button Large|Button Medium|Button Small|inputText|inputLabel|helperText|SUBHEAD|tooltip",
+      "mapsTo": {
+        "component": "PTypography"
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Typography` page (`10:8314`), which confirms the design-system style names and their direct correspondence to the Partner typography variants."
+    },
+    {
+      "pattern": "Logo=* , Favicon=* , Brands=*",
+      "mapsTo": {
+        "component": "PLogo"
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Logo` page (`127:21`), which models logos as variants over `Logo`, `Favicon`, and `Brands`. Use `PLogo` rather than hard-coding image assets.",
+      "ambiguityRules": [
+        "Prefer the favicon treatment only when the Figma variant explicitly sets `Favicon=True`.",
+        "Map the design-system logo name to the nearest approved `logoName` in the codebase rather than inventing a new asset key."
+      ]
+    },
+    {
+      "pattern": "IBM Icons / named icon tiles",
+      "mapsTo": {
+        "component": "PIcon"
+      },
+      "confidence": "high",
+      "notes": "Grounded in the Figma `Icon` page (`1:120` -> `9:5113`), which treats icons as fixed-size assets used inside larger components rather than standalone interactive elements.",
+      "fallbackRules": [
+        "If a specific named Partner icon is not available in the codebase, allow `PIcon` to fall back to the Carbon set rather than creating a custom SVG immediately."
+      ]
+    },
+    {
+      "pattern": "--partner-primary-*|--partner-secondary-*|system color tokens",
+      "mapsTo": {
+        "component": "PTypography"
+      },
+      "confidence": "medium",
+      "notes": "Grounded in the Figma `Colors` page (`1:117` -> `7:1191`), which confirms that color roles are token-driven. Agents should prefer token-backed component variants and CSS variables instead of hard-coded values.",
+      "ambiguityRules": [
+        "Treat these as styling-token references, not direct component mappings."
+      ]
+    },
+    {
+      "pattern": "shadow-none|shadow-sm|shadow-md|shadow-lg",
+      "mapsTo": {
+        "component": "PPopover"
+      },
+      "confidence": "medium",
+      "notes": "Grounded in the Figma `Shadow Effects` page (`1:157` -> `13:1001`), which maps `shadow-sm` to tooltips, `shadow-md` to cards and dropdowns, and `shadow-lg` to large modals and side panels. Prefer component defaults that already align before adding manual shadow overrides.",
+      "ambiguityRules": [
+        "Treat shadows as token guidance, not as a reason to create a custom component variant."
+      ]
+    },
+    {
+      "pattern": "radius-none|radius-sm|radius-md|radius-lg|radius-full",
+      "mapsTo": {
+        "component": "PButton"
+      },
+      "confidence": "medium",
+      "notes": "Grounded in the Figma `Radius` page (`12:861` -> `12:869`), which confirms `radius-sm` for buttons, inputs, and tooltips, `radius-md` for cards and small popups, `radius-lg` for large containers, and `radius-full` for chips and avatars.",
+      "ambiguityRules": [
+        "Treat radius tokens as implementation constraints for existing components rather than direct mappings by themselves."
+      ]
+    }
+  ]
+}

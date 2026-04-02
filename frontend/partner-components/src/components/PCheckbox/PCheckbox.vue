@@ -42,7 +42,7 @@ const sizeClass = computed(() => {
 
 const disabled = computed(() => props.disabled ? true : undefined) as ComputedRef<boolean | undefined>
 
-const hoverClass = computed(() => !props.disabled ? 'hover:bg-(--partner-inherit-hovered)' : '') as ComputedRef<string>
+const hoverClass = computed(() => !props.disabled ? 'hover:ring-3 hover:ring-(--partner-inherit-hovered)' : '') as ComputedRef<string>
 
 const initialChecked = computed(() => props.checked ? true : props.indeterminate ? 'indeterminate' : null) as ComputedRef<CheckedState>
 
@@ -54,7 +54,7 @@ watch(initialChecked, (newVal) => {
 
 const checkedState = ref<CheckedState>(initialChecked.value)
 
-const checkedClass = computed(() => checkedState.value === true || checkedState.value === 'indeterminate' ? 'border-(--partner-blue-7) bg-(--partner-blue-7) disabled:bg-(--partner-text-disabled)' : '') as ComputedRef<string>
+const checkedClass = computed(() => checkedState.value === true || checkedState.value === 'indeterminate' ? 'border-(--partner-primary-main) bg-(--partner-primary-main) disabled:bg-(--partner-text-disabled)' : '') as ComputedRef<string>
 
 const handleChanged = (value: CheckedState) => {
   checkedState.value = value
@@ -67,10 +67,10 @@ const handleChanged = (value: CheckedState) => {
 
 <template>
   <div
-    :class="cn('flex items-center gap-1', sizeClass, props.class)"
+    :class="cn('partner-preflight flex items-center gap-1', sizeClass, props.class)"
     v-bind="testIdAttrs"
   >
-    <div :class="cn('rounded-sm p-1', hoverClass)">
+    <div :class="cn('rounded-sm p-1', hoverClass, !props.disabled && 'cursor-pointer')">
       <CheckboxRoot
         v-bind="forwarded"
         :id="id"
@@ -79,23 +79,25 @@ const handleChanged = (value: CheckedState) => {
         :required="required"
         :disabled="disabled"
         :class="
-          cn('grid place-content-center peer h-4 w-4 shrink-0 rounded-(--spacing-half) focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed bg-white text-white border border-black disabled:border-(--partner-text-disabled)',
+          cn('grid place-content-center peer h-4 w-4 shrink-0 rounded-(--spacing-half) focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring cursor-pointer disabled:cursor-not-allowed bg-white text-white border border-black disabled:border-(--partner-text-disabled)',
+             'bg-(--partner-background-white) border-(--partner-action-enabled)',
+             hoverClass,
              checkedClass,
              props.class)"
         @update:model-value="handleChanged"
       >
-        <CheckboxIndicator class="grid place-content-center text-current">
+        <CheckboxIndicator :class="cn('grid place-content-center text-current')">
           <PIcon
             v-if="checkedState === 'indeterminate'"
             name="subtract-custom"
             size="small"
-            color="white"
+            color="var(--partner-background-white)"
           />
           <PIcon
             v-else-if="checkedState"
             name="checkmark-custom"
             size="small"
-            color="white"
+            color="var(--partner-background-white)"
           />
         </CheckboxIndicator>
       </CheckboxRoot>
@@ -105,6 +107,7 @@ const handleChanged = (value: CheckedState) => {
       :for="id"
       variant="inputText"
       component="span"
+      :class="cn('pt-0.5 text-partner-primary', !props.disabled && 'cursor-pointer')"
       :required="required"
       :disabled="disabled"
     >

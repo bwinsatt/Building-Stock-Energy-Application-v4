@@ -13,7 +13,7 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <div 
-    class="col-span-full min-w-0 overflow-hidden break-words"
+    class="partner-preflight col-span-full min-w-0 overflow-hidden break-words"
     v-bind="testIdAttrs"
   >
     <slot />

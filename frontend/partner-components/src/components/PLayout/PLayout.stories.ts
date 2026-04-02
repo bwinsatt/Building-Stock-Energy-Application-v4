@@ -100,7 +100,7 @@ const layoutContent = `
 `
 
 const gridOverlay = `
-  <div class="absolute inset-0 pointer-events-none z-50">
+  <div class="absolute inset-0 pointer-events-none z-(--partner-z-overlay)">
     <div class="h-full flex flex-col">
       <!-- Header spacer -->
       <div v-if="args.header" class="h-[53px] shrink-0"></div>
@@ -174,8 +174,34 @@ const createRender = (showGrid = false) => (args: typeof baseArgs) => ({
   template: `<div class="h-screen w-screen relative">${layoutContent}${showGrid ? gridOverlay : ''}</div>`,
 })
 
+const defaultExportableCode = `<PLayout :header="true" :left-panel="true" :right-panel="true">
+  <template #header>
+    <div class="p-4">Header</div>
+  </template>
+
+  <template #left-panel>
+    <div class="p-4">Filters</div>
+  </template>
+
+  <template #body>
+    <PLayoutGridItem>
+      <div class="rounded border p-4">Main content</div>
+    </PLayoutGridItem>
+    <PLayoutGridItem class="md:col-span-4">
+      <div class="rounded border p-4">Secondary content</div>
+    </PLayoutGridItem>
+  </template>
+
+  <template #right-panel>
+    <div class="p-4">Details</div>
+  </template>
+</PLayout>`
+
 export const Default: Story = {
   args: baseArgs,
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: createRender(false),
 }
 
@@ -183,4 +209,3 @@ export const WithGridVisualization: Story = {
   args: baseArgs,
   render: createRender(true),
 }
-

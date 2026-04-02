@@ -1,0 +1,1 @@
+export { default as PSwitch, type PSwitchProps, type PSwitchEmits } from "./PSwitch.vue"

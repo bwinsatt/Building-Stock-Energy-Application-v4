@@ -70,3 +70,27 @@ test.each([
     await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith(expectedValue)
   }
 })
+
+test('clearable button clears input value', async () => {
+  const onUpdateModelValue = vi.fn()
+
+  const { getByTestId, getByRole } = render({
+    components: { PTextInput },
+    template: `<PTextInput v-bind="testProps" @update:modelValue="onUpdateModelValue" />`,
+    setup() {
+      return {
+        testProps: { label: 'Name', defaultValue: 'Hello', clearable: true } as PTextInputProps,
+        onUpdateModelValue,
+      }
+    },
+  })
+
+  const input = getByTestId(generateTestId('PTextInput'))
+  expect(input).toHaveValue('Hello')
+
+  const clearBtn = getByRole('button', { name: 'Clear' })
+  await clearBtn.click()
+
+  await expect.poll(() => onUpdateModelValue).toHaveBeenCalledWith('')
+  await expect.element(input).toHaveValue('')
+})

@@ -31,7 +31,24 @@ const meta: Meta<typeof PLayoutGrid> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PLayoutGrid>
+  <PLayoutGridItem>
+    <div class="rounded border p-4">Primary content</div>
+  </PLayoutGridItem>
+
+  <PLayoutGridItem class="md:col-span-6">
+    <div class="rounded border p-4">Left column</div>
+  </PLayoutGridItem>
+
+  <PLayoutGridItem class="md:col-span-6">
+    <div class="rounded border p-4">Right column</div>
+  </PLayoutGridItem>
+</PLayoutGrid>`
+
 export const Default: Story = {
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: (args) => ({
     components: { PLayoutGrid, PLayoutGridItem },
     setup() {

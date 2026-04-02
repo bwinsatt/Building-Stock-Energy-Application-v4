@@ -17,13 +17,20 @@ const meta: Meta<typeof PBadge> = {
 }
 
 export default meta
-type Story = StoryObj<typeof PBadge>  
+type Story = StoryObj<typeof PBadge>
+
+const defaultExportableCode = `<PBadge variant="primary" appearance="standard">
+  1
+</PBadge>`
 
 export const Default: Story = {
   args: {
     default: '1',
     variant: 'primary',
     appearance: 'standard',
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
 }
 

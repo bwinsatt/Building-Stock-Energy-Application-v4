@@ -16,9 +16,12 @@ const { testIdAttrs } = useTestId()
 
 <template>
   <TableRow
-    :class="cn('dark:border-(--partner-inherit-white-border) hover:bg-(--partner-fill-hover) dark:hover:bg-(--partner-inherit-white-hovered)',
-               '[&:has(th)]:border-b-0 [&:has(th)]:hover:bg-transparent [&:has(th)]:hover:dark:bg-transparent', // Header row specifics
-               props.class)"
+    :class="cn(
+      'partner-preflight',
+      'hover:bg-(--partner-fill-hovered)',
+      '[&:has(th)]:border-b-0 [&:has(th)]:hover:bg-transparent [&:has(th)]:hover:dark:bg-transparent', // Header row specifics
+      props.class,
+    )"
     v-bind="testIdAttrs"
   >
     <slot />

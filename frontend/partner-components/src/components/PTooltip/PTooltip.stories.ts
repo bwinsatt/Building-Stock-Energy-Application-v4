@@ -49,12 +49,30 @@ const meta: Meta<typeof PTooltip> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PTooltip direction="top">
+  <template #tooltip-trigger>
+    <PButton variant="primary" appearance="contained">
+      Hover me
+    </PButton>
+  </template>
+
+  <template #tooltip-content>
+    <div class="flex items-center gap-1">
+      <PIcon name="information-filled" size="small" />
+      <p>Tooltip</p>
+    </div>
+  </template>
+</PTooltip>`
+
 export const Default: Story = {
   args: {
     open: true,
     direction: 'none',
     disabled: true,
     disableClosingTrigger: true,
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
   render: (args) => ({
     components: { PTooltip, ...meta.subcomponents},

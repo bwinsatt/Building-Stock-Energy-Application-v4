@@ -5,6 +5,8 @@
 @import './partner-shadows.css';
 @import './partner-breakpoints.css';
 @import './partner-typography.css';
+@import './partner-scrollbar.css';
+@import './partner-z-indexing.css';
 
 /* Maximize compatibility with dark mode */
 @custom-variant dark (&:is(.dark *, [data-mode="dark"] *));

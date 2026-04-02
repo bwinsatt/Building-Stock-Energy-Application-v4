@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://partnerdevops/schemas/figma-component-map.schema.json",
+  "title": "Partner Figma Component Map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "masterFile", "components", "supportingNodes"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "masterFile": {
+      "$ref": "#/$defs/masterFile"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/componentMapping"
+      }
+    },
+    "supportingNodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/supportingNode"
+      }
+    }
+  },
+  "$defs": {
+    "masterFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileKey", "url"],
+      "properties": {
+        "fileKey": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "componentMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["componentName", "status", "figmaNodes"],
+      "properties": {
+        "componentName": {
+          "type": "string"
+        },
+        "repoStatus": {
+          "type": "string",
+          "enum": ["implemented", "planned"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["matched", "partial", "unmapped"]
+        },
+        "notes": {
+          "type": "string"
+        },
+        "figmaNodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/figmaNode"
+          }
+        }
+      }
+    },
+    "figmaNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeId", "nodeName", "nodeType", "role", "url"],
+      "properties": {
+        "nodeId": {
+          "type": "string"
+        },
+        "nodeName": {
+          "type": "string"
+        },
+        "nodeType": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["page", "canonical", "documentation", "reference"]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "supportingNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "nodeId", "nodeName", "nodeType", "role", "url"],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "enum": ["brand", "color", "typography", "radius", "shadow", "spacing", "layout", "iconography", "navigation"]
+        },
+        "nodeId": {
+          "type": "string"
+        },
+        "nodeName": {
+          "type": "string"
+        },
+        "nodeType": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["page", "canonical", "documentation", "reference"]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

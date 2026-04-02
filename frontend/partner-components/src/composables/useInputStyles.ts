@@ -21,8 +21,8 @@ export function useInputStyles(props: UseInputStylesOptions) {
     return cn('flex w-full rounded-sm shadow-none border border-(--partner-border-default) bg-transparent px-3 py-1.5 partner-inputText transition-colors',
                  sizeClass.value,
                  'placeholder:text-(--partner-text-placeholder)',
-                 'hover:border-(--partner-border-hovered) focus-visible:border-(--partner-border-active)',
-                 'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-(--partner-border-active)',
+                 'hover:border-(--partner-border-hovered) focus-within:border-(--partner-border-active)',
+                 'focus-within:outline-none focus-within:ring-1 focus-within:ring-(--partner-border-active)',
                  errorClass.value,
                  disabledClass.value,
                  'disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-(--partner-border-disabled)',
@@ -43,7 +43,7 @@ export function useInputStyles(props: UseInputStylesOptions) {
 
   const errorClass = computed(() =>
     props.error
-      ? 'border-(--partner-error-main) focus-visible:border-(--partner-error-main) focus-visible:ring-(--partner-error-main)'
+      ? 'border-(--partner-error-main) focus-within:border-(--partner-error-main) focus-within:ring-(--partner-error-main)'
       : ''
   )
 

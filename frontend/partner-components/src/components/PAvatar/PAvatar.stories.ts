@@ -71,10 +71,19 @@ const templates = {
   `,
 }
 
+const defaultExportableCode = `<PAvatar
+  size="medium"
+  shape="circle"
+  name="Jane Doe"
+/>`
+
 export const Default: Story = {
   args: {
     size: 'medium',
     shape: 'circle',
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
 }
 

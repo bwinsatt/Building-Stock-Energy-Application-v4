@@ -1,0 +1,35 @@
+@layer base {
+  .partner-scrollbar::-webkit-scrollbar {
+    @apply w-3.5;
+  }
+
+  .partner-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .partner-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-(--partner-gray-5) rounded-full;
+    @apply border-4 border-transparent;
+    @apply bg-clip-padding;
+  }
+
+  .partner-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-(--partner-gray-6);
+  }
+
+  .partner-scrollbar::-webkit-scrollbar-button {
+    @apply hidden;
+  }
+
+  .partner-scrollbar::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+
+  .partner-scrollbar::-webkit-resizer {
+    background-color: transparent;
+    background-image: url('@/assets/icons/resize-handle.svg');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 8px 8px;
+  }
+}

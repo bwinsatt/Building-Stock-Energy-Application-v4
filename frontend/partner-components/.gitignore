@@ -106,3 +106,10 @@ storybook-static/
 
 # Tests
 tests/__screenshots__/
+
+# >>> partner-agents: .ai generated artifacts >>>
+.ai/.auth/
+.ai/asana/
+.ai/coda/
+.ai/workflows/
+# <<< partner-agents: .ai generated artifacts <<<

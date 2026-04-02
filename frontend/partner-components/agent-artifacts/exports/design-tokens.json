@@ -1,0 +1,4290 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-30T19:11:56.184Z",
+  "tokens": [
+    {
+      "name": "accent",
+      "category": "color",
+      "value": "var(--partner-fill-hovered)",
+      "cssVariable": "--accent",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "accent",
+      "category": "other",
+      "value": "oklch(0.97 0 0)",
+      "cssVariable": "--accent",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "accent",
+      "category": "other",
+      "value": "oklch(0.269 0 0)",
+      "cssVariable": "--accent",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "accent-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--accent-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "accent-foreground",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--accent-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "accent-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--accent-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "background",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--background",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "background",
+      "category": "other",
+      "value": "oklch(1 0 0)",
+      "cssVariable": "--background",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "background",
+      "category": "other",
+      "value": "oklch(0.145 0 0)",
+      "cssVariable": "--background",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "border",
+      "category": "color",
+      "value": "var(--partner-border-light)",
+      "cssVariable": "--border",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "border",
+      "category": "other",
+      "value": "oklch(0.922 0 0)",
+      "cssVariable": "--border",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "border",
+      "category": "other",
+      "value": "oklch(1 0 0 / 10%)",
+      "cssVariable": "--border",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "breakpoint-lg",
+      "category": "breakpoint",
+      "value": "1440px",
+      "cssVariable": "--breakpoint-lg",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-lg-alignment",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-lg-alignment)",
+      "cssVariable": "--breakpoint-lg-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-lg-column-width",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-lg-column-width)",
+      "cssVariable": "--breakpoint-lg-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-lg-columns",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-lg-columns)",
+      "cssVariable": "--breakpoint-lg-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-lg-gutters",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-lg-gutters)",
+      "cssVariable": "--breakpoint-lg-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-lg-margin-lr",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-lg-margin-lr)",
+      "cssVariable": "--breakpoint-lg-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-lg-padding-tb",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-lg-padding-tb)",
+      "cssVariable": "--breakpoint-lg-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md",
+      "category": "breakpoint",
+      "value": "1024px",
+      "cssVariable": "--breakpoint-md",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md-alignment",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-md-alignment)",
+      "cssVariable": "--breakpoint-md-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md-column-width",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-md-column-width)",
+      "cssVariable": "--breakpoint-md-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md-columns",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-md-columns)",
+      "cssVariable": "--breakpoint-md-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md-gutters",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-md-gutters)",
+      "cssVariable": "--breakpoint-md-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md-margin-lr",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-md-margin-lr)",
+      "cssVariable": "--breakpoint-md-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-md-padding-tb",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-md-padding-tb)",
+      "cssVariable": "--breakpoint-md-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm",
+      "category": "breakpoint",
+      "value": "0px",
+      "cssVariable": "--breakpoint-sm",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm-alignment",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-sm-alignment)",
+      "cssVariable": "--breakpoint-sm-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm-column-width",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-sm-column-width)",
+      "cssVariable": "--breakpoint-sm-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm-columns",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-sm-columns)",
+      "cssVariable": "--breakpoint-sm-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm-gutters",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-sm-gutters)",
+      "cssVariable": "--breakpoint-sm-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm-margin-lr",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-sm-margin-lr)",
+      "cssVariable": "--breakpoint-sm-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-sm-padding-tb",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-sm-padding-tb)",
+      "cssVariable": "--breakpoint-sm-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl",
+      "category": "breakpoint",
+      "value": "1920px",
+      "cssVariable": "--breakpoint-xl",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl-alignment",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-xl-alignment)",
+      "cssVariable": "--breakpoint-xl-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl-column-width",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-xl-column-width)",
+      "cssVariable": "--breakpoint-xl-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl-columns",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-xl-columns)",
+      "cssVariable": "--breakpoint-xl-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl-gutters",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-xl-gutters)",
+      "cssVariable": "--breakpoint-xl-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl-margin-lr",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-xl-margin-lr)",
+      "cssVariable": "--breakpoint-xl-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "breakpoint-xl-padding-tb",
+      "category": "breakpoint",
+      "value": "var(--partner-breakpoint-xl-padding-tb)",
+      "cssVariable": "--breakpoint-xl-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "card",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--card",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "card",
+      "category": "other",
+      "value": "oklch(1 0 0)",
+      "cssVariable": "--card",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "card",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--card",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "card-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--card-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "card-foreground",
+      "category": "other",
+      "value": "oklch(0.145 0 0)",
+      "cssVariable": "--card-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "card-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--card-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-1",
+      "category": "color",
+      "value": "var(--partner-primary-main)",
+      "cssVariable": "--chart-1",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "chart-1",
+      "category": "other",
+      "value": "oklch(0.646 0.222 41.116)",
+      "cssVariable": "--chart-1",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-1",
+      "category": "other",
+      "value": "oklch(0.488 0.243 264.376)",
+      "cssVariable": "--chart-1",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-2",
+      "category": "color",
+      "value": "var(--partner-secondary-main)",
+      "cssVariable": "--chart-2",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "chart-2",
+      "category": "other",
+      "value": "oklch(0.6 0.118 184.704)",
+      "cssVariable": "--chart-2",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-2",
+      "category": "other",
+      "value": "oklch(0.696 0.17 162.48)",
+      "cssVariable": "--chart-2",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-3",
+      "category": "color",
+      "value": "var(--partner-success-main)",
+      "cssVariable": "--chart-3",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "chart-3",
+      "category": "other",
+      "value": "oklch(0.398 0.07 227.392)",
+      "cssVariable": "--chart-3",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-3",
+      "category": "other",
+      "value": "oklch(0.769 0.188 70.08)",
+      "cssVariable": "--chart-3",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-4",
+      "category": "color",
+      "value": "var(--partner-warning-main)",
+      "cssVariable": "--chart-4",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "chart-4",
+      "category": "other",
+      "value": "oklch(0.828 0.189 84.429)",
+      "cssVariable": "--chart-4",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-4",
+      "category": "other",
+      "value": "oklch(0.627 0.265 303.9)",
+      "cssVariable": "--chart-4",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-5",
+      "category": "color",
+      "value": "var(--partner-error-main)",
+      "cssVariable": "--chart-5",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "chart-5",
+      "category": "other",
+      "value": "oklch(0.769 0.188 70.08)",
+      "cssVariable": "--chart-5",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "chart-5",
+      "category": "other",
+      "value": "oklch(0.645 0.246 16.439)",
+      "cssVariable": "--chart-5",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-accent",
+      "category": "color",
+      "value": "var(--partner-fill-hovered)",
+      "cssVariable": "--color-accent",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-accent",
+      "category": "color",
+      "value": "var(--accent)",
+      "cssVariable": "--color-accent",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-accent-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--color-accent-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-accent-foreground",
+      "category": "color",
+      "value": "var(--accent-foreground)",
+      "cssVariable": "--color-accent-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-background",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--color-background",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-background",
+      "category": "color",
+      "value": "var(--background)",
+      "cssVariable": "--color-background",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-black",
+      "category": "color",
+      "value": "var(--partner-black)",
+      "cssVariable": "--color-black",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-100",
+      "category": "color",
+      "value": "var(--partner-blue-2)",
+      "cssVariable": "--color-blue-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-200",
+      "category": "color",
+      "value": "var(--partner-blue-3)",
+      "cssVariable": "--color-blue-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-300",
+      "category": "color",
+      "value": "var(--partner-blue-4)",
+      "cssVariable": "--color-blue-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-400",
+      "category": "color",
+      "value": "var(--partner-blue-5)",
+      "cssVariable": "--color-blue-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-50",
+      "category": "color",
+      "value": "var(--partner-blue-1)",
+      "cssVariable": "--color-blue-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-500",
+      "category": "color",
+      "value": "var(--partner-blue-6)",
+      "cssVariable": "--color-blue-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-600",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--color-blue-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-700",
+      "category": "color",
+      "value": "var(--partner-blue-8)",
+      "cssVariable": "--color-blue-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-800",
+      "category": "color",
+      "value": "var(--partner-blue-9)",
+      "cssVariable": "--color-blue-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-blue-900",
+      "category": "color",
+      "value": "var(--partner-blue-10)",
+      "cssVariable": "--color-blue-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-border",
+      "category": "color",
+      "value": "var(--partner-border-light)",
+      "cssVariable": "--color-border",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-border",
+      "category": "color",
+      "value": "var(--border)",
+      "cssVariable": "--color-border",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-bright-purple",
+      "category": "color",
+      "value": "var(--partner-purple)",
+      "cssVariable": "--color-bright-purple",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-card",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--color-card",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-card",
+      "category": "color",
+      "value": "var(--card)",
+      "cssVariable": "--color-card",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-card-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--color-card-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-card-foreground",
+      "category": "color",
+      "value": "var(--card-foreground)",
+      "cssVariable": "--color-card-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-chart-1",
+      "category": "color",
+      "value": "var(--chart-1)",
+      "cssVariable": "--color-chart-1",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-chart-2",
+      "category": "color",
+      "value": "var(--chart-2)",
+      "cssVariable": "--color-chart-2",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-chart-3",
+      "category": "color",
+      "value": "var(--chart-3)",
+      "cssVariable": "--color-chart-3",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-chart-4",
+      "category": "color",
+      "value": "var(--chart-4)",
+      "cssVariable": "--color-chart-4",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-chart-5",
+      "category": "color",
+      "value": "var(--chart-5)",
+      "cssVariable": "--color-chart-5",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-default",
+      "category": "color",
+      "value": "var(--color-gray-200)",
+      "cssVariable": "--color-default",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-destructive",
+      "category": "color",
+      "value": "var(--partner-error-main)",
+      "cssVariable": "--color-destructive",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-destructive",
+      "category": "color",
+      "value": "var(--destructive)",
+      "cssVariable": "--color-destructive",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-destructive-foreground",
+      "category": "color",
+      "value": "var(--partner-error-contrast)",
+      "cssVariable": "--color-destructive-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-elevated",
+      "category": "color",
+      "value": "var(--color-white)",
+      "cssVariable": "--color-elevated",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--color-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-foreground",
+      "category": "color",
+      "value": "var(--foreground)",
+      "cssVariable": "--color-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-gray-100",
+      "category": "color",
+      "value": "var(--partner-gray-2)",
+      "cssVariable": "--color-gray-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-200",
+      "category": "color",
+      "value": "var(--partner-gray-3)",
+      "cssVariable": "--color-gray-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-300",
+      "category": "color",
+      "value": "var(--partner-gray-4)",
+      "cssVariable": "--color-gray-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-400",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--color-gray-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-50",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--color-gray-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-500",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--color-gray-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-600",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--color-gray-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-700",
+      "category": "color",
+      "value": "var(--partner-gray-8)",
+      "cssVariable": "--color-gray-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-800",
+      "category": "color",
+      "value": "var(--partner-gray-9)",
+      "cssVariable": "--color-gray-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-gray-900",
+      "category": "color",
+      "value": "var(--partner-gray-10)",
+      "cssVariable": "--color-gray-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-100",
+      "category": "color",
+      "value": "var(--partner-green-2)",
+      "cssVariable": "--color-green-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-200",
+      "category": "color",
+      "value": "var(--partner-green-3)",
+      "cssVariable": "--color-green-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-300",
+      "category": "color",
+      "value": "var(--partner-green-4)",
+      "cssVariable": "--color-green-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-400",
+      "category": "color",
+      "value": "var(--partner-green-5)",
+      "cssVariable": "--color-green-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-50",
+      "category": "color",
+      "value": "var(--partner-green-1)",
+      "cssVariable": "--color-green-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-500",
+      "category": "color",
+      "value": "var(--partner-green-6)",
+      "cssVariable": "--color-green-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-600",
+      "category": "color",
+      "value": "var(--partner-green-7)",
+      "cssVariable": "--color-green-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-700",
+      "category": "color",
+      "value": "var(--partner-green-8)",
+      "cssVariable": "--color-green-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-800",
+      "category": "color",
+      "value": "var(--partner-green-9)",
+      "cssVariable": "--color-green-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-green-900",
+      "category": "color",
+      "value": "var(--partner-green-10)",
+      "cssVariable": "--color-green-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-input",
+      "category": "color",
+      "value": "var(--partner-border-default)",
+      "cssVariable": "--color-input",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-input",
+      "category": "color",
+      "value": "var(--input)",
+      "cssVariable": "--color-input",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-inverted",
+      "category": "color",
+      "value": "var(--color-gray-900)",
+      "cssVariable": "--color-inverted",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-muted",
+      "category": "color",
+      "value": "var(--partner-background-gray)",
+      "cssVariable": "--color-muted",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-muted",
+      "category": "color",
+      "value": "var(--muted)",
+      "cssVariable": "--color-muted",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-muted-foreground",
+      "category": "color",
+      "value": "var(--partner-text-secondary)",
+      "cssVariable": "--color-muted-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-muted-foreground",
+      "category": "color",
+      "value": "var(--muted-foreground)",
+      "cssVariable": "--color-muted-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-orange-100",
+      "category": "color",
+      "value": "var(--partner-orange-2)",
+      "cssVariable": "--color-orange-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-200",
+      "category": "color",
+      "value": "var(--partner-orange-3)",
+      "cssVariable": "--color-orange-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-300",
+      "category": "color",
+      "value": "var(--partner-orange-4)",
+      "cssVariable": "--color-orange-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-400",
+      "category": "color",
+      "value": "var(--partner-orange-5)",
+      "cssVariable": "--color-orange-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-50",
+      "category": "color",
+      "value": "var(--partner-orange-1)",
+      "cssVariable": "--color-orange-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-500",
+      "category": "color",
+      "value": "var(--partner-orange-6)",
+      "cssVariable": "--color-orange-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-600",
+      "category": "color",
+      "value": "var(--partner-orange-7)",
+      "cssVariable": "--color-orange-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-700",
+      "category": "color",
+      "value": "var(--partner-orange-8)",
+      "cssVariable": "--color-orange-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-800",
+      "category": "color",
+      "value": "var(--partner-orange-9)",
+      "cssVariable": "--color-orange-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-orange-900",
+      "category": "color",
+      "value": "var(--partner-orange-10)",
+      "cssVariable": "--color-orange-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-popover",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--color-popover",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-popover",
+      "category": "color",
+      "value": "var(--popover)",
+      "cssVariable": "--color-popover",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-popover-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--color-popover-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-popover-foreground",
+      "category": "color",
+      "value": "var(--popover-foreground)",
+      "cssVariable": "--color-popover-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-primary",
+      "category": "color",
+      "value": "var(--primary)",
+      "cssVariable": "--color-primary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-primary-100",
+      "category": "color",
+      "value": "var(--partner-blue-2)",
+      "cssVariable": "--color-primary-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-200",
+      "category": "color",
+      "value": "var(--partner-blue-3)",
+      "cssVariable": "--color-primary-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-300",
+      "category": "color",
+      "value": "var(--partner-blue-4)",
+      "cssVariable": "--color-primary-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-400",
+      "category": "color",
+      "value": "var(--partner-blue-5)",
+      "cssVariable": "--color-primary-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-50",
+      "category": "color",
+      "value": "var(--partner-blue-1)",
+      "cssVariable": "--color-primary-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-500",
+      "category": "color",
+      "value": "var(--partner-blue-6)",
+      "cssVariable": "--color-primary-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-600",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--color-primary-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-700",
+      "category": "color",
+      "value": "var(--partner-blue-8)",
+      "cssVariable": "--color-primary-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-800",
+      "category": "color",
+      "value": "var(--partner-blue-9)",
+      "cssVariable": "--color-primary-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-900",
+      "category": "color",
+      "value": "var(--partner-blue-10)",
+      "cssVariable": "--color-primary-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-primary-foreground",
+      "category": "color",
+      "value": "var(--primary-foreground)",
+      "cssVariable": "--color-primary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-red-100",
+      "category": "color",
+      "value": "var(--partner-red-2)",
+      "cssVariable": "--color-red-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-200",
+      "category": "color",
+      "value": "var(--partner-red-3)",
+      "cssVariable": "--color-red-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-300",
+      "category": "color",
+      "value": "var(--partner-red-4)",
+      "cssVariable": "--color-red-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-400",
+      "category": "color",
+      "value": "var(--partner-red-5)",
+      "cssVariable": "--color-red-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-50",
+      "category": "color",
+      "value": "var(--partner-red-1)",
+      "cssVariable": "--color-red-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-500",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--color-red-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-600",
+      "category": "color",
+      "value": "var(--partner-red-7)",
+      "cssVariable": "--color-red-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-700",
+      "category": "color",
+      "value": "var(--partner-red-8)",
+      "cssVariable": "--color-red-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-800",
+      "category": "color",
+      "value": "var(--partner-red-9)",
+      "cssVariable": "--color-red-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-red-900",
+      "category": "color",
+      "value": "var(--partner-red-10)",
+      "cssVariable": "--color-red-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-ring",
+      "category": "color",
+      "value": "var(--partner-primary-light)",
+      "cssVariable": "--color-ring",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-ring",
+      "category": "color",
+      "value": "var(--ring)",
+      "cssVariable": "--color-ring",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-secondary",
+      "category": "color",
+      "value": "var(--secondary)",
+      "cssVariable": "--color-secondary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-secondary-100",
+      "category": "color",
+      "value": "var(--partner-orange-2)",
+      "cssVariable": "--color-secondary-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-200",
+      "category": "color",
+      "value": "var(--partner-orange-3)",
+      "cssVariable": "--color-secondary-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-300",
+      "category": "color",
+      "value": "var(--partner-orange-4)",
+      "cssVariable": "--color-secondary-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-400",
+      "category": "color",
+      "value": "var(--partner-orange-5)",
+      "cssVariable": "--color-secondary-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-50",
+      "category": "color",
+      "value": "var(--partner-orange-1)",
+      "cssVariable": "--color-secondary-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-500",
+      "category": "color",
+      "value": "var(--partner-orange-6)",
+      "cssVariable": "--color-secondary-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-600",
+      "category": "color",
+      "value": "var(--partner-orange-7)",
+      "cssVariable": "--color-secondary-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-700",
+      "category": "color",
+      "value": "var(--partner-orange-8)",
+      "cssVariable": "--color-secondary-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-800",
+      "category": "color",
+      "value": "var(--partner-orange-9)",
+      "cssVariable": "--color-secondary-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-900",
+      "category": "color",
+      "value": "var(--partner-orange-10)",
+      "cssVariable": "--color-secondary-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-secondary-foreground",
+      "category": "color",
+      "value": "var(--secondary-foreground)",
+      "cssVariable": "--color-secondary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar",
+      "category": "color",
+      "value": "var(--sidebar)",
+      "cssVariable": "--color-sidebar",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-accent",
+      "category": "color",
+      "value": "var(--sidebar-accent)",
+      "cssVariable": "--color-sidebar-accent",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-accent-foreground",
+      "category": "color",
+      "value": "var(--sidebar-accent-foreground)",
+      "cssVariable": "--color-sidebar-accent-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-border",
+      "category": "color",
+      "value": "var(--sidebar-border)",
+      "cssVariable": "--color-sidebar-border",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-foreground",
+      "category": "color",
+      "value": "var(--sidebar-foreground)",
+      "cssVariable": "--color-sidebar-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-primary",
+      "category": "color",
+      "value": "var(--sidebar-primary)",
+      "cssVariable": "--color-sidebar-primary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-primary-foreground",
+      "category": "color",
+      "value": "var(--sidebar-primary-foreground)",
+      "cssVariable": "--color-sidebar-primary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-sidebar-ring",
+      "category": "color",
+      "value": "var(--sidebar-ring)",
+      "cssVariable": "--color-sidebar-ring",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "color-success-100",
+      "category": "color",
+      "value": "var(--partner-green-2)",
+      "cssVariable": "--color-success-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-200",
+      "category": "color",
+      "value": "var(--partner-green-3)",
+      "cssVariable": "--color-success-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-300",
+      "category": "color",
+      "value": "var(--partner-green-4)",
+      "cssVariable": "--color-success-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-400",
+      "category": "color",
+      "value": "var(--partner-green-5)",
+      "cssVariable": "--color-success-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-50",
+      "category": "color",
+      "value": "var(--partner-green-1)",
+      "cssVariable": "--color-success-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-500",
+      "category": "color",
+      "value": "var(--partner-green-6)",
+      "cssVariable": "--color-success-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-600",
+      "category": "color",
+      "value": "var(--partner-green-7)",
+      "cssVariable": "--color-success-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-700",
+      "category": "color",
+      "value": "var(--partner-green-8)",
+      "cssVariable": "--color-success-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-800",
+      "category": "color",
+      "value": "var(--partner-green-9)",
+      "cssVariable": "--color-success-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-success-900",
+      "category": "color",
+      "value": "var(--partner-green-10)",
+      "cssVariable": "--color-success-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-white",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--color-white",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-100",
+      "category": "color",
+      "value": "var(--partner-yellow-2)",
+      "cssVariable": "--color-yellow-100",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-200",
+      "category": "color",
+      "value": "var(--partner-yellow-3)",
+      "cssVariable": "--color-yellow-200",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-300",
+      "category": "color",
+      "value": "var(--partner-yellow-4)",
+      "cssVariable": "--color-yellow-300",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-400",
+      "category": "color",
+      "value": "var(--partner-yellow-5)",
+      "cssVariable": "--color-yellow-400",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-50",
+      "category": "color",
+      "value": "var(--partner-yellow-1)",
+      "cssVariable": "--color-yellow-50",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-500",
+      "category": "color",
+      "value": "var(--partner-yellow-6)",
+      "cssVariable": "--color-yellow-500",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-600",
+      "category": "color",
+      "value": "var(--partner-yellow-7)",
+      "cssVariable": "--color-yellow-600",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-700",
+      "category": "color",
+      "value": "var(--partner-yellow-8)",
+      "cssVariable": "--color-yellow-700",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-800",
+      "category": "color",
+      "value": "var(--partner-yellow-9)",
+      "cssVariable": "--color-yellow-800",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "color-yellow-900",
+      "category": "color",
+      "value": "var(--partner-yellow-10)",
+      "cssVariable": "--color-yellow-900",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "destructive",
+      "category": "color",
+      "value": "var(--partner-error-main)",
+      "cssVariable": "--destructive",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "destructive",
+      "category": "other",
+      "value": "oklch(0.577 0.245 27.325)",
+      "cssVariable": "--destructive",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "destructive",
+      "category": "other",
+      "value": "oklch(0.704 0.191 22.216)",
+      "cssVariable": "--destructive",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "destructive-foreground",
+      "category": "color",
+      "value": "var(--partner-error-contrast)",
+      "cssVariable": "--destructive-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "font-sans",
+      "category": "other",
+      "value": "'Roboto', system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "cssVariable": "--font-sans",
+      "sourceFile": "src/styles/global.css"
+    },
+    {
+      "name": "foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "foreground",
+      "category": "other",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--foreground",
+      "sourceFile": "src/styles/global.css"
+    },
+    {
+      "name": "foreground",
+      "category": "other",
+      "value": "var(--partner-text-white)",
+      "cssVariable": "--foreground",
+      "sourceFile": "src/styles/global.css"
+    },
+    {
+      "name": "foreground",
+      "category": "other",
+      "value": "oklch(0.145 0 0)",
+      "cssVariable": "--foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "grid-cols-lg",
+      "category": "breakpoint",
+      "value": "repeat(var(--breakpoint-lg-columns), minmax(0, 1fr))",
+      "cssVariable": "--grid-cols-lg",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "grid-cols-md",
+      "category": "breakpoint",
+      "value": "repeat(var(--breakpoint-md-columns), minmax(0, 1fr))",
+      "cssVariable": "--grid-cols-md",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "grid-cols-sm",
+      "category": "breakpoint",
+      "value": "repeat(var(--breakpoint-sm-columns), minmax(0, 1fr))",
+      "cssVariable": "--grid-cols-sm",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "grid-cols-xl",
+      "category": "breakpoint",
+      "value": "repeat(var(--breakpoint-xl-columns), minmax(0, 1fr))",
+      "cssVariable": "--grid-cols-xl",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "input",
+      "category": "color",
+      "value": "var(--partner-border-default)",
+      "cssVariable": "--input",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "input",
+      "category": "other",
+      "value": "oklch(0.922 0 0)",
+      "cssVariable": "--input",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "input",
+      "category": "other",
+      "value": "oklch(1 0 0 / 15%)",
+      "cssVariable": "--input",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "muted",
+      "category": "color",
+      "value": "var(--partner-background-gray)",
+      "cssVariable": "--muted",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "muted",
+      "category": "other",
+      "value": "oklch(0.97 0 0)",
+      "cssVariable": "--muted",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "muted",
+      "category": "other",
+      "value": "oklch(0.269 0 0)",
+      "cssVariable": "--muted",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "muted-foreground",
+      "category": "color",
+      "value": "var(--partner-text-secondary)",
+      "cssVariable": "--muted-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "muted-foreground",
+      "category": "other",
+      "value": "oklch(0.556 0 0)",
+      "cssVariable": "--muted-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "muted-foreground",
+      "category": "other",
+      "value": "oklch(0.708 0 0)",
+      "cssVariable": "--muted-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "partner-action-active",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-action-active",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-action-active",
+      "category": "color",
+      "value": "var(--partner-blue-5)",
+      "cssVariable": "--partner-action-active",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-action-disabled",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--partner-action-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-action-disabled",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-action-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-action-enabled",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-action-enabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-action-enabled",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-action-enabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-action-enabled",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--partner-action-enabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-dark",
+      "category": "color",
+      "value": "#1F2224",
+      "cssVariable": "--partner-background-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-dark",
+      "category": "color",
+      "value": "#1F2224",
+      "cssVariable": "--partner-background-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-gray",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--partner-background-gray",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-gray",
+      "category": "color",
+      "value": "var(--partner-gray-9)",
+      "cssVariable": "--partner-background-gray",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-gray2",
+      "category": "color",
+      "value": "var(--partner-gray-2)",
+      "cssVariable": "--partner-background-gray2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-gray2",
+      "category": "color",
+      "value": "var(--partner-gray-8)",
+      "cssVariable": "--partner-background-gray2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-overlay",
+      "category": "color",
+      "value": "rgba(51, 62, 71, 0.45)",
+      "cssVariable": "--partner-background-overlay",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-overlay",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.75)",
+      "cssVariable": "--partner-background-overlay",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-white",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-background-white",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-background-white",
+      "category": "color",
+      "value": "#1F2224",
+      "cssVariable": "--partner-background-white",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-black",
+      "category": "color",
+      "value": "#1E252B",
+      "cssVariable": "--partner-black",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-1",
+      "category": "color",
+      "value": "#F2F8FD",
+      "cssVariable": "--partner-blue-1",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-10",
+      "category": "color",
+      "value": "#002742",
+      "cssVariable": "--partner-blue-10",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-2",
+      "category": "color",
+      "value": "#DDECF9",
+      "cssVariable": "--partner-blue-2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-3",
+      "category": "color",
+      "value": "#BBD9F4",
+      "cssVariable": "--partner-blue-3",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-4",
+      "category": "color",
+      "value": "#8CC0EB",
+      "cssVariable": "--partner-blue-4",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-5",
+      "category": "color",
+      "value": "#569FD9",
+      "cssVariable": "--partner-blue-5",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-6",
+      "category": "color",
+      "value": "#1C7ACC",
+      "cssVariable": "--partner-blue-6",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-7",
+      "category": "color",
+      "value": "#005199",
+      "cssVariable": "--partner-blue-7",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-8",
+      "category": "color",
+      "value": "#00437D",
+      "cssVariable": "--partner-blue-8",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-blue-9",
+      "category": "color",
+      "value": "#003660",
+      "cssVariable": "--partner-blue-9",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-active",
+      "category": "color",
+      "value": "var(--partner-primary)",
+      "cssVariable": "--partner-border-active",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-active",
+      "category": "color",
+      "value": "var(--partner-blue-5)",
+      "cssVariable": "--partner-border-active",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-default",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--partner-border-default",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-default",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-border-default",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-disabled",
+      "category": "color",
+      "value": "var(--partner-gray-3)",
+      "cssVariable": "--partner-border-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-disabled",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-border-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-divider",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--partner-border-divider",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-divider",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-border-divider",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-hovered",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-border-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-hovered",
+      "category": "color",
+      "value": "var(--partner-gray-2)",
+      "cssVariable": "--partner-border-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-hovered",
+      "category": "color",
+      "value": "var(--partner-gray-4)",
+      "cssVariable": "--partner-border-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-light",
+      "category": "color",
+      "value": "var(--partner-gray-2)",
+      "cssVariable": "--partner-border-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-border-light",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-border-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-breakpoint-lg",
+      "category": "breakpoint",
+      "value": "var(--breakpoint-lg)",
+      "cssVariable": "--partner-breakpoint-lg",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-lg-alignment",
+      "category": "breakpoint",
+      "value": "top left",
+      "cssVariable": "--partner-breakpoint-lg-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-lg-column-width",
+      "category": "breakpoint",
+      "value": "auto",
+      "cssVariable": "--partner-breakpoint-lg-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-lg-columns",
+      "category": "breakpoint",
+      "value": "12",
+      "cssVariable": "--partner-breakpoint-lg-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-lg-gutters",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-lg-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-lg-margin-lr",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-lg-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-lg-padding-tb",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-lg-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md",
+      "category": "breakpoint",
+      "value": "var(--breakpoint-md)",
+      "cssVariable": "--partner-breakpoint-md",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md-alignment",
+      "category": "breakpoint",
+      "value": "top left",
+      "cssVariable": "--partner-breakpoint-md-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md-column-width",
+      "category": "breakpoint",
+      "value": "auto",
+      "cssVariable": "--partner-breakpoint-md-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md-columns",
+      "category": "breakpoint",
+      "value": "12",
+      "cssVariable": "--partner-breakpoint-md-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md-gutters",
+      "category": "breakpoint",
+      "value": "24px",
+      "cssVariable": "--partner-breakpoint-md-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md-margin-lr",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-md-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-md-padding-tb",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-md-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm",
+      "category": "breakpoint",
+      "value": "var(--breakpoint-sm)",
+      "cssVariable": "--partner-breakpoint-sm",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm-alignment",
+      "category": "breakpoint",
+      "value": "top left",
+      "cssVariable": "--partner-breakpoint-sm-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm-column-width",
+      "category": "breakpoint",
+      "value": "auto",
+      "cssVariable": "--partner-breakpoint-sm-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm-columns",
+      "category": "breakpoint",
+      "value": "8",
+      "cssVariable": "--partner-breakpoint-sm-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm-gutters",
+      "category": "breakpoint",
+      "value": "24px",
+      "cssVariable": "--partner-breakpoint-sm-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm-margin-lr",
+      "category": "breakpoint",
+      "value": "24px",
+      "cssVariable": "--partner-breakpoint-sm-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-sm-padding-tb",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-sm-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl",
+      "category": "breakpoint",
+      "value": "var(--breakpoint-xl)",
+      "cssVariable": "--partner-breakpoint-xl",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl-alignment",
+      "category": "breakpoint",
+      "value": "top left",
+      "cssVariable": "--partner-breakpoint-xl-alignment",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl-column-width",
+      "category": "breakpoint",
+      "value": "auto",
+      "cssVariable": "--partner-breakpoint-xl-column-width",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl-columns",
+      "category": "breakpoint",
+      "value": "12",
+      "cssVariable": "--partner-breakpoint-xl-columns",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl-gutters",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-xl-gutters",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl-margin-lr",
+      "category": "breakpoint",
+      "value": "64px",
+      "cssVariable": "--partner-breakpoint-xl-margin-lr",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-breakpoint-xl-padding-tb",
+      "category": "breakpoint",
+      "value": "32px",
+      "cssVariable": "--partner-breakpoint-xl-padding-tb",
+      "sourceFile": "src/styles/partner-breakpoints.css"
+    },
+    {
+      "name": "partner-error-content",
+      "category": "color",
+      "value": "var(--partner-red-9)",
+      "cssVariable": "--partner-error-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-content",
+      "category": "color",
+      "value": "var(--partner-red-4)",
+      "cssVariable": "--partner-error-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-error-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-error-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-dark",
+      "category": "color",
+      "value": "var(--partner-red-8)",
+      "cssVariable": "--partner-error-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-dark",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--partner-error-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-light",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--partner-error-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-light",
+      "category": "color",
+      "value": "var(--partner-red-4)",
+      "cssVariable": "--partner-error-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-main",
+      "category": "color",
+      "value": "var(--partner-red-7)",
+      "cssVariable": "--partner-error-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-main",
+      "category": "color",
+      "value": "var(--partner-red-5)",
+      "cssVariable": "--partner-error-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-outlined-border",
+      "category": "color",
+      "value": "var(--partner-red-7)",
+      "cssVariable": "--partner-error-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-outlined-border",
+      "category": "color",
+      "value": "var(--partner-red-5)",
+      "cssVariable": "--partner-error-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-outlined-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-red-2)",
+      "cssVariable": "--partner-error-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-outlined-hover-pressed",
+      "category": "color",
+      "value": "rgba(244, 76, 76, 0.25)",
+      "cssVariable": "--partner-error-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-outlined-hovered",
+      "category": "color",
+      "value": "var(--partner-red-1)",
+      "cssVariable": "--partner-error-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-error-outlined-hovered",
+      "category": "color",
+      "value": "rgba(244, 76, 76, 0.15)",
+      "cssVariable": "--partner-error-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-disabled",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.08)",
+      "cssVariable": "--partner-fill-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-disabled",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.08)",
+      "cssVariable": "--partner-fill-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-hovered",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.05)",
+      "cssVariable": "--partner-fill-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-hovered",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.05)",
+      "cssVariable": "--partner-fill-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-pressed",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.10)",
+      "cssVariable": "--partner-fill-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-pressed",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.10)",
+      "cssVariable": "--partner-fill-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-selected",
+      "category": "color",
+      "value": "var(--partner-blue-1)",
+      "cssVariable": "--partner-fill-selected",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-selected",
+      "category": "color",
+      "value": "rgba(86, 159, 217, 0.15)",
+      "cssVariable": "--partner-fill-selected",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-tooltip",
+      "category": "color",
+      "value": "rgba(51, 62, 71, 0.9)",
+      "cssVariable": "--partner-fill-tooltip",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-fill-tooltip",
+      "category": "color",
+      "value": "rgba(51, 62, 71, 0.90)",
+      "cssVariable": "--partner-fill-tooltip",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-1",
+      "category": "color",
+      "value": "#F5F7F8",
+      "cssVariable": "--partner-gray-1",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-10",
+      "category": "color",
+      "value": "#1E252B",
+      "cssVariable": "--partner-gray-10",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-2",
+      "category": "color",
+      "value": "#E8EBEE",
+      "cssVariable": "--partner-gray-2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-3",
+      "category": "color",
+      "value": "#D9DDE1",
+      "cssVariable": "--partner-gray-3",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-4",
+      "category": "color",
+      "value": "#C2C8CE",
+      "cssVariable": "--partner-gray-4",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-5",
+      "category": "color",
+      "value": "#A6ADB4",
+      "cssVariable": "--partner-gray-5",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-6",
+      "category": "color",
+      "value": "#6F7881",
+      "cssVariable": "--partner-gray-6",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-7",
+      "category": "color",
+      "value": "#333E47",
+      "cssVariable": "--partner-gray-7",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-8",
+      "category": "color",
+      "value": "#2C353E",
+      "cssVariable": "--partner-gray-8",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-gray-9",
+      "category": "color",
+      "value": "#252C33",
+      "cssVariable": "--partner-gray-9",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-1",
+      "category": "color",
+      "value": "#E9F7EA",
+      "cssVariable": "--partner-green-1",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-10",
+      "category": "color",
+      "value": "#133D15",
+      "cssVariable": "--partner-green-10",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-2",
+      "category": "color",
+      "value": "#CDEFD0",
+      "cssVariable": "--partner-green-2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-3",
+      "category": "color",
+      "value": "#A3E0A7",
+      "cssVariable": "--partner-green-3",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-4",
+      "category": "color",
+      "value": "#6FCC76",
+      "cssVariable": "--partner-green-4",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-5",
+      "category": "color",
+      "value": "#47B653",
+      "cssVariable": "--partner-green-5",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-6",
+      "category": "color",
+      "value": "#329C3C",
+      "cssVariable": "--partner-green-6",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-7",
+      "category": "color",
+      "value": "#25852A",
+      "cssVariable": "--partner-green-7",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-8",
+      "category": "color",
+      "value": "#1F6B23",
+      "cssVariable": "--partner-green-8",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-green-9",
+      "category": "color",
+      "value": "#1A541C",
+      "cssVariable": "--partner-green-9",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-border",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.50)",
+      "cssVariable": "--partner-inherit-black-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-border",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.50)",
+      "cssVariable": "--partner-inherit-black-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-dark",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.90)",
+      "cssVariable": "--partner-inherit-black-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-dark",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.75)",
+      "cssVariable": "--partner-inherit-black-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-disabled",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.25)",
+      "cssVariable": "--partner-inherit-black-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-disabled",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.25)",
+      "cssVariable": "--partner-inherit-black-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-hover-pressed",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.10)",
+      "cssVariable": "--partner-inherit-black-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-hover-pressed",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.10)",
+      "cssVariable": "--partner-inherit-black-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-hovered",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.05)",
+      "cssVariable": "--partner-inherit-black-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-hovered",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.05)",
+      "cssVariable": "--partner-inherit-black-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-light",
+      "category": "color",
+      "value": "rgba(30, 37, 43, 0.75)",
+      "cssVariable": "--partner-inherit-black-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-light",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.90)",
+      "cssVariable": "--partner-inherit-black-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-main",
+      "category": "color",
+      "value": "var(--partner-black)",
+      "cssVariable": "--partner-inherit-black-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-black-main",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--partner-inherit-black-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-border",
+      "category": "color",
+      "value": "var(--partner-inherit-black-border)",
+      "cssVariable": "--partner-inherit-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-border",
+      "category": "color",
+      "value": "var(--partner-inherit-white-border)",
+      "cssVariable": "--partner-inherit-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-disabled",
+      "category": "color",
+      "value": "var(--partner-inherit-black-disabled)",
+      "cssVariable": "--partner-inherit-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-disabled",
+      "category": "color",
+      "value": "var(--partner-inherit-white-disabled)",
+      "cssVariable": "--partner-inherit-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-inherit-black-hover-pressed)",
+      "cssVariable": "--partner-inherit-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-inherit-white-hover-pressed)",
+      "cssVariable": "--partner-inherit-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-hovered",
+      "category": "color",
+      "value": "var(--partner-inherit-black-hovered)",
+      "cssVariable": "--partner-inherit-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-hovered",
+      "category": "color",
+      "value": "var(--partner-inherit-white-hovered)",
+      "cssVariable": "--partner-inherit-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-main",
+      "category": "color",
+      "value": "var(--partner-inherit-black-main)",
+      "cssVariable": "--partner-inherit-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-main",
+      "category": "color",
+      "value": "var(--partner-inherit-white-main)",
+      "cssVariable": "--partner-inherit-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-border",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.50)",
+      "cssVariable": "--partner-inherit-white-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-border",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.50)",
+      "cssVariable": "--partner-inherit-white-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-dark",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.75)",
+      "cssVariable": "--partner-inherit-white-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-dark",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.75)",
+      "cssVariable": "--partner-inherit-white-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-disabled",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.25)",
+      "cssVariable": "--partner-inherit-white-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-disabled",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.25)",
+      "cssVariable": "--partner-inherit-white-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-hover-pressed",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.15)",
+      "cssVariable": "--partner-inherit-white-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-hover-pressed",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.15)",
+      "cssVariable": "--partner-inherit-white-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-hovered",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.05)",
+      "cssVariable": "--partner-inherit-white-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-hovered",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.05)",
+      "cssVariable": "--partner-inherit-white-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-light",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.90)",
+      "cssVariable": "--partner-inherit-white-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-light",
+      "category": "color",
+      "value": "rgba(255, 255, 255, 0.90)",
+      "cssVariable": "--partner-inherit-white-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-main",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-inherit-white-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-inherit-white-main",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-inherit-white-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-1",
+      "category": "color",
+      "value": "#FFF5F2",
+      "cssVariable": "--partner-orange-1",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-10",
+      "category": "color",
+      "value": "#7D2B15",
+      "cssVariable": "--partner-orange-10",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-2",
+      "category": "color",
+      "value": "#FFE3DC",
+      "cssVariable": "--partner-orange-2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-3",
+      "category": "color",
+      "value": "#FFC7B8",
+      "cssVariable": "--partner-orange-3",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-4",
+      "category": "color",
+      "value": "#FFA28B",
+      "cssVariable": "--partner-orange-4",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-5",
+      "category": "color",
+      "value": "#FF7A5C",
+      "cssVariable": "--partner-orange-5",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-6",
+      "category": "color",
+      "value": "#FA5E3B",
+      "cssVariable": "--partner-orange-6",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-7",
+      "category": "color",
+      "value": "#F04C25",
+      "cssVariable": "--partner-orange-7",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-8",
+      "category": "color",
+      "value": "#C8401F",
+      "cssVariable": "--partner-orange-8",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-orange-9",
+      "category": "color",
+      "value": "#A1371C",
+      "cssVariable": "--partner-orange-9",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-negative-fair",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-powerbi-datapoint-negative-fair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-negative-good",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--partner-powerbi-datapoint-negative-good",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-negative-goodfair",
+      "category": "color",
+      "value": "var(--partner-gray-3)",
+      "cssVariable": "--partner-powerbi-datapoint-negative-goodfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-negative-poor",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--partner-powerbi-datapoint-negative-poor",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-negative-poorfair",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-powerbi-datapoint-negative-poorfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-neutral-0",
+      "category": "color",
+      "value": "var(--partner-gray-3)",
+      "cssVariable": "--partner-powerbi-datapoint-neutral-0",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-neutral-negative-100",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--partner-powerbi-datapoint-neutral-negative-100",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-neutral-negative-50",
+      "category": "color",
+      "value": "var(--partner-red-4)",
+      "cssVariable": "--partner-powerbi-datapoint-neutral-negative-50",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-neutral-positive-100",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-powerbi-datapoint-neutral-positive-100",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-neutral-positive-50",
+      "category": "color",
+      "value": "var(--partner-blue-4)",
+      "cssVariable": "--partner-powerbi-datapoint-neutral-positive-50",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-positive-fair",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-powerbi-datapoint-positive-fair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-positive-good",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-powerbi-datapoint-positive-good",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-positive-goodfair",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-powerbi-datapoint-positive-goodfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-positive-poor",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--partner-powerbi-datapoint-positive-poor",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-datapoint-positive-poorfair",
+      "category": "color",
+      "value": "var(--partner-gray-3)",
+      "cssVariable": "--partner-powerbi-datapoint-positive-poorfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-branded-fair",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-powerbi-heatmap-branded-fair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-branded-good",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-powerbi-heatmap-branded-good",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-branded-goodfair",
+      "category": "color",
+      "value": "var(--partner-blue-2)",
+      "cssVariable": "--partner-powerbi-heatmap-branded-goodfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-branded-poor",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--partner-powerbi-heatmap-branded-poor",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-branded-poorfair",
+      "category": "color",
+      "value": "var(--partner-gray-3)",
+      "cssVariable": "--partner-powerbi-heatmap-branded-poorfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-traditional-fair",
+      "category": "color",
+      "value": "var(--partner-yellow-4)",
+      "cssVariable": "--partner-powerbi-heatmap-traditional-fair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-traditional-good",
+      "category": "color",
+      "value": "var(--partner-green-7)",
+      "cssVariable": "--partner-powerbi-heatmap-traditional-good",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-traditional-goodfair",
+      "category": "color",
+      "value": "var(--partner-green-4)",
+      "cssVariable": "--partner-powerbi-heatmap-traditional-goodfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-traditional-poor",
+      "category": "color",
+      "value": "var(--partner-red-6)",
+      "cssVariable": "--partner-powerbi-heatmap-traditional-poor",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-powerbi-heatmap-traditional-poorfair",
+      "category": "color",
+      "value": "var(--partner-red-4)",
+      "cssVariable": "--partner-powerbi-heatmap-traditional-poorfair",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-primary",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary",
+      "category": "color",
+      "value": "var(--partner-blue-4)",
+      "cssVariable": "--partner-primary",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-content",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-primary-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-content",
+      "category": "color",
+      "value": "var(--partner-blue-4)",
+      "cssVariable": "--partner-primary-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-primary-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-primary-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-dark",
+      "category": "color",
+      "value": "var(--partner-blue-8)",
+      "cssVariable": "--partner-primary-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-dark",
+      "category": "color",
+      "value": "var(--partner-blue-6)",
+      "cssVariable": "--partner-primary-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-light",
+      "category": "color",
+      "value": "var(--partner-blue-6)",
+      "cssVariable": "--partner-primary-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-light",
+      "category": "color",
+      "value": "var(--partner-blue-4)",
+      "cssVariable": "--partner-primary-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-main",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-primary-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-main",
+      "category": "color",
+      "value": "var(--partner-blue-5)",
+      "cssVariable": "--partner-primary-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-outlined-border",
+      "category": "color",
+      "value": "var(--partner-blue-7)",
+      "cssVariable": "--partner-primary-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-outlined-border",
+      "category": "color",
+      "value": "var(--partner-blue-5)",
+      "cssVariable": "--partner-primary-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-outlined-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-blue-2)",
+      "cssVariable": "--partner-primary-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-outlined-hover-pressed",
+      "category": "color",
+      "value": "rgba(86, 159, 217, 0.25)",
+      "cssVariable": "--partner-primary-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-outlined-hovered",
+      "category": "color",
+      "value": "var(--partner-blue-1)",
+      "cssVariable": "--partner-primary-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-primary-outlined-hovered",
+      "category": "color",
+      "value": "rgba(86, 159, 217, 0.15)",
+      "cssVariable": "--partner-primary-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-purple",
+      "category": "color",
+      "value": "#9747FF",
+      "cssVariable": "--partner-purple",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-radius-2xl",
+      "category": "radius",
+      "value": "1rem",
+      "cssVariable": "--partner-radius-2xl",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-3xl",
+      "category": "radius",
+      "value": "1.5rem",
+      "cssVariable": "--partner-radius-3xl",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-full",
+      "category": "radius",
+      "value": "9999px",
+      "cssVariable": "--partner-radius-full",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-lg",
+      "category": "radius",
+      "value": "0.5rem",
+      "cssVariable": "--partner-radius-lg",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-md",
+      "category": "radius",
+      "value": "0.25rem",
+      "cssVariable": "--partner-radius-md",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-none",
+      "category": "radius",
+      "value": "0rem",
+      "cssVariable": "--partner-radius-none",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-sm",
+      "category": "radius",
+      "value": "0.125rem",
+      "cssVariable": "--partner-radius-sm",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-xl",
+      "category": "radius",
+      "value": "0.75rem",
+      "cssVariable": "--partner-radius-xl",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-radius-xs",
+      "category": "radius",
+      "value": "0.0625rem",
+      "cssVariable": "--partner-radius-xs",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "partner-red-1",
+      "category": "color",
+      "value": "#FFEBEB",
+      "cssVariable": "--partner-red-1",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-10",
+      "category": "color",
+      "value": "#470B0B",
+      "cssVariable": "--partner-red-10",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-2",
+      "category": "color",
+      "value": "#FFD2D2",
+      "cssVariable": "--partner-red-2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-3",
+      "category": "color",
+      "value": "#FFA8A8",
+      "cssVariable": "--partner-red-3",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-4",
+      "category": "color",
+      "value": "#FF7B7B",
+      "cssVariable": "--partner-red-4",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-5",
+      "category": "color",
+      "value": "#F44C4C",
+      "cssVariable": "--partner-red-5",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-6",
+      "category": "color",
+      "value": "#D72F2F",
+      "cssVariable": "--partner-red-6",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-7",
+      "category": "color",
+      "value": "#B71C1C",
+      "cssVariable": "--partner-red-7",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-8",
+      "category": "color",
+      "value": "#981717",
+      "cssVariable": "--partner-red-8",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-red-9",
+      "category": "color",
+      "value": "#6F1111",
+      "cssVariable": "--partner-red-9",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-content",
+      "category": "color",
+      "value": "var(--partner-orange-9)",
+      "cssVariable": "--partner-secondary-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-content",
+      "category": "color",
+      "value": "var(--partner-orange-4)",
+      "cssVariable": "--partner-secondary-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-secondary-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-secondary-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-dark",
+      "category": "color",
+      "value": "var(--partner-orange-8)",
+      "cssVariable": "--partner-secondary-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-dark",
+      "category": "color",
+      "value": "var(--partner-orange-8)",
+      "cssVariable": "--partner-secondary-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-light",
+      "category": "color",
+      "value": "var(--partner-orange-6)",
+      "cssVariable": "--partner-secondary-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-light",
+      "category": "color",
+      "value": "var(--partner-orange-6)",
+      "cssVariable": "--partner-secondary-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-main",
+      "category": "color",
+      "value": "var(--partner-orange-7)",
+      "cssVariable": "--partner-secondary-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-main",
+      "category": "color",
+      "value": "var(--partner-orange-7)",
+      "cssVariable": "--partner-secondary-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-outlined-border",
+      "category": "color",
+      "value": "var(--partner-orange-7)",
+      "cssVariable": "--partner-secondary-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-outlined-border",
+      "category": "color",
+      "value": "var(--partner-orange-7)",
+      "cssVariable": "--partner-secondary-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-outlined-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-orange-2)",
+      "cssVariable": "--partner-secondary-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-outlined-hover-pressed",
+      "category": "color",
+      "value": "rgba(240, 76, 37, 0.25)",
+      "cssVariable": "--partner-secondary-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-outlined-hovered",
+      "category": "color",
+      "value": "var(--partner-orange-1)",
+      "cssVariable": "--partner-secondary-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-secondary-outlined-hovered",
+      "category": "color",
+      "value": "rgba(240, 76, 37, 0.15)",
+      "cssVariable": "--partner-secondary-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-shadow-lg",
+      "category": "shadow",
+      "value": "0px 4px 12px rgba(0, 0, 0, 0.24)",
+      "cssVariable": "--partner-shadow-lg",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "partner-shadow-md",
+      "category": "shadow",
+      "value": "0px 2px 8px rgba(0, 0, 0, 0.20)",
+      "cssVariable": "--partner-shadow-md",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "partner-shadow-none",
+      "category": "shadow",
+      "value": "none",
+      "cssVariable": "--partner-shadow-none",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "partner-shadow-sm",
+      "category": "shadow",
+      "value": "0px 1px 4px rgba(0, 0, 0, 0.16)",
+      "cssVariable": "--partner-shadow-sm",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "partner-spacing-half",
+      "category": "spacing",
+      "value": "calc(var(--spacing, 0.25rem) / 2)",
+      "cssVariable": "--partner-spacing-half",
+      "sourceFile": "src/styles/partner-spacing.css"
+    },
+    {
+      "name": "partner-success-content",
+      "category": "color",
+      "value": "var(--partner-green-9)",
+      "cssVariable": "--partner-success-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-content",
+      "category": "color",
+      "value": "var(--partner-green-4)",
+      "cssVariable": "--partner-success-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-success-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-success-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-dark",
+      "category": "color",
+      "value": "var(--partner-green-8)",
+      "cssVariable": "--partner-success-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-dark",
+      "category": "color",
+      "value": "var(--partner-green-6)",
+      "cssVariable": "--partner-success-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-light",
+      "category": "color",
+      "value": "var(--partner-green-6)",
+      "cssVariable": "--partner-success-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-light",
+      "category": "color",
+      "value": "var(--partner-green-4)",
+      "cssVariable": "--partner-success-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-main",
+      "category": "color",
+      "value": "var(--partner-green-7)",
+      "cssVariable": "--partner-success-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-main",
+      "category": "color",
+      "value": "var(--partner-green-5)",
+      "cssVariable": "--partner-success-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-outlined-border",
+      "category": "color",
+      "value": "var(--partner-green-7)",
+      "cssVariable": "--partner-success-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-outlined-border",
+      "category": "color",
+      "value": "var(--partner-green-5)",
+      "cssVariable": "--partner-success-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-outlined-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-green-2)",
+      "cssVariable": "--partner-success-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-outlined-hover-pressed",
+      "category": "color",
+      "value": "rgba(71, 182, 83, 0.25)",
+      "cssVariable": "--partner-success-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-outlined-hovered",
+      "category": "color",
+      "value": "var(--partner-green-1)",
+      "cssVariable": "--partner-success-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-success-outlined-hovered",
+      "category": "color",
+      "value": "rgba(71, 182, 83, 0.15)",
+      "cssVariable": "--partner-success-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-text",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-text",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-disabled",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--partner-text-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-disabled",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-text-disabled",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-placeholder",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--partner-text-placeholder",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-placeholder",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-text-placeholder",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-primary",
+      "category": "color",
+      "value": "var(--partner-gray-7)",
+      "cssVariable": "--partner-text-primary",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-primary",
+      "category": "color",
+      "value": "var(--partner-gray-1)",
+      "cssVariable": "--partner-text-primary",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-secondary",
+      "category": "color",
+      "value": "var(--partner-gray-6)",
+      "cssVariable": "--partner-text-secondary",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-secondary",
+      "category": "color",
+      "value": "var(--partner-gray-5)",
+      "cssVariable": "--partner-text-secondary",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-white",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-text-white",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-text-white",
+      "category": "color",
+      "value": "var(--partner-gray-10)",
+      "cssVariable": "--partner-text-white",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-content",
+      "category": "color",
+      "value": "var(--partner-yellow-10)",
+      "cssVariable": "--partner-warning-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-content",
+      "category": "color",
+      "value": "var(--partner-yellow-4)",
+      "cssVariable": "--partner-warning-content",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-warning-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-contrast",
+      "category": "color",
+      "value": "var(--partner-white)",
+      "cssVariable": "--partner-warning-contrast",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-dark",
+      "category": "color",
+      "value": "var(--partner-yellow-8)",
+      "cssVariable": "--partner-warning-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-dark",
+      "category": "color",
+      "value": "var(--partner-yellow-8)",
+      "cssVariable": "--partner-warning-dark",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-light",
+      "category": "color",
+      "value": "var(--partner-yellow-6)",
+      "cssVariable": "--partner-warning-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-light",
+      "category": "color",
+      "value": "var(--partner-yellow-6)",
+      "cssVariable": "--partner-warning-light",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-main",
+      "category": "color",
+      "value": "var(--partner-yellow-7)",
+      "cssVariable": "--partner-warning-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-main",
+      "category": "color",
+      "value": "var(--partner-yellow-7)",
+      "cssVariable": "--partner-warning-main",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-outlined-border",
+      "category": "color",
+      "value": "var(--partner-yellow-7)",
+      "cssVariable": "--partner-warning-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-outlined-border",
+      "category": "color",
+      "value": "var(--partner-yellow-7)",
+      "cssVariable": "--partner-warning-outlined-border",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-outlined-hover-pressed",
+      "category": "color",
+      "value": "var(--partner-yellow-2)",
+      "cssVariable": "--partner-warning-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-outlined-hover-pressed",
+      "category": "color",
+      "value": "rgba(241, 141, 0, 0.25)",
+      "cssVariable": "--partner-warning-outlined-hover-pressed",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-outlined-hovered",
+      "category": "color",
+      "value": "var(--partner-yellow-1)",
+      "cssVariable": "--partner-warning-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-warning-outlined-hovered",
+      "category": "color",
+      "value": "rgba(241, 141, 0, 0.15)",
+      "cssVariable": "--partner-warning-outlined-hovered",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-white",
+      "category": "color",
+      "value": "#FFFFFF",
+      "cssVariable": "--partner-white",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-1",
+      "category": "color",
+      "value": "#FFF6E8",
+      "cssVariable": "--partner-yellow-1",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-10",
+      "category": "color",
+      "value": "#633700",
+      "cssVariable": "--partner-yellow-10",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-2",
+      "category": "color",
+      "value": "#FFE3BA",
+      "cssVariable": "--partner-yellow-2",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-3",
+      "category": "color",
+      "value": "#FFD18C",
+      "cssVariable": "--partner-yellow-3",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-4",
+      "category": "color",
+      "value": "#FFBB4F",
+      "cssVariable": "--partner-yellow-4",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-5",
+      "category": "color",
+      "value": "#FFA626",
+      "cssVariable": "--partner-yellow-5",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-6",
+      "category": "color",
+      "value": "#F89400",
+      "cssVariable": "--partner-yellow-6",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-7",
+      "category": "color",
+      "value": "#F18D00",
+      "cssVariable": "--partner-yellow-7",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-8",
+      "category": "color",
+      "value": "#C46F00",
+      "cssVariable": "--partner-yellow-8",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-yellow-9",
+      "category": "color",
+      "value": "#9B5700",
+      "cssVariable": "--partner-yellow-9",
+      "sourceFile": "src/styles/partner-colors.css"
+    },
+    {
+      "name": "partner-z-dialog",
+      "category": "other",
+      "value": "var(--partner-z-overlay-50)",
+      "cssVariable": "--partner-z-dialog",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-dropdown",
+      "category": "other",
+      "value": "var(--partner-z-overlay)",
+      "cssVariable": "--partner-z-dropdown",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-fixed",
+      "category": "other",
+      "value": "var(--partner-z-overlay-30)",
+      "cssVariable": "--partner-z-fixed",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-index",
+      "category": "other",
+      "value": "1000",
+      "cssVariable": "--partner-z-index",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay",
+      "category": "other",
+      "value": "var(--partner-z-index)",
+      "cssVariable": "--partner-z-overlay",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-10",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 10)",
+      "cssVariable": "--partner-z-overlay-10",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-100",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 100)",
+      "cssVariable": "--partner-z-overlay-100",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-20",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 20)",
+      "cssVariable": "--partner-z-overlay-20",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-30",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 30)",
+      "cssVariable": "--partner-z-overlay-30",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-40",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 40)",
+      "cssVariable": "--partner-z-overlay-40",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-50",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 50)",
+      "cssVariable": "--partner-z-overlay-50",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-60",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 60)",
+      "cssVariable": "--partner-z-overlay-60",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-70",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 70)",
+      "cssVariable": "--partner-z-overlay-70",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-80",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 80)",
+      "cssVariable": "--partner-z-overlay-80",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-overlay-90",
+      "category": "other",
+      "value": "calc(var(--partner-z-index) + 90)",
+      "cssVariable": "--partner-z-overlay-90",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-popover",
+      "category": "other",
+      "value": "var(--partner-z-overlay-70)",
+      "cssVariable": "--partner-z-popover",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-sticky",
+      "category": "other",
+      "value": "var(--partner-z-overlay-20)",
+      "cssVariable": "--partner-z-sticky",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-toast",
+      "category": "other",
+      "value": "var(--partner-z-overlay-90)",
+      "cssVariable": "--partner-z-toast",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "partner-z-tooltip",
+      "category": "other",
+      "value": "var(--partner-z-overlay-80)",
+      "cssVariable": "--partner-z-tooltip",
+      "sourceFile": "src/styles/partner-z-indexing.css"
+    },
+    {
+      "name": "popover",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--popover",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "popover",
+      "category": "other",
+      "value": "oklch(1 0 0)",
+      "cssVariable": "--popover",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "popover",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--popover",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "popover-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--popover-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "popover-foreground",
+      "category": "other",
+      "value": "oklch(0.145 0 0)",
+      "cssVariable": "--popover-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "popover-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--popover-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "primary",
+      "category": "color",
+      "value": "var(--partner-primary-main)",
+      "cssVariable": "--primary",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "primary",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--primary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "primary",
+      "category": "other",
+      "value": "oklch(0.922 0 0)",
+      "cssVariable": "--primary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "primary-foreground",
+      "category": "color",
+      "value": "var(--partner-primary-contrast)",
+      "cssVariable": "--primary-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "primary-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--primary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "primary-foreground",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--primary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "radius",
+      "category": "color",
+      "value": "0.625rem",
+      "cssVariable": "--radius",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "radius",
+      "category": "other",
+      "value": "0.625rem",
+      "cssVariable": "--radius",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "radius-2xl",
+      "category": "radius",
+      "value": "var(--partner-radius-2xl)",
+      "cssVariable": "--radius-2xl",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-3xl",
+      "category": "radius",
+      "value": "var(--partner-radius-3xl)",
+      "cssVariable": "--radius-3xl",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-full",
+      "category": "radius",
+      "value": "var(--partner-radius-full)",
+      "cssVariable": "--radius-full",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-lg",
+      "category": "radius",
+      "value": "var(--partner-radius-lg)",
+      "cssVariable": "--radius-lg",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-lg",
+      "category": "other",
+      "value": "var(--radius)",
+      "cssVariable": "--radius-lg",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "radius-md",
+      "category": "radius",
+      "value": "var(--partner-radius-md)",
+      "cssVariable": "--radius-md",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-md",
+      "category": "other",
+      "value": "calc(var(--radius) - 2px)",
+      "cssVariable": "--radius-md",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "radius-none",
+      "category": "radius",
+      "value": "var(--partner-radius-none)",
+      "cssVariable": "--radius-none",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-sm",
+      "category": "radius",
+      "value": "var(--partner-radius-sm)",
+      "cssVariable": "--radius-sm",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-sm",
+      "category": "other",
+      "value": "calc(var(--radius) - 4px)",
+      "cssVariable": "--radius-sm",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "radius-xl",
+      "category": "radius",
+      "value": "var(--partner-radius-xl)",
+      "cssVariable": "--radius-xl",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "radius-xl",
+      "category": "other",
+      "value": "calc(var(--radius) + 4px)",
+      "cssVariable": "--radius-xl",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "radius-xs",
+      "category": "radius",
+      "value": "var(--partner-radius-xs)",
+      "cssVariable": "--radius-xs",
+      "sourceFile": "src/styles/partner-radius.css"
+    },
+    {
+      "name": "ring",
+      "category": "color",
+      "value": "var(--partner-primary-light)",
+      "cssVariable": "--ring",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "ring",
+      "category": "other",
+      "value": "oklch(0.708 0 0)",
+      "cssVariable": "--ring",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "ring",
+      "category": "other",
+      "value": "oklch(0.556 0 0)",
+      "cssVariable": "--ring",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "secondary",
+      "category": "color",
+      "value": "var(--partner-secondary-main)",
+      "cssVariable": "--secondary",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "secondary",
+      "category": "other",
+      "value": "oklch(0.97 0 0)",
+      "cssVariable": "--secondary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "secondary",
+      "category": "other",
+      "value": "oklch(0.269 0 0)",
+      "cssVariable": "--secondary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "secondary-foreground",
+      "category": "color",
+      "value": "var(--partner-secondary-contrast)",
+      "cssVariable": "--secondary-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "secondary-foreground",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--secondary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "secondary-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--secondary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "shadow-lg",
+      "category": "shadow",
+      "value": "var(--partner-shadow-lg)",
+      "cssVariable": "--shadow-lg",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "shadow-md",
+      "category": "shadow",
+      "value": "var(--partner-shadow-md)",
+      "cssVariable": "--shadow-md",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "shadow-none",
+      "category": "shadow",
+      "value": "var(--partner-shadow-none)",
+      "cssVariable": "--shadow-none",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "shadow-sm",
+      "category": "shadow",
+      "value": "var(--partner-shadow-sm)",
+      "cssVariable": "--shadow-sm",
+      "sourceFile": "src/styles/partner-shadows.css"
+    },
+    {
+      "name": "sidebar",
+      "category": "color",
+      "value": "var(--partner-background-white)",
+      "cssVariable": "--sidebar",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--sidebar",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--sidebar",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-accent",
+      "category": "color",
+      "value": "var(--partner-fill-hovered)",
+      "cssVariable": "--sidebar-accent",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-accent",
+      "category": "other",
+      "value": "oklch(0.97 0 0)",
+      "cssVariable": "--sidebar-accent",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-accent",
+      "category": "other",
+      "value": "oklch(0.269 0 0)",
+      "cssVariable": "--sidebar-accent",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-accent-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--sidebar-accent-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-accent-foreground",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--sidebar-accent-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-accent-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--sidebar-accent-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-border",
+      "category": "color",
+      "value": "var(--partner-border-light)",
+      "cssVariable": "--sidebar-border",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-border",
+      "category": "other",
+      "value": "oklch(0.922 0 0)",
+      "cssVariable": "--sidebar-border",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-border",
+      "category": "other",
+      "value": "oklch(1 0 0 / 10%)",
+      "cssVariable": "--sidebar-border",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-foreground",
+      "category": "color",
+      "value": "var(--partner-text-primary)",
+      "cssVariable": "--sidebar-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-foreground",
+      "category": "other",
+      "value": "oklch(0.145 0 0)",
+      "cssVariable": "--sidebar-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--sidebar-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-primary",
+      "category": "color",
+      "value": "var(--partner-primary-main)",
+      "cssVariable": "--sidebar-primary",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-primary",
+      "category": "other",
+      "value": "oklch(0.205 0 0)",
+      "cssVariable": "--sidebar-primary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-primary",
+      "category": "other",
+      "value": "oklch(0.488 0.243 264.376)",
+      "cssVariable": "--sidebar-primary",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-primary-foreground",
+      "category": "color",
+      "value": "var(--partner-text-white)",
+      "cssVariable": "--sidebar-primary-foreground",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-primary-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--sidebar-primary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-primary-foreground",
+      "category": "other",
+      "value": "oklch(0.985 0 0)",
+      "cssVariable": "--sidebar-primary-foreground",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-ring",
+      "category": "color",
+      "value": "var(--partner-primary-light)",
+      "cssVariable": "--sidebar-ring",
+      "sourceFile": "src/styles/colors.css"
+    },
+    {
+      "name": "sidebar-ring",
+      "category": "other",
+      "value": "oklch(0.708 0 0)",
+      "cssVariable": "--sidebar-ring",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "sidebar-ring",
+      "category": "other",
+      "value": "oklch(0.556 0 0)",
+      "cssVariable": "--sidebar-ring",
+      "sourceFile": "src/styles/shadcn.css"
+    },
+    {
+      "name": "spacing-half",
+      "category": "spacing",
+      "value": "var(--partner-spacing-half)",
+      "cssVariable": "--spacing-half",
+      "sourceFile": "src/styles/partner-spacing.css"
+    }
+  ]
+}

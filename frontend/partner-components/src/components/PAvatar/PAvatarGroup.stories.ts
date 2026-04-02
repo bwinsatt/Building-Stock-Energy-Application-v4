@@ -33,6 +33,19 @@ const meta: Meta<typeof PAvatarGroup> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PAvatarGroup
+  size="medium"
+  shape="circle"
+  :max-visible="4"
+  :avatars="[
+    { name: 'Jane Doe', badge: 'online' },
+    { name: 'John Doe', badge: 'busy' },
+    { name: 'Bob Doe', badge: 'away' },
+    { name: 'Alice Doe', badge: 'offline' },
+    { name: 'Charlie Doe' },
+  ]"
+/>`
+
 export const Default: Story = {
   args: {
     size: 'medium',
@@ -70,5 +83,8 @@ export const Default: Story = {
         name: 'Charlie Doe',
       },
     ],
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
 }

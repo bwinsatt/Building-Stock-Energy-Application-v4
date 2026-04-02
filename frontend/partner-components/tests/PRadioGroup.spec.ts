@@ -27,7 +27,7 @@ function renderRadioGroup(props: Partial<PRadioGroupProps> = {}) {
 }
 
 test('renders all options with labels', () => {
-  const { getByText, radioFor } = renderRadioGroup()
+  const { getByText, radioFor, getByTestId } = renderRadioGroup()
 
   expect(radioFor('Apple').element()).toBeTruthy()
   expect(radioFor('Banana').element()).toBeTruthy()
@@ -36,6 +36,8 @@ test('renders all options with labels', () => {
   expect(getByText('Apple')).toBeInTheDocument()
   expect(getByText('Banana')).toBeInTheDocument()
   expect(getByText('Cherry')).toBeInTheDocument()
+  expect(radioFor('Apple')).toHaveClass('cursor-pointer')
+  expect(getByTestId(generateTestId('PRadioGroupItem', 'Apple')).getByTestId('plabel')).toHaveClass('cursor-pointer')
 })
 
 test('pre-selects the option matching "selected"', async () => {
@@ -54,7 +56,7 @@ test('clicking an option emits update:modelValue', async () => {
 })
 
 test('disabled group prevents all interaction', async () => {
-  const { radioFor, onUpdateModelValue } = renderRadioGroup({
+  const { radioFor, onUpdateModelValue, getByTestId } = renderRadioGroup({
     selected: 'apple',
     disabled: true,
   })
@@ -62,6 +64,8 @@ test('disabled group prevents all interaction', async () => {
   await expect.element(radioFor('Apple')).toHaveAttribute('disabled')
   await expect.element(radioFor('Banana')).toHaveAttribute('disabled')
   await expect.element(radioFor('Cherry')).toHaveAttribute('disabled')
+  await expect.element(radioFor('Apple')).toHaveClass('disabled:cursor-not-allowed')
+  await expect.element(getByTestId(generateTestId('PRadioGroupItem', 'Apple')).getByTestId('plabel')).not.toHaveClass('cursor-pointer')
 
   await radioFor('Banana').click({ force: true })
   expect(onUpdateModelValue).not.toHaveBeenCalled()

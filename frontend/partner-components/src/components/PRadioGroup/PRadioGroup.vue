@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import type { RadioGroupRootEmits, RadioGroupRootProps } from "reka-ui"
+import type { PRadioGroupVariants } from "."
 import { RadioGroupRoot, useForwardPropsEmits } from "reka-ui"
 import { computed, type HTMLAttributes } from "vue"
 import { reactiveOmit } from "@vueuse/core"
 import { cn } from "@/lib/utils"
 import { type PRadioGroupItemProps, PRadioGroupItem } from "."
 import type { Size } from '@/types/size'
-import { PLabel } from "@/components/PLabel"
-import { useInputStyles } from "@/composables/useInputStyles"
+import { PInputWrapper } from "@/components/PInputWrapper"
 import { useTestId } from '@/composables/useTestId'
 
 export interface PRadioGroupProps {
   name?: string
   options?: PRadioGroupItemProps[]
+  variant?: PRadioGroupVariants["variant"]
   orientation?: 'horizontal' | 'vertical'
   labelOrientation?: 'horizontal' | 'vertical'
   selected?: string
@@ -28,6 +29,7 @@ export interface PRadioGroupProps {
 
 const props = withDefaults(defineProps<PRadioGroupProps & RadioGroupRootProps>(), {
   orientation: 'horizontal',
+  variant: 'default',
   required: false,
   disabled: false,
   size: 'medium',
@@ -50,46 +52,29 @@ const orientationClass = computed(() => {
   }
 })
 
-const { helperErrorText } = useInputStyles(props)
+const variantGapClass = computed(() => props.variant === 'rating' ? 'gap-2' : 'gap-4')
 
 const { testIdAttrs } = useTestId(() => props.name ? '' : props.label)
 </script>
 
 <template>
-  <div
-    v-bind="testIdAttrs"
-    class="flex flex-col gap-1"
-  >
-    <PLabel
-      v-if="label"
-      :disabled="disabled"
-      :required="required"
-      :error="error"
-    >
-      <slot name="label">
-        {{ label }}
-      </slot>
-    </PLabel>
+  <PInputWrapper v-bind="props">
     <RadioGroupRoot
-      :class="cn('flex w-fit gap-4', orientationClass, props.class)"
-      v-bind="forwarded"
+      :key="`PRadioGroup ${props.selected}`"
+      :class="cn('flex w-fit', variantGapClass, orientationClass, props.class)"
+      v-bind="{...testIdAttrs, ...forwarded}"
       :default-value="props.selected || forwarded.defaultValue"
     >
       <PRadioGroupItem 
         v-for="(option, index) in options"
         v-bind="option"
         :key="index"
+        :disabled="props.disabled || option.disabled"
         :size="props.size"
+        :variant="option.variant === 'rating' || props.variant === 'rating' ? 'rating' : 'default'"
         :orientation="labelOrientation || option.orientation"
       />
       <slot v-if="!options" />
     </RadioGroupRoot>
-    <PLabel
-      v-if="helperErrorText"
-      :disabled="disabled"
-      :error="error"
-    >
-      {{ helperErrorText }}
-    </PLabel>
-  </div>
+  </PInputWrapper>
 </template>

@@ -11,6 +11,11 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PCheckbox
+  id="terms"
+  label="Accept terms and conditions"
+/>`
+
 export const Default: Story = {
   args: {
     id: 'checkbox',
@@ -56,6 +61,9 @@ export const Default: Story = {
       args: 'value: boolean | "indeterminate"',
       description: 'The function to call when the checkbox is changed',
     },
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
 }
 

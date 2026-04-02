@@ -41,7 +41,17 @@ const meta: Meta<typeof PPagination> = {
 
 export default meta
 
+const defaultExportableCode = `<PPagination
+  :items-per-page="1"
+  :total-pages="12"
+  :current-page="1"
+  size="medium"
+/>`
+
 export const Default: StoryObj<typeof PPagination> = {
+  parameters: {
+    exportableCode: defaultExportableCode,
+  },
   render: (args) => ({
     components: { PPagination },
     setup: () => ({ args }),

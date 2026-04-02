@@ -53,6 +53,7 @@ const direction = computed(() => {
     :delay-duration="props.delayDuration"
     :skip-delay-duration="props.skipDelayDuration"
     :disable-closing-trigger="props.disableClosingTrigger"
+    class="partner-preflight"
   >
     <Tooltip 
       :default-open="props.defaultOpen"
@@ -64,9 +65,11 @@ const direction = computed(() => {
       </TooltipTrigger>
       <TooltipContent
         :style="{ '--tooltip-close-duration': `${props.closeDuration}ms` }"
-        :class="cn('z-999 relative size-fit max-w-70 overflow-visible rounded-sm bg-(--partner-fill-tooltip) partner-tooltip text-partner-white px-2 py-1', 
+        :class="cn('partner-preflight',
+                   'z-999 relative size-fit max-w-70 overflow-visible rounded-sm bg-(--partner-fill-tooltip) partner-tooltip px-2 py-1',
                    `data-[state=closed]:duration-(--tooltip-close-duration)`,
-                   props.class)"
+                   props.class,
+        )"
         :side="direction || 'bottom'"
         :side-offset="props.offset + 4"
       >

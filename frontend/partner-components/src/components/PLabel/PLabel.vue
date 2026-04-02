@@ -4,14 +4,14 @@ import { Label } from '@/components/shadcn/ui/label'
 import { useTestId } from '@/composables/useTestId'
 import { PTypography } from '@/components/PTypography'
 import { computed, type HTMLAttributes } from 'vue'
-import type { TypographyVariant, TypographyComponent } from '@/components/PTypography/types'
+import type { PTypographyVariant, PTypographyComponent } from '@/components/PTypography/types'
 import { cn } from '@/lib/utils'
 
 export interface PLabelProps {
   for?: string
   class?: HTMLAttributes['class']
-  variant?: TypographyVariant
-  component?: TypographyComponent
+  variant?: PTypographyVariant
+  component?: PTypographyComponent
   disabled?: boolean
   required?: boolean
   error?: boolean
@@ -28,7 +28,7 @@ const { testIdAttrs } = useTestId()
 
 const errorClass = computed(() => props.error ? 'text-(--partner-error-main)' : '')
 
-const disabledClass = computed(() => props.disabled ? 'cursor-not-allowed text-(--partner-text-disabled) dark:text-(--partner-text-disabled)/25' : '')
+const disabledClass = computed(() => props.disabled ? 'cursor-not-allowed text-(--partner-text-disabled)' : '')
 
 const disabledErrorClass = computed(() => props.disabled ? 'opacity-50' : '')
 </script>
@@ -36,7 +36,7 @@ const disabledErrorClass = computed(() => props.disabled ? 'opacity-50' : '')
 <template>
   <Label
     :for="props.for"
-    :class="cn('font-normal text-partner-secondary', errorClass, disabledClass, props.class)"
+    :class="cn('partner-preflight font-normal text-partner-secondary', errorClass, disabledClass, props.class)"
     v-bind="testIdAttrs"
     :data-disabled="props.disabled"
   >

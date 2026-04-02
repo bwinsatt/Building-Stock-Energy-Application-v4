@@ -48,5 +48,6 @@ const { testIdAttrs } = useTestId(() => fileName.value)
     :height="props.height"
     :alt="props.alt"
     v-bind="testIdAttrs"
+    class="partner-preflight"
   >
 </template>

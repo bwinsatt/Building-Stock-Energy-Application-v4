@@ -5,7 +5,8 @@ import type { HTMLAttributes } from "vue"
 import { reactiveOmit } from "@vueuse/core"
 import { CheckboxGroupRoot, useForwardPropsEmits } from "reka-ui"
 import { cn } from "@/lib/utils"
-import { computed, ref, watch, type ComputedRef } from 'vue'
+import { computed, watch, type ComputedRef } from 'vue'
+import { useVModel } from '@vueuse/core'
 import { useTestId } from '@/composables/useTestId'
 import { 
   PCheckbox, 
@@ -13,8 +14,7 @@ import {
   type PCheckboxGroupProps, 
   type PCheckboxGroupEmits 
 } from '@/components/PCheckbox'
-import { PLabel } from '@/components/PLabel'
-import { useInputStyles } from '@/composables/useInputStyles'
+import { PInputWrapper } from '@/components/PInputWrapper'
 
 const props = withDefaults(defineProps<PCheckboxGroupProps & CheckboxGroupRootProps & { class?: HTMLAttributes["class"] }>(), {
   label: '',
@@ -29,36 +29,32 @@ const props = withDefaults(defineProps<PCheckboxGroupProps & CheckboxGroupRootPr
 
 const emits = defineEmits<CheckboxGroupRootEmits & PCheckboxGroupEmits>()
 
-const delegatedProps = reactiveOmit(props, "class", "checkboxes", "label")
+const delegatedProps = reactiveOmit(props, "class", "checkboxes", "label", "modelValue")
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 
 const { testIdAttrs } = useTestId(() => props.label)
 
-// Computed properties
-const disabled = computed(() => props.disabled ? true : undefined) as ComputedRef<boolean | undefined>
-
 const orientationClass = computed(() => 
   props.orientation === 'horizontal' ? 'flex flex-row gap-4' : 'flex flex-col gap-0'
 ) as ComputedRef<string>
-
-const { helperErrorText } = useInputStyles(props)
 
 const getCheckboxIdentifier = (checkbox: PCheckboxGroupItemProps, index: number): AcceptableValue => 
   checkbox.label || `checkbox-${index}`
 
 // Track which checkboxes are checked in the group
-const checkedValues = ref<AcceptableValue[]>(
-  props.checkboxes
+const checkedValues = useVModel(props, 'modelValue', emits, {
+  passive: true,
+  defaultValue: props.checkboxes
     .filter(cb => cb.checked || cb.indeterminate)
-    .map((cb, idx) => getCheckboxIdentifier(cb, idx))
-)
+    .map((cb, idx) => getCheckboxIdentifier(cb, idx)),
+})
 
 // Emit changed event when checkedValues changes
 watch(checkedValues, (newValues) => {
   const changedCheckboxes = props.checkboxes.map((checkbox, index) => ({
     ...checkbox,
-    checked: newValues.includes(getCheckboxIdentifier(checkbox, index))
+    checked: newValues?.includes(getCheckboxIdentifier(checkbox, index)) ?? false
   }))
   if (props.onChange) {
     props.onChange(changedCheckboxes)
@@ -68,25 +64,11 @@ watch(checkedValues, (newValues) => {
 </script>
   
 <template>
-  <div
-    v-bind="testIdAttrs"
-    :class="cn(props.class)"
-  >
-    <PLabel 
-      v-if="label" 
-      :disabled="disabled" 
-      :required="required"
-      :error="error"
-    >
-      <slot name="label">
-        {{ label }}
-      </slot>
-    </PLabel>
-      
+  <PInputWrapper v-bind="props">
     <CheckboxGroupRoot 
-      v-bind="forwarded" 
+      v-bind="{...testIdAttrs, ...forwarded}" 
       v-model="checkedValues"
-      :class="cn(orientationClass)"
+      :class="cn(orientationClass, props.class)"
       data-testid="checkbox-group"
     >
       <PCheckbox 
@@ -94,19 +76,11 @@ watch(checkedValues, (newValues) => {
         :id="checkbox.id || checkbox.label"
         :key="index"
         :value="getCheckboxIdentifier(checkbox, index)"
-        :checked="checkedValues.includes(getCheckboxIdentifier(checkbox, index))" 
-        :disabled="props.disabled" 
+        :checked="checkedValues?.includes(getCheckboxIdentifier(checkbox, index)) ?? false" 
+        :disabled="checkbox.disabled || props.disabled" 
         :size="size" 
         :label="checkbox.label" 
       />
     </CheckboxGroupRoot>
-
-    <PLabel
-      v-if="helperErrorText"
-      :disabled="disabled" 
-      :error="error"
-    >
-      {{ helperErrorText }}
-    </PLabel>
-  </div>
+  </PInputWrapper>
 </template>

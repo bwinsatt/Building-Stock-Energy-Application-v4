@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/vue3'
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
 import './storybook.css'
+import { onMounted, onUnmounted } from 'vue'
 
 const preview: Preview = {
   parameters: {
@@ -25,6 +26,18 @@ const preview: Preview = {
       defaultTheme: 'light',
       attributeName: 'data-mode',
     }),
+    (story, context) => ({
+      setup() {
+        const enabled = !context.parameters.disablePreflight
+        onMounted(() => {
+          if (enabled) document.body.classList.add('partner-preflight')
+        })
+        onUnmounted(() => {
+          document.body.classList.remove('partner-preflight')
+        })
+      },
+      template: '<story />',
+    }),  
   ],
 }
 

@@ -11,6 +11,7 @@ export const chipVariants = [
 
 export const chipAppearances = [
   'contained',
+  'soft',
   'outlined',
 ]
 

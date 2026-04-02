@@ -6,6 +6,8 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      include: ['tests/**/*.spec.ts'],
+      exclude: ['tests/**/*.node.spec.ts'],
       browser: {
         enabled: true,
         provider: playwright(),

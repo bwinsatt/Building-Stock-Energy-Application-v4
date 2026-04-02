@@ -17,7 +17,7 @@ const { testIdAttrs } = useTestId()
 <template>
   <TableFooter
     :class="cn(
-      'dark:border-(--partner-inherit-white-border)', 
+      'partner-preflight',
       'bg-transparent [&_tr]:bg-(--partner-inherit-hovered)/25 [&_tr]:hover:bg-(--partner-inherit-hovered)/25 [&_tr]:hover:dark:bg-(--partner-inherit-hovered)/25', // Apply background to rows instead of the whole footer, remove hover from footer rows
       '[&_tr:has([data-testid*=ppagination])]:bg-transparent [&_tr:has([data-testid*=ppagination])]:hover:bg-transparent', // Pagination row should not have a background
       props.class)"

@@ -7,11 +7,11 @@ import { generateTestId } from '@/utils/testId'
 
 test.each([
   { variant: 'primary', appearance: 'contained', size: 'medium', iconButton: false, class: 'test-class', disabled: false },
-  { variant: 'secondary', appearance: 'outlined', size: 'small', iconButton: true, class: 'test-class' },
+  { variant: 'secondary', appearance: 'outlined', size: 'small', iconButton: true, icon: 'edit', class: 'test-class' },
   { variant: 'error', appearance: 'text', size: 'large', iconButton: false, class: 'test-class' },
-  { variant: 'warning', appearance: 'link', size: 'medium', iconButton: true, class: 'test-class' },
+  { variant: 'warning', appearance: 'link', size: 'medium', iconButton: true, icon: 'edit', class: 'test-class' },
   { variant: 'success', appearance: 'contained', size: 'small', iconButton: false, class: 'test-class' },
-  { variant: 'neutral', appearance: 'outlined', size: 'large', iconButton: true, class: 'test-class' },
+  { variant: 'neutral', appearance: 'outlined', size: 'large', iconButton: true, icon: 'edit', class: 'test-class' },
   { variant: 'neutral', appearance: 'outlined', size: 'large', iconButton: false, class: 'test-class', disabled: true, icon: 'edit' },
 ])('PButton with props: %o', async (propsToTest) => {
   const buttonProps = propsToTest as PButtonProps

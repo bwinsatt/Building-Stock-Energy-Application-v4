@@ -14,10 +14,36 @@ import {
 import { PTypography } from '@/components/PTypography'
 import { PIcon } from '@/components/PIcon'
 import { PButton, type PButtonProps } from '@/components/PButton'
-import { PCheckbox } from '@/components/PCheckbox'
+import { PCheckbox, type CheckedState } from '@/components/PCheckbox'
 import { PPagination } from '@/components/PPagination'
 import { sizeOptions } from '@/types/size'
 import { ref, computed } from 'vue'
+
+interface TableAction {
+  label: string
+  icon: string
+  onClick: () => void
+}
+
+interface TableVariantsStoryArgs {
+  size?: (typeof sizeOptions)[number]
+  onSortChanged?: (headerName: string, direction: 'asc' | 'desc' | 'none') => void
+  onFilterClicked?: (headerName: string, rect: DOMRect) => void
+  onSelectChanged?: (headerName: string, value: CheckedState) => void
+  onExpandClicked?: (headerName: string) => void
+  onCellClick?: (cellValue: string) => void
+  onOverflowMenuClick?: (actions: TableAction[]) => void
+}
+
+type ResolvedTableVariantsStoryArgs =
+  Omit<TableVariantsStoryArgs, 'onSortChanged' | 'onFilterClicked' | 'onSelectChanged' | 'onExpandClicked' | 'onCellClick' | 'onOverflowMenuClick'> & {
+    onSortChanged: NonNullable<TableVariantsStoryArgs['onSortChanged']>
+    onFilterClicked: NonNullable<TableVariantsStoryArgs['onFilterClicked']>
+    onSelectChanged: NonNullable<TableVariantsStoryArgs['onSelectChanged']>
+    onExpandClicked: NonNullable<TableVariantsStoryArgs['onExpandClicked']>
+    onCellClick: NonNullable<TableVariantsStoryArgs['onCellClick']>
+    onOverflowMenuClick: NonNullable<TableVariantsStoryArgs['onOverflowMenuClick']>
+  }
 
 const buttonProps: PButtonProps = {
   variant: 'neutral',
@@ -49,7 +75,7 @@ const meta: Meta<typeof PTable> = {
 
 export default meta
 
-type Story = StoryObj<typeof PTable>
+type Story = StoryObj<typeof meta>
 
 const defaultCode = `
     <Card>
@@ -123,8 +149,32 @@ const defaultCode = `
         </PTable>
       </CardContent>
     </Card>`
+
+const defaultExportableCode = `<PTable>
+  <PTableHeader variant="gray-fill" size="medium">
+    <PTableRow>
+      <PTableHead>Name</PTableHead>
+      <PTableHead>Email</PTableHead>
+      <PTableHead>Phone</PTableHead>
+    </PTableRow>
+  </PTableHeader>
+
+  <PTableBody>
+    <PTableRow>
+      <PTableCell><PTypography>John Doe</PTypography></PTableCell>
+      <PTableCell><PTypography>john.doe@example.com</PTypography></PTableCell>
+      <PTableCell><PTypography>1234567890</PTypography></PTableCell>
+    </PTableRow>
+    <PTableRow>
+      <PTableCell><PTypography>Jane Doe</PTypography></PTableCell>
+      <PTableCell><PTypography>jane.doe@example.com</PTypography></PTableCell>
+      <PTableCell><PTypography>0987654321</PTypography></PTableCell>
+    </PTableRow>
+  </PTableBody>
+</PTable>`
 export const Default: Story = {
   parameters: {
+    exportableCode: defaultExportableCode,
     docs: {
       source: {
         code: defaultCode,
@@ -399,19 +449,29 @@ export const Variants: Story = {
   render: (args) => ({
     components: { PTable, ...meta.subcomponents },
     setup() {
-      const actions = [
-        { label: 'Edit', icon: 'edit', onClick: () => (args as any).onCellClick('Edit') },
-        { label: 'Email', icon: 'email', onClick: () => (args as any).onCellClick('Email') },
-        { label: 'Delete', icon: 'trash-can', onClick: () => (args as any).onCellClick('Delete') },
+      const storyArgs = {
+        ...(args as typeof args & TableVariantsStoryArgs),
+        onSortChanged: (args as TableVariantsStoryArgs).onSortChanged ?? (() => undefined),
+        onFilterClicked: (args as TableVariantsStoryArgs).onFilterClicked ?? (() => undefined),
+        onSelectChanged: (args as TableVariantsStoryArgs).onSelectChanged ?? (() => undefined),
+        onExpandClicked: (args as TableVariantsStoryArgs).onExpandClicked ?? (() => undefined),
+        onCellClick: (args as TableVariantsStoryArgs).onCellClick ?? (() => undefined),
+        onOverflowMenuClick: (args as TableVariantsStoryArgs).onOverflowMenuClick ?? (() => undefined),
+      } satisfies typeof args & ResolvedTableVariantsStoryArgs
+
+      const actions: TableAction[] = [
+        { label: 'Edit', icon: 'edit', onClick: () => storyArgs.onCellClick('Edit') },
+        { label: 'Email', icon: 'email', onClick: () => storyArgs.onCellClick('Email') },
+        { label: 'Delete', icon: 'trash-can', onClick: () => storyArgs.onCellClick('Delete') },
       ]
-      const actionsBig = [
-        { label: 'Edit', icon: 'edit', onClick: () => (args as any).onCellClick('Edit') },
-        { label: 'Email', icon: 'email', onClick: () => (args as any).onCellClick('Email') },
-        { label: 'Phone', icon: 'phone', onClick: () => (args as any).onCellClick('Phone') },
-        { label: 'Delete', icon: 'trash-can', onClick: () => (args as any).onCellClick('Delete') },
+      const actionsBig: TableAction[] = [
+        { label: 'Edit', icon: 'edit', onClick: () => storyArgs.onCellClick('Edit') },
+        { label: 'Email', icon: 'email', onClick: () => storyArgs.onCellClick('Email') },
+        { label: 'Phone', icon: 'phone', onClick: () => storyArgs.onCellClick('Phone') },
+        { label: 'Delete', icon: 'trash-can', onClick: () => storyArgs.onCellClick('Delete') },
       ]
 
-      return { args, buttonProps, actions, actionsBig }
+      return { args: storyArgs, buttonProps, actions, actionsBig }
     },
     template: variantsCode,
   }),

@@ -1,0 +1,4793 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-30T19:11:56.184Z",
+  "components": [
+    {
+      "id": "p-alert",
+      "name": "PAlert",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PAlert"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PAlert/PAlert.vue"
+      },
+      "props": [
+        {
+          "name": "actionButtonProps",
+          "type": "PButtonProps",
+          "required": false
+        },
+        {
+          "name": "actionButtonText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "'start' | 'center' | 'end'",
+          "required": false,
+          "options": [
+            "center",
+            "end",
+            "start"
+          ]
+        },
+        {
+          "name": "appearance",
+          "type": "PAlertVariants[\"appearance\"]",
+          "required": false,
+          "options": [
+            "contained",
+            "outlined",
+            "underline"
+          ],
+          "default": "contained"
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "closeButtonProps",
+          "type": "PButtonProps",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "hideCloseButton",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "hideIcon",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "required": false,
+          "options": [
+            "━━━ Carbon Icons (Fallback) ━━━",
+            "━━━ Partner Components Icons ━━━"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "PAlertVariants[\"size\"]",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "PAlertVariants[\"variant\"]",
+          "required": false,
+          "options": [
+            "default",
+            "error",
+            "info",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ],
+          "default": "default"
+        }
+      ],
+      "slots": [
+        {
+          "name": "action"
+        },
+        {
+          "name": "action-text"
+        },
+        {
+          "name": "close"
+        },
+        {
+          "name": "description"
+        },
+        {
+          "name": "icon"
+        },
+        {
+          "name": "title"
+        }
+      ],
+      "emits": [
+        {
+          "name": "action",
+          "payload": "MouseEvent"
+        },
+        {
+          "name": "close",
+          "payload": "MouseEvent"
+        }
+      ],
+      "variants": [
+        {
+          "name": "align",
+          "values": [
+            "center",
+            "end",
+            "start"
+          ]
+        },
+        {
+          "name": "appearance",
+          "values": [
+            "contained",
+            "outlined",
+            "underline"
+          ]
+        },
+        {
+          "name": "icon",
+          "values": [
+            "━━━ Carbon Icons (Fallback) ━━━",
+            "━━━ Partner Components Icons ━━━"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "default",
+            "error",
+            "info",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-palert--default",
+          "name": "Default",
+          "file": "src/components/PAlert/PAlert.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PAlert.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-avatar",
+      "name": "PAvatar",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PAvatar"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PAvatar/PAvatar.vue"
+      },
+      "props": [
+        {
+          "name": "badge",
+          "type": "PAvatarBadge",
+          "required": false
+        },
+        {
+          "name": "badgePosition",
+          "type": "PAvatarBadgePosition",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "required": false,
+          "options": [
+            "/src/assets/images/does_not_exist.jpg"
+          ]
+        },
+        {
+          "name": "initials",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "shape",
+          "type": "PAvatarShape",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "PAvatarSize",
+          "required": false
+        },
+        {
+          "name": "tooltipDirection",
+          "type": "TooltipDirections",
+          "required": false,
+          "options": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ],
+          "default": "bottom"
+        }
+      ],
+      "slots": [
+        {
+          "name": "badge"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "initials"
+        }
+      ],
+      "emits": [],
+      "variants": [
+        {
+          "name": "image",
+          "values": [
+            "/src/assets/images/does_not_exist.jpg"
+          ]
+        },
+        {
+          "name": "tooltipDirection",
+          "values": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Best used as an inline or compact identity element, not as a large profile card.",
+        "Status badge and tooltip direction become more important in dense layouts."
+      ],
+      "accessibilityNotes": [
+        "Provide a meaningful `name` when the avatar communicates identity so tooltip or fallback text is useful.",
+        "Do not rely on badge color alone to communicate status; pair with surrounding text when status meaning matters."
+      ],
+      "useWhen": [
+        "Use for single-person identity surfaces such as assignees, owners, or comment authors.",
+        "Use when the UI needs a compact identity marker that can degrade from image to initials."
+      ],
+      "avoidWhen": [
+        "Avoid as a generic decorative icon; use `PIcon` instead.",
+        "Avoid for stacked or overflowed participant sets; use `PAvatarGroup` instead."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PTooltip"
+      ],
+      "stories": [
+        {
+          "id": "components-pavatar--default",
+          "name": "Default",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--icononly",
+          "name": "IconOnly",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--stresstest",
+          "name": "StressTest",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--withbadge",
+          "name": "WithBadge",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--withimage",
+          "name": "WithImage",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--withinitials",
+          "name": "WithInitials",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--withmissingimage",
+          "name": "WithMissingImage",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        },
+        {
+          "id": "components-pavatar--withname",
+          "name": "WithName",
+          "file": "src/components/PAvatar/PAvatar.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PAvatar.spec.ts"
+        }
+      ],
+      "tags": [
+        "identity",
+        "avatar",
+        "status"
+      ],
+      "purpose": "Avatar primitive for representing a person, assignee, or participant with image, initials, name, and optional status badge."
+    },
+    {
+      "id": "p-avatar-group",
+      "name": "PAvatarGroup",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PAvatarGroup"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PAvatar/PAvatarGroup.vue"
+      },
+      "props": [
+        {
+          "name": "avatars",
+          "type": "PAvatarProps[]",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "maxVisible",
+          "type": "number",
+          "required": false,
+          "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "default": 2
+        },
+        {
+          "name": "shape",
+          "type": "PAvatarProps[\"shape\"]",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "PAvatarProps[\"size\"]",
+          "required": false
+        },
+        {
+          "name": "spacing",
+          "type": "'none' | 'default' | 'compact'",
+          "required": false,
+          "default": "default"
+        },
+        {
+          "name": "tooltipDirection",
+          "type": "TooltipDirections",
+          "required": false,
+          "options": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ],
+          "default": "bottom"
+        }
+      ],
+      "slots": [
+        {
+          "name": "avatars-visible"
+        },
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [
+        {
+          "name": "maxVisible",
+          "values": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        {
+          "name": "tooltipDirection",
+          "values": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Designed for compact horizontal presentation and overflow rather than tall lists.",
+        "Works best where a summary of participants is enough and full details live elsewhere."
+      ],
+      "accessibilityNotes": [
+        "Do not assume the overlap alone communicates all identities; pair with nearby text when the participant list is critical.",
+        "Preserve tooltip or visible names for discoverability in dense group displays."
+      ],
+      "useWhen": [
+        "Use for collaborator lists or participant stacks where multiple people need to be represented compactly.",
+        "Use when you need a capped visible count with overflow rather than rendering every avatar at full width."
+      ],
+      "avoidWhen": [
+        "Avoid when each person needs separate labels or actions inline; render individual `PAvatar` rows instead.",
+        "Avoid for non-person entities or arbitrary chips."
+      ],
+      "compositionWith": [
+        "PAvatar",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-pavatargroup--default",
+          "name": "Default",
+          "file": "src/components/PAvatar/PAvatarGroup.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PAvatarGroup.spec.ts"
+        }
+      ],
+      "tags": [
+        "identity",
+        "avatar",
+        "group",
+        "collaboration"
+      ],
+      "purpose": "Grouped avatar display for teams, participants, or shared ownership with overflow handling."
+    },
+    {
+      "id": "p-badge",
+      "name": "PBadge",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PBadge"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PBadge/PBadge.vue"
+      },
+      "props": [
+        {
+          "name": "appearance",
+          "type": "BadgeVariants[\"appearance\"]",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "BadgeVariants[\"variant\"]",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [
+        "Best for short inline content such as one-word statuses or small counts.",
+        "Not intended to serve as a full-width container or large interactive surface."
+      ],
+      "accessibilityNotes": [
+        "Do not rely on badge color alone to communicate meaning when status is important.",
+        "Keep badge text short so the semantic label remains scannable."
+      ],
+      "useWhen": [
+        "Use for short status labels, counts, or state chips that should remain visually lightweight.",
+        "Use when you need semantic color treatment without the interaction weight of a button."
+      ],
+      "avoidWhen": [
+        "Avoid for primary actions; use `PButton` instead.",
+        "Avoid for long-form content or multi-select token displays; use `PChip` or text instead."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PTable"
+      ],
+      "stories": [
+        {
+          "id": "components-pbadge--allvariants",
+          "name": "AllVariants",
+          "file": "src/components/PBadge/PBadge.stories.ts"
+        },
+        {
+          "id": "components-pbadge--default",
+          "name": "Default",
+          "file": "src/components/PBadge/PBadge.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PBadge.spec.ts"
+        }
+      ],
+      "tags": [
+        "status",
+        "badge",
+        "count",
+        "feedback"
+      ],
+      "purpose": "Compact status or count indicator for inline emphasis, state labeling, or small metric display."
+    },
+    {
+      "id": "p-button",
+      "name": "PButton",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PButton"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PButton/PButton.vue"
+      },
+      "props": [
+        {
+          "name": "appearance",
+          "type": "ButtonVariants['appearance']",
+          "required": false,
+          "options": [
+            "contained",
+            "link",
+            "outlined",
+            "text"
+          ],
+          "default": "contained"
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "required": false,
+          "options": [
+            "━━━ Carbon Icons (Fallback) ━━━",
+            "━━━ Partner Components Icons ━━━"
+          ]
+        },
+        {
+          "name": "iconButton",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "iconPosition",
+          "type": "'left' | 'right'",
+          "required": false,
+          "options": [
+            "left",
+            "right"
+          ],
+          "default": "left"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        },
+        {
+          "name": "variant",
+          "type": "ButtonVariants[\"variant\"]",
+          "required": false,
+          "options": [
+            "error",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning",
+            "white"
+          ],
+          "default": "primary"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [
+        {
+          "name": "click",
+          "payload": "MouseEvent"
+        }
+      ],
+      "variants": [
+        {
+          "name": "appearance",
+          "values": [
+            "contained",
+            "link",
+            "outlined",
+            "text"
+          ]
+        },
+        {
+          "name": "icon",
+          "values": [
+            "━━━ Carbon Icons (Fallback) ━━━",
+            "━━━ Partner Components Icons ━━━"
+          ]
+        },
+        {
+          "name": "iconPosition",
+          "values": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "error",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning",
+            "white"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Intended for discrete action affordances, not for full-row interactive list items.",
+        "Neutral and white variants are more context-sensitive and should be used where surrounding surfaces support them."
+      ],
+      "accessibilityNotes": [
+        "Icon-only usage should still expose an accessible name from surrounding context or explicit labeling.",
+        "Disabled state should not be the only cue for blocked workflows; pair with explanatory text when needed."
+      ],
+      "useWhen": [
+        "Use for the highest-priority action in a section, form, or dialog.",
+        "Use the variant and appearance props to encode emphasis rather than creating custom button styles."
+      ],
+      "avoidWhen": [
+        "Avoid for passive status display; use `PBadge` or `PTypography` instead.",
+        "Avoid for navigation containers or selection menus; use `PMenu`, `PSelectMenu`, or `PSelect` depending on the pattern."
+      ],
+      "compositionWith": [
+        "PIcon",
+        "PTypography",
+        "PTooltip"
+      ],
+      "stories": [
+        {
+          "id": "components-pbutton--allbuttonvariants",
+          "name": "AllButtonVariants",
+          "file": "src/components/PButton/PButton.stories.ts"
+        },
+        {
+          "id": "components-pbutton--default",
+          "name": "Default",
+          "file": "src/components/PButton/PButton.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PButton.spec.ts"
+        }
+      ],
+      "tags": [
+        "action",
+        "button",
+        "form",
+        "toolbar"
+      ],
+      "purpose": "Primary action trigger for standard flows, including form submit, toolbar actions, inline actions, and link-styled actions."
+    },
+    {
+      "id": "p-calendar",
+      "name": "PCalendar",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PCalendar"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PCalendar/PCalendar.vue"
+      },
+      "props": [],
+      "slots": [],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "DateTime | undefined"
+        },
+        {
+          "name": "update:month",
+          "payload": "number"
+        },
+        {
+          "name": "update:year",
+          "payload": "number"
+        }
+      ],
+      "variants": [
+        {
+          "name": "locale",
+          "values": [
+            "de-DE",
+            "en-GB",
+            "en-US",
+            "es-ES",
+            "it-IT",
+            "ja-JP",
+            "ko-KR",
+            "zh-CN",
+            "zh-TW"
+          ]
+        },
+        {
+          "name": "monthFormat",
+          "values": [
+            "2-digit",
+            "long",
+            "numeric",
+            "short"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-pcalendar--clearable",
+          "name": "Clearable",
+          "file": "src/components/PCalendar/PCalendar.stories.ts"
+        },
+        {
+          "id": "components-pcalendar--default",
+          "name": "Default",
+          "file": "src/components/PCalendar/PCalendar.stories.ts"
+        },
+        {
+          "id": "components-pcalendar--withlocale",
+          "name": "WithLocale",
+          "file": "src/components/PCalendar/PCalendar.stories.ts"
+        },
+        {
+          "id": "components-pcalendar--withminmax",
+          "name": "WithMinMax",
+          "file": "src/components/PCalendar/PCalendar.stories.ts"
+        },
+        {
+          "id": "components-pcalendar--withyearrange",
+          "name": "WithYearRange",
+          "file": "src/components/PCalendar/PCalendar.stories.ts"
+        },
+        {
+          "id": "components-pcalendar--withyears",
+          "name": "WithYears",
+          "file": "src/components/PCalendar/PCalendar.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PCalendar.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-checkbox",
+      "name": "PCheckbox",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PCheckbox"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PCheckbox/PCheckbox.vue"
+      },
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "indeterminate",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onChange",
+          "type": "(value: CheckedState) => void",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        }
+      ],
+      "slots": [
+        {
+          "name": "label"
+        }
+      ],
+      "emits": [
+        {
+          "name": "changed",
+          "payload": "[value: CheckedState]"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Best for individual options or row-level selection patterns.",
+        "Should remain compact and aligned with adjacent label text."
+      ],
+      "accessibilityNotes": [
+        "Always provide a visible or programmatic label for the checkbox meaning.",
+        "Treat indeterminate as a summary state, not a hidden third meaning without explanation."
+      ],
+      "useWhen": [
+        "Use for independent yes or no options, row selection, or optional settings.",
+        "Use when the user may select zero, one, or many independent items."
+      ],
+      "avoidWhen": [
+        "Avoid for mutually exclusive choices; use radio-group style selection instead.",
+        "Avoid for long lists that need grouped validation or helper messaging; use `PCheckboxGroup`."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PTable"
+      ],
+      "stories": [
+        {
+          "id": "components-pcheckbox--allstates",
+          "name": "AllStates",
+          "file": "src/components/PCheckbox/PCheckbox.stories.ts"
+        },
+        {
+          "id": "components-pcheckbox--default",
+          "name": "Default",
+          "file": "src/components/PCheckbox/PCheckbox.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PCheckbox.spec.ts"
+        }
+      ],
+      "tags": [
+        "selection",
+        "form",
+        "checkbox",
+        "boolean"
+      ],
+      "purpose": "Single boolean or tri-state selection control with label support."
+    },
+    {
+      "id": "p-checkbox-group",
+      "name": "PCheckboxGroup",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PCheckboxGroup"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PCheckbox/PCheckboxGroup.vue"
+      },
+      "props": [
+        {
+          "name": "checkboxes",
+          "type": "PCheckboxProps[]",
+          "required": true
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "errorText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "onChange",
+          "type": "(checkboxes: PCheckboxGroupItemProps[]) => void",
+          "required": false
+        },
+        {
+          "name": "orientation",
+          "type": "'vertical' | 'horizontal'",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "default": "vertical"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "changed",
+          "payload": "[checkboxes: PCheckboxGroupItemProps[]]"
+        }
+      ],
+      "variants": [
+        {
+          "name": "orientation",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Intended for compact vertical or horizontal option sets rather than extremely long filter panels.",
+        "Works best when all options are visible at once."
+      ],
+      "accessibilityNotes": [
+        "Group labeling and helper or error messaging should communicate the purpose of the whole set.",
+        "Orientation changes layout only; ensure the reading and tab order still makes sense."
+      ],
+      "useWhen": [
+        "Use when several related checkbox options belong to one logical form field.",
+        "Use when helper text or error text should apply to the entire option set."
+      ],
+      "avoidWhen": [
+        "Avoid when options are independent and do not need grouped messaging.",
+        "Avoid for dropdown-style multi-select behavior; use `PSelect` or `PSelectMenu` instead."
+      ],
+      "compositionWith": [
+        "PCheckbox",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-pcheckboxgroup--default",
+          "name": "Default",
+          "file": "src/components/PCheckbox/PCheckboxGroup.stories.ts"
+        },
+        {
+          "id": "components-pcheckboxgroup--singledisabledcheckbox",
+          "name": "SingleDisabledCheckbox",
+          "file": "src/components/PCheckbox/PCheckboxGroup.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PCheckboxGroup.spec.ts"
+        }
+      ],
+      "tags": [
+        "selection",
+        "form",
+        "checkbox",
+        "group"
+      ],
+      "purpose": "Grouped checkbox field with shared label, helper text, and error handling for related multi-select options."
+    },
+    {
+      "id": "p-chip",
+      "name": "PChip",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PChip"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PChip/PChip.vue"
+      },
+      "props": [
+        {
+          "name": "appearance",
+          "type": "ChipVariants[\"appearance\"]",
+          "required": false,
+          "options": [
+            "contained",
+            "outlined",
+            "soft"
+          ],
+          "default": "contained"
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "removed",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "ChipVariants[\"size\"]",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        },
+        {
+          "name": "typographyProps",
+          "type": "PTypographyProps",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "ChipVariants[\"variant\"]",
+          "required": false,
+          "options": [
+            "error",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ],
+          "default": "primary"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        }
+      ],
+      "emits": [
+        {
+          "name": "remove"
+        },
+        {
+          "name": "select",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "appearance",
+          "values": [
+            "contained",
+            "outlined",
+            "soft"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "error",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-pchip--customizedslots",
+          "name": "CustomizedSlots",
+          "file": "src/components/PChip/PChip.stories.ts"
+        },
+        {
+          "id": "components-pchip--default",
+          "name": "Default",
+          "file": "src/components/PChip/PChip.stories.ts"
+        },
+        {
+          "id": "components-pchip--readonly",
+          "name": "ReadOnly",
+          "file": "src/components/PChip/PChip.stories.ts"
+        },
+        {
+          "id": "components-pchip--removable",
+          "name": "Removable",
+          "file": "src/components/PChip/PChip.stories.ts"
+        },
+        {
+          "id": "components-pchip--selectable",
+          "name": "Selectable",
+          "file": "src/components/PChip/PChip.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PChip.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-date-input",
+      "name": "PDateInput",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PDateInput"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PDateInput/PDateInput.vue"
+      },
+      "props": [
+        {
+          "name": "calendarProps",
+          "type": "Omit<PCalendarProps, 'modelValue' | 'defaultValue'>",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "DateTime",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "errorText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "options": [
+            "de-DE",
+            "en-GB",
+            "en-US",
+            "es-ES",
+            "it-IT",
+            "ja-JP",
+            "ko-KR",
+            "zh-CN",
+            "zh-TW"
+          ]
+        },
+        {
+          "name": "modelValue",
+          "type": "DateTime",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "DateTime | undefined"
+        }
+      ],
+      "variants": [
+        {
+          "name": "locale",
+          "values": [
+            "de-DE",
+            "en-GB",
+            "en-US",
+            "es-ES",
+            "it-IT",
+            "ja-JP",
+            "ko-KR",
+            "zh-CN",
+            "zh-TW"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-pdateinput--default",
+          "name": "Default",
+          "file": "src/components/PDateInput/PDateInput.stories.ts"
+        },
+        {
+          "id": "components-pdateinput--maxvalue",
+          "name": "MaxValue",
+          "file": "src/components/PDateInput/PDateInput.stories.ts"
+        },
+        {
+          "id": "components-pdateinput--minvalue",
+          "name": "MinValue",
+          "file": "src/components/PDateInput/PDateInput.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PDateInput.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-dialog",
+      "name": "PDialog",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PDialog"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PDialog/PDialog.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disableCloseOnEscape",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disableCloseOnInteractOutside",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "hideCloseButton",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "content"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "description"
+        },
+        {
+          "name": "footer"
+        },
+        {
+          "name": "title"
+        },
+        {
+          "name": "trigger"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-pdialog--default",
+          "name": "Default",
+          "file": "src/components/PDialog/PDialog.stories.ts"
+        },
+        {
+          "id": "components-pdialog--notrigger",
+          "name": "NoTrigger",
+          "file": "src/components/PDialog/PDialog.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PDialog.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-dialog-close",
+      "name": "PDialogClose",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PDialogClose"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PDialog/dialog/DialogClose.vue"
+      },
+      "props": [],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-icon",
+      "name": "PIcon",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PIcon"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PIcon/PIcon.vue"
+      },
+      "props": [],
+      "slots": [],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [
+        "The Figma icon system is based on a fixed 16px icon size, with component-level sizing only where the host component supports it.",
+        "Icons are intended to live inside components rather than act as standalone clickable elements."
+      ],
+      "accessibilityNotes": [
+        "Icons should not be the only accessible label for a critical action unless the parent control provides a clear name.",
+        "Treat icons as presentational unless the surrounding component intentionally exposes accessible meaning."
+      ],
+      "useWhen": [
+        "Use inside existing interactive components such as buttons, menus, search fields, table actions, and navigation items.",
+        "Use decorative or supportive icons to improve scanning when the surrounding component already carries the interaction semantics."
+      ],
+      "avoidWhen": [
+        "Avoid making bare icons the only affordance for important or ambiguous actions.",
+        "Avoid recoloring or resizing icons arbitrarily outside the design-token and supported size system."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PMenu",
+        "PSearchBar",
+        "PTooltip"
+      ],
+      "stories": [
+        {
+          "id": "components-picon--color",
+          "name": "Color",
+          "file": "src/components/PIcon/PIcon.stories.ts"
+        },
+        {
+          "id": "components-picon--customicons",
+          "name": "CustomIcons",
+          "file": "src/components/PIcon/PIcon.stories.ts"
+        },
+        {
+          "id": "components-picon--default",
+          "name": "Default",
+          "file": "src/components/PIcon/PIcon.stories.ts"
+        },
+        {
+          "id": "components-picon--iconifycarbonfallback",
+          "name": "IconifyCarbonFallback",
+          "file": "src/components/PIcon/PIcon.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": [
+        "icon",
+        "system",
+        "navigation",
+        "action"
+      ],
+      "purpose": "System icon primitive for rendering Partner icons first and falling back to the Carbon icon set when a Partner-specific icon does not exist."
+    },
+    {
+      "id": "p-label",
+      "name": "PLabel",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PLabel"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PLabel/PLabel.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "component",
+          "type": "PTypographyComponent",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "for",
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "PTypographyVariant",
+          "required": false,
+          "options": [
+            "body1",
+            "body2",
+            "buttonLarge",
+            "buttonMedium",
+            "buttonSmall",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "headline1",
+            "headline2",
+            "headline3",
+            "helperText",
+            "inputLabel",
+            "inputText",
+            "subhead",
+            "tooltip"
+          ],
+          "default": "inputLabel"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [
+        {
+          "name": "variant",
+          "values": [
+            "body1",
+            "body2",
+            "buttonLarge",
+            "buttonMedium",
+            "buttonSmall",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "headline1",
+            "headline2",
+            "headline3",
+            "helperText",
+            "inputLabel",
+            "inputText",
+            "subhead",
+            "tooltip"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-plabel--default",
+          "name": "Default",
+          "file": "src/components/PLabel/PLabel.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-layout",
+      "name": "PLayout",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PLayout"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PLayout/PLayout.vue"
+      },
+      "props": [
+        {
+          "name": "footer",
+          "type": "boolean",
+          "required": true,
+          "default": false
+        },
+        {
+          "name": "gutterLg",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gutterMd",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gutterSm",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gutterXl",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "header",
+          "type": "boolean",
+          "required": true,
+          "default": true
+        },
+        {
+          "name": "leftPanel",
+          "type": "boolean",
+          "required": true,
+          "default": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rightPanel",
+          "type": "boolean",
+          "required": true,
+          "default": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "body"
+        },
+        {
+          "name": "footer"
+        },
+        {
+          "name": "header"
+        },
+        {
+          "name": "left-panel"
+        },
+        {
+          "name": "left-panel-toggle"
+        },
+        {
+          "name": "right-panel"
+        },
+        {
+          "name": "right-panel-toggle"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [
+        "Designed as a top-level page shell, not a nested layout primitive.",
+        "Side panels consume fixed structural space and are best suited to desktop-oriented page composition."
+      ],
+      "accessibilityNotes": [
+        "Ensure the content placed in header and panel slots still provides a coherent heading and landmark structure.",
+        "Hidden and shown side-panel states should remain discoverable if they affect key functionality."
+      ],
+      "useWhen": [
+        "Use for full-page or workspace-level screens that need consistent header and side-panel structure.",
+        "Use when the body content should align to the Partner responsive grid tokens."
+      ],
+      "avoidWhen": [
+        "Avoid inside cards, popovers, or modal-scale content.",
+        "Avoid when you only need a small local two-column section rather than a full page shell."
+      ],
+      "compositionWith": [
+        "PLayoutGrid",
+        "PLayoutGridItem",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-playout--default",
+          "name": "Default",
+          "file": "src/components/PLayout/PLayout.stories.ts"
+        },
+        {
+          "id": "components-playout--withgridvisualization",
+          "name": "WithGridVisualization",
+          "file": "src/components/PLayout/PLayout.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": [
+        "layout",
+        "page-shell",
+        "dashboard",
+        "grid"
+      ],
+      "purpose": "Page-shell layout primitive for Partner-style pages with optional header, side panels, footer, and grid-based body content."
+    },
+    {
+      "id": "p-layout-grid",
+      "name": "PLayoutGrid",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PLayoutGrid"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PLayout/PLayoutGrid.vue"
+      },
+      "props": [
+        {
+          "name": "gutterLg",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gutterMd",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gutterSm",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "gutterXl",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-playoutgrid--default",
+          "name": "Default",
+          "file": "src/components/PLayout/PLayoutGrid.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-layout-grid-item",
+      "name": "PLayoutGridItem",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PLayoutGridItem"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PLayout/PLayoutGridItem.vue"
+      },
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-logo",
+      "name": "PLogo",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PLogo"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PLogo/PLogo.vue"
+      },
+      "props": [
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "logoName",
+          "type": "LogoName",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "slots": [],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [
+        "The master Figma file distinguishes full logos from favicon variants, so choose the intended form factor explicitly.",
+        "Brand-specific variants should stay consistent with the approved asset list rather than being improvised from text."
+      ],
+      "accessibilityNotes": [
+        "Provide an appropriate `alt` value when the logo conveys brand identity or serves as a linked home or product marker.",
+        "If the logo is purely decorative, the consuming surface should avoid duplicating the brand name excessively."
+      ],
+      "useWhen": [
+        "Use when the UI needs an approved brand mark rather than a text label or generic graphic.",
+        "Use for product switching, brand attribution, shell headers, or favicon-like display where the design system defines the specific logo variant."
+      ],
+      "avoidWhen": [
+        "Avoid using logos as a substitute for navigation text or accessible labels.",
+        "Avoid creating custom brand mark variations when the design system already defines the logo and favicon variants."
+      ],
+      "compositionWith": [
+        "PLayout",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-plogo--default",
+          "name": "Default",
+          "file": "src/components/PLogo/PLogo.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": [
+        "brand",
+        "logo",
+        "identity"
+      ],
+      "purpose": "Brand-logo primitive for rendering Partner, SiteLynx, BlueLynx, Plink, and related branded logo assets, including favicon treatments."
+    },
+    {
+      "id": "p-menu",
+      "name": "PMenu",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PMenu"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PMenu/PMenu.vue"
+      },
+      "props": [
+        {
+          "name": "align",
+          "type": "'start' | 'center' | 'end'",
+          "required": false,
+          "default": "start"
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "contentClass",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disableSearchFilter",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "searchDebounce",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        }
+      ],
+      "slots": [
+        {
+          "name": "content"
+        },
+        {
+          "name": "footer"
+        },
+        {
+          "name": "header"
+        },
+        {
+          "name": "label"
+        },
+        {
+          "name": "trigger"
+        }
+      ],
+      "emits": [
+        {
+          "name": "search",
+          "payload": "string"
+        },
+        {
+          "name": "update:debouncedSearch",
+          "payload": "string"
+        },
+        {
+          "name": "update:open",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Best for compact overlay content anchored to a trigger.",
+        "Not intended to replace full-page filter or navigation panels."
+      ],
+      "accessibilityNotes": [
+        "The trigger should expose a clear accessible name that explains what menu will open.",
+        "Searchable menus should still preserve keyboard access to items and clear focus movement."
+      ],
+      "useWhen": [
+        "Use for action menus or compact dropdown content that is not a form field.",
+        "Use when you need a custom trigger and flexible content regions such as header, footer, and searchable items."
+      ],
+      "avoidWhen": [
+        "Avoid for standard form-field selection; use `PSelect`.",
+        "Avoid when you need the opinionated selectable menu behavior of `PSelectMenu`."
+      ],
+      "compositionWith": [
+        "PMenuItem",
+        "PButton",
+        "PSearchBar"
+      ],
+      "stories": [
+        {
+          "id": "components-pmenu--default",
+          "name": "Default",
+          "file": "src/components/PMenu/PMenu.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PMenu.spec.ts"
+        }
+      ],
+      "tags": [
+        "menu",
+        "overlay",
+        "action",
+        "navigation"
+      ],
+      "purpose": "Generic dropdown menu container for action lists, searchable menu content, and custom trigger plus content composition."
+    },
+    {
+      "id": "p-menu-item",
+      "name": "PMenuItem",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PMenuItem"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PMenu/PMenuItem.vue"
+      },
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "string | boolean",
+          "required": false
+        },
+        {
+          "name": "preventClose",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "type",
+          "type": "'label' | 'item' | 'group' | 'checkbox' | 'sub' | 'separator'",
+          "required": false,
+          "default": "item"
+        }
+      ],
+      "slots": [
+        {
+          "name": "checkbox"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "label"
+        },
+        {
+          "name": "sub-trigger"
+        }
+      ],
+      "emits": [
+        {
+          "name": "select",
+          "payload": "MouseEvent"
+        },
+        {
+          "name": "update:modelValue",
+          "payload": "string | boolean"
+        }
+      ],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-numeric-input",
+      "name": "PNumericInput",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PNumericInput"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PNumericInput/PNumericInput.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disableWheelChange",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "errorText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "focusOnChange",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "formatOptions",
+          "type": "Intl.NumberFormatOptions",
+          "required": false
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "invertWheelChange",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "default": "en-US"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "number | null",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "stepSnapping",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "blur",
+          "payload": "FocusEvent"
+        },
+        {
+          "name": "focus",
+          "payload": "FocusEvent"
+        },
+        {
+          "name": "update:modelValue",
+          "payload": "number | null"
+        }
+      ],
+      "variants": [
+        {
+          "name": "currency",
+          "values": [
+            "AUD",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CNY",
+            "CZK",
+            "DKK",
+            "EUR",
+            "GBP",
+            "HKD",
+            "HUF",
+            "ILS",
+            "INR",
+            "JPY",
+            "KRW",
+            "MXN",
+            "NOK",
+            "NZD",
+            "PLN",
+            "SEK",
+            "SGD",
+            "THB",
+            "USD",
+            "ZAR"
+          ]
+        },
+        {
+          "name": "currencyDisplay",
+          "values": [
+            "code",
+            "name",
+            "narrowSymbol",
+            "symbol"
+          ]
+        },
+        {
+          "name": "currencySign",
+          "values": [
+            "accounting",
+            "standard"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "style",
+          "values": [
+            "currency",
+            "decimal",
+            "percent",
+            "unit"
+          ]
+        },
+        {
+          "name": "unit",
+          "values": [
+            "foot",
+            "inch",
+            "kilometer",
+            "mile",
+            "yard"
+          ]
+        },
+        {
+          "name": "unitDisplay",
+          "values": [
+            "long",
+            "narrow",
+            "short"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-pnumericinput--currency",
+          "name": "Currency",
+          "file": "src/components/PNumericInput/PNumericInput.stories.ts"
+        },
+        {
+          "id": "components-pnumericinput--default",
+          "name": "Default",
+          "file": "src/components/PNumericInput/PNumericInput.stories.ts"
+        },
+        {
+          "id": "components-pnumericinput--percent",
+          "name": "Percent",
+          "file": "src/components/PNumericInput/PNumericInput.stories.ts"
+        },
+        {
+          "id": "components-pnumericinput--unit",
+          "name": "Unit",
+          "file": "src/components/PNumericInput/PNumericInput.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PNumericInput.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-overflow-group",
+      "name": "POverflowGroup",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "POverflowGroup"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/POverflowGroup/POverflowGroup.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "truncate",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-poverflowgroup--default",
+          "name": "Default",
+          "file": "src/components/POverflowGroup/POverflowGroup.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-pagination",
+      "name": "PPagination",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PPagination"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PPagination/PPagination.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "currentPage",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "itemsPerPage",
+          "type": "number",
+          "required": true
+        },
+        {
+          "name": "size",
+          "type": "\"small\" | \"medium\"",
+          "required": false,
+          "options": [
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "totalPages",
+          "type": "number",
+          "required": true
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "update:page",
+          "payload": "number"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-ppagination--default",
+          "name": "Default",
+          "file": "src/components/PPagination/PPagination.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PPagination.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-popover",
+      "name": "PPopover",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PPopover"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PPopover/PPopover.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "closeDuration",
+          "type": "number",
+          "required": false,
+          "default": 100
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "direction",
+          "type": "PopoverDirections",
+          "required": false,
+          "options": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ],
+          "default": "bottom"
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "required": false,
+          "default": 6
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "openDuration",
+          "type": "number",
+          "required": false,
+          "default": 400
+        },
+        {
+          "name": "showArrow",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "close"
+        },
+        {
+          "name": "content"
+        },
+        {
+          "name": "trigger"
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "direction",
+          "values": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Sized for contextual overlay content, not page-scale containers.",
+        "Direction and offset should be chosen with surrounding layout density in mind."
+      ],
+      "accessibilityNotes": [
+        "The trigger should clearly indicate that additional contextual content will open.",
+        "Interactive content inside the popover should remain keyboard reachable and closable."
+      ],
+      "useWhen": [
+        "Use for richer contextual content than a tooltip, especially when the content may include actions or structured sections.",
+        "Use when the trigger should reveal supplementary content without navigating away."
+      ],
+      "avoidWhen": [
+        "Avoid for simple hover or focus descriptions; use `PTooltip` instead.",
+        "Avoid for full dialog or workflow content that deserves modal treatment."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-ppopover--default",
+          "name": "Default",
+          "file": "src/components/PPopover/PPopover.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PPopover.spec.ts"
+        }
+      ],
+      "tags": [
+        "overlay",
+        "popover",
+        "contextual"
+      ],
+      "purpose": "Popover surface for contextual content, help text, or small interactive content anchored to a trigger."
+    },
+    {
+      "id": "p-search-bar",
+      "name": "PSearchBar",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PSearchBar"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PSearchBar/PSearchBar.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "debounce",
+          "type": "number",
+          "required": false,
+          "default": 300
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "hideSearchButton",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "clear"
+        },
+        {
+          "name": "search",
+          "payload": "string"
+        },
+        {
+          "name": "update:debouncedValue",
+          "payload": "string"
+        },
+        {
+          "name": "update:modelValue",
+          "payload": "string"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Works best as a horizontal control in toolbars, filter bars, or list headers.",
+        "Debounce behavior should match the data-fetching or filtering expectations of the surrounding UI."
+      ],
+      "accessibilityNotes": [
+        "Placeholder text alone should not be the only explanation of search scope when context is ambiguous.",
+        "If the search button is hidden, surrounding context should still make the field purpose obvious."
+      ],
+      "useWhen": [
+        "Use for page-level or panel-level search entry where the user searches a collection or list.",
+        "Use when both immediate debounced updates and explicit search submission are useful."
+      ],
+      "avoidWhen": [
+        "Avoid for generic labeled text input fields; use `PTextInput` instead.",
+        "Avoid when the pattern is selection from known options rather than free-text querying."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTable",
+        "PMenu"
+      ],
+      "stories": [
+        {
+          "id": "components-psearchbar--default",
+          "name": "Default",
+          "file": "src/components/PSearchBar/PSearchBar.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PSearchBar.spec.ts"
+        }
+      ],
+      "tags": [
+        "search",
+        "input",
+        "toolbar",
+        "filter"
+      ],
+      "purpose": "Search input primitive with debounced value updates and explicit search and clear events."
+    },
+    {
+      "id": "p-select",
+      "name": "PSelect",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PSelect"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PSelect/PSelect.vue"
+      },
+      "props": [
+        {
+          "name": "chipAppearance",
+          "type": "ChipVariants['appearance']",
+          "required": false,
+          "options": [
+            "contained",
+            "outlined",
+            "soft"
+          ],
+          "default": "contained"
+        },
+        {
+          "name": "chipVariant",
+          "type": "ChipVariants['variant']",
+          "required": false,
+          "options": [
+            "error",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ],
+          "default": "neutral"
+        },
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "clearableMenu",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "ModelValue",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "errorText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "hideFooter",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "items",
+          "type": "PMenuItemProps[]",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "menuLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "ModelValue",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        },
+        {
+          "name": "type",
+          "type": "'multi' | 'single'",
+          "required": false,
+          "options": [
+            "multi",
+            "single"
+          ],
+          "default": "single"
+        },
+        {
+          "name": "variant",
+          "type": "'text' | 'chip'",
+          "required": false,
+          "options": [
+            "chip",
+            "text"
+          ],
+          "default": "text"
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "apply",
+          "payload": "PMenuItemProps[]"
+        },
+        {
+          "name": "clear"
+        },
+        {
+          "name": "update:modelValue",
+          "payload": "ModelValue"
+        },
+        {
+          "name": "update:open",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "chipAppearance",
+          "values": [
+            "contained",
+            "outlined",
+            "soft"
+          ]
+        },
+        {
+          "name": "chipVariant",
+          "values": [
+            "error",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "type",
+          "values": [
+            "multi",
+            "single"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "chip",
+            "text"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Designed as a form control, so it fits best in forms, filter bars, and settings panels rather than generic tool menus.",
+        "Chip variant is useful when selected items need to stay visible after selection."
+      ],
+      "accessibilityNotes": [
+        "Use the `label`, `helperText`, and `errorText` props to provide a complete accessible field description.",
+        "Searchable and multi-select states should still preserve understandable trigger text and selection feedback."
+      ],
+      "useWhen": [
+        "Use as a labeled form input when the selected value belongs in form state.",
+        "Use for single or multi-select fields that need helper text, validation, or chip-style selected-value display."
+      ],
+      "avoidWhen": [
+        "Avoid for lightweight action menus; use `PMenu`.",
+        "Avoid when the trigger-driven filter menu pattern is primary and form-field chrome is unnecessary; use `PSelectMenu`."
+      ],
+      "compositionWith": [
+        "PMenuItem",
+        "PChip",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-pselect--default",
+          "name": "Default",
+          "file": "src/components/PSelect/PSelect.stories.ts"
+        },
+        {
+          "id": "components-pselect--multi",
+          "name": "Multi",
+          "file": "src/components/PSelect/PSelect.stories.ts"
+        },
+        {
+          "id": "components-pselect--multiwithoverflow",
+          "name": "MultiWithOverflow",
+          "file": "src/components/PSelect/PSelect.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PSelect.spec.ts"
+        }
+      ],
+      "tags": [
+        "form",
+        "selection",
+        "select",
+        "data-entry"
+      ],
+      "purpose": "Form-field select control for single or multi-selection with label, helper text, error states, and optional searchable menu behavior."
+    },
+    {
+      "id": "p-select-menu",
+      "name": "PSelectMenu",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PSelectMenu"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PMenu/PSelectMenu.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "name": "closeOnApply",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "name": "disableSearchFilter",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "hideFooter",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "hideSelectAll",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "items",
+          "type": "PMenuItemProps[]",
+          "required": true
+        },
+        {
+          "name": "modelValue",
+          "type": "string | (string)[] | null",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "scrollIntoView",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "name": "scrollIntoViewOptions",
+          "type": "{\n    block?: 'start' | 'end' | 'center' | 'nearest'\n    inline?: 'start' | 'end' | 'center' | 'nearest'\n    behavior?: 'auto' | 'smooth'\n  }",
+          "required": false
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "name": "searchDebounce",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        },
+        {
+          "name": "type",
+          "type": "'multi' | 'single'",
+          "required": true,
+          "options": [
+            "multi",
+            "single"
+          ]
+        }
+      ],
+      "slots": [
+        {
+          "name": "trigger"
+        }
+      ],
+      "emits": [
+        {
+          "name": "apply",
+          "payload": "PMenuItemProps[]"
+        },
+        {
+          "name": "clear"
+        },
+        {
+          "name": "search",
+          "payload": "string"
+        },
+        {
+          "name": "select",
+          "payload": "PMenuItemProps"
+        },
+        {
+          "name": "update:debouncedSearch",
+          "payload": "string"
+        },
+        {
+          "name": "update:open",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "type",
+          "values": [
+            "multi",
+            "single"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Best for toolbar and filter contexts where the trigger owns the overlay.",
+        "The consumer typically controls trigger width, so avoid assuming field-like full-width layout."
+      ],
+      "accessibilityNotes": [
+        "The trigger should describe the menu purpose, not just display a generic icon or ambiguous label.",
+        "Multi-select behavior should keep selected-state feedback understandable for keyboard users."
+      ],
+      "useWhen": [
+        "Use for filter menus and compact trigger-driven selection workflows.",
+        "Use when selection should happen from a menu surface rather than a full form field."
+      ],
+      "avoidWhen": [
+        "Avoid when the control needs a standard field label, helper text, or error text; use `PSelect`.",
+        "Avoid for generic action menus without selectable state; use `PMenu`."
+      ],
+      "compositionWith": [
+        "PMenu",
+        "PButton",
+        "PChip"
+      ],
+      "stories": [
+        {
+          "id": "components-pselectmenu--dynamicitems",
+          "name": "DynamicItems",
+          "file": "src/components/PMenu/PSelectMenu.stories.ts"
+        },
+        {
+          "id": "components-pselectmenu--multiselect",
+          "name": "MultiSelect",
+          "file": "src/components/PMenu/PSelectMenu.stories.ts"
+        },
+        {
+          "id": "components-pselectmenu--singleselect",
+          "name": "SingleSelect",
+          "file": "src/components/PMenu/PSelectMenu.stories.ts"
+        },
+        {
+          "id": "components-pselectmenu--singleselectnofooter",
+          "name": "SingleSelectNoFooter",
+          "file": "src/components/PMenu/PSelectMenu.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PSelectMenu.spec.ts"
+        }
+      ],
+      "tags": [
+        "selection",
+        "menu",
+        "overlay",
+        "filter"
+      ],
+      "purpose": "Trigger-based selectable menu for single or multi-select overlay interactions with apply, clear, and search behaviors."
+    },
+    {
+      "id": "p-switch",
+      "name": "PSwitch",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PSwitch"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PSwitch/PSwitch.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "medium",
+            "small"
+          ],
+          "default": "medium"
+        }
+      ],
+      "slots": [
+        {
+          "name": "label"
+        },
+        {
+          "name": "thumb"
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-pswitch--default",
+          "name": "Default",
+          "file": "src/components/PSwitch/PSwitch.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PSwitch.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-table",
+      "name": "PTable",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTable"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTable.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [
+        {
+          "name": "location",
+          "values": [
+            "bottom",
+            "top"
+          ]
+        },
+        {
+          "name": "selected",
+          "values": [
+            "false",
+            "indeterminate",
+            "true"
+          ]
+        },
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "sortDirection",
+          "values": [
+            "asc",
+            "desc",
+            "none"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "blue-border",
+            "gray-fill"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Use the table subcomponents within semantic table structure rather than mixing them into arbitrary div layouts.",
+        "Wide content should be handled intentionally with truncation, scrolling, or supporting layout decisions."
+      ],
+      "accessibilityNotes": [
+        "Keep header and cell relationships semantically correct so assistive technology can interpret the grid.",
+        "Sortable states should remain visible and understandable beyond icon treatment alone."
+      ],
+      "useWhen": [
+        "Use for structured row and column data where headers, cells, and scanning alignment matter.",
+        "Use when the table needs empty, caption, footer, or sortable-header states."
+      ],
+      "avoidWhen": [
+        "Avoid for card-based lists or highly responsive stacked mobile layouts that no longer behave like tables.",
+        "Avoid when the content is mostly form controls and not tabular data."
+      ],
+      "compositionWith": [
+        "PTableHeader",
+        "PTableHead",
+        "PTableRow",
+        "PTableCell",
+        "PBadge"
+      ],
+      "stories": [
+        {
+          "id": "components-ptable--captions",
+          "name": "Captions",
+          "file": "src/components/PTable/PTable.stories.ts"
+        },
+        {
+          "id": "components-ptable--default",
+          "name": "Default",
+          "file": "src/components/PTable/PTable.stories.ts"
+        },
+        {
+          "id": "components-ptable--empty",
+          "name": "Empty",
+          "file": "src/components/PTable/PTable.stories.ts"
+        },
+        {
+          "id": "components-ptable--footers",
+          "name": "Footers",
+          "file": "src/components/PTable/PTable.stories.ts"
+        },
+        {
+          "id": "components-ptable--singlesort",
+          "name": "SingleSort",
+          "file": "src/components/PTable/PTable.stories.ts"
+        },
+        {
+          "id": "components-ptable--truncate",
+          "name": "Truncate",
+          "file": "src/components/PTable/PTable.stories.ts"
+        },
+        {
+          "id": "components-ptable--variants",
+          "name": "Variants",
+          "file": "src/components/PTable/PTable.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": [
+        "table",
+        "data-display",
+        "sorting",
+        "empty-state"
+      ],
+      "purpose": "Semantic table container and companion subcomponents for tabular data, sortable headers, captions, footers, and empty states."
+    },
+    {
+      "id": "p-table-body",
+      "name": "PTableBody",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableBody"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableBody.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-table-caption",
+      "name": "PTableCaption",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableCaption"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableCaption.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "location",
+          "type": "'top' | 'bottom'",
+          "required": false,
+          "default": "bottom"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-table-cell",
+      "name": "PTableCell",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableCell"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableCell.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "truncate",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [
+        {
+          "name": "click",
+          "payload": "MouseEvent"
+        }
+      ],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-table-empty",
+      "name": "PTableEmpty",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableEmpty"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableEmpty.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "colspan",
+          "type": "number",
+          "required": false,
+          "default": 999
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-table-footer",
+      "name": "PTableFooter",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableFooter"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableFooter.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-table-head",
+      "name": "PTableHead",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableHead"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableHead.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "expandable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "expanded",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "filterable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "filtered",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "selected",
+          "type": "CheckedState | 'true' | 'false'",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false
+        },
+        {
+          "name": "sortable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "sortDirection",
+          "type": "SortDirection",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "filterButton"
+        }
+      ],
+      "emits": [
+        {
+          "name": "expandClicked",
+          "payload": "boolean"
+        },
+        {
+          "name": "filterClicked",
+          "payload": "DOMRect"
+        },
+        {
+          "name": "selectChanged",
+          "payload": "CheckedState"
+        },
+        {
+          "name": "sortChanged",
+          "payload": "SortDirection"
+        }
+      ],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [
+        {
+          "file": "tests/PTableHead.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-table-header",
+      "name": "PTableHeader",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableHeader"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableHeader.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "singleSort",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "default": "medium"
+        },
+        {
+          "name": "variant",
+          "type": "'gray-fill' | 'blue-border'",
+          "required": false,
+          "default": "blue-border"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [
+        {
+          "file": "tests/PTableHeader.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-table-row",
+      "name": "PTableRow",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTableRow"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTable/PTableRow.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [],
+      "tests": [],
+      "tags": []
+    },
+    {
+      "id": "p-text-area",
+      "name": "PTextArea",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTextArea"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTextArea/PTextArea.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | number",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "errorText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "minLines",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "string | number",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "resize",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "slots": [
+        {
+          "name": "maxLength"
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "string | number"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Best for form sections with enough vertical space to support multiple lines.",
+        "Textarea growth and resize behavior should align with surrounding form density."
+      ],
+      "accessibilityNotes": [
+        "Use label and helper or error text to explain expected content and constraints.",
+        "If max length matters, expose that information visibly and not only in validation after input."
+      ],
+      "useWhen": [
+        "Use for longer freeform text such as notes, descriptions, or comments.",
+        "Use when a field needs the same form-field affordances as `PTextInput` but with multi-line entry."
+      ],
+      "avoidWhen": [
+        "Avoid for short single-line inputs such as names, email, or compact filters; use `PTextInput`.",
+        "Avoid when the content is a fixed selection rather than authored text."
+      ],
+      "compositionWith": [
+        "PTypography",
+        "PButton"
+      ],
+      "stories": [
+        {
+          "id": "components-ptextarea--default",
+          "name": "Default",
+          "file": "src/components/PTextArea/PTextArea.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PTextArea.spec.ts"
+        }
+      ],
+      "tags": [
+        "form",
+        "input",
+        "textarea",
+        "data-entry"
+      ],
+      "purpose": "Multi-line text field with label, helper text, error messaging, and optional character or sizing constraints."
+    },
+    {
+      "id": "p-text-input",
+      "name": "PTextInput",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTextInput"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTextInput/PTextInput.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes[\"class\"]",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | number",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "errorText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "iconLeft",
+          "type": "PIconProps",
+          "required": false
+        },
+        {
+          "name": "iconRight",
+          "type": "PIconProps",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "modelValue",
+          "type": "string | number",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "required": false,
+          "options": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "type",
+          "type": "'text' | 'email' | 'password' | 'tel' | 'url'",
+          "required": false,
+          "options": [
+            "email",
+            "password",
+            "tel",
+            "text",
+            "url"
+          ],
+          "default": "text"
+        }
+      ],
+      "slots": [],
+      "emits": [
+        {
+          "name": "update:modelValue",
+          "payload": "string | number"
+        }
+      ],
+      "variants": [
+        {
+          "name": "size",
+          "values": [
+            "large",
+            "medium",
+            "small"
+          ]
+        },
+        {
+          "name": "type",
+          "values": [
+            "email",
+            "password",
+            "tel",
+            "text",
+            "url"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Intended as a form control and usually works best at field or panel width rather than as bare inline text.",
+        "Short helper or error text fits best directly below the field."
+      ],
+      "accessibilityNotes": [
+        "Prefer the built-in `label`, `helperText`, and `errorText` props over relying only on placeholder text.",
+        "Use the typed variants only when they reflect actual input semantics."
+      ],
+      "useWhen": [
+        "Use for standard form entry such as names, emails, URLs, passwords, and short freeform values.",
+        "Use when the field needs built-in validation messaging or helper text."
+      ],
+      "avoidWhen": [
+        "Avoid for search interactions; use `PSearchBar`.",
+        "Avoid for multi-line authored text; use `PTextArea`."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-ptextinput--default",
+          "name": "Default",
+          "file": "src/components/PTextInput/PTextInput.stories.ts"
+        },
+        {
+          "id": "components-ptextinput--withiconleft",
+          "name": "WithIconLeft",
+          "file": "src/components/PTextInput/PTextInput.stories.ts"
+        },
+        {
+          "id": "components-ptextinput--withiconright",
+          "name": "WithIconRight",
+          "file": "src/components/PTextInput/PTextInput.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PTextInput.spec.ts"
+        }
+      ],
+      "tags": [
+        "form",
+        "input",
+        "text-field",
+        "data-entry"
+      ],
+      "purpose": "Single-line text field with built-in label, helper text, error text, and typed input variants such as email or password."
+    },
+    {
+      "id": "p-toast",
+      "name": "PToast",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PToast"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PToast/PToast.vue"
+      },
+      "props": [],
+      "slots": [],
+      "emits": [],
+      "variants": [
+        {
+          "name": "appearance",
+          "values": [
+            "contained",
+            "outlined",
+            "underline"
+          ]
+        },
+        {
+          "name": "position",
+          "values": [
+            "bottom-center",
+            "bottom-left",
+            "bottom-right",
+            "top-center",
+            "top-left",
+            "top-right"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "default",
+            "error",
+            "info",
+            "neutral",
+            "primary",
+            "secondary",
+            "success",
+            "warning"
+          ]
+        }
+      ],
+      "layoutConstraints": [],
+      "accessibilityNotes": [],
+      "useWhen": [],
+      "avoidWhen": [],
+      "compositionWith": [],
+      "stories": [
+        {
+          "id": "components-ptoast--allvariants",
+          "name": "AllVariants",
+          "file": "src/components/PToast/PToast.stories.ts"
+        },
+        {
+          "id": "components-ptoast--default",
+          "name": "Default",
+          "file": "src/components/PToast/PToast.stories.ts"
+        },
+        {
+          "id": "components-ptoast--withactionbutton",
+          "name": "WithActionButton",
+          "file": "src/components/PToast/PToast.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PToast.spec.ts"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "p-tooltip",
+      "name": "PTooltip",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTooltip"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTooltip/PTooltip.vue"
+      },
+      "props": [
+        {
+          "name": "class",
+          "type": "HTMLAttributes['class']",
+          "required": false
+        },
+        {
+          "name": "closeDuration",
+          "type": "number",
+          "required": false,
+          "default": 100
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "delayDuration",
+          "type": "number",
+          "required": false,
+          "default": 400
+        },
+        {
+          "name": "direction",
+          "type": "TooltipDirections",
+          "required": false,
+          "options": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ],
+          "default": "bottom"
+        },
+        {
+          "name": "disableClosingTrigger",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "required": false,
+          "default": 2
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "skipDelayDuration",
+          "type": "number",
+          "required": false
+        }
+      ],
+      "slots": [
+        {
+          "name": "tooltip-content"
+        },
+        {
+          "name": "tooltip-trigger"
+        }
+      ],
+      "emits": [
+        {
+          "name": "update:open",
+          "payload": "boolean"
+        }
+      ],
+      "variants": [
+        {
+          "name": "direction",
+          "values": [
+            "bottom",
+            "left",
+            "none",
+            "right",
+            "top"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Designed for short text content and compact spatial footprint.",
+        "Direction should be chosen to avoid clipping in dense interfaces."
+      ],
+      "accessibilityNotes": [
+        "Tooltip content should be supplemental rather than the sole source of required information.",
+        "Triggers still need meaningful labels even if a tooltip is present."
+      ],
+      "useWhen": [
+        "Use for short non-essential clarification on hover or focus.",
+        "Use when an inline label would add too much visual noise but the user still benefits from a concise explanation."
+      ],
+      "avoidWhen": [
+        "Avoid for interactive or multi-section content; use `PPopover`.",
+        "Avoid as the only way to expose critical instructions."
+      ],
+      "compositionWith": [
+        "PIcon",
+        "PButton",
+        "PTypography"
+      ],
+      "stories": [
+        {
+          "id": "components-ptooltip--default",
+          "name": "Default",
+          "file": "src/components/PTooltip/PTooltip.stories.ts"
+        },
+        {
+          "id": "components-ptooltip--examples",
+          "name": "Examples",
+          "file": "src/components/PTooltip/PTooltip.stories.ts"
+        }
+      ],
+      "tests": [
+        {
+          "file": "tests/PTooltip.spec.ts"
+        }
+      ],
+      "tags": [
+        "overlay",
+        "tooltip",
+        "help"
+      ],
+      "purpose": "Lightweight tooltip for brief contextual help or short explanatory text attached to a trigger."
+    },
+    {
+      "id": "p-typography",
+      "name": "PTypography",
+      "import": {
+        "package": "@partnerdevops/partner-components",
+        "named": "PTypography"
+      },
+      "status": "stable",
+      "source": {
+        "file": "src/components/PTypography/PTypography.vue"
+      },
+      "props": [],
+      "slots": [
+        {
+          "name": "default"
+        }
+      ],
+      "emits": [],
+      "variants": [
+        {
+          "name": "align",
+          "values": [
+            "center",
+            "inherit",
+            "justify",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "component",
+          "values": [
+            "button",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "p",
+            "small",
+            "span",
+            "textarea"
+          ]
+        },
+        {
+          "name": "variant",
+          "values": [
+            "body1",
+            "body2",
+            "buttonLarge",
+            "buttonMedium",
+            "buttonSmall",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "headline1",
+            "headline2",
+            "headline3",
+            "helperText",
+            "inputLabel",
+            "inputText",
+            "subhead",
+            "tooltip"
+          ]
+        }
+      ],
+      "layoutConstraints": [
+        "Designed as a text primitive and should usually remain inside broader layout or form components.",
+        "Variant and semantic element can differ, but that should be intentional."
+      ],
+      "accessibilityNotes": [
+        "Choose the `component` prop to preserve semantic heading and text structure, not just visual appearance.",
+        "Heading hierarchy should remain logical across the page regardless of visual size choices."
+      ],
+      "useWhen": [
+        "Use when Partner type-scale consistency matters across headings, body text, labels, helper text, and button-like text.",
+        "Use to express text hierarchy without inventing one-off class stacks."
+      ],
+      "avoidWhen": [
+        "Avoid wrapping text only to recreate semantics already provided by another component's built-in label or message props.",
+        "Avoid using typography variants as a substitute for interactive components."
+      ],
+      "compositionWith": [
+        "PButton",
+        "PTextInput",
+        "PTextArea",
+        "PLayout"
+      ],
+      "stories": [
+        {
+          "id": "components-ptypography--default",
+          "name": "Default",
+          "file": "src/components/PTypography/PTypography.stories.ts"
+        }
+      ],
+      "tests": [],
+      "tags": [
+        "typography",
+        "text",
+        "heading",
+        "label"
+      ],
+      "purpose": "Typography primitive that maps Partner type-scale variants to semantic HTML elements and alignment options."
+    }
+  ]
+}

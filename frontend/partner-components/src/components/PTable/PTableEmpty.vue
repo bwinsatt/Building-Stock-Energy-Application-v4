@@ -26,6 +26,7 @@ const delegatedProps = reactiveOmit(props, "class")
     <PTableCell
       :class="
         cn(
+          'partner-preflight',
           'p-4 whitespace-nowrap align-middle text-sm text-foreground',
           props.class,
         )

@@ -1,0 +1,35 @@
+/**
+ * Partner Design System - Z-Index Tokens
+ * 
+ * Defines the z-index scale for consistent z-index values
+ * throughout the Partner design system.
+ * Easily adjust the base z-index value by changing the --partner-z-index custom property.
+ */
+
+@layer base {
+  :root {
+    --partner-z-index: 1000;
+  }
+}
+
+@theme {
+  --partner-z-overlay: var(--partner-z-index);
+  --partner-z-overlay-10: calc(var(--partner-z-index) + 10);
+  --partner-z-overlay-20: calc(var(--partner-z-index) + 20);
+  --partner-z-overlay-30: calc(var(--partner-z-index) + 30);
+  --partner-z-overlay-40: calc(var(--partner-z-index) + 40);
+  --partner-z-overlay-50: calc(var(--partner-z-index) + 50);
+  --partner-z-overlay-60: calc(var(--partner-z-index) + 60);
+  --partner-z-overlay-70: calc(var(--partner-z-index) + 70);
+  --partner-z-overlay-80: calc(var(--partner-z-index) + 80);
+  --partner-z-overlay-90: calc(var(--partner-z-index) + 90);
+  --partner-z-overlay-100: calc(var(--partner-z-index) + 100);
+
+  --partner-z-dropdown: var(--partner-z-overlay);
+  --partner-z-sticky: var(--partner-z-overlay-20);
+  --partner-z-fixed: var(--partner-z-overlay-30);
+  --partner-z-dialog: var(--partner-z-overlay-50);
+  --partner-z-popover: var(--partner-z-overlay-70);
+  --partner-z-tooltip: var(--partner-z-overlay-80);
+  --partner-z-toast: var(--partner-z-overlay-90);
+}

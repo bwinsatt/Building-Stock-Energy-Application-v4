@@ -74,6 +74,14 @@ const meta: Meta<typeof PTextArea> = {
 export default meta
 type Story = StoryObj<typeof PTextArea>
 
+const defaultExportableCode = `<PTextArea
+  id="notes"
+  label="Notes"
+  placeholder="Add any extra details"
+  helperText="You can include up to 100 characters"
+  :max-length="100"
+/>`
+
 export const Default: Story = {
   args: {
     defaultValue: 'Hello, world!',
@@ -87,5 +95,8 @@ export const Default: Story = {
     maxLength: 100,
     helperText: 'Helper text',
     errorText: 'Error text',
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
 }

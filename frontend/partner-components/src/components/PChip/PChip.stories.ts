@@ -11,6 +11,14 @@ const meta: Meta<typeof PChip> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const defaultExportableCode = `<PChip
+  variant="primary"
+  appearance="contained"
+  size="medium"
+>
+  Example Chip
+</PChip>`
+
 export const Default: Story = {
   args: {
     variant: 'primary',
@@ -46,6 +54,9 @@ export const Default: Story = {
     selected: {
       control: 'boolean',
     },
+    typographyProps: {
+      control: 'object',
+    },
     onRemove: {
       type: 'function',
       description: 'Fired when the remove icon is clicked'
@@ -55,6 +66,9 @@ export const Default: Story = {
       args: 'value: boolean',
       description: 'Fired when the chip is clicked'
     }
+  },
+  parameters: {
+    exportableCode: defaultExportableCode,
   },
   render: (args) => ({
     components: { PChip },
