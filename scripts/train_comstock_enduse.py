@@ -222,7 +222,7 @@ def load_baseline_data(enduses_to_train):
 # TRAINING
 # ==============================================================================
 
-def train_all(enduses_to_train, skip_tuning=False):
+def train_all(enduses_to_train, skip_tuning=False, log_target=False):
     """Train one ensemble per end use."""
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     hp_path = os.path.join(OUTPUT_DIR, 'tuned_hyperparameters_enduse.json')
@@ -283,7 +283,17 @@ def train_all(enduses_to_train, skip_tuning=False):
             X, y, test_size=0.2, random_state=42
         )
 
-        print(f"\n  Training: {eu} (n={len(X_train):,} train, {len(X_test):,} test)")
+        # Apply log1p transform if requested (ensures predictions are always >= 0)
+        if log_target:
+            y_train = np.log1p(y_train)
+            y_test_for_eval = y_test  # keep original for metrics
+            y_test_log = np.log1p(y_test)
+        else:
+            y_test_for_eval = y_test
+            y_test_log = y_test
+
+        print(f"\n  Training: {eu} (n={len(X_train):,} train, {len(X_test):,} test)"
+              f"{' [log1p target]' if log_target else ''}")
         eu_start = time.time()
 
         # Encode for XGBoost/LightGBM
@@ -293,20 +303,20 @@ def train_all(enduses_to_train, skip_tuning=False):
         # XGBoost
         cat_indices = [i for i, c in enumerate(FEATURE_COLS) if c in CAT_FEATURE_NAMES]
         xgb_model = train_single_model(X_train_enc, y_train, best_params)
-        xgb_metrics = evaluate_model(xgb_model, X_test_enc, y_test)
+        xgb_metrics = evaluate_model(xgb_model, X_test_enc, y_test_log, log_target=log_target)
         save_model_artifacts(
             xgb_model, encoders, FEATURE_COLS, xgb_metrics,
-            OUTPUT_DIR, f'XGB_enduse_{eu}'
+            OUTPUT_DIR, f'XGB_enduse_{eu}', log_target=log_target
         )
 
         # LightGBM
         lgbm_metrics = None
         try:
             lgbm_model = train_lightgbm_model(X_train_enc, y_train, best_params, cat_indices)
-            lgbm_metrics = evaluate_model(lgbm_model, X_test_enc, y_test)
+            lgbm_metrics = evaluate_model(lgbm_model, X_test_enc, y_test_log, log_target=log_target)
             save_model_artifacts(
                 lgbm_model, encoders, FEATURE_COLS, lgbm_metrics,
-                OUTPUT_DIR, f'LGBM_enduse_{eu}'
+                OUTPUT_DIR, f'LGBM_enduse_{eu}', log_target=log_target
             )
         except Exception as e:
             print(f"    LGBM skipped ({e})")
@@ -317,10 +327,10 @@ def train_all(enduses_to_train, skip_tuning=False):
             X_train_cb = prepare_catboost_data(X_train, FEATURE_COLS, CAT_FEATURE_NAMES)
             X_test_cb = prepare_catboost_data(X_test, FEATURE_COLS, CAT_FEATURE_NAMES)
             cb_model = train_catboost_model(X_train_cb, y_train, best_params, cat_indices)
-            cb_metrics = evaluate_model(cb_model, X_test_cb, y_test)
+            cb_metrics = evaluate_model(cb_model, X_test_cb, y_test_log, log_target=log_target)
             save_model_artifacts(
                 cb_model, encoders, FEATURE_COLS, cb_metrics,
-                OUTPUT_DIR, f'CB_enduse_{eu}'
+                OUTPUT_DIR, f'CB_enduse_{eu}', log_target=log_target
             )
         except Exception as e:
             print(f"    CB skipped ({e})")
@@ -360,9 +370,13 @@ if __name__ == '__main__':
     parser.add_argument('--enduses', nargs='+', help='Specific end uses to train')
     parser.add_argument('--skip-tuning', action='store_true',
                         help='Use saved hyperparameters instead of re-tuning')
+    parser.add_argument('--log-target', action='store_true',
+                        help='Train on log1p(y) targets (guarantees non-negative predictions)')
     args = parser.parse_args()
 
     enduses_to_train = args.enduses or load_enduse_config()
     print(f"End uses to train: {enduses_to_train}")
+    if args.log_target:
+        print("Log-target mode: training on log1p(y), inference will use expm1(pred)")
 
-    train_all(enduses_to_train, skip_tuning=args.skip_tuning)
+    train_all(enduses_to_train, skip_tuning=args.skip_tuning, log_target=args.log_target)
