@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { PTypography, PBadge, PTooltip, PIcon } from '@partnerdevops/partner-components'
+import { PTypography, PChip, PTooltip, PIcon } from '@partnerdevops/partner-components'
 
 const props = defineProps({
   summary: { type: Object, required: true },
@@ -66,9 +66,9 @@ function confidencePercent(confidence) {
           >
             <span class="assumptions-item__label">{{ field.label }}</span>
             <span class="assumptions-item__value">{{ field.value }}</span>
-            <PBadge variant="primary" appearance="standard" size="small">
+            <PChip variant="primary" appearance="soft" size="small">
               {{ field.source }}
-            </PBadge>
+            </PChip>
           </div>
         </div>
       </div>
@@ -87,29 +87,29 @@ function confidencePercent(confidence) {
           >
             <span class="assumptions-item__label">{{ field.label }}</span>
             <span class="assumptions-item__value">{{ field.value }}</span>
-            <PBadge v-if="field.source === 'user'" variant="primary" appearance="standard" size="small">
+            <PChip v-if="field.source === 'user'" variant="primary" appearance="soft" size="small">
               user
-            </PBadge>
-            <PBadge v-else-if="field.source === 'derived'" variant="primary" appearance="standard" size="small">
+            </PChip>
+            <PChip v-else-if="field.source === 'derived'" variant="primary" appearance="soft" size="small">
               derived
-            </PBadge>
+            </PChip>
             <PTooltip v-else-if="field.confidence != null" direction="top">
               <template #tooltip-trigger>
-                <PBadge
+                <PChip
                   :variant="confidenceLabel(field.confidence) === 'high' ? 'success' : confidenceLabel(field.confidence) === 'medium' ? 'warning' : 'error'"
-                  appearance="standard"
+                  appearance="soft"
                   size="small"
                 >
                   {{ confidencePercent(field.confidence) }} confidence
-                </PBadge>
+                </PChip>
               </template>
               <template #tooltip-content>
                 ML model prediction ({{ field.source }})
               </template>
             </PTooltip>
-            <PBadge v-else variant="neutral" appearance="standard" size="small">
+            <PChip v-else variant="neutral" appearance="soft" size="small">
               default
-            </PBadge>
+            </PChip>
           </div>
         </div>
       </div>
