@@ -90,6 +90,62 @@ const barSegments = computed(() => {
 
 /** End-use breakdown data from API (null if models not yet trained) */
 const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
+
+/* ---- Carbon Emissions ---- */
+
+const DIRECT_FUELS = ['natural_gas', 'fuel_oil', 'propane']
+const INDIRECT_FUELS = ['electricity', 'district_heating']
+
+const emissionsData = computed(() => {
+  const byFuel = props.baseline.emissions_by_fuel
+  if (!byFuel) return null
+
+  const direct = DIRECT_FUELS.reduce((sum, key) => sum + (byFuel[key] || 0), 0)
+  const indirect = INDIRECT_FUELS.reduce((sum, key) => sum + (byFuel[key] || 0), 0)
+  const total = direct + indirect
+
+  if (total === 0) return null
+
+  return { direct, indirect, total }
+})
+
+/** Total emissions in tCO2e (absolute) */
+const totalEmissionsTco2e = computed(() => {
+  if (!emissionsData.value) return null
+  return (emissionsData.value.total * props.sqft) / 1000
+})
+
+const emissionsConfigs = [
+  { key: 'direct', label: 'Direct', color: 'var(--partner-gray-7)' },
+  { key: 'indirect', label: 'Indirect', color: 'var(--partner-blue-6)' },
+]
+
+const emissionsBarSegments = computed(() => {
+  const data = emissionsData.value
+  if (!data) return []
+
+  // Only include segments with meaningful emissions
+  const entries = emissionsConfigs
+    .map((cfg) => ({
+      config: cfg,
+      value: cfg.key === 'direct' ? data.direct : data.indirect,
+    }))
+    .filter((e) => (e.value * props.sqft) / 1000 >= 0.05)
+
+  if (entries.length === 0) return []
+
+  const totalActive = entries.reduce((s, e) => s + e.value, 0)
+  const rawPercents = entries.map((e) => (e.value / totalActive) * 100)
+  const boosted = rawPercents.map((p) => (p < MIN_BAR_PERCENT ? MIN_BAR_PERCENT : p))
+  const boostedTotal = boosted.reduce((s, v) => s + v, 0)
+
+  return entries.map((e, i) => ({
+    config: e.config,
+    actualPercent: (e.value / data.total) * 100,
+    visualWidth: ((boosted[i] ?? 0) / boostedTotal) * 100,
+    tco2e: (e.value * props.sqft) / 1000,
+  }))
+})
 </script>
 
 <template>
@@ -97,7 +153,7 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
     <!-- Header -->
     <div class="baseline-card__header">
       <PTypography variant="h4" class="baseline-card__title">
-        Baseline Energy Use
+        Baseline Usage
       </PTypography>
       <span v-if="calibrated" class="calibrated-badge">Calibrated</span>
     </div>
@@ -106,6 +162,10 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
     <div :class="['baseline-layout', endUseBreakdown ? 'baseline-layout--with-donut' : '']">
       <!-- Left column -->
       <div class="baseline-layout__left">
+        <PTypography variant="subhead" class="baseline-layout__section-title">
+          Energy &amp; Carbon Profile
+        </PTypography>
+
         <!-- Hero section: Total EUI + Total Annual -->
         <div class="baseline-hero">
           <div class="baseline-hero__primary">
@@ -127,6 +187,19 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
               kBtu/yr total annual energy
             </PTypography>
           </div>
+
+          <template v-if="totalEmissionsTco2e != null">
+            <div class="baseline-hero__divider" aria-hidden="true"></div>
+
+            <div class="baseline-hero__secondary">
+              <span class="baseline-hero__annual-value">
+                {{ totalEmissionsTco2e.toFixed(1) }}
+              </span>
+              <PTypography variant="body2" class="baseline-hero__annual-unit">
+                tCO2e total emissions
+              </PTypography>
+            </div>
+          </template>
         </div>
 
         <!-- Stacked horizontal bar -->
@@ -214,6 +287,58 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
             </div>
           </div>
         </div>
+        <!-- Carbon Emissions bar -->
+        <div v-if="emissionsBarSegments.length" class="emissions-bar">
+          <PTypography variant="subhead" class="emissions-bar__heading">
+            Carbon Emissions
+          </PTypography>
+
+          <div class="emissions-bar__track">
+            <PTooltip
+              v-for="seg in emissionsBarSegments"
+              :key="seg.config.key"
+              direction="top"
+            >
+              <template #tooltip-trigger>
+                <div
+                  class="emissions-bar__segment"
+                  :style="{
+                    width: seg.visualWidth + '%',
+                    backgroundColor: seg.config.color,
+                  }"
+                  role="img"
+                  :aria-label="`${seg.config.label}: ${(seg.actualPercent ?? 0).toFixed(1)}%`"
+                ></div>
+              </template>
+              <template #tooltip-content>
+                <div class="emissions-bar__tooltip">
+                  <span class="emissions-bar__tooltip-label">{{ seg.config.label }}</span>
+                  <span class="emissions-bar__tooltip-pct">{{ (seg.actualPercent ?? 0).toFixed(1) }}%</span>
+                  <span class="emissions-bar__tooltip-val">
+                    {{ seg.tco2e.toFixed(1) }} tCO2e
+                  </span>
+                </div>
+              </template>
+            </PTooltip>
+          </div>
+
+          <!-- Legend dots -->
+          <div class="emissions-bar__legend">
+            <div
+              v-for="seg in emissionsBarSegments"
+              :key="seg.config.key"
+              class="emissions-bar__legend-item"
+            >
+              <span
+                class="emissions-bar__legend-dot"
+                :style="{ backgroundColor: seg.config.color }"
+              ></span>
+              <PTypography variant="body2" class="emissions-bar__legend-text">
+                {{ seg.config.label }}
+              </PTypography>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Right column: end-use donut (only when data available) -->
@@ -279,6 +404,14 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   min-width: 0;
 }
 
+.baseline-layout__section-title {
+  color: var(--partner-gray-6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
 .baseline-layout__right {
   min-width: 240px;
   max-width: 320px;
@@ -289,8 +422,8 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 1.75rem;
-  padding: 1.25rem 0;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 0;
 }
 
 .baseline-hero__primary,
@@ -483,6 +616,84 @@ const endUseBreakdown = computed(() => props.baseline.enduse_breakdown ?? null)
   font-size: 0.7rem;
   font-weight: 400;
   color: var(--partner-gray-5);
+}
+
+/* ---- Emissions bar ---- */
+.emissions-bar {
+  margin-top: 1.5rem;
+}
+
+.emissions-bar__heading {
+  margin-bottom: 0.75rem;
+  color: var(--partner-gray-6);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.emissions-bar__track {
+  display: flex;
+  width: 100%;
+  height: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--partner-gray-2);
+}
+
+.emissions-bar__segment {
+  height: 100%;
+  cursor: pointer;
+  transition: opacity 0.15s ease, filter 0.15s ease;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.emissions-bar__segment:last-child {
+  border-right: none;
+}
+
+.emissions-bar__segment:hover {
+  opacity: 0.85;
+  filter: brightness(1.1);
+}
+
+.emissions-bar__tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.emissions-bar__tooltip-label {
+  font-weight: 600;
+}
+
+.emissions-bar__tooltip-val {
+  opacity: 0.85;
+}
+
+.emissions-bar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.emissions-bar__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.emissions-bar__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.emissions-bar__legend-text {
+  color: var(--partner-gray-6);
+  font-size: 0.7rem;
 }
 
 /* ---- Responsive ---- */

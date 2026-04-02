@@ -47,7 +47,7 @@ from app.constants import (
     STORY_HEIGHT_RESIDENTIAL,
     ASPECT_RATIO,
 )
-from app.services.emissions import calculate_emissions_reduction_pct
+from app.services.emissions import calculate_emissions_by_fuel, calculate_emissions_reduction_pct
 from app.inference.applicability import PACKAGE_CONSTITUENTS, RESSTOCK_PACKAGE_CONSTITUENTS
 from app.services.preprocessor import preprocess, year_to_vintage, get_electricity_emission_factor
 from app.inference.model_manager import ModelManager
@@ -525,11 +525,26 @@ def _assess_single(
         district_heating=round(baseline_kbtu.get("district_heating", 0), 2),
     )
 
+    # Per-fuel emissions (kg CO2e/sf) — clamp negatives: baseline can't have
+    # negative consumption, but ML models sometimes predict tiny sub-zero values.
+    clamped_baseline = {fuel: max(0.0, v) for fuel, v in effective_baseline.items()}
+    emissions_per_fuel = calculate_emissions_by_fuel(clamped_baseline, electricity_ef)
+    total_emissions = sum(emissions_per_fuel.values())
+    emissions_fuel_breakdown = FuelBreakdown(
+        electricity=round(emissions_per_fuel.get("electricity", 0), 6),
+        natural_gas=round(emissions_per_fuel.get("natural_gas", 0), 6),
+        fuel_oil=round(emissions_per_fuel.get("fuel_oil", 0), 6),
+        propane=round(emissions_per_fuel.get("propane", 0), 6),
+        district_heating=round(emissions_per_fuel.get("district_heating", 0), 6),
+    )
+
     return BuildingResult(
         building_index=index,
         baseline=BaselineResult(
             total_eui_kbtu_sf=round(total_baseline_kbtu, 2),
             eui_by_fuel=fuel_breakdown,
+            emissions_kg_co2e_per_sf=round(total_emissions, 6),
+            emissions_by_fuel=emissions_fuel_breakdown,
             actual_eui_by_fuel=FuelBreakdown(**{
                 fuel: val * KWH_TO_KBTU for fuel, val in actual_baseline_eui.items()
             }) if calibrated else None,
