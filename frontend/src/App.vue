@@ -38,7 +38,7 @@ import { PButton, PAvatar } from '@partnerdevops/partner-components'
 import AssessmentView from './views/AssessmentView.vue'
 import ProjectsView from './components/ProjectsView.vue'
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
+const API_BASE = import.meta.env.VITE_API_URL ?? ''
 const offloading = ref(false)
 const currentView = ref('assessment')
 

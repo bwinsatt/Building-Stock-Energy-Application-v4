@@ -1,9 +1,17 @@
 #!/bin/sh
 set -e
 
-# Download models from Railway bucket if not already cached on volume
-# -u forces unbuffered output so logs appear in Railway
+# Download models if not already cached on persistent storage
 python -u download_models.py
 
+# Create database directory if it doesn't exist
+mkdir -p "$(dirname "${DATABASE_PATH:-/home/data/buildingstock.db}")"
+
 # Start the API server
-exec uvicorn app.main:app --host 0.0.0.0 --port 8001
+# WEB_CONCURRENCY=1 for B1 (1.75 GB RAM); increase for larger SKUs
+exec gunicorn \
+    -w "${WEB_CONCURRENCY:-1}" \
+    -k uvicorn.workers.UvicornWorker \
+    -b 0.0.0.0:8001 \
+    --timeout "${GUNICORN_TIMEOUT:-300}" \
+    app.main:app

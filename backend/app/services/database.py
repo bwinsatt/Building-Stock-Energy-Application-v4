@@ -12,14 +12,16 @@ class Database:
         )
 
     def _connect(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path, timeout=30)
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("PRAGMA foreign_keys=ON")
+        conn.execute("PRAGMA busy_timeout=5000")
         conn.row_factory = sqlite3.Row
         return conn
 
     def init(self):
         """Create tables if they don't exist."""
+        os.makedirs(os.path.dirname(os.path.abspath(self.db_path)), exist_ok=True)
         with self._connect() as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS projects (

@@ -153,12 +153,12 @@
 - Restrict the SPA catch-all to browser navigation requests (`Accept: text/html`) and exclude known API prefixes
 
 **Sub-tasks:**
-- [ ] 2.1 Add `StaticFiles` mount in `main.py` for `/assets` pointing to `dist/assets/`
-- [ ] 2.2 Add a catch-all GET route that returns `dist/index.html` via `FileResponse`
-- [ ] 2.3 Make the dist path configurable: `STATIC_DIR` env var, default to `None` (skip mount if not set, for local dev)
-- [ ] 2.4 Update CORS to allow only the Vite dev server origin when `STATIC_DIR` is not set
-- [ ] 2.5 Update `frontend/vite.config.js` to proxy API requests to `localhost:8001` during dev (optional, for DX)
-- [ ] 2.6 Add/verify tests for static asset serving, SPA refresh, and API 404 behavior
+- [x] 2.1 Add `StaticFiles` mount in `main.py` for `/assets` pointing to `dist/assets/`
+- [x] 2.2 Add a catch-all GET route that returns `dist/index.html` via `FileResponse`
+- [x] 2.3 Make the dist path configurable: `STATIC_DIR` env var, default to `None` (skip mount if not set, for local dev)
+- [x] 2.4 Update CORS to allow only the Vite dev server origin when `STATIC_DIR` is not set
+- [x] 2.5 Update `frontend/vite.config.js` to proxy API requests to `localhost:8001` during dev (optional, for DX)
+- [x] 2.6 Add/verify tests for static asset serving, SPA refresh, and API 404 behavior
 
 **Dependencies:** None
 
@@ -187,11 +187,11 @@
 - If the Dockerfile remains under `backend/`, build from repo root with `docker build -f backend/Dockerfile .` and use root-relative `COPY` paths for both `backend/` and `frontend/`
 
 **Sub-tasks:**
-- [ ] 3.1 Add `gunicorn` to `backend/requirements.txt`
-- [ ] 3.2 Create multi-stage Dockerfile: stage 1 (node:20-alpine) builds frontend, stage 2 (python:3.11-slim) copies dist + runs backend
-- [ ] 3.3 Update `start.sh` to use gunicorn with uvicorn workers
-- [ ] 3.4 Set `STATIC_DIR=/app/static` in Dockerfile and copy `dist/` there
-- [ ] 3.5 Build and test locally from repo root with the final CI-equivalent command, for example `docker build -f backend/Dockerfile -t energy-audit . && docker run -p 8001:8001 -v ./XGB_Models:/home/models -e MODEL_DIR=/home/models energy-audit`
+- [x] 3.1 Add `gunicorn` to `backend/requirements.txt`
+- [x] 3.2 Create multi-stage Dockerfile: stage 1 (node:20-alpine) builds frontend, stage 2 (python:3.11-slim) copies dist + runs backend
+- [x] 3.3 Update `start.sh` to use gunicorn with uvicorn workers
+- [x] 3.4 Set `STATIC_DIR=/app/static` in Dockerfile and copy `dist/` there
+- [x] 3.5 Build and test locally from repo root with the final CI-equivalent command, for example `docker build -f backend/Dockerfile -t energy-audit . && docker run -p 8001:8001 -v ./XGB_Models:/home/models -e MODEL_DIR=/home/models energy-audit`
 - [ ] 3.6 Profile memory on B1 with `WEB_CONCURRENCY=1`; only increase workers after measuring model-cache memory
 
 **Dependencies:** Task 2 (FastAPI must be configured to serve static files)
@@ -217,9 +217,9 @@
 - Don't block requests when headers are missing
 
 **Sub-tasks:**
-- [ ] 4.1 Create middleware that decodes `X-MS-CLIENT-PRINCIPAL` and sets `request.state.user`
-- [ ] 4.2 Add middleware to `main.py`
-- [ ] 4.3 Verify locally by passing fake headers (these headers are stripped by Easy Auth in production, so they're safe to test with)
+- [x] 4.1 Create middleware that decodes `X-MS-CLIENT-PRINCIPAL` and sets `request.state.user`
+- [x] 4.2 Add middleware to `main.py`
+- [x] 4.3 Verify locally by passing fake headers (these headers are stripped by Easy Auth in production, so they're safe to test with)
 - [ ] 4.4 Verify in Azure that authenticated requests expose the expected identity headers and document which claim is used as stable user ID
 
 **Dependencies:** None (but only useful after Easy Auth is configured in Task 0)
@@ -248,10 +248,10 @@
 - Avoid using Easy Auth headers as a substitute for token validation; they are trusted only because App Service authentication gates the request before it reaches FastAPI
 
 **Sub-tasks:**
-- [ ] 5.1 Add `DATABASE_PATH=/home/data/buildingstock.db` to App Service configuration and local/container documentation
-- [ ] 5.2 Update `Database` initialization to create the parent directory and configure a busy timeout
+- [x] 5.1 Add `DATABASE_PATH=/home/data/buildingstock.db` to App Service configuration and local/container documentation
+- [x] 5.2 Update `Database` initialization to create the parent directory and configure a busy timeout
 - [ ] 5.3 Decide and implement project ownership model: per-user principal scoping or intentionally shared authenticated workspace
-- [ ] 5.4 Add tests for persistent database path creation and the selected project visibility model
+- [x] 5.4 Add tests for persistent database path creation and the selected project visibility model
 - [ ] 5.5 Verify restart/deploy behavior on Azure: create a project, restart the app, confirm data remains
 - [ ] 5.6 Document backup/export and restore steps for the SQLite database
 
@@ -281,10 +281,10 @@
 - Local dev instructions should note: set `VITE_API_URL=http://localhost:8001` in `.env`
 
 **Sub-tasks:**
-- [ ] 6.1 Update all 7 composables and `frontend/src/App.vue` to default to `''`
-- [ ] 6.2 Create `frontend/.env.development` with `VITE_API_URL=http://localhost:8001` so local dev works automatically
+- [x] 6.1 Update all 7 composables and `frontend/src/App.vue` to default to `''`
+- [x] 6.2 Create `frontend/.env.development` with `VITE_API_URL=http://localhost:8001` so local dev works automatically
 - [ ] 6.3 Verify local dev still works with separate frontend/backend servers
-- [ ] 6.4 Build the production frontend and verify no bundle references `localhost:8001`
+- [x] 6.4 Build the production frontend and verify no bundle references `localhost:8001`
 
 **Dependencies:** None
 
