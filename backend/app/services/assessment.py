@@ -5,9 +5,11 @@ calculation, and response formatting into a single assessment pipeline.
 
 from __future__ import annotations
 
+import gc
 import json as _json
 import logging
 import math
+import os
 import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path as _Path
@@ -335,25 +337,34 @@ def _assess_single(
     # 6. Check applicability and predict upgrades
     upgrade_ids = model_manager.get_available_upgrades(dataset)
 
-    # Pre-warm: load all upgrade models from disk in parallel (I/O-bound)
     applicable_ids = [
         uid for uid in upgrade_ids
         if _check_applicability(uid, dataset, features)
     ]
-    model_manager.warm_upgrades(dataset, applicable_ids)
 
-    # Pre-compute all deltas in parallel (XGBoost releases the GIL)
+    # Process upgrades in batches to cap peak memory. Each upgrade loads
+    # ~60 MB of models (all ensemble types x 5 fuels). Batching keeps
+    # total loaded models bounded so the pipeline fits in constrained
+    # environments (e.g. App Service B1 with 1.75 GB RAM).
+    _UPGRADE_BATCH_SIZE = int(os.environ.get("UPGRADE_BATCH_SIZE", "8"))
     delta_results: dict[int, dict] = {}
 
-    def _predict_upgrade(uid: int) -> tuple[int, dict]:
-        return uid, model_manager.predict_delta(
-            features, uid, dataset,
-            baseline_eui=actual_baseline_eui if calibrated else baseline_eui,
-        )
+    for batch_start in range(0, len(applicable_ids), _UPGRADE_BATCH_SIZE):
+        batch = applicable_ids[batch_start:batch_start + _UPGRADE_BATCH_SIZE]
+        model_manager.warm_upgrades(dataset, batch)
 
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        for uid, delta in pool.map(_predict_upgrade, applicable_ids):
-            delta_results[uid] = delta
+        def _predict_upgrade(uid: int) -> tuple[int, dict]:
+            return uid, model_manager.predict_delta(
+                features, uid, dataset,
+                baseline_eui=actual_baseline_eui if calibrated else baseline_eui,
+            )
+
+        with ThreadPoolExecutor(max_workers=min(4, len(batch))) as pool:
+            for uid, delta in pool.map(_predict_upgrade, batch):
+                delta_results[uid] = delta
+
+        model_manager.evict_upgrades(dataset, batch)
+        gc.collect()
 
     measures: list[MeasureResult] = []
 

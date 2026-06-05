@@ -558,6 +558,22 @@ class ModelManager:
         logger.info("Offloaded %d upgrade bundles from memory", total)
         return total
 
+    def evict_upgrades(self, dataset: str, upgrade_ids: list[int]) -> int:
+        """Remove specific upgrade bundles from cache to free memory.
+
+        Returns the number of bundles evicted.
+        """
+        dataset = dataset.lower()
+        target = set(upgrade_ids)
+        evicted = 0
+        with self._lock:
+            cache = self._upgrade_cache[dataset]
+            keys_to_remove = [k for k in cache if k[0] in target]
+            for key in keys_to_remove:
+                del cache[key]
+                evicted += 1
+        return evicted
+
     def warm_upgrades(self, dataset: str, upgrade_ids: list[int]) -> None:
         """Pre-load upgrade model bundles in parallel threads (I/O-bound)."""
         from concurrent.futures import ThreadPoolExecutor
