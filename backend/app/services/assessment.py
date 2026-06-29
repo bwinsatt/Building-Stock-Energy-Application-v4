@@ -549,7 +549,7 @@ def _assess_single(
         district_heating=round(emissions_per_fuel.get("district_heating", 0), 6),
     )
 
-    return BuildingResult(
+    result = BuildingResult(
         building_index=index,
         baseline=BaselineResult(
             total_eui_kbtu_sf=round(total_baseline_kbtu, 2),
@@ -579,7 +579,15 @@ def _assess_single(
             },
         ),
         calibrated=calibrated,
+        rates=FuelBreakdown(
+            electricity=round(rates.get("electricity", 0.0), 6),
+            natural_gas=round(rates.get("natural_gas", 0.0), 6),
+            fuel_oil=round(rates.get("fuel_oil", 0.0), 6),
+            propane=round(rates.get("propane", 0.0), 6),
+            district_heating=round(rates.get("district_heating", 0.0), 6),
+        ),
     )
+    return result
 
 
 # ---------------------------------------------------------------------------

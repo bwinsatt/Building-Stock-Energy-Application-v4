@@ -578,3 +578,25 @@ def test_full_pipeline_resstock_types_correct(mf_input):
     assert features["in.cooling_setpoint"] == "75F"
     assert features["in.heating_setpoint_offset_magnitude"] == "6F"
     assert features["in.cooling_setpoint_offset_magnitude"] == "5F"
+
+
+# ---------------------------------------------------------------------------
+# eGRID subregion + KBTU_PER_THERM (carbon performance export support)
+# ---------------------------------------------------------------------------
+
+from app.services.preprocessor import get_egrid_subregion
+from app.constants import KBTU_PER_THERM
+
+
+def test_kbtu_per_therm_constant():
+    assert KBTU_PER_THERM == 100.0
+
+
+def test_get_egrid_subregion_known_zip():
+    # prefix 005 -> NYLI in zipcode_lookup.json
+    assert get_egrid_subregion("00501") == "NYLI"
+
+
+def test_get_egrid_subregion_unknown_zip():
+    # prefix 000 is not present in the lookup
+    assert get_egrid_subregion("00000") is None

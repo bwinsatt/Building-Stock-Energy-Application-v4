@@ -11,11 +11,12 @@ import AssumptionsPanel from '../components/AssumptionsPanel.vue'
 import EnergyStarScore from '../components/EnergyStarScore.vue'
 import { formatReplacementNotice, useMeasureSelections } from '../composables/useMeasureSelections'
 
-const { loading, error, result, assess } = useAssessment()
+const { loading, error, result, assess, exporting, exportCarbonPerformance } = useAssessment()
 const { createBuilding, saveAssessment } = useProjects()
 
 const lastSqft = ref(0)
 const lastBuilding = ref(null)
+const espmPropertyType = ref(null)
 const selectedProjectId = ref(null)
 const lastLookupResult = ref(null)
 const lastAddress = ref('')
@@ -69,7 +70,18 @@ function onSubmit(input) {
   lastSqft.value = input.sqft
   lastBuilding.value = input
   saveStatus.value = 'idle'
+  espmPropertyType.value = null
   assess(input)
+}
+
+function onExport() {
+  if (!lastBuilding.value || !result.value) return
+  exportCarbonPerformance(
+    lastBuilding.value,
+    result.value,
+    [...selectedUpgradeIds.value],
+    espmPropertyType.value,
+  )
 }
 
 // Autosave: watch for assessment result and save when project is selected
@@ -186,6 +198,7 @@ watch(result, async (newResult) => {
         :projected-loading="projectedLoading"
         :projected-error="projectedError"
         @calculate-projected="calculateProjectedScore"
+        @espm-loaded="espmPropertyType = $event"
       />
 
       <!-- Separator between baseline and measures -->
@@ -197,7 +210,9 @@ watch(result, async (newResult) => {
         :selected-upgrade-ids="selectedUpgradeIds"
         :disabled-by-package="disabledByPackage"
         :replace-message="replaceMessage"
+        :exporting="exporting"
         @toggle-measure="handleToggleMeasure"
+        @export="onExport"
       />
     </template>
   </div>

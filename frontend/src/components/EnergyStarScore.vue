@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { PTypography, PIcon } from '@partnerdevops/partner-components'
 import { useEnergyStarScore } from '../composables/useEnergyStarScore'
 
@@ -14,9 +14,13 @@ const props = defineProps({
   projectedError: { type: String, default: null },
 })
 
-const emit = defineEmits(['calculate-projected'])
+const emit = defineEmits(['calculate-projected', 'espm-loaded'])
 
 const { loading, error, result, fetchScore } = useEnergyStarScore()
+
+watch(result, (r) => {
+  if (r?.espm_property_type) emit('espm-loaded', r.espm_property_type)
+}, { immediate: true })
 
 function handleClick() {
   fetchScore(props.building, props.baseline, props.address)

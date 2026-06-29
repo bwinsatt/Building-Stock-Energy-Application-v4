@@ -11,6 +11,7 @@ KWH_TO_THERMS = 0.03412
 KWH_PER_GALLON_FUEL_OIL = 40.6    # 138,500 BTU/gallon / 3,412 BTU/kWh
 KWH_PER_GALLON_PROPANE = 26.8     # 91,500 BTU/gallon / 3,412 BTU/kWh
 KWH_PER_THERM = 29.31             # 1 / KWH_TO_THERMS
+KBTU_PER_THERM = 100.0            # 1 therm = 100 kBtu (= KWH_PER_THERM * KWH_TO_KBTU)
 TONS_TO_KBTUH = 12.0
 
 # Fuel-to-kWh conversion factors (for utility bill input conversion)

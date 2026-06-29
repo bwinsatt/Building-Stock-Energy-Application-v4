@@ -71,6 +71,7 @@ class BuildingResult(BaseModel):
     measures: list[MeasureResult]
     input_summary: InputSummary
     calibrated: bool = False
+    rates: Optional[FuelBreakdown] = None  # per-fuel utility rates ($/kWh)
 
 
 class AssessmentResponse(BaseModel):
