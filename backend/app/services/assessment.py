@@ -274,8 +274,8 @@ def _assess_single(
     model_manager: ModelManager,
     cost_calculator: CostCalculatorService,
     imputation_service=None,
-) -> BuildingResult:
-    """Run the full assessment pipeline for one building."""
+) -> tuple[BuildingResult, dict]:
+    """Run the full assessment pipeline for one building. Returns (result, rates)."""
 
     # 1. Preprocess
     features, imputed_details, dataset, climate_zone, state = preprocess(
@@ -549,7 +549,7 @@ def _assess_single(
         district_heating=round(emissions_per_fuel.get("district_heating", 0), 6),
     )
 
-    return BuildingResult(
+    result = BuildingResult(
         building_index=index,
         baseline=BaselineResult(
             total_eui_kbtu_sf=round(total_baseline_kbtu, 2),
@@ -580,6 +580,7 @@ def _assess_single(
         ),
         calibrated=calibrated,
     )
+    return result, rates
 
 
 # ---------------------------------------------------------------------------
@@ -595,8 +596,18 @@ def assess_buildings(
     """Process a list of building inputs and return assessment results."""
     results: list[BuildingResult] = []
     for i, building in enumerate(buildings):
-        result = _assess_single(
+        result, _rates = _assess_single(
             building, i, model_manager, cost_calculator, imputation_service
         )
         results.append(result)
     return results
+
+
+def assess_building_for_export(
+    building: BuildingInput,
+    model_manager: ModelManager,
+    cost_calculator: CostCalculatorService,
+    imputation_service=None,
+) -> tuple[BuildingResult, dict]:
+    """Assess a single building and also return the per-fuel utility rates ($/kWh)."""
+    return _assess_single(building, 0, model_manager, cost_calculator, imputation_service)
