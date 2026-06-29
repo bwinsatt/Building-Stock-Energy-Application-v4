@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, Response
 from pydantic import BaseModel
 from typing import Optional
 
@@ -10,6 +10,7 @@ from app.schemas.response import AssessmentResponse, BaselineResult, FuelBreakdo
 from app.schemas.lookup_response import LookupResponse
 from app.schemas.energy_star import EnergyStarRequest, EnergyStarResponse
 from app.services.assessment import assess_buildings
+from app.services.export_service import build_carbon_performance_workbook
 from app.services.address_lookup import lookup_address
 from app.services.autocomplete import PhotonProvider
 from app.services.energy_star import EnergyStarService
@@ -59,6 +60,37 @@ async def assess(request: AssessmentRequest, req: Request):
         return AssessmentResponse(results=results)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
+
+
+class CarbonPerformanceExportRequest(BaseModel):
+    building: BuildingInput
+    selected_upgrade_ids: list[int] = []
+    espm_property_type: Optional[str] = None
+
+
+@router.post("/export/carbon-performance")
+async def export_carbon_performance(request: CarbonPerformanceExportRequest, req: Request):
+    _reset_offload_timer(req.app)
+    model_manager = req.app.state.model_manager
+    cost_calculator = req.app.state.cost_calculator
+    imputation_service = getattr(req.app.state, "imputation_service", None)
+    try:
+        data = build_carbon_performance_workbook(
+            request.building,
+            request.selected_upgrade_ids,
+            model_manager,
+            cost_calculator,
+            imputation_service,
+            espm_property_type=request.espm_property_type,
+        )
+    except FileNotFoundError:
+        raise HTTPException(status_code=500, detail="Export template not found")
+    filename = f"CarbonPerformance_{request.building.zipcode}.xlsx"
+    return Response(
+        content=data,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @router.post("/offload")
