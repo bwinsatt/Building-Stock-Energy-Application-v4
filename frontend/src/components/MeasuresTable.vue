@@ -21,9 +21,10 @@ const props = defineProps({
   selectedUpgradeIds: { type: Set, default: undefined },
   disabledByPackage: { type: Map, default: undefined },
   replaceMessage: { type: String, default: null },
+  exporting: { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['toggle-measure'])
+const emit = defineEmits(['toggle-measure', 'export'])
 
 // ---- Sorting ----
 
@@ -210,24 +211,38 @@ function truncateText(text, maxLength) {
   <div class="measures-card">
     <!-- Header -->
     <div class="measures-header">
-      <PTypography variant="h4" class="measures-header__title">
-        Upgrade Measures
-      </PTypography>
+      <div class="measures-header__info">
+        <PTypography variant="h4" class="measures-header__title">
+          Upgrade Measures
+        </PTypography>
 
-      <!-- Summary stats -->
-      <div class="measures-summary">
-        <span class="measures-summary__item">
-          <strong>{{ summaryStats.count }}</strong> applicable measures
-        </span>
-        <span v-if="summaryStats.bestPayback != null" class="measures-summary__divider">|</span>
-        <span v-if="summaryStats.bestPayback != null" class="measures-summary__item">
-          Best payback: <strong class="measures-summary__highlight">{{ formatNumber(summaryStats.bestPayback) }} yrs</strong>
-        </span>
-        <span v-if="summaryStats.maxSavings != null" class="measures-summary__divider">|</span>
-        <span v-if="summaryStats.maxSavings != null" class="measures-summary__item">
-          Max savings: <strong class="measures-summary__highlight">{{ formatNumber(summaryStats.maxSavings) }}%</strong>
-        </span>
+        <!-- Summary stats -->
+        <div class="measures-summary">
+          <span class="measures-summary__item">
+            <strong>{{ summaryStats.count }}</strong> applicable measures
+          </span>
+          <span v-if="summaryStats.bestPayback != null" class="measures-summary__divider">|</span>
+          <span v-if="summaryStats.bestPayback != null" class="measures-summary__item">
+            Best payback: <strong class="measures-summary__highlight">{{ formatNumber(summaryStats.bestPayback) }} yrs</strong>
+          </span>
+          <span v-if="summaryStats.maxSavings != null" class="measures-summary__divider">|</span>
+          <span v-if="summaryStats.maxSavings != null" class="measures-summary__item">
+            Max savings: <strong class="measures-summary__highlight">{{ formatNumber(summaryStats.maxSavings) }}%</strong>
+          </span>
+        </div>
       </div>
+
+      <PButton
+        variant="primary"
+        appearance="outlined"
+        size="small"
+        icon="download"
+        :disabled="exporting"
+        class="measures-header__export"
+        @click="emit('export')"
+      >
+        {{ exporting ? 'Exporting...' : 'Export to Carbon Performance' }}
+      </PButton>
     </div>
 
     <!-- Replace notification -->
@@ -667,6 +682,14 @@ function truncateText(text, maxLength) {
 .measures-header {
   padding: 1.25rem 1.5rem 1rem;
   border-bottom: 1px solid var(--partner-border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.measures-header__export {
+  flex-shrink: 0;
 }
 
 .measures-header__title {
