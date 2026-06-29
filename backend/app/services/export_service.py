@@ -8,6 +8,7 @@ reference-table named ranges and styles are preserved.
 """
 
 import io
+import re
 from pathlib import Path
 
 import openpyxl
@@ -25,6 +26,31 @@ SHEET_NAME = "Export BlueLynx"
 FIRST_MEASURE_ROW = 6
 MAX_MEASURE_ROWS = 30
 GRID_DECARB_MODEL = "NREL Cambium, 2022"
+
+# A token like ``[1]`` inside a formula/defined-name addresses an *external*
+# workbook (here the SharePoint Carbon Performance calculator). Excel resolves it
+# through an externalLink part; with that part gone the reference dangles.
+_EXTERNAL_REF = re.compile(r"\[\d+\]")
+
+
+def _drop_external_references(wb):
+    """Remove the external-workbook links and every defined name that points at one.
+
+    The template carries an ``externalLinks`` part (the SharePoint calculator) plus
+    ~60 defined names whose formulas reference it as ``[1]…`` (e.g.
+    ``[1]Calculations!$D$22``). openpyxl cannot round-trip that part, so we clear it,
+    but clearing it alone leaves those defined names referencing a workbook index
+    that no longer exists. Excel treats a defined name pointing at a missing external
+    book as a corruption and shows the "We found a problem with some content" repair
+    prompt, even though the OOXML relationships are otherwise intact. The import sheet
+    never needs these names (the real calculator supplies its own), so we strip both
+    the link and the names, matching the hand-cleaned template that opens cleanly.
+    """
+    wb._external_links = []
+    scopes = [wb.defined_names] + [ws.defined_names for ws in wb.worksheets]
+    for scope in scopes:
+        for name in [n for n in scope if _EXTERNAL_REF.search(scope[n].value or "")]:
+            del scope[name]
 
 
 def _select_measures(measures, selected_upgrade_ids):
@@ -49,12 +75,7 @@ def build_carbon_performance_workbook(
     rate_gas = (rates.natural_gas if rates else 0.0) or 0.0
 
     wb = openpyxl.load_workbook(TEMPLATE_PATH)
-
-    # Drop the external workbook links. They point at a SharePoint template and
-    # openpyxl cannot round-trip them cleanly (it leaves a dangling relationship),
-    # which makes Excel flag the file as corrupt. The import sheet does not need
-    # them; the real Carbon Performance calculator supplies its own named ranges.
-    wb._external_links = []
+    _drop_external_references(wb)
 
     ws = wb[SHEET_NAME]
 

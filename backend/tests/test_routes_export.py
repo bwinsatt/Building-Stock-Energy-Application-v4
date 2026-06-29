@@ -63,7 +63,7 @@ def test_export_endpoint_end_to_end(office_input):
     import openpyxl
     wb = openpyxl.load_workbook(io.BytesIO(export_resp.content))
     ws = wb["Export BlueLynx"]
-    assert "ESPM_Prop_Types" in wb.defined_names
+    assert "ESPM_Prop_Types" not in wb.defined_names   # external ref stripped, not kept
     assert ws["C6"].value is not None and str(ws["C6"].value).strip() != ""
     assert ws["AJ8"].value == office_input.zipcode
     assert ws["AJ9"].value == "Office"

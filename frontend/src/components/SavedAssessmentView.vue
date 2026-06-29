@@ -7,6 +7,7 @@ import AssumptionsPanel from './AssumptionsPanel.vue'
 import EnergyStarScore from './EnergyStarScore.vue'
 import BuildingMapViewer from './BuildingMapViewer.vue'
 import { formatReplacementNotice, useMeasureSelections } from '../composables/useMeasureSelections'
+import { useAssessment } from '../composables/useAssessment'
 
 const props = defineProps({
   building: { type: Object, required: true },
@@ -14,6 +15,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['back'])
+
+const { exporting, exportCarbonPerformance } = useAssessment()
+const espmPropertyType = ref(null)
 
 const buildingResult = computed(() => {
   return props.assessment.result ?? null
@@ -71,6 +75,16 @@ function handleToggleMeasure(upgradeId) {
   }
 }
 
+function onExport() {
+  if (!buildingInput.value || !buildingResult.value) return
+  exportCarbonPerformance(
+    buildingInput.value,
+    buildingResult.value,
+    [...selectedUpgradeIds.value],
+    espmPropertyType.value,
+  )
+}
+
 // Load selections on mount
 loadSelections().then(() => reconcileSelections())
 </script>
@@ -113,6 +127,7 @@ loadSelections().then(() => reconcileSelections())
         :projected-loading="projectedLoading"
         :projected-error="projectedError"
         @calculate-projected="calculateProjectedScore"
+        @espm-loaded="espmPropertyType = $event"
       />
       <div class="section-separator" aria-hidden="true" />
       <MeasuresTable
@@ -121,7 +136,9 @@ loadSelections().then(() => reconcileSelections())
         :selected-upgrade-ids="selectedUpgradeIds"
         :disabled-by-package="disabledByPackage"
         :replace-message="replaceMessage"
+        :exporting="exporting"
         @toggle-measure="handleToggleMeasure"
+        @export="onExport"
       />
     </template>
 

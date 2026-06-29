@@ -15,10 +15,16 @@ from app.services import export_service
 
 
 def assert_valid_xlsx(data: bytes):
-    """Catch the corruption class Excel flags but openpyxl tolerates.
+    """Catch the corruption classes Excel flags but openpyxl tolerates.
 
-    Verifies the OOXML package has no external links and no dangling
-    relationship references (every r:id in a part exists in its .rels).
+    Verifies the OOXML package has:
+      1. no external links and no dangling relationship references (every r:id in a
+         part exists in its .rels), and
+      2. no *external-workbook* references (``[n]…`` tokens) left in defined names or
+         worksheet formulas once the externalLink parts are gone. A defined name that
+         still points at a removed external book (e.g. ``[1]Calculations!$D$22``) is
+         the second corruption source: the relationships are intact, so the r:id check
+         above passes, yet Excel still shows the "We found a problem" repair prompt.
     """
     z = zipfile.ZipFile(io.BytesIO(data))
     names = z.namelist()
@@ -43,6 +49,17 @@ def assert_valid_xlsx(data: bytes):
             if ids - defined:
                 dangling.append((n, ids - defined))
     assert not dangling, f"dangling relationship refs: {dangling}"
+
+    # No external-workbook book indices may remain in workbook.xml (defined names)
+    # or any worksheet (formulas) once the externalLink parts have been dropped.
+    ext_ref = re.compile(r"\[\d+\]")
+    orphan_ext = []
+    for n in names:
+        if n == "xl/workbook.xml" or n.startswith("xl/worksheets/"):
+            hits = ext_ref.findall(z.read(n).decode(errors="ignore"))
+            if hits:
+                orphan_ext.append((n, len(hits)))
+    assert not orphan_ext, f"orphan external-workbook refs (no externalLink): {orphan_ext}"
 
     # Must still reopen cleanly
     openpyxl.load_workbook(io.BytesIO(data))
@@ -122,14 +139,21 @@ def test_generated_workbook_is_not_corrupt(monkeypatch):
     assert_valid_xlsx(data)
 
 
-def test_named_ranges_survive(monkeypatch):
+def test_external_named_ranges_stripped(monkeypatch):
     monkeypatch.setattr(export_service, "get_egrid_subregion", lambda z: "NYLI")
     data = export_service.build_carbon_performance_workbook(
         _building(), _fake_result(), [7],
     )
     wb = openpyxl.load_workbook(io.BytesIO(data))
     assert "Export BlueLynx" in wb.sheetnames
-    assert "ESPM_Prop_Types" in wb.defined_names      # reference-table range preserved
+
+    # Every defined name that referenced the external SharePoint calculator
+    # (e.g. ESPM_Prop_Types -> [1]!PropertyTypeMap[...]) must be gone; leaving any
+    # behind is the corruption Excel flags. Non-external legacy names are harmless
+    # and may remain.
+    assert "ESPM_Prop_Types" not in wb.defined_names
+    for name in wb.defined_names:
+        assert "[" not in (wb.defined_names[name].value or ""), name
 
 
 def test_fallback_to_applicable_when_no_selection(monkeypatch):

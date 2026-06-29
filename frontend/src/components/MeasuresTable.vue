@@ -232,17 +232,22 @@ function truncateText(text, maxLength) {
         </div>
       </div>
 
-      <PButton
-        variant="primary"
-        appearance="outlined"
-        size="small"
-        icon="download"
-        :disabled="exporting"
-        class="measures-header__export"
-        @click="emit('export')"
-      >
-        {{ exporting ? 'Exporting...' : 'Export to Carbon Performance' }}
-      </PButton>
+      <PTooltip direction="top">
+        <template #tooltip-trigger>
+          <button
+            type="button"
+            class="measures-header__export"
+            :disabled="exporting"
+            aria-label="Download to Excel"
+            @click="emit('export')"
+          >
+            <PIcon name="download" size="24" />
+          </button>
+        </template>
+        <template #tooltip-content>
+          {{ exporting ? 'Exporting...' : 'Download to Excel' }}
+        </template>
+      </PTooltip>
     </div>
 
     <!-- Replace notification -->
@@ -690,6 +695,24 @@ function truncateText(text, maxLength) {
 
 .measures-header__export {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--partner-blue-7);
+  transition: opacity 0.15s ease;
+}
+
+.measures-header__export:hover {
+  opacity: 0.7;
+}
+
+.measures-header__export:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .measures-header__title {
