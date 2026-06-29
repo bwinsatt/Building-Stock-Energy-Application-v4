@@ -971,6 +971,16 @@ class _ZipcodeLookup:
             return entry.get("electricity_emission_factor_kg_co2e_per_kwh")
         return None
 
+    def get_egrid_subregion(self, zipcode: str) -> str | None:
+        """Return the eGRID subregion code (e.g. 'NYLI') for a zipcode, or None."""
+        if self._prefixes is None:
+            self._load()
+        assert self._prefixes is not None
+        entry = self._prefixes.get(zipcode[:3])
+        if entry is not None:
+            return entry.get("egrid_subregion")
+        return None
+
     def get_hdd_cdd(self, zipcode: str) -> tuple[float, float]:
         """Return (hdd65f, cdd65f) for a zipcode. Falls back to national medians."""
         if self._prefixes is None:
@@ -990,6 +1000,11 @@ _zip_lookup = _ZipcodeLookup()
 def get_electricity_emission_factor(zipcode: str) -> float | None:
     """Return the electricity emission factor (kg CO2e/kWh) for a zipcode."""
     return _zip_lookup.get_emission_factor(zipcode)
+
+
+def get_egrid_subregion(zipcode: str) -> str | None:
+    """Return the eGRID subregion code for a zipcode."""
+    return _zip_lookup.get_egrid_subregion(zipcode)
 
 
 # ---------------------------------------------------------------------------
