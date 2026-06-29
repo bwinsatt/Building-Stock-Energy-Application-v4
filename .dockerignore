@@ -11,6 +11,11 @@ sharing
 **/.pytest_cache
 **/.coverage
 **/htmlcov
+# Local dev SQLite DB. Runtime uses DATABASE_PATH=/home/data on App Service,
+# so this is never read; keep dev data out of the image layers.
+**/*.db
+**/*.db-wal
+**/*.db-shm
 *.md
 docs/
 frontend/node_modules
