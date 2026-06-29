@@ -58,3 +58,12 @@ catboost_info/
 
 # Old git data
 .git-old/
+
+# Downloaded log artifacts
+*-logs.zip
+
+# Test/scratch databases
+test_local.db
+
+# Stray root-level node lockfile (frontend manages its own)
+/package-lock.json
