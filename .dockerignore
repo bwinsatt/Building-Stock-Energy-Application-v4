@@ -1,0 +1,17 @@
+XGB_Models
+.venv
+.git
+.env
+docs
+scripts
+Validation
+sharing
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.coverage
+**/htmlcov
+*.md
+docs/
+frontend/node_modules
+frontend/partner-components/node_modules

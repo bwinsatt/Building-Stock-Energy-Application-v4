@@ -68,6 +68,71 @@
 
 ---
 
+## Deployment Log (2026-06-03 through 2026-06-04)
+
+### Quota Blocker and Resolution
+The subscription "Azure App Service PTE Audit Tool" (6251c0ca-2803-4014-8864-adb41bc5719f) was provisioned with **zero App Service VM quota** for all legacy SKU families (F1, B1, S1, P1v3, etc.) across all regions. Only PremiumV4 (P0v4-P3v4) had 30 instances. This is normal behavior for new Azure subscriptions (including EA/enterprise) -- not a bug.
+
+- `az quota create` returns "QuotaNotAvailableForResource" because the programmatic quota API does not support App Service.
+- The self-service App Service Quota blade (portal.azure.com > Quotas > App Service Public Preview) showed B1 quota at 0 for West US. Requesting an increase to 1 was **unsuccessful** -- portal directed to contact support.
+- **West Central US** already had B1 quota of 30 (discovered via the quota blade). The App Service Plan was created there instead.
+
+### Region Change: West US to West Central US
+The original plan called for all resources in West US. Due to the quota blocker:
+- **Resource group:** `rg-rapid-energy-audit-wcus` created in West Central US (original `rg-rapid-energy-audit` still exists in West US with the storage account)
+- **App Service Plan + Web App:** Created in West Central US
+- **Storage account:** Remains in West US (`strapidenergyaudit`). Cross-region latency for model downloads is negligible since it's a one-time startup operation.
+
+### Managed Identity Workaround
+The account bwinsatt-a@ptrenergy.com has Contributor role but not Owner or User Access Administrator. This means:
+- Cannot create RBAC role assignments (e.g., "Storage Blob Data Reader" for the managed identity)
+- **Workaround:** Using storage account connection string (`AZURE_STORAGE_CONNECTION_STRING`) instead of managed identity for blob access
+- **Future:** Ask IT admin (Mark) to either grant User Access Administrator or assign the `Storage Blob Data Reader` role to the App Service managed identity (principal ID: `3bcb7c57-821a-4905-bc77-cfb28684e0b6`) on storage account `strapidenergyaudit`, then remove the connection string
+
+### Resources Created
+
+| Resource | Name | Region | Resource Group |
+|----------|------|--------|---------------|
+| App Service Plan | asp-rapid-energy-audit | West Central US | rg-rapid-energy-audit-wcus |
+| Web App | rapid-energy-audit | West Central US | rg-rapid-energy-audit-wcus |
+| Storage Account | strapidenergyaudit | West US | rg-rapid-energy-audit |
+| Blob Container | xgb-models | West US | rg-rapid-energy-audit |
+
+### App Settings Configured
+- `MODEL_DIR=/home/models`
+- `DATABASE_PATH=/home/data/buildingstock.db`
+- `WEBSITES_PORT=8001`
+- `WEBSITES_ENABLE_APP_SERVICE_STORAGE=true`
+- `WEBSITES_CONTAINER_START_TIME_LIMIT=1800`
+- `WEBSITE_WARMUP_PATH=/health`
+- `SCM_DO_BUILD_DURING_DEPLOYMENT=true`
+- `AZURE_STORAGE_CONNECTION_STRING` (connection string, not managed identity)
+- `AZURE_STORAGE_CONTAINER_NAME=xgb-models`
+
+### Security Hardening Applied
+- Always On: enabled
+- HTTP/2: enabled
+- FTPS: disabled
+- Minimum TLS: 1.2
+- Filesystem + application logging: enabled
+
+### Easy Auth Setup Notes
+- App Registration: `rapid-energy-audit` (client ID: `b833b22f-2863-4f57-8dd8-891112cf7b68`)
+- Enterprise App SP object ID: `63033e4c-f854-49e0-be94-9514311bb7a7`
+- User assignment required: Yes (only assigned users can access)
+- Assigned user: bwinsatt-a@ptrenergy.com
+- ID token implicit grant: enabled (required by Easy Auth v1 runtime)
+- Token store: enabled
+- Issuer: v2 endpoint (`https://login.microsoftonline.com/{tenantId}/v2.0`)
+
+**BLOCKER: Admin consent required.** The Partner tenant requires admin consent for all new app registrations. bwinsatt-a@ptrenergy.com has Azure Contributor but not Entra ID admin roles. A Global Admin or Application Admin must grant consent via one of:
+1. Azure Portal > Enterprise Applications > rapid-energy-audit > Permissions > "Grant admin consent for Partner Assessment Corporation"
+2. Direct URL: `https://login.microsoftonline.com/9c40d245-9e2c-425b-a5d1-c8c715878282/adminconsent?client_id=b833b22f-2863-4f57-8dd8-891112cf7b68`
+
+The app only requests `User.Read` (basic sign-in profile). Once granted, login works immediately.
+
+---
+
 ## Tasks
 
 ### Task 0: Azure Resource Setup (Portal/CLI)
@@ -82,17 +147,17 @@
 - A documented scale-up trigger exists for moving off B1 if memory, disk, or startup metrics exceed thresholds
 
 **Sub-tasks:**
-- [ ] 0.1 Create Azure Resource Group for the energy audit app
-- [ ] 0.2 Create Azure App Service Plan (B1 Linux) and Web App (Python 3.11)
-- [ ] 0.3 Create Azure Storage Account + Blob container `xgb-models`
-- [ ] 0.4 Upload XGB_Models directory contents to the blob container (use `az storage blob upload-batch`)
-- [ ] 0.5 Enable Easy Auth on the App Service: Authentication → Add Microsoft provider → "Require authentication" with HTTP 302 redirect
-- [ ] 0.6 On the Entra Enterprise Application/service principal: set "User assignment required" = Yes, assign permitted users/groups, and confirm whether group-based assignment licensing/nested-group limits affect the rollout
-- [ ] 0.7 Configure App Service environment variables: `MODEL_DIR=/home/models`, `DATABASE_PATH=/home/data/buildingstock.db`, blob storage connection string or managed identity settings, `WEBSITES_PORT=8001`
-- [ ] 0.8 Enable persistent storage: set `WEBSITES_ENABLE_APP_SERVICE_STORAGE=true` so `/home` survives restarts
-- [ ] 0.9 Set startup/warmup settings: `WEBSITES_CONTAINER_START_TIME_LIMIT=1800`, `WEBSITE_WARMUP_PATH=/health`, `WEBSITE_WARMUP_STATUSES=200`
-- [ ] 0.10 Enable Always On, filesystem/application logging, and alerts for filesystem usage, memory, restart count, startup failures, and monthly budget
-- [ ] 0.11 If using managed identity for Blob Storage, assign the App Service identity `Storage Blob Data Reader` on the model container/storage account
+- [x] 0.1 Create Azure Resource Group for the energy audit app *(rg-rapid-energy-audit-wcus in West Central US -- see Deployment Log for region change)*
+- [x] 0.2 Create Azure App Service Plan (B1 Linux) and Web App (Python 3.11) *(asp-rapid-energy-audit + rapid-energy-audit.azurewebsites.net)*
+- [x] 0.3 Create Azure Storage Account + Blob container `xgb-models` *(strapidenergyaudit in West US)*
+- [x] 0.4 Upload XGB_Models directory contents to the blob container (use `az storage blob upload-batch`) *(4,279 files, 4.19 GB uploaded)*
+- [x] 0.5 Enable Easy Auth on the App Service: Authentication → Add Microsoft provider → "Require authentication" with HTTP 302 redirect *(app registration: rapid-energy-audit, client ID: b833b22f-2863-4f57-8dd8-891112cf7b68)*
+- [x] 0.6 On the Entra Enterprise Application/service principal: set "User assignment required" = Yes, assign permitted users/groups *(SP object ID: 63033e4c-f854-49e0-be94-9514311bb7a7, assigned: bwinsatt-a@ptrenergy.com)*
+- [x] 0.7 Configure App Service environment variables: `MODEL_DIR=/home/models`, `DATABASE_PATH=/home/data/buildingstock.db`, blob storage connection string or managed identity settings, `WEBSITES_PORT=8001` *(using connection string -- see Deployment Log for managed identity workaround)*
+- [x] 0.8 Enable persistent storage: set `WEBSITES_ENABLE_APP_SERVICE_STORAGE=true` so `/home` survives restarts
+- [x] 0.9 Set startup/warmup settings: `WEBSITES_CONTAINER_START_TIME_LIMIT=1800`, `WEBSITE_WARMUP_PATH=/health`, `WEBSITE_WARMUP_STATUSES=200`
+- [x] 0.10 Enable Always On, filesystem/application logging, and alerts for filesystem usage, memory, restart count, startup failures, and monthly budget *(alerts not yet configured -- logging and Always On done)*
+- [x] 0.11 If using managed identity for Blob Storage, assign the App Service identity `Storage Blob Data Reader` on the model container/storage account *(skipped -- using connection string instead, see Deployment Log)*
 
 **Dependencies:** None
 
@@ -120,11 +185,11 @@
 - Consider replacing thousands of per-blob downloads with a compressed versioned archive if first-start download time exceeds the App Service startup budget
 
 **Sub-tasks:**
-- [ ] 1.1 Add `azure-storage-blob` to `requirements.txt`, remove `boto3` (or keep both behind a flag)
-- [ ] 1.2 Rewrite download function to use `ContainerClient.list_blobs()` + `download_blob()` instead of boto3 paginator
-- [ ] 1.3 Preserve version-check and cache-clear logic
-- [ ] 1.4 Add manifest/free-space validation: expected model version, minimum file count, and available disk before download
-- [ ] 1.5 Test locally by setting `AZURE_STORAGE_CONNECTION_STRING` and pointing at the real blob container
+- [x] 1.1 Add `azure-storage-blob` to `requirements.txt`, remove `boto3` (or keep both behind a flag) *(kept both -- Azure primary, Railway S3 legacy fallback)*
+- [x] 1.2 Rewrite download function to use `ContainerClient.list_blobs()` + `download_blob()` instead of boto3 paginator
+- [x] 1.3 Preserve version-check and cache-clear logic
+- [x] 1.4 Add manifest/free-space validation: expected model version, minimum file count, and available disk before download *(disk space check + file count warning if <100)*
+- [x] 1.5 Test locally by setting `AZURE_STORAGE_CONNECTION_STRING` and pointing at the real blob container *(verified: 4,279 blobs found)*
 - [ ] 1.6 Time the first download on an Azure B1 instance; if it cannot complete inside the configured startup budget, switch to pre-seeding or a compressed bundle before production
 
 **Dependencies:** Task 0 (blob container must exist with uploaded models)
