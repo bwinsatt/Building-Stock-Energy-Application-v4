@@ -75,9 +75,10 @@ function onSubmit(input) {
 }
 
 function onExport() {
-  if (!lastBuilding.value) return
+  if (!lastBuilding.value || !result.value) return
   exportCarbonPerformance(
     lastBuilding.value,
+    result.value,
     [...selectedUpgradeIds.value],
     espmPropertyType.value,
   )

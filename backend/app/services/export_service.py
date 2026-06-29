@@ -1,8 +1,10 @@
 """Carbon Performance import workbook export.
 
 Fills the SiteLynx Carbon Performance import template ("Export BlueLynx" sheet)
-with the results of a single-building assessment. Only scalar cell values are
-written; the template's reference-table named ranges and styles are preserved.
+with an already-computed single-building assessment result. No model inference is
+performed here, the caller passes the result produced by `/assess`, so the export
+is a fast, pure template fill. Only scalar cell values are written; the template's
+reference-table named ranges and styles are preserved.
 """
 
 import io
@@ -12,7 +14,7 @@ import openpyxl
 
 from app.constants import KWH_TO_KBTU, KWH_PER_THERM, KBTU_PER_THERM
 from app.schemas.request import BuildingInput
-from app.services.assessment import assess_building_for_export
+from app.schemas.response import BuildingResult
 from app.services.preprocessor import get_egrid_subregion
 
 TEMPLATE_PATH = (
@@ -36,19 +38,15 @@ def _select_measures(measures, selected_upgrade_ids):
 
 def build_carbon_performance_workbook(
     building: BuildingInput,
+    result: BuildingResult,
     selected_upgrade_ids,
-    model_manager,
-    cost_calculator,
-    imputation_service=None,
     espm_property_type=None,
 ) -> bytes:
-    """Build a filled Carbon Performance import workbook and return its bytes."""
-    result, rates = assess_building_for_export(
-        building, model_manager, cost_calculator, imputation_service
-    )
+    """Build a filled Carbon Performance import workbook from a precomputed result."""
     sqft = building.sqft
-    rate_elec = rates.get("electricity", 0.0) or 0.0
-    rate_gas = rates.get("natural_gas", 0.0) or 0.0
+    rates = result.rates
+    rate_elec = (rates.electricity if rates else 0.0) or 0.0
+    rate_gas = (rates.natural_gas if rates else 0.0) or 0.0
 
     wb = openpyxl.load_workbook(TEMPLATE_PATH)
 

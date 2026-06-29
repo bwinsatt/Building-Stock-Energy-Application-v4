@@ -31,7 +31,7 @@ export function useAssessment() {
     }
   }
 
-  async function exportCarbonPerformance(building, selectedUpgradeIds, espmPropertyType) {
+  async function exportCarbonPerformance(building, assessmentResult, selectedUpgradeIds, espmPropertyType) {
     exporting.value = true
     error.value = null
     try {
@@ -40,6 +40,7 @@ export function useAssessment() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           building,
+          result: assessmentResult,
           selected_upgrade_ids: selectedUpgradeIds,
           espm_property_type: espmPropertyType ?? null,
         }),

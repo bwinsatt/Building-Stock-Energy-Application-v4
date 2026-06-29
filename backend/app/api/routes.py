@@ -6,7 +6,9 @@ from pydantic import BaseModel
 from typing import Optional
 
 from app.schemas.request import AssessmentRequest, BuildingInput
-from app.schemas.response import AssessmentResponse, BaselineResult, FuelBreakdown
+from app.schemas.response import (
+    AssessmentResponse, BaselineResult, FuelBreakdown, BuildingResult,
+)
 from app.schemas.lookup_response import LookupResponse
 from app.schemas.energy_star import EnergyStarRequest, EnergyStarResponse
 from app.services.assessment import assess_buildings
@@ -64,23 +66,18 @@ async def assess(request: AssessmentRequest, req: Request):
 
 class CarbonPerformanceExportRequest(BaseModel):
     building: BuildingInput
+    result: BuildingResult
     selected_upgrade_ids: list[int] = []
     espm_property_type: Optional[str] = None
 
 
 @router.post("/export/carbon-performance")
-async def export_carbon_performance(request: CarbonPerformanceExportRequest, req: Request):
-    _reset_offload_timer(req.app)
-    model_manager = req.app.state.model_manager
-    cost_calculator = req.app.state.cost_calculator
-    imputation_service = getattr(req.app.state, "imputation_service", None)
+async def export_carbon_performance(request: CarbonPerformanceExportRequest):
     try:
         data = build_carbon_performance_workbook(
             request.building,
+            request.result,
             request.selected_upgrade_ids,
-            model_manager,
-            cost_calculator,
-            imputation_service,
             espm_property_type=request.espm_property_type,
         )
     except FileNotFoundError:

@@ -72,11 +72,10 @@ def _fake_result():
         climate_zone="4A", cluster_name="x", state="NY",
         vintage_bucket="<1946", imputed_fields=[],
     )
-    result = BuildingResult(
-        building_index=0, baseline=baseline, measures=[measure], input_summary=summary
+    return BuildingResult(
+        building_index=0, baseline=baseline, measures=[measure], input_summary=summary,
+        rates=FuelBreakdown(electricity=0.20, natural_gas=0.05, fuel_oil=0.0, propane=0.0),
     )
-    rates = {"electricity": 0.20, "natural_gas": 0.05}
-    return result, rates
 
 
 def _building():
@@ -87,11 +86,10 @@ def _building():
 
 
 def test_build_workbook_fills_expected_cells(monkeypatch):
-    monkeypatch.setattr(export_service, "assess_building_for_export", lambda *a, **k: _fake_result())
     monkeypatch.setattr(export_service, "get_egrid_subregion", lambda z: "NYLI")
 
     data = export_service.build_carbon_performance_workbook(
-        _building(), [7], model_manager=None, cost_calculator=None, espm_property_type="Office",
+        _building(), _fake_result(), [7], espm_property_type="Office",
     )
     ws = openpyxl.load_workbook(io.BytesIO(data))["Export BlueLynx"]
 
@@ -117,19 +115,17 @@ def test_build_workbook_fills_expected_cells(monkeypatch):
 
 
 def test_generated_workbook_is_not_corrupt(monkeypatch):
-    monkeypatch.setattr(export_service, "assess_building_for_export", lambda *a, **k: _fake_result())
     monkeypatch.setattr(export_service, "get_egrid_subregion", lambda z: "NYLI")
     data = export_service.build_carbon_performance_workbook(
-        _building(), [7], model_manager=None, cost_calculator=None,
+        _building(), _fake_result(), [7],
     )
     assert_valid_xlsx(data)
 
 
 def test_named_ranges_survive(monkeypatch):
-    monkeypatch.setattr(export_service, "assess_building_for_export", lambda *a, **k: _fake_result())
     monkeypatch.setattr(export_service, "get_egrid_subregion", lambda z: "NYLI")
     data = export_service.build_carbon_performance_workbook(
-        _building(), [7], model_manager=None, cost_calculator=None,
+        _building(), _fake_result(), [7],
     )
     wb = openpyxl.load_workbook(io.BytesIO(data))
     assert "Export BlueLynx" in wb.sheetnames
@@ -137,10 +133,9 @@ def test_named_ranges_survive(monkeypatch):
 
 
 def test_fallback_to_applicable_when_no_selection(monkeypatch):
-    monkeypatch.setattr(export_service, "assess_building_for_export", lambda *a, **k: _fake_result())
     monkeypatch.setattr(export_service, "get_egrid_subregion", lambda z: "NYLI")
     data = export_service.build_carbon_performance_workbook(
-        _building(), [], model_manager=None, cost_calculator=None,
+        _building(), _fake_result(), [],
     )
     ws = openpyxl.load_workbook(io.BytesIO(data))["Export BlueLynx"]
     assert ws["C6"].value == "LED Lighting"   # applicable measure used as fallback
