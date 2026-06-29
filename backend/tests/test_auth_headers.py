@@ -28,6 +28,8 @@ class MockModelManager:
         return []
     def warm_upgrades(self, *a):
         pass
+    def evict_upgrades(self, *a):
+        pass
     def predict_delta(self, *a, **kw):
         return {}
     def predict_enduse(self, *a, **kw):
