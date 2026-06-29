@@ -1,5 +1,8 @@
-"""Test the carbon performance export endpoint (service mocked)."""
+"""Test the carbon performance export endpoint (service mocked + full e2e)."""
 
+import io
+
+import openpyxl
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -27,3 +30,33 @@ def test_export_endpoint_returns_xlsx(monkeypatch):
     )
     assert "CarbonPerformance_00501.xlsx" in resp.headers["content-disposition"]
     assert resp.content == b"PK\x03\x04fake"
+
+
+def test_export_endpoint_end_to_end(office_input):
+    """Full stack: real assessment + rates + openpyxl through the endpoint."""
+    with TestClient(app) as client:
+        payload = {
+            "building": office_input.model_dump(),
+            "selected_upgrade_ids": [],          # exercise the applicable fallback
+            "espm_property_type": "Office",
+        }
+        resp = client.post("/export/carbon-performance", json=payload)
+
+    assert resp.status_code == 200
+    assert resp.headers["content-type"] == (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    wb = openpyxl.load_workbook(io.BytesIO(resp.content))
+    ws = wb["Export BlueLynx"]
+
+    # Reference-table named ranges survived the round-trip
+    assert "ESPM_Prop_Types" in wb.defined_names
+
+    # At least one measure written and baseline metrics populated
+    assert ws["C6"].value is not None and str(ws["C6"].value).strip() != ""
+    assert ws["AJ8"].value == office_input.zipcode
+    assert ws["AJ9"].value == "Office"
+    assert ws["AJ24"].value == office_input.sqft
+    assert ws["AJ16"].value is not None       # baseline electric kWh
+    assert ws["AJ32"].value == "NREL Cambium, 2022"
