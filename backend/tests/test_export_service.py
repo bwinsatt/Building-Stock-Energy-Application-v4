@@ -1,6 +1,8 @@
 """Tests for the carbon performance export service (openpyxl cell writing)."""
 
 import io
+import re
+import zipfile
 
 import openpyxl
 
@@ -10,6 +12,40 @@ from app.schemas.response import (
     CostEstimate, InputSummary,
 )
 from app.services import export_service
+
+
+def assert_valid_xlsx(data: bytes):
+    """Catch the corruption class Excel flags but openpyxl tolerates.
+
+    Verifies the OOXML package has no external links and no dangling
+    relationship references (every r:id in a part exists in its .rels).
+    """
+    z = zipfile.ZipFile(io.BytesIO(data))
+    names = z.namelist()
+
+    assert not any("externalLink" in n for n in names), "external links present"
+    assert "externalReference" not in z.read("xl/workbook.xml").decode()
+
+    def rels_for(part):
+        head, _, tail = part.rpartition("/")
+        relp = f"{head}/_rels/{tail}.rels" if head else f"_rels/{tail}.rels"
+        try:
+            return z.read(relp).decode()
+        except KeyError:
+            return ""
+
+    dangling = []
+    for n in names:
+        if n.endswith(".xml") and not n.endswith(".rels"):
+            body = z.read(n).decode(errors="ignore")
+            ids = set(re.findall(r'r:id="([^"]+)"', body))
+            defined = set(re.findall(r'Id="([^"]+)"', rels_for(n)))
+            if ids - defined:
+                dangling.append((n, ids - defined))
+    assert not dangling, f"dangling relationship refs: {dangling}"
+
+    # Must still reopen cleanly
+    openpyxl.load_workbook(io.BytesIO(data))
 
 
 def _fake_result():
@@ -78,6 +114,15 @@ def test_build_workbook_fills_expected_cells(monkeypatch):
     assert ws["AJ20"].value == 500.0        # 50.0/100*1000
     assert ws["AJ24"].value == 1000
     assert ws["AJ32"].value == "NREL Cambium, 2022"
+
+
+def test_generated_workbook_is_not_corrupt(monkeypatch):
+    monkeypatch.setattr(export_service, "assess_building_for_export", lambda *a, **k: _fake_result())
+    monkeypatch.setattr(export_service, "get_egrid_subregion", lambda z: "NYLI")
+    data = export_service.build_carbon_performance_workbook(
+        _building(), [7], model_manager=None, cost_calculator=None,
+    )
+    assert_valid_xlsx(data)
 
 
 def test_named_ranges_survive(monkeypatch):

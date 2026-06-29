@@ -51,6 +51,13 @@ def build_carbon_performance_workbook(
     rate_gas = rates.get("natural_gas", 0.0) or 0.0
 
     wb = openpyxl.load_workbook(TEMPLATE_PATH)
+
+    # Drop the external workbook links. They point at a SharePoint template and
+    # openpyxl cannot round-trip them cleanly (it leaves a dangling relationship),
+    # which makes Excel flag the file as corrupt. The import sheet does not need
+    # them; the real Carbon Performance calculator supplies its own named ranges.
+    wb._external_links = []
+
     ws = wb[SHEET_NAME]
 
     # --- Measure rows ---

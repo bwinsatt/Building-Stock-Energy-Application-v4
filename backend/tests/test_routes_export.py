@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 
 from app.main import app
 from app.api import routes
+from tests.test_export_service import assert_valid_xlsx
 
 
 def test_export_endpoint_returns_xlsx(monkeypatch):
@@ -46,6 +47,10 @@ def test_export_endpoint_end_to_end(office_input):
     assert resp.headers["content-type"] == (
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
+    # Full package integrity: no external links, no dangling relationships
+    # (this is the corruption Excel flagged but openpyxl tolerates).
+    assert_valid_xlsx(resp.content)
 
     wb = openpyxl.load_workbook(io.BytesIO(resp.content))
     ws = wb["Export BlueLynx"]
