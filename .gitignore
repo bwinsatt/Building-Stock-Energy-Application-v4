@@ -52,6 +52,9 @@ backend/app/data/buildingstock.db-wal
 # Training artifacts
 catboost_info/
 
+# Local harvest / LLM extract working tree (never commit)
+/testcases_raw/
+
 # Environment
 .env
 .env.local
